@@ -88,6 +88,16 @@ __all__ = [
     "oe_in_range", "range_utilization", "tessitura_comfort",
     "timbre_compatibility", "assign_voices", "oe_doubling_score",
     "voice_crossing_count", "spacing_score", "orchestration_score",
+    "DRInstrumentFamily", "DRInstrumentSpec", "ORCHESTRA_DB",
+    "DoublingType", "DoublingScore",
+    "dr_fits_range", "register_weight", "dr_blend_score",
+    "power_balance", "spacing_penalty", "evaluate_doubling",
+    "suggest_doubling", "section_balance",
+    "dc_DoublingPair", "dc_CouplingProfile",
+    "dc_spectral_overlap", "dc_masking_risk", "dc_blend_quality",
+    "dc_doubling_effectiveness", "dc_octave_coupling_strength",
+    "dc_unison_beating", "dc_section_balance", "dc_tutti_density",
+    "dc_recommend_doublings",
 ]
 
 from .instrument_combination import (
@@ -129,6 +139,19 @@ from .orchestration_engine import (
     timbre_compatibility, assign_voices, doubling_score as oe_doubling_score,
     voice_crossing_count, spacing_score, orchestration_score,
 )
+from .doubling_and_coupling import (
+    DoublingPair as dc_DoublingPair,
+    CouplingProfile as dc_CouplingProfile,
+    spectral_overlap as dc_spectral_overlap,
+    masking_risk as dc_masking_risk,
+    blend_quality as dc_blend_quality,
+    doubling_effectiveness as dc_doubling_effectiveness,
+    octave_coupling_strength as dc_octave_coupling_strength,
+    unison_beating as dc_unison_beating,
+    section_balance as dc_section_balance,
+    tutti_density as dc_tutti_density,
+    recommend_doublings as dc_recommend_doublings,
+)
 from .texture_evolution import (
     TextureCategory, RegisterBand, REGISTER_BOUNDS, RK_IDEAL_BALANCE,
     TextureSnapshot, CollaParteEvent, TextureEvolution,
@@ -137,4 +160,11 @@ from .texture_evolution import (
     instrumentation_density_curve, register_weight_curve,
     texture_change_points, analyze_texture_evolution,
     rk_balance_summary, texture_variety_index, colla_parte_fraction,
+)
+from .doubling_rules import (
+    InstrumentFamily as DRInstrumentFamily, InstrumentSpec as DRInstrumentSpec,
+    ORCHESTRA_DB, DoublingType, DoublingScore,
+    fits_range as dr_fits_range, register_weight, blend_score as dr_blend_score,
+    power_balance, spacing_penalty, evaluate_doubling, suggest_doubling,
+    section_balance,
 )

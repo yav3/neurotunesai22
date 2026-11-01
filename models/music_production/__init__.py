@@ -69,6 +69,19 @@ __all__ = [
     "mastering_stereo_width", "mastering_spectral_balance",
     "inter_sample_peaks", "mastering_dc_offset",
     "mastering_clipping_ratio", "mastering_report",
+    "STANDARD_BANDS", "MixAnalysisBand", "MaskingRegion", "MixReport",
+    "frequency_band_energy", "mix_spectral_balance",
+    "mix_crest_factor", "mix_headroom", "dc_offset_detector",
+    "lufs_momentary", "mix_lufs_integrated", "mix_loudness_range",
+    "mix_stereo_width", "mix_stereo_balance", "mix_correlation",
+    "masking_detector", "mix_score",
+    "pc_CompressorParams", "pc_MultibandConfig",
+    "pc_db_to_linear", "pc_linear_to_db",
+    "pc_envelope_follower", "pc_soft_knee_gain",
+    "pc_compress", "parallel_compress",
+    "pc_linkwitz_riley_split", "multiband_compress",
+    "transient_sustain_split", "loudness_aware_makeup",
+    "gain_reduction_meter",
 ]
 
 from models.music_production.sidechain import (
@@ -118,4 +131,26 @@ from models.music_production.mastering_analysis import (
     stereo_width as mastering_stereo_width, spectral_balance as mastering_spectral_balance,
     inter_sample_peaks, dc_offset as mastering_dc_offset,
     clipping_ratio as mastering_clipping_ratio, mastering_report,
+)
+from models.music_production.parallel_compression import (
+    CompressorParams as pc_CompressorParams,
+    MultibandConfig as pc_MultibandConfig,
+    db_to_linear as pc_db_to_linear, linear_to_db as pc_linear_to_db,
+    envelope_follower as pc_envelope_follower,
+    soft_knee_gain as pc_soft_knee_gain,
+    compress as pc_compress, parallel_compress,
+    linkwitz_riley_split as pc_linkwitz_riley_split,
+    multiband_compress,
+    transient_sustain_split, loudness_aware_makeup,
+    gain_reduction_meter,
+)
+from models.music_production.mix_analysis import (
+    STANDARD_BANDS, MixBand as MixAnalysisBand, MaskingRegion, MixReport,
+    frequency_band_energy, spectral_balance as mix_spectral_balance,
+    crest_factor as mix_crest_factor,
+    headroom as mix_headroom, dc_offset_detector,
+    lufs_momentary, lufs_integrated as mix_lufs_integrated,
+    loudness_range as mix_loudness_range,
+    mix_stereo_width, mix_stereo_balance, mix_correlation,
+    masking_detector, mix_score,
 )

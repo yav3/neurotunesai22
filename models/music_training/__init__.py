@@ -48,6 +48,12 @@ __all__ = [
     "PracticeItem", "sm2_update", "schedule_practice_session",
     "PerformanceSnapshot", "performance_trend", "improvement_rate",
     "weakness_detection",
+    "DifficultyLevel", "SR_Metrics", "Exercise",
+    "sr_rhythmic_complexity", "intervallic_difficulty",
+    "accidental_density", "texture_density", "range_difficulty",
+    "tempo_difficulty", "estimate_difficulty",
+    "generate_exercise", "adaptive_exercise_sequence",
+    "reading_speed_estimate", "sr_weakness_profile",
 ]
 
 from .skill_assessment import (
@@ -96,4 +102,12 @@ from .practice_curriculum import (
     estimate_rhythmic_difficulty, estimate_harmonic_difficulty,
     estimate_technical_difficulty, MasteryState, ZPDSequencer,
     spaced_repetition_interval, forgetting_curve,
+)
+from .sight_reading import (
+    DifficultyLevel, SightReadingMetrics as SR_Metrics, Exercise,
+    rhythmic_complexity as sr_rhythmic_complexity,
+    intervallic_difficulty, accidental_density, texture_density,
+    range_difficulty, tempo_difficulty, estimate_difficulty,
+    generate_exercise, adaptive_exercise_sequence,
+    reading_speed_estimate, weakness_profile as sr_weakness_profile,
 )

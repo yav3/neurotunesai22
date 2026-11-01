@@ -87,8 +87,52 @@ __all__ = [
     "harmonic_rhythm_density", "harmonic_variety",
     "progression_complexity", "detect_cadence_type",
     "detect_modulations", "progression_from_symbols",
+    "DevMotive", "TransformType",
+    "dev_transpose", "dev_invert", "dev_retrograde", "dev_retrograde_inv",
+    "augment", "diminish", "fragment", "dev_sequence",
+    "tonal_transpose", "interval_edit_distance", "dev_contour_sim",
+    "develop", "find_motive_occurrences",
+    "dev_motive_similarity", "detect_motive_recurrence",
+    "development_density", "motive_network",
+    "contour_reduction", "interval_class_vector", "motive_complexity",
+    "find_latent_motives", "motive_catalogue",
+    "tp_TextureType", "tp_TextureSegment", "TexturePlan",
+    "onset_density", "registral_spread", "registral_centroid",
+    "tp_classify_texture", "voice_onset_correlation",
+    "plan_texture_arc", "density_interpolation", "voice_count_curve",
+    "VariationType", "EmbellishmentType", "Theme", "Variation", "VariationSet",
+    "melodic_embellishment", "rhythmic_augmentation", "rhythmic_diminution",
+    "rhythmic_displacement", "dotted_rhythm", "lombardic_rhythm",
+    "reharmonize", "invertible_counterpoint", "ground_bass_variations",
+    "theme_similarity", "developing_variation", "sequence_variation",
+    "ornamental_variation", "textural_thickening",
+    "variation_distance", "cumulative_variation_arc",
+    "ConstraintKind", "PitchRange", "IntervalConstraint", "ConsonanceTarget",
+    "DensityConstraint", "ContourConstraint", "VoiceLeadingConstraint",
+    "CompositionConstraints", "GeneratedMelody",
+    "generate_constrained_melody", "generate_bass_line",
+    "two_voice_counterpoint", "melody_constraint_score", "stochastic_walk",
 ]
 
+from models.music_composition.constraint_composition import (
+    ConstraintKind, PitchRange, IntervalConstraint, ConsonanceTarget,
+    DensityConstraint, ContourConstraint, VoiceLeadingConstraint,
+    CompositionConstraints, GeneratedMelody,
+    generate_constrained_melody, generate_bass_line,
+    two_voice_counterpoint, melody_constraint_score, stochastic_walk,
+)
+from models.music_composition.motivic_development import (
+    Motive as DevMotive, TransformType,
+    transpose as dev_transpose, invert as dev_invert,
+    retrograde as dev_retrograde, retrograde_inversion as dev_retrograde_inv,
+    augment, diminish, fragment, sequence as dev_sequence,
+    tonal_transpose, interval_edit_distance, contour_similarity as dev_contour_sim,
+    develop, find_motive_occurrences,
+    motive_similarity as dev_motive_similarity,
+    detect_motive_recurrence, development_density, motive_network,
+    contour_reduction, interval_class_vector, motive_complexity,
+    find_latent_motives, motive_catalogue,
+)
 from models.music_composition.harmonic_planning import (
     ChordSymbol, TensionScore, HarmonicPlan,
     surface_dissonance, harmonic_distance, tonal_distance,
@@ -114,4 +158,19 @@ from models.music_composition.serial_technique import (
     transpose_row, row_matrix,
     interval_vector, all_interval_row, combinatoriality,
     derive_row,
+)
+from models.music_composition.texture_planning import (
+    TextureType as tp_TextureType, TextureSegment as tp_TextureSegment,
+    TexturePlan, onset_density, registral_spread, registral_centroid,
+    classify_texture as tp_classify_texture, voice_onset_correlation,
+    plan_texture_arc, density_interpolation, voice_count_curve,
+)
+from models.music_composition.variation_technique import (
+    VariationType, EmbellishmentType, Theme, Variation, VariationSet,
+    melodic_embellishment, rhythmic_augmentation, rhythmic_diminution,
+    rhythmic_displacement, dotted_rhythm, lombardic_rhythm,
+    reharmonize, invertible_counterpoint, ground_bass_variations,
+    theme_similarity, developing_variation, sequence_variation,
+    ornamental_variation, textural_thickening,
+    variation_distance, cumulative_variation_arc,
 )

@@ -91,6 +91,19 @@ __all__ = [
     "detect_transients", "transient_profile",
     "percussive_enhance", "sustain_enhance", "de_esser", "noise_gate",
     "attack_time_ms", "td_crest_factor", "dynamic_eq_gain",
+    "ClippingStats", "InterSamplePeak", "LoudnessWarProfile",
+    "lw_crest_factor", "lw_crest_factor_db",
+    "windowed_crest_factor", "peak_to_loudness_ratio", "peak_signal_ratio",
+    "detect_clipping", "detect_inter_sample_peaks", "dynamic_spread",
+    "loudness_fatigue_index", "classify_era", "analyze_loudness_war",
+    "batch_crest_factor_trend",
+    "DynamicCurve", "ADSREnvelope", "ExpressiveTimingFeatures",
+    "velocity_to_loudness", "velocity_to_db",
+    "perf_dynamic_range_db", "perf_dynamic_contrast",
+    "crescendo_detector", "sforzando_detector",
+    "rubato_measure", "agogic_accent_detector", "tempo_from_onsets",
+    "perf_dynamic_envelope", "phrasing_arc_score",
+    "expressive_timing_features", "build_dynamic_curve",
 ]
 
 from .micro_dynamics import (
@@ -156,4 +169,15 @@ from .transient_design import (
     detect_transients, transient_profile,
     percussive_enhance, sustain_enhance, de_esser, noise_gate,
     attack_time_ms, crest_factor as td_crest_factor, dynamic_eq_gain,
+)
+from .performance_dynamics import (
+    DynamicCurve, ADSREnvelope, ExpressiveTimingFeatures,
+    velocity_to_loudness, velocity_to_db,
+    dynamic_range_db as perf_dynamic_range_db,
+    dynamic_contrast as perf_dynamic_contrast,
+    crescendo_detector, sforzando_detector,
+    rubato_measure, agogic_accent_detector, tempo_from_onsets,
+    dynamic_envelope as perf_dynamic_envelope,
+    phrasing_arc_score, expressive_timing_features,
+    build_dynamic_curve,
 )

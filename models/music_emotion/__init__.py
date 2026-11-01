@@ -106,6 +106,18 @@ __all__ = [
     "timbre_emotion_variance", "spectral_centroid_from_magnitude",
     "spectral_spread_from_magnitude", "spectral_flux_from_frames",
     "roughness_from_partials", "descriptor_from_spectrum",
+    "PhysiologicalResponse", "MusicPhysioMapping",
+    "predict_heart_rate_change", "predict_skin_conductance",
+    "predict_respiration_sync", "chills_probability",
+    "relaxation_index", "physio_arousal_trajectory",
+    "valence_from_mode_and_tempo", "entrainment_strength",
+    "autonomic_response_model", "stress_reduction_score",
+    "BasicEmotion", "VADPoint", "EMOTION_VAD",
+    "EmotionBlend", "normalize_weights", "blend_vad",
+    "emotional_ambiguity", "emotional_tension", "create_blend",
+    "NAMED_BLENDS", "named_blend",
+    "MixedEmotionTrajectory", "interpolate_blends", "mixed_emotion_trajectory",
+    "vad_from_features", "nearest_blend",
 ]
 
 from models.music_emotion.emotion_recognition import (
@@ -146,4 +158,21 @@ from models.music_emotion.timbre_emotion import (
     timbre_emotion_variance, spectral_centroid_from_magnitude,
     spectral_spread_from_magnitude, spectral_flux_from_frames,
     roughness_from_partials, descriptor_from_spectrum,
+)
+from models.music_emotion.physiological_response import (
+    PhysiologicalResponse, MusicPhysioMapping,
+    predict_heart_rate_change, predict_skin_conductance,
+    predict_respiration_sync, chills_probability,
+    relaxation_index, arousal_trajectory as physio_arousal_trajectory,
+    valence_from_mode_and_tempo, entrainment_strength,
+    autonomic_response_model, stress_reduction_score,
+)
+from models.music_emotion.mixed_emotions import (
+    BasicEmotion, VADPoint, EMOTION_VAD,
+    EmotionBlend, normalize_weights, blend_vad,
+    emotional_ambiguity, emotional_tension, create_blend,
+    NAMED_BLENDS, named_blend,
+    EmotionTrajectory as MixedEmotionTrajectory,
+    interpolate_blends, emotion_trajectory as mixed_emotion_trajectory,
+    vad_from_features, nearest_blend,
 )

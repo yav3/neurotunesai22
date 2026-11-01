@@ -72,6 +72,20 @@ __all__ = [
     "melodic_interval_from_direction", "tempo_adjustment",
     "detect_word_repetition", "onomatopoeia_gestures",
     "DIRECTION_WORDS", "SPEED_WORDS", "TEXTURE_WORDS", "DYNAMIC_WORDS",
+    "FigureType", "FigureInstance",
+    "SIMILE_MARKERS", "PERSONIFICATION_VERBS", "SYNESTHESIA_PAIRS", "HYPERBOLE_MARKERS",
+    "detect_simile", "detect_personification", "detect_hyperbole",
+    "domain_membership", "detect_cross_domain",
+    "analyze_lyrics", "figurative_density", "figure_type_distribution",
+    "na_NarrativePhase", "na_SectionType", "na_LyricSection", "na_NarrativeArc",
+    "INTENSITY_WORDS",
+    "na_section_intensity", "na_detect_repetition_ratio",
+    "assign_narrative_phases", "classify_arc_type",
+    "build_narrative_arc", "thematic_coherence",
+    "StressLevel", "SyllableInfo", "StressPattern",
+    "estimate_syllable_count", "lookup_stress", "line_stress_pattern",
+    "metric_alignment_score", "generate_metric_grid",
+    "stress_mismatch_positions", "prosodic_naturalness",
 ]
 
 from models.music_linguistics.sentiment_lexicon import (
@@ -114,4 +128,28 @@ from models.music_linguistics.word_painting import (
     melodic_interval_from_direction, tempo_adjustment,
     detect_word_repetition, onomatopoeia_gestures,
     DIRECTION_WORDS, SPEED_WORDS, TEXTURE_WORDS, DYNAMIC_WORDS,
+)
+from models.music_linguistics.metaphor_detection import (
+    FigureType, FigureInstance,
+    SIMILE_MARKERS, PERSONIFICATION_VERBS, SYNESTHESIA_PAIRS, HYPERBOLE_MARKERS,
+    detect_simile, detect_personification, detect_hyperbole,
+    domain_membership, detect_cross_domain,
+    analyze_lyrics, figurative_density, figure_type_distribution,
+)
+from models.music_linguistics.narrative_arc import (
+    NarrativePhase as na_NarrativePhase,
+    SectionType as na_SectionType,
+    LyricSection as na_LyricSection,
+    NarrativeArc as na_NarrativeArc,
+    INTENSITY_WORDS,
+    section_intensity as na_section_intensity,
+    detect_repetition_ratio as na_detect_repetition_ratio,
+    assign_narrative_phases, classify_arc_type,
+    build_narrative_arc, thematic_coherence,
+)
+from models.music_linguistics.syllable_stress import (
+    StressLevel, SyllableInfo, StressPattern,
+    estimate_syllable_count, lookup_stress, line_stress_pattern,
+    metric_alignment_score, generate_metric_grid,
+    stress_mismatch_positions, prosodic_naturalness,
 )

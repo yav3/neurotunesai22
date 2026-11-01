@@ -60,6 +60,14 @@ __all__ = [
     "euclidean_rhythm as comp_euclidean_rhythm",
     "serial_row", "serial_transformations", "all_transpositions",
     "fractal_melody",
+    "MarkovModel", "build_transition_matrix", "generate_sequence",
+    "pitch_markov", "rhythm_markov", "chord_markov",
+    "transition_entropy", "stationarity_check", "sequence_likelihood",
+    "ConstraintType", "CSPSolution", "VoiceLeadingConstraints",
+    "no_parallel_fifths", "no_parallel_octaves", "leap_constraint",
+    "range_constraint", "scale_membership", "contrary_motion_score",
+    "arc_consistency_3", "backtrack_search",
+    "harmonize_melody", "generate_with_constraints",
 ]
 
 from models.music_generation.rhythm_generation import (
@@ -82,6 +90,11 @@ from models.music_generation.texture_generation import (
     noise_sculpt, spectral_freeze, additive_texture,
     layer_mix, texture_density, evolve_parameter,
 )
+from models.music_generation.markov_chain import (
+    MarkovModel, build_transition_matrix, generate_sequence,
+    pitch_markov, rhythm_markov, chord_markov,
+    transition_entropy, stationarity_check, sequence_likelihood,
+)
 from models.music_generation.algorithmic_composition import (
     LSystem as CompLSystem, LSystemRule as CompLSystemRule,
     CellularAutomaton, MarkovChainComposer, ConstraintSolver,
@@ -89,4 +102,11 @@ from models.music_generation.algorithmic_composition import (
     euclidean_rhythm as comp_euclidean_rhythm,
     serial_row, serial_transformations, all_transpositions,
     fractal_melody,
+)
+from models.music_generation.constraint_satisfaction import (
+    ConstraintType, CSPSolution, VoiceLeadingConstraints,
+    no_parallel_fifths, no_parallel_octaves, leap_constraint,
+    range_constraint, scale_membership, contrary_motion_score,
+    arc_consistency_3, backtrack_search,
+    harmonize_melody, generate_with_constraints,
 )

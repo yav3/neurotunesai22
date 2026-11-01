@@ -100,6 +100,18 @@ __all__ = [
     "stratified_split", "artist_aware_split", "temporal_split",
     "stratified_kfold", "group_kfold",
     "class_weight_balanced", "split_quality_check",
+    "cv_CVFold", "cv_CVResult",
+    "cv_stratified_kfold", "cv_group_kfold", "cv_temporal_split",
+    "cv_label_distribution_per_fold", "cv_leakage_check",
+    "ScalingMethod", "FittedScaler",
+    "fit_standard", "fit_minmax", "fit_robust",
+    "norm_transform", "norm_inverse_transform",
+    "per_track_normalize", "log_normalize", "power_normalize",
+    "quantile_clip", "feature_importance_weight",
+    "cb_BalanceStrategy", "cb_BalanceResult",
+    "cb_class_distribution", "cb_compute_class_weights",
+    "cb_random_oversample", "cb_random_undersample",
+    "cb_smote_oversample", "cb_imbalance_ratio", "cb_effective_number_weights",
 ]
 
 from models.music_data.augmentation import (
@@ -131,4 +143,31 @@ from models.music_data.stratified_split import (
     stratified_split, artist_aware_split, temporal_split,
     stratified_kfold, group_kfold,
     class_weight_balanced, split_quality_check,
+)
+from models.music_data.cross_validation import (
+    CVFold as cv_CVFold,
+    CVResult as cv_CVResult,
+    stratified_kfold as cv_stratified_kfold,
+    group_kfold as cv_group_kfold,
+    temporal_split as cv_temporal_split,
+    label_distribution_per_fold as cv_label_distribution_per_fold,
+    leakage_check as cv_leakage_check,
+)
+from models.music_data.normalization import (
+    ScalingMethod, FittedScaler,
+    fit_standard, fit_minmax, fit_robust,
+    transform as norm_transform, inverse_transform as norm_inverse_transform,
+    per_track_normalize, log_normalize, power_normalize,
+    quantile_clip, feature_importance_weight,
+)
+from models.music_data.class_balance import (
+    BalanceStrategy as cb_BalanceStrategy,
+    BalanceResult as cb_BalanceResult,
+    class_distribution as cb_class_distribution,
+    compute_class_weights as cb_compute_class_weights,
+    random_oversample as cb_random_oversample,
+    random_undersample as cb_random_undersample,
+    smote_oversample as cb_smote_oversample,
+    imbalance_ratio as cb_imbalance_ratio,
+    effective_number_weights as cb_effective_number_weights,
 )

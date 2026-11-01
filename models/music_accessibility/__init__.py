@@ -113,6 +113,14 @@ __all__ = [
     "harmonic_complexity_score", "cognitive_load_estimate",
     "cs_simplify_rhythm", "cs_simplify_melody", "reduce_texture",
     "regularise_structure", "adapt_tempo_to_profile", "create_simplified_version",
+    "BrailleOctave", "OCTAVE_MARKS",
+    "NOTE_SIGNS_EIGHTH", "NOTE_SIGNS_QUARTER", "NOTE_SIGNS_HALF", "NOTE_SIGNS_WHOLE",
+    "REST_SIGNS", "ACCIDENTAL_SIGNS",
+    "BrailleNote", "BrailleMeasure",
+    "note_to_braille", "measure_to_braille", "rest_to_braille",
+    "midi_to_braille_note", "melody_to_braille",
+    "braille_to_text_description", "interval_sign",
+    "score_to_braille", "braille_line_length",
 ]
 
 from .assistive_playback import (
@@ -139,4 +147,14 @@ from .cognitive_simplification import (
     simplify_melody as cs_simplify_melody,
     reduce_texture, regularise_structure, adapt_tempo_to_profile,
     create_simplified_version,
+)
+from .braille_music import (
+    BrailleOctave, OCTAVE_MARKS,
+    NOTE_SIGNS_EIGHTH, NOTE_SIGNS_QUARTER, NOTE_SIGNS_HALF, NOTE_SIGNS_WHOLE,
+    REST_SIGNS, ACCIDENTAL_SIGNS,
+    BrailleNote, BrailleMeasure,
+    note_to_braille, measure_to_braille, rest_to_braille,
+    midi_to_braille_note, melody_to_braille,
+    braille_to_text_description, interval_sign,
+    score_to_braille, braille_line_length,
 )

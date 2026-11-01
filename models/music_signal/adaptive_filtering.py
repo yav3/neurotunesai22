@@ -135,6 +135,34 @@ def system_identification(
     return state.weights.copy()
 
 
+def affine_projection(
+    state: AdaptiveFilterState,
+    X_block: np.ndarray,
+    desired_block: np.ndarray,
+    projection_order: int = 2,
+    eps: float = 1e-6,
+) -> np.ndarray:
+    """Affine Projection Algorithm: block-adaptive update using projection_order past inputs."""
+    n_samples = len(desired_block)
+    output = np.zeros(n_samples)
+    L = len(state.weights)
+    for i in range(L, n_samples):
+        P = min(projection_order, i - L + 1)
+        A = np.zeros((P, L))
+        d = np.zeros(P)
+        for p in range(P):
+            idx = i - p
+            A[p] = X_block[idx - L:idx][::-1]
+            d[p] = desired_block[idx]
+        y_vec = A @ state.weights
+        e_vec = d - y_vec
+        R = A @ A.T + eps * np.eye(P)
+        state.weights = state.weights + state.step_size * A.T @ np.linalg.solve(R, e_vec)
+        output[i] = float(state.weights @ A[0])
+        state.error_history.append(float(e_vec[0]))
+    return output
+
+
 def compute_misalignment(
     estimated: np.ndarray,
     true_weights: np.ndarray,

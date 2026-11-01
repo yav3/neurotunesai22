@@ -90,6 +90,12 @@ __all__ = [
     "binaural_beat_for_state", "isochronic_tone_frequency",
     "bowl_harmony_score", "drone_layer_from_fundamental",
     "design_relaxation_session", "session_frequency_map",
+    "GoalDomain", "ProgressLevel", "TherapeuticGoal", "SessionObservation", "OutcomeMeasure",
+    "ta_engagement_score", "session_quality_index", "compute_effect_size", "interpret_effect_size",
+    "progress_trajectory", "trend_analysis", "sessions_to_target",
+    "compute_outcome", "aggregate_progress",
+    "reliable_change_index", "clinically_significant",
+    "SessionReport", "generate_session_report",
 ]
 
 from .sound_bath import (
@@ -123,4 +129,13 @@ from .dose_response import (
     TherapyDose, DoseResponseCurve, fit_dose_response,
     therapeutic_threshold, optimal_dose, dose_efficiency,
     diminishing_returns_point, session_schedule, cumulative_response,
+)
+from .therapeutic_assessment import (
+    GoalDomain, ProgressLevel, TherapeuticGoal, SessionObservation, OutcomeMeasure,
+    engagement_score as ta_engagement_score,
+    session_quality_index, compute_effect_size, interpret_effect_size,
+    progress_trajectory, trend_analysis, sessions_to_target,
+    compute_outcome, aggregate_progress,
+    reliable_change_index, clinically_significant,
+    SessionReport, generate_session_report,
 )

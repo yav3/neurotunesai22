@@ -92,6 +92,16 @@ __all__ = [
     "rc_performance_royalty", "rc_sync_fee_estimate",
     "revenue_waterfall", "break_even_streams",
     "blanket_licence_allocation", "compounding_catalogue_value",
+    "RoyaltyRateCard", "StreamingRevenueResult", "RMRecoupmentState",
+    "UserCentricComparison", "CatalogValuationResult",
+    "RM_PLATFORM_RATES", "US_MECHANICAL_RATE",
+    "rm_calculate_streaming_revenue", "rm_mechanical_royalty",
+    "rm_performance_royalty_split", "rm_sync_license_estimate",
+    "pro_rata_vs_user_centric", "rm_breakeven_streams",
+    "royalty_projection", "rm_catalog_valuation",
+    "songwriter_split_calculator", "songwriter_fairness_index",
+    "recoupment_tracker", "rm_market_share_hhi", "streaming_market_hhi",
+    "blended_platform_rate", "advance_sizing",
 ]
 
 from .streaming_economics import (
@@ -134,4 +144,16 @@ from .royalty_calculation import (
     sync_fee_estimate as rc_sync_fee_estimate,
     revenue_waterfall, break_even_streams,
     blanket_licence_allocation, compounding_catalogue_value,
+)
+from .royalty_models import (
+    RoyaltyRateCard, StreamingRevenueResult, RecoupmentState as RMRecoupmentState,
+    UserCentricComparison, CatalogValuationResult,
+    RM_PLATFORM_RATES, US_MECHANICAL_RATE,
+    rm_calculate_streaming_revenue, rm_mechanical_royalty,
+    rm_performance_royalty_split, rm_sync_license_estimate,
+    pro_rata_vs_user_centric, rm_breakeven_streams,
+    royalty_projection, rm_catalog_valuation,
+    songwriter_split_calculator, songwriter_fairness_index,
+    recoupment_tracker, rm_market_share_hhi, streaming_market_hhi,
+    blended_platform_rate, advance_sizing,
 )

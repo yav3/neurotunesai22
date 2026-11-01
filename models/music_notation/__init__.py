@@ -75,6 +75,10 @@ __all__ = [
     "optimize_fingering", "chord_fingering", "tab_to_ascii",
     "playability_score", "capo_transpose", "suggest_capo",
     "string_usage_distribution", "fret_histogram", "tab_difficulty_estimate",
+    "ArticulationType", "ArticulationEffect", "NoteWithArticulation",
+    "apply_articulation", "trill_expansion", "mordent_expansion",
+    "turn_expansion", "tremolo_expansion", "articulation_envelope",
+    "detect_articulation", "articulation_density", "combined_effect",
 ]
 
 from .notation_intelligence import (
@@ -122,4 +126,10 @@ from .tablature import (
     playability_score, capo_transpose, suggest_capo,
     string_usage_distribution, fret_histogram,
     difficulty_estimate as tab_difficulty_estimate,
+)
+from .articulation_marks import (
+    ArticulationType, ArticulationEffect, NoteWithArticulation,
+    apply_articulation, trill_expansion, mordent_expansion,
+    turn_expansion, tremolo_expansion, articulation_envelope,
+    detect_articulation, articulation_density, combined_effect,
 )

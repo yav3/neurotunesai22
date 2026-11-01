@@ -47,3 +47,12 @@ from .audio_pipeline import (
     AudioPipelineConfig, AudioSegmenter, AudioAugmenter, AudioPreprocessor,
     SyntheticAudioGenerator,
 )
+from .end_to_end import (
+    PipelineConfig as E2EPipelineConfig,
+    AudioSample as E2EAudioSample,
+    TrainingResult as E2ETrainingResult,
+    load_wav as e2e_load_wav,
+    generate_synthetic_dataset as e2e_generate_synthetic_dataset,
+    MusicFoundationPipeline as E2EMusicFoundationPipeline,
+    run_demo as e2e_run_demo,
+)

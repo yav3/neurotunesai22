@@ -55,6 +55,7 @@ __all__ = [
     "lms_update", "nlms_update", "rls_update", "kalman_filter_step",
     "noise_cancellation", "echo_cancellation",
     "system_identification", "compute_misalignment",
+    "affine_projection",
 ]
 
 from .harmonic_product_spectrum import (
@@ -71,6 +72,7 @@ from .adaptive_filtering import (
     lms_update, nlms_update, rls_update, kalman_filter_step,
     noise_cancellation, echo_cancellation,
     system_identification, compute_misalignment,
+    affine_projection,
 )
 
 from .onset_detection import (

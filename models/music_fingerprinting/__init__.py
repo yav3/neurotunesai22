@@ -47,6 +47,13 @@ __all__ = [
     "generate_fingerprint", "rf_time_offset_histogram",
     "fingerprint_match_score", "batch_match",
     "rf_false_positive_rate", "noise_robustness_test", "compression_robustness",
+    "PerceptualHash", "HashMatch",
+    "ph_bark_scale", "bark_band_edges", "ph_bark_band_energies",
+    "compute_frame_hash", "compute_perceptual_hash",
+    "ph_hamming_distance", "normalized_hamming", "ph_bit_error_rate",
+    "ph_match_hashes", "find_offset",
+    "tempo_invariant_hash", "ph_hash_similarity",
+    "locality_sensitive_hash", "hash_database_search", "sub_fingerprint_sequence",
 ]
 
 from models.music_fingerprinting.audio_hash import (
@@ -91,4 +98,20 @@ from models.music_fingerprinting.robust_fingerprint import (
     fingerprint_match_score, batch_match,
     false_positive_rate as rf_false_positive_rate,
     noise_robustness_test, compression_robustness,
+)
+from models.music_fingerprinting.perceptual_hash import (
+    PerceptualHash, HashMatch,
+    bark_scale as ph_bark_scale,
+    bark_band_edges,
+    bark_band_energies as ph_bark_band_energies,
+    compute_frame_hash, compute_perceptual_hash,
+    hamming_distance as ph_hamming_distance,
+    normalized_hamming,
+    bit_error_rate as ph_bit_error_rate,
+    match_hashes as ph_match_hashes,
+    find_offset,
+    tempo_invariant_hash,
+    hash_similarity as ph_hash_similarity,
+    locality_sensitive_hash, hash_database_search,
+    sub_fingerprint_sequence,
 )

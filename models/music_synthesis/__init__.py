@@ -163,4 +163,13 @@ __all__ = [
     "adsr_envelope", "dahdsr_envelope", "exponential_adsr", "multistage_envelope",
     "lfo_signal", "portamento", "legato_portamento",
     "velocity_curve", "key_tracking", "aftertouch_to_mod",
+    "FormantFreqs", "VOWEL_FORMANTS", "glottal_pulse", "aspiration_noise",
+    "formant_filter", "interpolate_formants", "vowel_trajectory",
+    "vibrato", "singing_synthesis", "formant_analysis", "vocal_tract_length_estimate",
 ]
+
+from .formant_synthesis import (
+    FormantFreqs, VOWEL_FORMANTS, glottal_pulse, aspiration_noise,
+    formant_filter, interpolate_formants, vowel_trajectory,
+    vibrato, singing_synthesis, formant_analysis, vocal_tract_length_estimate,
+)

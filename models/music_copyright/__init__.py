@@ -103,6 +103,17 @@ __all__ = [
     "MelodicSimilarity", "cf_melodic_similarity",
     "onset_grid", "rhythmic_similarity",
     "chord_ngram_similarity", "cf_originality_score",
+    "SegmentAlignment", "SimilarityReport",
+    "melodic_contour_similarity", "interval_sequence_similarity",
+    "rhythmic_pattern_similarity", "harmonic_progression_similarity",
+    "pitch_class_distribution_similarity", "dtw_melodic_alignment",
+    "longest_common_subsequence_ratio", "structural_form_similarity",
+    "generate_similarity_report", "substantial_similarity_threshold",
+    "DerivativeCategory", "OverlapResult",
+    "pitch_class_profile", "dwa_interval_sequence", "dwa_lcs",
+    "melodic_overlap", "harmonic_overlap", "rhythmic_overlap", "structural_overlap",
+    "classify_derivative", "analyze_derivative",
+    "transposition_invariant_overlap", "self_quotation_ratio",
 ]
 
 from models.music_copyright.plagiarism_detection import (
@@ -111,6 +122,14 @@ from models.music_copyright.plagiarism_detection import (
     melodic_similarity, chord_progression_similarity,
     rhythm_onset_similarity, structural_similarity,
     combined_plagiarism_score,
+)
+from models.music_copyright.structural_similarity import (
+    SegmentAlignment, SimilarityReport,
+    melodic_contour_similarity, interval_sequence_similarity,
+    rhythmic_pattern_similarity, harmonic_progression_similarity,
+    pitch_class_distribution_similarity, dtw_melodic_alignment,
+    longest_common_subsequence_ratio, structural_form_similarity,
+    generate_similarity_report, substantial_similarity_threshold,
 )
 from models.music_copyright.content_fingerprint import (
     SpectralPeak as CFSpectralPeak, FingerprintHash as CFFingerprintHash,
@@ -121,4 +140,12 @@ from models.music_copyright.content_fingerprint import (
     MelodicSimilarity, melodic_similarity as cf_melodic_similarity,
     onset_grid, rhythmic_similarity,
     chord_ngram_similarity, originality_score as cf_originality_score,
+)
+from models.music_copyright.derivative_work_analysis import (
+    DerivativeCategory, OverlapResult,
+    pitch_class_profile, interval_sequence as dwa_interval_sequence,
+    longest_common_subsequence as dwa_lcs,
+    melodic_overlap, harmonic_overlap, rhythmic_overlap, structural_overlap,
+    classify_derivative, analyze_derivative,
+    transposition_invariant_overlap, self_quotation_ratio,
 )

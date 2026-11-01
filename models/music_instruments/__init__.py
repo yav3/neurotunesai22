@@ -103,6 +103,25 @@ __all__ = [
     "pm_bar_frequencies", "pm_membrane_frequencies", "pm_bar_model", "pm_membrane_model",
     "BowedStringParams", "bowed_string", "EstimatedParams", "pm_estimate_parameters",
     "excitation_resonance_decompose",
+    # bowed_string_physics (bsp_ prefix for collision-prone names)
+    "BowedStringState",
+    "bsp_StringParams", "bsp_string_impedance",
+    "helmholtz_motion", "bridge_force_waveform", "bow_string_friction",
+    "bsp_modal_frequencies", "mode_amplitudes_at_position",
+    "bsp_simulate_bowed_string", "bsp_wolf_note_frequency",
+    "sul_ponticello_spectrum", "col_legno_spectrum", "vibrato_modulation",
+    "BowStroke", "BowParams", "bm_StringParams",
+    "bow_force_envelope", "spectral_brightness", "harmonic_weighting",
+    "friction_model", "pizzicato_excitation", "string_decay_time",
+    "natural_harmonic_nodes", "synthesize_bowed_tone",
+    "bm_vibrato_modulation", "bow_noise",
+    "MaterialProperties", "ResonanceMode", "InstrumentBody",
+    "SPRUCE", "MAPLE", "EBONY", "STEEL", "NYLON", "BRASS",
+    "string_tension", "string_wave_speed", "body_mode_frequencies",
+    "helmholtz_resonance", "soundboard_radiation", "impedance_matching",
+    "coupling_efficiency", "instrument_formants", "spectral_envelope_model",
+    "pp_decay_rates", "pp_sympathetic_resonance", "pp_wolf_tone_frequency",
+    "radiation_directivity", "bridge_admittance",
 ]
 
 from .physical_modeling import (
@@ -115,4 +134,37 @@ from .physical_modeling import (
     BowedStringParams, bowed_string,
     EstimatedParams, estimate_parameters as pm_estimate_parameters,
     excitation_resonance_decompose,
+)
+
+from .bowed_string_physics import (
+    BowedStringState,
+    StringParams as bsp_StringParams,
+    string_impedance as bsp_string_impedance,
+    helmholtz_motion,
+    bridge_force_waveform,
+    bow_string_friction,
+    modal_frequencies as bsp_modal_frequencies,
+    mode_amplitudes_at_position,
+    simulate_bowed_string as bsp_simulate_bowed_string,
+    wolf_note_frequency as bsp_wolf_note_frequency,
+    sul_ponticello_spectrum,
+    col_legno_spectrum,
+    vibrato_modulation,
+)
+from .bowing_models import (
+    BowStroke, BowParams, StringParams as bm_StringParams,
+    bow_force_envelope, spectral_brightness, harmonic_weighting,
+    friction_model, pizzicato_excitation, string_decay_time,
+    natural_harmonic_nodes, synthesize_bowed_tone,
+    vibrato_modulation as bm_vibrato_modulation, bow_noise,
+)
+from .physical_properties import (
+    MaterialProperties, ResonanceMode, InstrumentBody,
+    SPRUCE, MAPLE, EBONY, STEEL, NYLON, BRASS,
+    string_tension, string_wave_speed, body_mode_frequencies,
+    helmholtz_resonance, soundboard_radiation, impedance_matching,
+    coupling_efficiency, instrument_formants, spectral_envelope_model,
+    decay_rates as pp_decay_rates, sympathetic_resonance as pp_sympathetic_resonance,
+    wolf_tone_frequency as pp_wolf_tone_frequency,
+    radiation_directivity, bridge_admittance,
 )

@@ -100,6 +100,22 @@ __all__ = [
     "plomp_levelt_consonance", "composite_consonance", "JUST_INTERVALS",
     "just_interval_consonance_ranking", "chord_consonance", "cultural_weighting",
     "tension_from_dissonance_curve", "set_dissonance",
+    "AuditoryFilter", "ExcitationPattern", "HM_VirtualPitch",
+    "erb_rate", "erb_rate_inverse", "hm_erb_bandwidth",
+    "erb_filterbank_centres", "gammatone_impulse_response",
+    "gammatone_filterbank", "excitation_pattern_from_spectrum",
+    "loudness_from_spectrum",
+    "hm_sone_to_phon", "hm_phon_to_sone",
+    "hm_a_weighting", "hm_c_weighting",
+    "terhardt_virtual_pitch", "missing_fundamental",
+    "masking_threshold", "auditory_roughness",
+    "perceptual_spectral_distance",
+    "SalienceMap", "AttentionState", "AttentionalBlinkResult",
+    "spectral_surprise", "spectral_contrast_salience", "temporal_novelty",
+    "onset_salience", "attention_filter", "attention_switch_cost",
+    "update_attention", "compute_salience_map", "attentional_blink",
+    "informational_masking", "streaming_attention_trajectory",
+    "perceptual_importance",
 ]
 
 from models.music_psychoacoustics.consonance_model import (
@@ -131,4 +147,28 @@ from models.music_psychoacoustics.consonance_models import (
     tenney_height, harmonic_entropy, consonance_rating,
     dyad_consonance, triad_consonance, consonance_curve,
     interval_ranking,
+)
+from models.music_psychoacoustics.hearing_models import (
+    AuditoryFilter, ExcitationPattern,
+    VirtualPitch as HM_VirtualPitch,
+    erb_rate, erb_rate_inverse,
+    erb_bandwidth as hm_erb_bandwidth,
+    erb_filterbank_centres, gammatone_impulse_response,
+    gammatone_filterbank, excitation_pattern_from_spectrum,
+    loudness_from_spectrum,
+    sone_to_phon as hm_sone_to_phon,
+    phon_to_sone as hm_phon_to_sone,
+    a_weighting as hm_a_weighting,
+    c_weighting as hm_c_weighting,
+    terhardt_virtual_pitch, missing_fundamental,
+    masking_threshold, auditory_roughness,
+    perceptual_spectral_distance,
+)
+from models.music_psychoacoustics.auditory_attention import (
+    SalienceMap, AttentionState, AttentionalBlinkResult,
+    spectral_surprise, spectral_contrast_salience, temporal_novelty,
+    onset_salience, attention_filter, attention_switch_cost,
+    update_attention, compute_salience_map, attentional_blink,
+    informational_masking, streaming_attention_trajectory,
+    perceptual_importance,
 )

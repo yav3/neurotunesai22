@@ -283,3 +283,163 @@ def novelty(recommendations: List[int], popularity: np.ndarray) -> float:
         p = popularity[idx]
         total += -math.log2(p) if p > 0 else 0.0
     return total / len(recommendations)
+
+
+# ---------------------------------------------------------------------------
+# SVD-based factorization (Koren et al. 2009, Funk SVD / truncated SVD)
+# ---------------------------------------------------------------------------
+
+def normalize_matrix(ratings: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """Mean-center rows (per-user mean subtraction). Returns (centered, means)."""
+    means = np.zeros(ratings.shape[0])
+    centered = ratings.copy().astype(float)
+    for u in range(ratings.shape[0]):
+        mask = ratings[u] != 0
+        if mask.any():
+            means[u] = ratings[u, mask].mean()
+            centered[u, mask] -= means[u]
+    return centered, means
+
+
+def cosine_similarity_matrix(ratings: np.ndarray, axis: int = 0) -> np.ndarray:
+    """Pairwise cosine similarity. axis=0 → between columns (items), axis=1 → rows (users)."""
+    if axis == 1:
+        M = ratings
+    else:
+        M = ratings.T
+    norms = np.linalg.norm(M, axis=1, keepdims=True)
+    norms = np.where(norms < 1e-12, 1.0, norms)
+    normed = M / norms
+    return normed @ normed.T
+
+
+def svd_factorize(ratings: np.ndarray, k: int = 20) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Truncated SVD on a (possibly sparse) rating matrix.
+
+    Fills zeros with row means before decomposition so the zero entries
+    don't collapse the latent space.  Returns (U_k, Sigma_k, Vt_k).
+    """
+    filled = ratings.copy().astype(float)
+    for u in range(filled.shape[0]):
+        mask = filled[u] != 0
+        if mask.any():
+            filled[u, ~mask] = filled[u, mask].mean()
+    U, S, Vt = np.linalg.svd(filled, full_matrices=False)
+    k = min(k, len(S))
+    return U[:, :k], S[:k], Vt[:k, :]
+
+
+def svd_predict(U: np.ndarray, S: np.ndarray, Vt: np.ndarray) -> np.ndarray:
+    """Reconstruct full rating matrix from truncated SVD factors."""
+    return U @ np.diag(S) @ Vt
+
+
+def svd_recommend_top_n(U: np.ndarray, S: np.ndarray, Vt: np.ndarray,
+                        user_idx: int, original_ratings: np.ndarray,
+                        n: int = 10) -> List[Tuple[int, float]]:
+    """Top-N unrated items for a user from SVD reconstruction."""
+    predicted = (U[user_idx] @ np.diag(S) @ Vt).ravel()
+    rated_mask = original_ratings[user_idx] != 0
+    predicted[rated_mask] = -np.inf
+    top_indices = np.argsort(predicted)[::-1][:n]
+    return [(int(j), float(predicted[j])) for j in top_indices if predicted[j] > -np.inf]
+
+
+# ---------------------------------------------------------------------------
+# Evaluation metrics (Herlocker et al. 2004, Shani & Gunawardana 2011)
+# ---------------------------------------------------------------------------
+
+def precision_at_k(recommended: List[int], relevant: set, k: int = 10) -> float:
+    """Precision@k: fraction of top-k recommendations that are relevant."""
+    rec_k = recommended[:k]
+    if len(rec_k) == 0:
+        return 0.0
+    return sum(1 for r in rec_k if r in relevant) / len(rec_k)
+
+
+def recall_at_k(recommended: List[int], relevant: set, k: int = 10) -> float:
+    """Recall@k: fraction of relevant items found in top-k."""
+    if len(relevant) == 0:
+        return 0.0
+    rec_k = recommended[:k]
+    return sum(1 for r in rec_k if r in relevant) / len(relevant)
+
+
+def ndcg_at_k(recommended: List[int], relevant: set, k: int = 10) -> float:
+    """Normalized Discounted Cumulative Gain at k."""
+    rec_k = recommended[:k]
+    dcg = 0.0
+    for i, item in enumerate(rec_k):
+        if item in relevant:
+            dcg += 1.0 / math.log2(i + 2)
+    ideal_hits = min(len(relevant), k)
+    idcg = sum(1.0 / math.log2(i + 2) for i in range(ideal_hits))
+    if idcg < 1e-12:
+        return 0.0
+    return dcg / idcg
+
+
+def mean_average_precision(all_recommendations: List[List[int]],
+                           all_relevant: List[set]) -> float:
+    """MAP across multiple users."""
+    if len(all_recommendations) == 0:
+        return 0.0
+    ap_sum = 0.0
+    for rec, rel in zip(all_recommendations, all_relevant):
+        if len(rel) == 0:
+            continue
+        hits = 0
+        ap = 0.0
+        for i, item in enumerate(rec):
+            if item in rel:
+                hits += 1
+                ap += hits / (i + 1)
+        ap_sum += ap / len(rel)
+    return ap_sum / len(all_recommendations)
+
+
+def hit_rate(all_recommendations: List[List[int]],
+             all_relevant: List[set]) -> float:
+    """Fraction of users for whom at least one recommendation is relevant."""
+    if len(all_recommendations) == 0:
+        return 0.0
+    hits = sum(
+        1 for rec, rel in zip(all_recommendations, all_relevant)
+        if any(r in rel for r in rec)
+    )
+    return hits / len(all_recommendations)
+
+
+def reciprocal_rank(recommended: List[int], relevant: set) -> float:
+    """Reciprocal rank of the first relevant item."""
+    for i, item in enumerate(recommended):
+        if item in relevant:
+            return 1.0 / (i + 1)
+    return 0.0
+
+
+def mean_reciprocal_rank(all_recommendations: List[List[int]],
+                         all_relevant: List[set]) -> float:
+    """MRR across users."""
+    if len(all_recommendations) == 0:
+        return 0.0
+    return float(np.mean([
+        reciprocal_rank(rec, rel) for rec, rel in zip(all_recommendations, all_relevant)
+    ]))
+
+
+def rmse(predictions: np.ndarray, actuals: np.ndarray) -> float:
+    """Root mean squared error on rated entries."""
+    mask = actuals != 0
+    if not mask.any():
+        return 0.0
+    diff = predictions[mask] - actuals[mask]
+    return float(np.sqrt(np.mean(diff ** 2)))
+
+
+def mae(predictions: np.ndarray, actuals: np.ndarray) -> float:
+    """Mean absolute error on rated entries."""
+    mask = actuals != 0
+    if not mask.any():
+        return 0.0
+    return float(np.mean(np.abs(predictions[mask] - actuals[mask])))

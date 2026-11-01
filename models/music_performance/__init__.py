@@ -50,6 +50,10 @@ __all__ = [
     "key_complexity_score", "accidental_density", "temporal_irregularity",
     "sr_estimate_difficulty", "generate_exercise", "progressive_sequence",
     "difficulty_feature_vector",
+    "tr_RubatoType", "TempoEvent", "TempoCurve",
+    "ioi_to_tempo", "tempo_curve_from_onsets", "phrase_rubato",
+    "cadential_ritardando", "timing_profile", "micro_timing_grid",
+    "swing_ratio", "expressive_timing_score",
 ]
 
 from .ornamentation import (
@@ -87,6 +91,12 @@ from .ensemble_sync import (
     sync_error_distribution, phase_coupling, tempo_negotiation,
     sectional_balance, balance_deviation, ensemble_cohesion,
     synchronization_over_time,
+)
+from models.music_performance.tempo_rubato import (
+    RubatoType as tr_RubatoType, TempoEvent, TempoCurve,
+    ioi_to_tempo, tempo_curve_from_onsets, phrase_rubato,
+    cadential_ritardando, timing_profile, micro_timing_grid,
+    swing_ratio, expressive_timing_score,
 )
 from .sight_reading import (
     SightReadingProfile, PracticeExercise, INTERVAL_DIFFICULTY, KEY_ACCIDENTALS,
