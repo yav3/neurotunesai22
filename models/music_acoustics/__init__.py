@@ -31,7 +31,23 @@ from models.music_acoustics.spectral_analysis import (
     SpectralDescriptors,
 )
 
+from models.music_acoustics.reverberation import (
+    ReverbParameters, EarlyReflection,
+    rt60_sabine as reverb_rt60_sabine, rt60_eyring as reverb_rt60_eyring,
+    mean_free_path as reverb_mean_free_path,
+    mixing_time_ms, generate_early_reflections,
+    late_field_density, energy_decay_curve,
+    clarity_c80, definition_d50, center_time_ts,
+    ReverbProfile, analyze_reverb, reverb_tail_level_db,
+)
+
 __all__ = [
+    "ReverbParameters", "EarlyReflection",
+    "reverb_rt60_sabine", "reverb_rt60_eyring", "reverb_mean_free_path",
+    "mixing_time_ms", "generate_early_reflections",
+    "late_field_density", "energy_decay_curve",
+    "clarity_c80", "definition_d50", "center_time_ts",
+    "ReverbProfile", "analyze_reverb", "reverb_tail_level_db",
     "hz_to_mel", "mel_to_hz", "hz_to_bark", "bark_to_hz", "hz_to_erb", "erb_to_hz",
     "critical_bandwidth", "EqualLoudnessPoint", "equal_loudness_contour",
     "a_weighting", "c_weighting",

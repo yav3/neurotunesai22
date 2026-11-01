@@ -25,7 +25,16 @@ from .audio_description import (
     generate_audio_guide,
 )
 
+from .score_simplification import (
+    AbilityLevel, SimplificationProfile, LEVEL_PROFILES,
+    NoteEvent, difficulty_score, simplify_melody,
+    reduce_polyphony, suggest_level, tempo_adjustment,
+)
+
 __all__ = [
+    "AbilityLevel", "SimplificationProfile", "LEVEL_PROFILES",
+    "NoteEvent", "difficulty_score", "simplify_melody",
+    "reduce_polyphony", "suggest_level", "tempo_adjustment",
     "HearingLossType", "HearingProfile", "STANDARD_AUDIOGRAM_FREQUENCIES",
     "frequency_response_compensation", "tinnitus_notch_filter",
     "speech_intelligibility_index", "comfortable_listening_level",

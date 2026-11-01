@@ -21,7 +21,28 @@ from models.music_pipeline.normalization import (
     RobustNormalizer, FeatureSelector,
 )
 
+from models.music_pipeline.data_augmentation import (
+    AugmentationType, AugmentationConfig, AugmentationPipeline,
+    pitch_shift_semitones, time_stretch, add_noise,
+    gain_change_db, polarity_invert, low_pass_simple, high_pass_simple,
+    random_eq, mixup, spec_augment_mask, apply_pipeline,
+)
+from models.music_pipeline.inference import (
+    ModelType, PredictionStatus, ModelVersion, PredictionResult,
+    InferenceMetrics, ModelRegistry, PredictFn,
+    predict_with_timeout, batch_predict, ensemble_predict,
+    StreamingPredictor,
+)
+
 __all__ = [
+    "ModelType", "PredictionStatus", "ModelVersion", "PredictionResult",
+    "InferenceMetrics", "ModelRegistry", "PredictFn",
+    "predict_with_timeout", "batch_predict", "ensemble_predict",
+    "StreamingPredictor",
+    "AugmentationType", "AugmentationConfig", "AugmentationPipeline",
+    "pitch_shift_semitones", "time_stretch", "add_noise",
+    "gain_change_db", "polarity_invert", "low_pass_simple", "high_pass_simple",
+    "random_eq", "mixup", "spec_augment_mask", "apply_pipeline",
     "PipelineConfig", "FeatureResult", "FeaturePipeline",
     "extract_spectral_features", "extract_rhythm_features",
     "extract_harmonic_features", "extract_timbral_features",

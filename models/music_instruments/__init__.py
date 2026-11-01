@@ -29,7 +29,18 @@ from .extended_techniques import (
     multiphonic_roughness, technique_difficulty_score, COMMON_TECHNIQUES,
 )
 
+from .string_resonance import (
+    StringState, harmonic_series, harmonic_amplitude,
+    sympathetic_coupling, resonance_spectrum, total_sympathetic_energy,
+    decay_time, inharmonicity_coefficient, stretched_partial,
+    beating_frequency, ResonanceAnalysis, analyze_resonance, wolf_tone_risk,
+)
+
 __all__ = [
+    "StringState", "harmonic_series", "harmonic_amplitude",
+    "sympathetic_coupling", "resonance_spectrum", "total_sympathetic_energy",
+    "decay_time", "inharmonicity_coefficient", "stretched_partial",
+    "beating_frequency", "ResonanceAnalysis", "analyze_resonance", "wolf_tone_risk",
     "InstrumentFamily", "InstrumentClass", "Instrument", "INSTRUMENT_DATABASE",
     "instruments_by_family", "pitch_range", "transposition_interval",
     "is_transposing", "concert_pitch_offset",

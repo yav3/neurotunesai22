@@ -68,8 +68,8 @@ def spectral_flatness(magnitudes: np.ndarray) -> float:
 
     1.0 = white noise, 0.0 = pure tone.
     """
-    mag = magnitudes[magnitudes > 0]
-    if len(mag) == 0:
+    mag = np.asarray(magnitudes, dtype=float)
+    if len(mag) == 0 or np.all(mag <= 0):
         return 0.0
     log_mean = np.mean(np.log(mag + 1e-20))
     geo_mean = np.exp(log_mean)

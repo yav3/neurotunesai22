@@ -9,6 +9,7 @@ from models.music_features.unified_extractor import (
     MusicFeatureSet,
     UnifiedMusicExtractor,
 )
+from models.music_features.texture import TextureAnalyzer
 from models.music_features.deep_extractor import (
     SpectralFeatureExtractor as DeepSpectralExtractor,
     RhythmFeatureExtractor as DeepRhythmExtractor,
@@ -27,4 +28,5 @@ __all__ = [
     "DeepSpectralExtractor", "DeepRhythmExtractor",
     "DeepHarmonicExtractor", "DeepTimbreExtractor",
     "UnifiedDeepExtractor",
+    "TextureAnalyzer",
 ]
