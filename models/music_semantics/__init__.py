@@ -1,4 +1,4 @@
-"""Music semantics: genre ontology, instrument taxonomy, form analysis, affect, mood, knowledge graph."""
+"""Music semantics: genre ontology, instrument taxonomy, form analysis, affect, mood, knowledge graph, concept embedding, mood ontology."""
 from models.music_semantics.genre_ontology import (
     GenreNode, GENRE_TREE, genre_distance, genre_ancestors, genre_descendants,
     common_ancestor, features_to_genre,
@@ -21,6 +21,15 @@ from models.music_semantics.mood_tags import (
 from models.music_semantics.music_knowledge_graph import (
     EntityType, RelationType, Entity, Relation, MusicKnowledgeGraph,
 )
+from models.music_semantics.concept_embedding import (
+    MusicalConcept, ConceptEmbedding,
+    CONCEPT_CATEGORIES, CONCEPT_REGISTRY, EMBEDDING_DIM,
+    concept_similarity, nearest_concepts, analogy,
+)
+from models.music_semantics.mood_ontology import (
+    MoodNode, MoodTrajectory, MOOD_TREE, VONNEGUT_ARCS,
+    mood_distance, mood_ancestors, mood_from_vad, mood_from_features,
+)
 
 __all__ = [
     "GenreNode", "GENRE_TREE", "genre_distance", "genre_ancestors", "genre_descendants",
@@ -32,4 +41,9 @@ __all__ = [
     "MoodCategory", "MoodTag", "MOOD_VAD_MAP", "MUSIC_TAG_TAXONOMY",
     "TagProfile", "vad_to_mood", "tag_similarity",
     "EntityType", "RelationType", "Entity", "Relation", "MusicKnowledgeGraph",
+    "MusicalConcept", "ConceptEmbedding",
+    "CONCEPT_CATEGORIES", "CONCEPT_REGISTRY", "EMBEDDING_DIM",
+    "concept_similarity", "nearest_concepts", "analogy",
+    "MoodNode", "MoodTrajectory", "MOOD_TREE", "VONNEGUT_ARCS",
+    "mood_distance", "mood_ancestors", "mood_from_vad", "mood_from_features",
 ]
