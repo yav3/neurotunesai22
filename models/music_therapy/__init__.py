@@ -78,27 +78,25 @@ __all__ = [
     "TherapeuticIntent", "TrackProfile", "TherapeuticPlaylist",
     "intent_fitness", "rank_tracks", "build_therapeutic_playlist",
     "iso_principle_sequence", "session_energy_profile",
-    "MoodCategory", "MoodState", "MoodTransition", "MOOD_VA_COORDINATES",
-    "mood_distance", "classify_mood", "mood_trajectory", "plan_mood_transition",
-    "mood_music_features", "mood_consistency",
-    "NMTTechnique", "ClinicalDomain", "NMT_DOMAIN_MAP",
-    "NMTProtocol", "RAS_PROTOCOL",
-    "ras_tempo_progression", "pse_movement_mapping",
-    "mit_syllable_intoning", "timp_instrument_assignment",
+    "WellnessGoal", "WellnessTrack", "WellnessSession",
+    "goal_fitness", "rank_wellness_tracks", "build_wellness_session", "session_adherence_score",
+    "RhythmPattern", "RhythmicProfile",
+    "generate_entrainment_tempo_curve", "heartbeat_synchronization_score",
+    "breathing_rhythm_profile", "DrumCircleConfig", "drum_circle_cohesion",
+    "movement_tempo_matching", "rhythmic_complexity_index", "adaptive_tempo_recommendation",
 ]
 
 from .guided_imagery import (
     GIMPhase, ProgramPiece, GIMProgram, BONNY_PROGRAMS,
     ImageryScorecard, program_arc, match_client_readiness, SessionPlan,
 )
-from .mood_ontology import (
-    MoodCategory, MoodState, MoodTransition, MOOD_VA_COORDINATES,
-    mood_distance, classify_mood, mood_trajectory, plan_mood_transition,
-    mood_music_features, mood_consistency,
+from .wellness_protocols import (
+    WellnessGoal, WellnessTrack, WellnessSession,
+    goal_fitness, rank_wellness_tracks, build_wellness_session, session_adherence_score,
 )
-from .neurologic_music_therapy import (
-    NMTTechnique, ClinicalDomain, NMT_DOMAIN_MAP,
-    NMTProtocol, RAS_PROTOCOL,
-    ras_tempo_progression, pse_movement_mapping,
-    mit_syllable_intoning, timp_instrument_assignment,
+from .rhythm_intervention import (
+    RhythmPattern, RhythmicProfile,
+    generate_entrainment_tempo_curve, heartbeat_synchronization_score,
+    breathing_rhythm_profile, DrumCircleConfig, drum_circle_cohesion,
+    movement_tempo_matching, rhythmic_complexity_index, adaptive_tempo_recommendation,
 )

@@ -32,6 +32,17 @@ from models.music_cognition.auditory_attention import (
     SalienceMap, spectral_salience, onset_salience, compute_salience_map,
     AuditoryStream, stream_segregation, attention_decay, surprise_score,
 )
+from models.music_cognition.emotional_response import (
+    BRECVEMAMechanism, EmotionalResponse,
+    predict_emotional_response, chills_predictor, nostalgia_index,
+    mechanism_activation_profile, valence_arousal_from_features, emotion_trajectory,
+)
+from models.music_cognition.learning import (
+    SkillLevel, SkillProfile,
+    skill_progression, optimal_practice_schedule, sight_reading_difficulty,
+    IntervalType, INTERVAL_DIFFICULTY, ear_training_accuracy,
+    spaced_repetition_interval, practice_efficiency,
+)
 
 __all__ = [
     "RoughnessModel", "IntervalConsonance",
@@ -51,4 +62,11 @@ __all__ = [
     "beat_induction", "phase_coherence", "PerceptualGrouping",
     "SalienceMap", "spectral_salience", "onset_salience", "compute_salience_map",
     "AuditoryStream", "stream_segregation", "attention_decay", "surprise_score",
+    "BRECVEMAMechanism", "EmotionalResponse",
+    "predict_emotional_response", "chills_predictor", "nostalgia_index",
+    "mechanism_activation_profile", "valence_arousal_from_features", "emotion_trajectory",
+    "SkillLevel", "SkillProfile",
+    "skill_progression", "optimal_practice_schedule", "sight_reading_difficulty",
+    "IntervalType", "INTERVAL_DIFFICULTY", "ear_training_accuracy",
+    "spaced_repetition_interval", "practice_efficiency",
 ]

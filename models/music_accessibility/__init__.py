@@ -20,11 +20,33 @@ from .visual_notation import (
     SimplifiedStaff, simplify_notation,
 )
 from .audio_description import (
+    DescriptionLevel, AudioDescription,
     describe_pitch, describe_interval, describe_rhythm,
     describe_dynamics, describe_chord, describe_progression,
     generate_audio_guide,
+    describe_tempo, describe_rhythm_features, describe_harmony_features,
+    describe_dynamics_features, describe_timbre_features,
+    generate_full_description,
+)
+from .haptic_mapping import (
+    HapticPattern, HapticEvent,
+    beat_to_haptic, melody_to_haptic, dynamics_to_intensity,
+    rhythm_pattern_to_vibration, continuous_haptic_envelope,
+)
+from .cognitive_load import (
+    CognitiveLoadEstimate,
+    harmonic_complexity_load, rhythmic_complexity_load,
+    textural_density_load, combined_cognitive_load,
+    passage_cognitive_profile,
 )
 
+from .sonification import (
+    ParameterMapping, PitchSonifier, RhythmSonifier,
+    MultidimensionalSonifier, SonificationEvaluator,
+)
+from .speech_to_music import (
+    PitchTracker, VoiceToMIDI, VocalGestureDetector, VoiceCommandClassifier,
+)
 from .score_simplification import (
     AbilityLevel, SimplificationProfile, LEVEL_PROFILES,
     NoteEvent, difficulty_score, simplify_melody,
@@ -46,7 +68,21 @@ __all__ = [
     "BrailleMusic", "pitch_to_braille", "duration_to_braille", "sequence_to_braille",
     "ColorNotation", "pitch_to_color", "ShapeNotation",
     "SimplifiedStaff", "simplify_notation",
+    "DescriptionLevel", "AudioDescription",
     "describe_pitch", "describe_interval", "describe_rhythm",
     "describe_dynamics", "describe_chord", "describe_progression",
     "generate_audio_guide",
+    "describe_tempo", "describe_rhythm_features", "describe_harmony_features",
+    "describe_dynamics_features", "describe_timbre_features",
+    "generate_full_description",
+    "HapticPattern", "HapticEvent",
+    "beat_to_haptic", "melody_to_haptic", "dynamics_to_intensity",
+    "rhythm_pattern_to_vibration", "continuous_haptic_envelope",
+    "CognitiveLoadEstimate",
+    "harmonic_complexity_load", "rhythmic_complexity_load",
+    "textural_density_load", "combined_cognitive_load",
+    "passage_cognitive_profile",
+    "ParameterMapping", "PitchSonifier", "RhythmSonifier",
+    "MultidimensionalSonifier", "SonificationEvaluator",
+    "PitchTracker", "VoiceToMIDI", "VocalGestureDetector", "VoiceCommandClassifier",
 ]

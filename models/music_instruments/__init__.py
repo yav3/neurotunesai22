@@ -29,11 +29,38 @@ from .extended_techniques import (
     multiphonic_roughness, technique_difficulty_score, COMMON_TECHNIQUES,
 )
 
+from .instrument_ranges import (
+    InstrumentRange, INSTRUMENT_RANGES, note_in_range, comfortable_range,
+    transpose_for_instrument, find_instruments_for_range, range_overlap,
+)
+from .articulation import (
+    ArticulationType, ArticulationProfile, ARTICULATION_PROFILES,
+    apply_articulation, detect_articulation, articulation_compatibility,
+)
+
 from .string_resonance import (
     StringState, harmonic_series, harmonic_amplitude,
     sympathetic_coupling, resonance_spectrum, total_sympathetic_energy,
     decay_time, inharmonicity_coefficient, stretched_partial,
     beating_frequency, ResonanceAnalysis, analyze_resonance, wolf_tone_risk,
+)
+from .playing_techniques import (
+    TechniqueFamily, BowingTechnique, PluckingTechnique, WindTechnique,
+    PercussionTechnique, SpectralModification, BOWING_SPECTRA,
+    PLUCKING_SPECTRA, WIND_SPECTRA, spectral_envelope,
+    apply_technique_to_spectrum,
+)
+from .instrument_range_db import (
+    InstrumentRange as InstrumentRangeDB, INSTRUMENT_RANGES as RANGES_DB,
+    range_overlap as range_overlap_db, tessitura, ensemble_range,
+    instruments_in_range,
+)
+from .formant_models import FormantSynthesizer, ResonanceModel
+from .resonance_models import (
+    StringResonance, MembraneResonance, BarResonance, ResonatorBank, CoupledStringModel,
+)
+from .instrument_classification import (
+    InstrumentFeatureExtractor, InstrumentSimilarityMatrix, InstrumentFamilyClassifier,
 )
 
 __all__ = [
@@ -54,8 +81,21 @@ __all__ = [
     "TuningSystem", "equal_temperament", "pythagorean",
     "just_intonation", "meantone", "well_temperament",
     "cents_deviation", "frequency_ratio", "compare_tunings",
+    "InstrumentRange", "INSTRUMENT_RANGES", "note_in_range", "comfortable_range",
+    "transpose_for_instrument", "find_instruments_for_range", "range_overlap",
+    "ArticulationType", "ArticulationProfile", "ARTICULATION_PROFILES",
+    "apply_articulation", "detect_articulation", "articulation_compatibility",
     "TechniqueCategory", "ExtendedTechnique",
     "HarmonicNode", "MultiphonicSpectrum", "PreparedPianoModification",
     "natural_harmonic_series", "harmonic_amplitude_model", "string_harmonic_nodes",
     "multiphonic_roughness", "technique_difficulty_score", "COMMON_TECHNIQUES",
+    "TechniqueFamily", "BowingTechnique", "PluckingTechnique", "WindTechnique",
+    "PercussionTechnique", "SpectralModification", "BOWING_SPECTRA",
+    "PLUCKING_SPECTRA", "WIND_SPECTRA", "spectral_envelope",
+    "apply_technique_to_spectrum",
+    "InstrumentRangeDB", "RANGES_DB", "range_overlap_db", "tessitura",
+    "ensemble_range", "instruments_in_range",
+    "FormantSynthesizer", "ResonanceModel",
+    "StringResonance", "MembraneResonance", "BarResonance", "ResonatorBank", "CoupledStringModel",
+    "InstrumentFeatureExtractor", "InstrumentSimilarityMatrix", "InstrumentFamilyClassifier",
 ]

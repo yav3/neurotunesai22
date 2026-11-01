@@ -17,6 +17,15 @@ from .session_state import (
     compute_latency_offset, sync_point, role_assignment,
     bandwidth_estimate, max_participants_for_bandwidth, jitter_buffer_size,
 )
+from .version_control import (
+    DiffType, NoteEvent as VCNoteEvent, MusicalDiff, MergeConflict, MusicalRevision,
+    compute_musical_diff, apply_diffs, merge_revisions, revision_distance, make_revision,
+)
+from .role_assignment import (
+    CollaboratorRole, SkillProfile,
+    role_compatibility, assign_roles, suggest_voice_ranges,
+    workload_balance, ensemble_diversity,
+)
 
 __all__ = [
     "SyncMetric", "compute_async", "mutual_adaptation", "granger_influence",
@@ -28,4 +37,9 @@ __all__ = [
     "SessionRole", "AudioQuality", "Participant", "SessionState",
     "compute_latency_offset", "sync_point", "role_assignment",
     "bandwidth_estimate", "max_participants_for_bandwidth", "jitter_buffer_size",
+    "DiffType", "VCNoteEvent", "MusicalDiff", "MergeConflict", "MusicalRevision",
+    "compute_musical_diff", "apply_diffs", "merge_revisions", "revision_distance", "make_revision",
+    "CollaboratorRole", "SkillProfile",
+    "role_compatibility", "assign_roles", "suggest_voice_ranges",
+    "workload_balance", "ensemble_diversity",
 ]

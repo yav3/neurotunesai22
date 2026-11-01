@@ -53,6 +53,13 @@ __all__ = [
     "timbral_distance", "timbral_compatibility", "range_overlap",
     "register_complement", "combination_score", "family_diversity",
     "suggest_complement", "blend_brightness", "total_range",
+    "ScoreNote", "PianoReduction", "piano_reduce",
+    "extract_melody", "extract_bass_line", "condense_parts",
+    "lead_sheet", "reduction_quality", "voice_count_over_time",
+    "InstrumentDoubling", "COMMON_DOUBLINGS",
+    "VoicingConstraint", "VOICING_RULES", "POWER_DB",
+    "score_voicing", "suggest_doublings",
+    "orchestral_balance_detailed", "REGISTER_CURVES", "register_effectiveness",
 ]
 
 from .instrument_combination import (
@@ -60,4 +67,16 @@ from .instrument_combination import (
     timbral_distance, timbral_compatibility, range_overlap,
     register_complement, combination_score, family_diversity,
     suggest_complement, blend_brightness, total_range,
+)
+from .reduction import (
+    ScoreNote, PianoReduction, piano_reduce,
+    extract_melody, extract_bass_line, condense_parts,
+    lead_sheet, reduction_quality, voice_count_over_time,
+)
+from .orchestration_rules import (
+    InstrumentDoubling, COMMON_DOUBLINGS,
+    VoicingConstraint, VOICING_RULES, POWER_DB,
+    score_voicing, suggest_doublings,
+    orchestral_balance as orchestral_balance_detailed,
+    REGISTER_CURVES, register_effectiveness,
 )

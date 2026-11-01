@@ -23,6 +23,18 @@ from models.music_similarity.structural_similarity import (
     cover_song_score,
 )
 
+from models.music_similarity.sequence_alignment import (
+    dtw_distance as dtw_align, edit_distance_melodic,
+    longest_common_subsequence, smith_waterman_alignment, needleman_wunsch,
+    SequenceAlignment, ChromaAlignment, MelodyAlignment, RhythmAlignment,
+)
+from models.music_similarity.embedding_distance import (
+    EmbeddingDistanceMetrics, StructuralSimilarity,
+)
+from models.music_similarity.embedding_similarity import (
+    FeatureAggregator, EmbeddingSimilarity, TripletEvaluator, CrossModalSimilarity,
+)
+
 __all__ = [
     "SectionType", "FormSection", "StructuralMatch",
     "chroma_cosine_similarity", "form_edit_distance", "normalized_form_similarity",
@@ -40,4 +52,9 @@ __all__ = [
     "CoverDetector", "CoverMatch",
     "chroma_from_signal", "optimal_transposition_index", "transpose_chroma",
     "cross_recurrence_matrix", "qmax_score", "dtw_chroma", "hpcp",
+    "dtw_align", "edit_distance_melodic",
+    "longest_common_subsequence", "smith_waterman_alignment", "needleman_wunsch",
+    "EmbeddingDistanceMetrics", "StructuralSimilarity",
+    "SequenceAlignment", "ChromaAlignment", "MelodyAlignment", "RhythmAlignment",
+    "FeatureAggregator", "EmbeddingSimilarity", "TripletEvaluator", "CrossModalSimilarity",
 ]

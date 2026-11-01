@@ -38,6 +38,20 @@ from models.music_emotion.arousal_dynamics import (
     smooth_arousal,
 )
 
+from models.music_emotion.emotion_dynamics import (
+    EmotionTrajectory, track_emotion_over_time, emotion_volatility,
+    emotion_arc_type, emotional_surprise, valence_arousal_path_length,
+    emotional_centroid,
+)
+from models.music_emotion.sentiment_lexicon import (
+    MUSIC_SENTIMENT_LEXICON, score_text_sentiment, emotional_distance,
+    closest_emotion_word, sentiment_polarity, arousal_level,
+)
+from models.music_emotion.dimensional_models import (
+    DimensionalEmotionModel, MusicMoodClassifier,
+    PLUTCHIK_EMOTIONS, MOOD_LABELS,
+)
+
 __all__ = [
     "EmotionIntensity",
     "PlutchikEmotion",
@@ -64,4 +78,11 @@ __all__ = [
     "segment_arousal",
     "arousal_contrast",
     "smooth_arousal",
+    "EmotionTrajectory", "track_emotion_over_time", "emotion_volatility",
+    "emotion_arc_type", "emotional_surprise", "valence_arousal_path_length",
+    "emotional_centroid",
+    "MUSIC_SENTIMENT_LEXICON", "score_text_sentiment", "emotional_distance",
+    "closest_emotion_word", "sentiment_polarity", "arousal_level",
+    "DimensionalEmotionModel", "MusicMoodClassifier",
+    "PLUTCHIK_EMOTIONS", "MOOD_LABELS",
 ]

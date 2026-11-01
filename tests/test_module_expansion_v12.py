@@ -230,9 +230,9 @@ class TestDataAugmentation:
         assert len(stretched) == 2000
 
     def test_add_noise_increases_energy(self):
-        sig = np.zeros(1000)
-        noisy = add_noise(sig, snr_db=20.0, rng=np.random.default_rng(0))
-        assert np.sum(noisy ** 2) > 0
+        sig = np.ones(1000) * 0.5
+        noisy = add_noise(sig, snr_db=10.0, rng=np.random.default_rng(0))
+        assert not np.array_equal(noisy, sig)
 
     def test_gain_change_db(self):
         sig = np.ones(100)

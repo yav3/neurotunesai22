@@ -208,6 +208,7 @@ def harmonic_product_spectrum(
         length = min(len(hps), len(decimated))
         hps[:length] *= decimated[:length]
 
+    hps[0] = 0.0
     peak_idx = np.argmax(hps)
     if peak_idx < len(freqs):
         return float(freqs[peak_idx])

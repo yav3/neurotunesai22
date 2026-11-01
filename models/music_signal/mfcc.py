@@ -49,8 +49,7 @@ def compute_mfcc(
     if fmax is None:
         fmax = sr / 2.0
 
-    window = np.hanning(n_fft)
-    spec = _stft(signal, n_fft, hop_size, window)
+    spec = _stft(signal, n_fft, hop_size)
     power = np.abs(spec) ** 2
 
     mel_fb = _mel_fb(n_mels, n_fft, sr, fmin, fmax)

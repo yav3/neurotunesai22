@@ -139,9 +139,9 @@ class IRSynthesizer:
             ir[direct_sample] = 1.0 / max(direct_dist, 0.01)
         for order in range(1, n_reflections + 1):
             for _ in range(6):
-                nx = rng.integers(-order, order + 1)
-                ny = rng.integers(-order, order + 1)
-                nz = rng.integers(-order, order + 1)
+                nx = int(rng.integers(-order, order + 1))
+                ny = int(rng.integers(-order, order + 1))
+                nz = int(rng.integers(-order, order + 1))
                 image = np.array([
                     ((-1) ** nx) * source[0] + 2 * nx * lx,
                     ((-1) ** ny) * source[1] + 2 * ny * ly,

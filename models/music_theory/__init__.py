@@ -56,6 +56,13 @@ from models.music_theory.rhythm import (
     RhythmPattern,
     TimeSignature,
 )
+from models.music_theory.set_theory import (
+    pitch_class_set, normal_form, prime_form, interval_vector,
+    transpose as pc_transpose, invert as pc_invert,
+    complement, is_subset, z_related,
+    SetClass, FORTE_CATALOG_3, FORTE_CATALOG_4,
+    lookup_forte, similarity_index as set_similarity,
+)
 
 __all__ = [
     "PITCH_CLASSES", "ENHARMONIC_MAP", "INTERVAL_NAMES", "CONSONANCE_SCORES",
@@ -71,4 +78,20 @@ __all__ = [
     "camelot_compatibility", "harmonic_mixing_score", "suggest_transitions",
     "TimeSignature", "RhythmPattern", "COMMON_METERS", "GROOVE_TEMPLATES",
     "RhythmAnalyzer",
+    "pitch_class_set", "normal_form", "prime_form", "interval_vector",
+    "pc_transpose", "pc_invert", "complement", "is_subset", "z_related",
+    "SetClass", "FORTE_CATALOG_3", "FORTE_CATALOG_4",
+    "lookup_forte", "set_similarity",
+    "VoiceLeadingRuleCV", "Voicing",
+    "generate_voicings", "voice_leading_cost_cv", "smooth_voice_leading_cv",
+    "check_parallel_fifths", "check_parallel_octaves",
+    "voice_leading_quality", "drop2_voicing", "spread_voicing",
 ]
+
+from .chord_voicing import (
+    VoiceLeadingRule as VoiceLeadingRuleCV, Voicing,
+    generate_voicings, voice_leading_cost as voice_leading_cost_cv,
+    smooth_voice_leading as smooth_voice_leading_cv,
+    check_parallel_fifths, check_parallel_octaves,
+    voice_leading_quality, drop2_voicing, spread_voicing,
+)

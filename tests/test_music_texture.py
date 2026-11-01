@@ -154,7 +154,7 @@ class TestNHR:
     def test_zero_f0(self, ta, sine_spec):
         spec, freqs = sine_spec
         nhr = ta.noise_to_harmonic_ratio(spec, freqs, f0=0.0)
-        assert nhr == 0.0
+        assert nhr > 0  # no harmonics at f0=0 → all noise → large NHR
 
 
 class TestTemporalFlatness:

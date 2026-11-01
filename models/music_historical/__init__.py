@@ -27,6 +27,16 @@ from .composer_network import (
     ComposerProfile, CANONICAL_COMPOSERS,
     composers_by_period, contemporaries, innovation_chain, stylistic_similarity,
 )
+from .compositional_techniques import (
+    CounterpointSpecies, MotivicTechnique, CompositionalTechnique, TECHNIQUE_CATALOG,
+    technique_complexity_by_period, harmonic_rhythm_density,
+    motivic_development_score, orchestration_complexity,
+)
+from .genre_genealogy import (
+    Genre, GENRE_TREE,
+    genre_distance, genre_influence_chain, genres_by_era,
+    genre_fusion_candidates, genre_innovation_index,
+)
 
 __all__ = [
     "MusicalPeriod", "PeriodProfile", "PERIOD_PROFILES",
@@ -43,11 +53,10 @@ __all__ = [
     "reference_pitch_for_year", "tuning_deviation_cents", "ornamentation_density",
     "ComposerProfile", "CANONICAL_COMPOSERS",
     "composers_by_period", "contemporaries", "innovation_chain", "stylistic_similarity",
-    "PeriodCharacteristics", "PERIOD_DATABASE",
-    "classify_period", "period_distance", "evolution_timeline",
+    "CounterpointSpecies", "MotivicTechnique", "CompositionalTechnique", "TECHNIQUE_CATALOG",
+    "technique_complexity_by_period", "harmonic_rhythm_density",
+    "motivic_development_score", "orchestration_complexity",
+    "Genre", "GENRE_TREE",
+    "genre_distance", "genre_influence_chain", "genres_by_era",
+    "genre_fusion_candidates", "genre_innovation_index",
 ]
-
-from .period_style import (
-    PeriodCharacteristics, PERIOD_DATABASE,
-    classify_period, period_distance, evolution_timeline,
-)

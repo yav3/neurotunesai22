@@ -64,12 +64,12 @@ class TestPhysicalModels:
         assert f1 > 0
 
     def test_membrane_modes(self):
-        model = MembraneModel(radius_m=0.3, tension_pa=200.0, density_kg_m2=0.5)
+        model = MembraneModel(radius_m=0.3, tension_per_length=200.0, surface_density=0.5)
         modes = membrane_modes(model, n_modes=5)
         assert len(modes) == 5
 
     def test_bar_frequency(self):
-        model = BarModel(length_m=0.3, thickness_m=0.01, youngs_modulus_pa=2e11, density_kg_m3=7800.0)
+        model = BarModel(length_m=0.3, thickness_m=0.01, youngs_modulus=2e11, density=7800.0)
         f = bar_frequency(model)
         assert f > 0
 
