@@ -30,6 +30,14 @@ from models.music_lyrics.parsers import (
     parse_plain_lyrics,
 )
 from models.music_lyrics.corpus_builder import CorpusBuilder
+from models.music_lyrics.multilingual import (
+    CorpusSource,
+    OPEN_CORPUS_SOURCES,
+    METER_TYPES,
+    ProsodyAnalysis,
+    MultilingualTokenizer,
+    MultilingualPoetryAnalyzer,
+)
 
 __all__ = [
     "LyricRecord", "PoemRecord", "CorpusStats",
@@ -39,4 +47,6 @@ __all__ = [
     "word_vad_lookup", "line_vad", "document_vad", "emotion_arc",
     "parse_gutenberg_poem", "parse_lrc_file", "parse_srt_subtitle", "parse_plain_lyrics",
     "CorpusBuilder",
+    "CorpusSource", "OPEN_CORPUS_SOURCES", "METER_TYPES",
+    "ProsodyAnalysis", "MultilingualTokenizer", "MultilingualPoetryAnalyzer",
 ]

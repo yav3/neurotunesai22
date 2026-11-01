@@ -253,10 +253,10 @@ class DomainIntegrator:
         onsets[::int(60.0 / max(features.rhythm.bpm, 30) * 4)] = 1.0
         groove_score = self.groove_analyzer.syncopation_index(onsets)
 
-        rep = self.repetition_detector.detect(chroma.reshape(1, -1).repeat(8, axis=0))
-        fam = self.familiarity_model.familiarity(
-            rep.repetition_ratio if hasattr(rep, "repetition_ratio") else len(rep.matches) / max(8, 1)
-        )
+        chroma_seq = chroma.tolist() * 8
+        reps = self.repetition_detector.find_repetitions(chroma_seq, min_length=3)
+        rep_ratio = len(reps) / max(len(chroma_seq), 1)
+        fam = self.familiarity_model.preference(max(1, int(rep_ratio * 20)))
 
         tension_vals = []
         for i in range(12):
@@ -273,7 +273,7 @@ class DomainIntegrator:
             tension_mean=float(t_arr.mean()),
             tension_max=float(t_arr.max()),
             tension_range=float(t_arr.max() - t_arr.min()),
-            repetition_ratio=float(len(rep.matches) / max(8, 1)),
+            repetition_ratio=rep_ratio,
             familiarity=fam,
         )
 
