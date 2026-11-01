@@ -92,7 +92,7 @@ def griffin_lim(magnitude: np.ndarray, n_iter: int = 32, hop_length: int = 512) 
             start = t * hop_length
             frame = signal[start:start + n_fft] * window
             spectrum = np.fft.rfft(frame)
-            phase = np.exp(1j * np.angle(spectrum))
+            phase[:, t] = np.exp(1j * np.angle(spectrum))
     return signal
 
 
@@ -115,6 +115,8 @@ def SDR(reference: np.ndarray, estimate: np.ndarray) -> float:
     den = np.dot(e_noise, e_noise)
     if den < 1e-20:
         return np.inf if num > 1e-20 else 0.0
+    if num < 1e-20:
+        return 0.0
     return float(10 * np.log10(num / den))
 
 

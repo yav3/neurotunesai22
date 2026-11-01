@@ -30,7 +30,19 @@ from models.music_semantics.mood_ontology import (
     MoodNode, MoodTrajectory, MOOD_TREE, VONNEGUT_ARCS,
     mood_distance, mood_ancestors, mood_from_vad, mood_from_features,
 )
-
+from models.music_semantics.lyrics_analysis import (
+    syllable_count, syllable_density,
+    rhyme_similarity, detect_rhyme_scheme,
+    line_similarity_matrix, detect_repetition, RepetitionStructure,
+    sentiment_polarity, sentiment_trajectory, SentimentResult,
+    lyric_melody_alignment,
+)
+from models.music_semantics.narrative_arc import (
+    tension_curve, smooth_tension,
+    classify_arc, ArcType, ArcClassification,
+    emotional_trajectory, vad_distance, emotional_range, emotional_velocity, VADPoint,
+    segment_entropy, surprise_curve, structural_surprise_score,
+)
 __all__ = [
     "GenreNode", "GENRE_TREE", "genre_distance", "genre_ancestors", "genre_descendants",
     "common_ancestor", "features_to_genre",
@@ -46,4 +58,24 @@ __all__ = [
     "concept_similarity", "nearest_concepts", "analogy",
     "MoodNode", "MoodTrajectory", "MOOD_TREE", "VONNEGUT_ARCS",
     "mood_distance", "mood_ancestors", "mood_from_vad", "mood_from_features",
+    "syllable_count", "syllable_density",
+    "rhyme_similarity", "detect_rhyme_scheme",
+    "line_similarity_matrix", "detect_repetition", "RepetitionStructure",
+    "sentiment_polarity", "sentiment_trajectory", "SentimentResult",
+    "lyric_melody_alignment",
+    "tension_curve", "smooth_tension",
+    "classify_arc", "ArcType", "ArcClassification",
+    "emotional_trajectory", "vad_distance", "emotional_range", "emotional_velocity", "VADPoint",
+    "segment_entropy", "surprise_curve", "structural_surprise_score",
+    "ColourAssociation", "PITCH_HUE_MAP", "pitch_to_colour", "chord_colour", "colour_distance",
+    "TextureAssociation", "spectral_to_texture", "texture_distance",
+    "ShapeAssociation", "BOUBA_KIKI_MAP", "articulation_to_shape", "dynamics_to_shape", "shape_distance",
+    "cross_modal_coherence", "synesthesia_profile",
 ]
+
+from .cross_modal import (
+    ColourAssociation, PITCH_HUE_MAP, pitch_to_colour, chord_colour, colour_distance,
+    TextureAssociation, spectral_to_texture, texture_distance,
+    ShapeAssociation, BOUBA_KIKI_MAP, articulation_to_shape, dynamics_to_shape, shape_distance,
+    cross_modal_coherence, synesthesia_profile,
+)

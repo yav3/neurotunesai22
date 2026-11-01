@@ -41,10 +41,20 @@ __all__ = [
     "OrnamentType", "Ornament", "MicroEvent",
     "realize_trill", "realize_mordent", "realize_turn",
     "realize_ornament", "apply_ornaments", "OrnamentDensity", "compute_density",
+    "ArticulationType", "NoteArticulation", "classify_articulation",
+    "analyze_articulations", "articulation_consistency", "legato_score",
+    "staccato_ratio", "dynamic_accent_positions", "phrase_articulation_profile",
+    "expressive_range",
 ]
 
 from .ornamentation import (
     OrnamentType, Ornament, MicroEvent,
     realize_trill, realize_mordent, realize_turn,
     realize_ornament, apply_ornaments, OrnamentDensity, compute_density,
+)
+from .articulation import (
+    ArticulationType, NoteArticulation, classify_articulation,
+    analyze_articulations, articulation_consistency, legato_score,
+    staccato_ratio, dynamic_accent_positions, phrase_articulation_profile,
+    expressive_range,
 )

@@ -53,8 +53,32 @@ __all__ = [
     "spectral_decrease", "spectral_flux",
     "compute_spectral_descriptors", "Formant", "estimate_formants",
     "harmonic_to_noise_ratio",
+    "TempoEstimate", "onset_strength_envelope", "autocorrelation_tempo",
+    "tempo_curve", "beat_strength", "tempo_stability", "pulse_clarity",
+    "analysis_stft", "analysis_istft",
+    "harmonic_percussive_separation", "nmf_separate", "NMFResult",
+    "nmf_reconstruct", "spectral_centroid_separation", "wiener_filter",
+    "INTERVAL_TENSION", "TONAL_HIERARCHY", "TensionPoint",
+    "interval_dissonance", "chord_dissonance", "tonal_distance", "harmonic_tension",
+    "tension_resolution_curve", "resolution_strength",
+    "detect_resolutions", "tension_profile", "cadence_strength", "prolongational_reduction",
+    "cosine_similarity_matrix", "euclidean_distance_matrix",
+    "distance_to_similarity", "recurrence_matrix",
+    "novelty_from_ssm", "pick_boundaries",
+    "label_ssm_segments", "form_string",
+    "repetition_ratio", "diagonal_strength", "find_repeated_sections",
+    "StructureSegment",
 ]
 
+from .tempo_analysis import (
+    TempoEstimate, onset_strength_envelope, autocorrelation_tempo,
+    tempo_curve, beat_strength, tempo_stability, pulse_clarity,
+)
+from .source_separation import (
+    stft as analysis_stft, istft as analysis_istft,
+    harmonic_percussive_separation, nmf_separate, NMFResult,
+    nmf_reconstruct, spectral_centroid_separation, wiener_filter,
+)
 from .rhythm_analysis import (
     MetricLevel, RhythmicEvent, GrooveProfile,
     inter_onset_intervals, ioi_statistics, swing_ratio,
@@ -68,4 +92,18 @@ from .spectral_analysis import (
     spectral_decrease, spectral_flux,
     compute_spectral_descriptors, Formant, estimate_formants,
     harmonic_to_noise_ratio,
+)
+from .tension_resolution import (
+    INTERVAL_TENSION, TONAL_HIERARCHY, TensionPoint,
+    interval_dissonance, chord_dissonance, tonal_distance, harmonic_tension,
+    tension_curve as tension_resolution_curve, resolution_strength,
+    detect_resolutions, tension_profile, cadence_strength, prolongational_reduction,
+)
+from .self_similarity import (
+    cosine_similarity_matrix, euclidean_distance_matrix,
+    distance_to_similarity, recurrence_matrix,
+    novelty_from_ssm, pick_boundaries,
+    label_segments as label_ssm_segments, form_string,
+    repetition_ratio, diagonal_strength, find_repeated_sections,
+    StructureSegment,
 )

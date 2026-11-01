@@ -65,3 +65,8 @@ from .contrastive_learning import (
     hard_negative_mining, MusicAugmentor, ContrastiveTrainingState,
     alignment_metric, uniformity_metric,
 )
+from .curriculum_learning import (
+    DifficultyScorer, CurriculumScheduler as CurriculumScheduler2,
+    AntiCurriculumScheduler, self_paced_weight,
+    MixupAugmentor, LearningRateSchedule,
+)

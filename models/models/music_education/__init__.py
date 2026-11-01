@@ -46,4 +46,24 @@ __all__ = [
     "generate_difficulty_curve",
     "TopicStatus", "Topic", "LearnerState", "LearningPath", "CurriculumGraph",
     "spaced_review_schedule", "forgetting_curve", "optimal_review_time",
+    "IntervalQuality", "Interval", "INTERVALS", "IntervalLearnerState",
+    "generate_exercise", "spaced_repetition_priority", "confusion_matrix",
+    "mastery_level", "recommend_session_plan",
+    "ClefType", "KeySignatureInfo", "TimeSignatureInfo", "NoteOnStaff",
+    "staff_position_to_midi", "midi_to_staff_position",
+    "identify_key_signature", "analyze_reading_difficulty",
+    "generate_reading_exercise", "common_reading_errors",
 ]
+
+from models.music_education.interval_training import (
+    IntervalQuality, Interval, INTERVALS,
+    LearnerState as IntervalLearnerState,
+    generate_exercise, spaced_repetition_priority, confusion_matrix,
+    mastery_level, recommend_session_plan,
+)
+from models.music_education.score_reading import (
+    ClefType, KeySignatureInfo, TimeSignatureInfo, NoteOnStaff,
+    staff_position_to_midi, midi_to_staff_position,
+    identify_key_signature, analyze_reading_difficulty,
+    generate_reading_exercise, common_reading_errors,
+)

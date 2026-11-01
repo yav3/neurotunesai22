@@ -58,4 +58,36 @@ __all__ = [
     "lifter", "delta_features", "delta_delta_features",
     "lpc_coefficients", "lpc_to_cepstrum",
     "mel_filterbank_matrix", "dct_ii",
+    "CQTParams", "cqt_frequencies_log", "cqt_kernel", "compute_cqt",
+    "cqt_to_chroma", "cqt_spectrogram", "harmonic_cqt", "pitch_salience",
+    "ChromagramExtractor", "ChromagramResult",
+    "KeyDetector", "KeyProfile", "KeyEstimate",
+    "PITCH_CLASSES", "KRUMHANSL_MAJOR", "KRUMHANSL_MINOR",
+    "cwt_morlet_wavelet", "cwt_transform", "cwt_scalogram", "cwt_scale_to_frequency",
+    "wavelet_ridge_extraction", "instantaneous_frequency_from_cwt",
+    "cross_wavelet_coherence",
+    "compute_stft_derivatives", "reassign_time_frequency",
+    "reassigned_spectrogram", "synchrosqueezed_transform",
+    "extract_ridges", "ridge_to_frequency",
 ]
+
+from models.music_transforms.constant_q import (
+    CQTParams, cqt_frequencies as cqt_frequencies_log, cqt_kernel, compute_cqt,
+    cqt_to_chroma, cqt_spectrogram, harmonic_cqt, pitch_salience,
+)
+from models.music_transforms.wavelet_analysis import (
+    morlet_wavelet as cwt_morlet_wavelet, cwt_transform, scalogram as cwt_scalogram,
+    scale_to_frequency as cwt_scale_to_frequency,
+    wavelet_ridge_extraction, instantaneous_frequency_from_cwt,
+    cross_wavelet_coherence,
+)
+from models.music_transforms.reassigned_spectrogram import (
+    compute_stft_derivatives, reassign_time_frequency,
+    reassigned_spectrogram, synchrosqueezed_transform,
+    extract_ridges, ridge_to_frequency,
+)
+from models.music_transforms.chromagram import (
+    ChromagramExtractor, ChromagramResult,
+    KeyDetector, KeyProfile, KeyEstimate,
+    PITCH_CLASSES, KRUMHANSL_MAJOR, KRUMHANSL_MINOR,
+)

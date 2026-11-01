@@ -93,3 +93,11 @@ from models.music_playlist.playlist_generation import (
     TrackCandidate, GenerationRules,
     generate_playlist, fill_gap, split_playlist,
 )
+from models.music_playlist.transition_model import (
+    TransitionFeatures as TransitionFeatures2,
+    transition_score as transition_score2,
+    key_compatibility_score as key_compat_score2,
+    tempo_compatibility as tempo_compat2,
+    energy_curve_fitness, crossfade_duration,
+    PlaylistOptimizer as PlaylistOptimizer2,
+)

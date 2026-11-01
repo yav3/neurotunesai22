@@ -56,4 +56,13 @@ __all__ = [
     "dc_offset", "crest_factor", "dynamic_range", "spectral_quality",
     "FeatureStatistics", "ZScoreNormalizer", "MinMaxNormalizer",
     "RobustNormalizer", "FeatureSelector",
+    "ProcessingStage", "BatchConfig", "TrackResult", "BatchResult",
+    "validate_batch_config", "process_single", "process_batch",
+    "estimate_time", "retry_failed",
 ]
+
+from models.music_pipeline.batch_processor import (
+    ProcessingStage, BatchConfig, TrackResult, BatchResult,
+    validate_batch_config, process_single, process_batch,
+    estimate_time, retry_failed,
+)

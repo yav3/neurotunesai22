@@ -43,6 +43,14 @@ from models.music_ethnomusicology.microtonal import (
     LatticeNode, ji_lattice, lattice_distance, cents_distance,
     closest_edo_pitch, edo_approximation_error, best_edo_for_intervals,
 )
+from models.music_ethnomusicology.indian_tala import (
+    HINDUSTANI_TALAS, build_carnatic_tala, tala_complexity,
+    layakari_subdivision, tihai_pattern,
+)
+from models.music_ethnomusicology.arabic_modes import (
+    AJNAS, COMMON_MAQAMAT, modulation_distance, common_jins,
+    is_quarter_tone_maqam, quartertone_to_cents, sayr,
+)
 
 __all__ = [
     "Raga", "RAGA_CATALOG", "THAAT_SCALES", "thaat_to_ragas", "raga_similarity", "classify_raga",
@@ -69,4 +77,19 @@ __all__ = [
     "syntonic_comma", "pythagorean_comma", "quarter_tone_scale",
     "LatticeNode", "ji_lattice", "lattice_distance", "cents_distance",
     "closest_edo_pitch", "edo_approximation_error", "best_edo_for_intervals",
+    "HINDUSTANI_TALAS", "build_carnatic_tala", "tala_complexity",
+    "layakari_subdivision", "tihai_pattern",
+    "AJNAS", "COMMON_MAQAMAT", "modulation_distance", "common_jins",
+    "is_quarter_tone_maqam", "quartertone_to_cents", "sayr",
+    "TransmissionType", "OralVariant", "VariantFamily",
+    "compute_contour_similarity", "cluster_variants", "extract_archetype",
+    "transmission_stability", "geographic_diffusion",
+    "melodic_drift_rate", "syllable_alignment_score",
 ]
+
+from models.music_ethnomusicology.oral_tradition import (
+    TransmissionType, OralVariant, VariantFamily,
+    compute_contour_similarity, cluster_variants, extract_archetype,
+    transmission_stability, geographic_diffusion,
+    melodic_drift_rate, syllable_alignment_score,
+)

@@ -15,6 +15,16 @@ from models.music_data.loaders import (
     CSVTrackLoader,
     JSONTrackLoader,
 )
+from models.music_data.validation import (
+    ValidationResult,
+    validate_audio_features,
+    validate_pitch_sequence,
+    validate_onset_times,
+    completeness_score,
+    feature_matrix_quality,
+    detect_duplicates,
+    detect_outliers_iqr,
+)
 from models.music_data.open_sources import (
     KNOWN_DATASETS,
     DatasetMeta,
@@ -62,4 +72,25 @@ __all__ = [
     "MIDIMeta",
     "detect_source_format",
     "parse_record",
+    "ValidationResult",
+    "validate_audio_features",
+    "validate_pitch_sequence",
+    "validate_onset_times",
+    "completeness_score",
+    "feature_matrix_quality",
+    "detect_duplicates",
+    "detect_outliers_iqr",
+    "AugmentationType", "AugmentationConfig", "AugmentationResult",
+    "pitch_shift_stft", "time_stretch_ola", "add_noise",
+    "gain_change", "polarity_invert",
+    "frequency_mask", "time_mask",
+    "apply_augmentation_pipeline",
 ]
+
+from models.music_data.augmentation import (
+    AugmentationType, AugmentationConfig, AugmentationResult,
+    pitch_shift_stft, time_stretch_ola, add_noise,
+    gain_change, polarity_invert,
+    frequency_mask, time_mask,
+    apply_augmentation_pipeline,
+)

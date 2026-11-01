@@ -37,6 +37,9 @@ __all__ = [
     "compute_spectrogram_display", "compute_chromagram_display",
     "loudness_curve", "stereo_correlation_curve", "phase_correlation_val",
     "frequency_spectrum_snapshot", "color_map_note",
+    "GraphNode", "GraphEdge", "NetworkGraph", "force_directed_layout",
+    "chord_transition_graph", "genre_taxonomy_graph", "artist_similarity_graph",
+    "community_detection_louvain",
 ]
 
 from .waveform_display import (
@@ -46,4 +49,9 @@ from .waveform_display import (
     stereo_correlation as stereo_correlation_curve,
     phase_correlation as phase_correlation_val,
     frequency_spectrum_snapshot, color_map_note,
+)
+from .network_graph import (
+    GraphNode, GraphEdge, NetworkGraph, force_directed_layout,
+    chord_transition_graph, genre_taxonomy_graph, artist_similarity_graph,
+    community_detection_louvain,
 )

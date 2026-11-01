@@ -63,4 +63,19 @@ __all__ = [
     "pitch_to_freq", "tension_profile", "resolution_strength",
     "harmonic_rhythm_density", "harmonic_rhythm_regularity",
     "tension_contour_features",
+    "TriadQuality", "Triad",
+    "parallel", "leading_tone", "relative",
+    "apply_sequence", "hexatonic_cycle", "octatonic_cycle",
+    "tonnetz_coordinates", "triad_tonnetz_centroid", "tonnetz_distance",
+    "voice_leading_distance", "plr_distance",
+    "HarmonicPathStats", "analyze_harmonic_path",
 ]
+
+from models.music_harmony.neo_riemannian import (
+    TriadQuality, Triad,
+    parallel, leading_tone, relative,
+    apply_sequence, hexatonic_cycle, octatonic_cycle,
+    tonnetz_coordinates, triad_tonnetz_centroid, tonnetz_distance,
+    voice_leading_distance, plr_distance,
+    HarmonicPathStats, analyze_harmonic_path,
+)

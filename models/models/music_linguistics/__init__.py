@@ -53,4 +53,13 @@ __all__ = [
     "transliterate", "ROMANIZATION_TABLES",
     "SingabilityProfile", "estimate_singing_difficulty",
     "TextStats", "analyze_text",
+    "MUSIC_SENTIMENT_LEXICON", "SentimentScore", "score_text",
+    "sentiment_trajectory", "valence_arc", "arousal_arc",
+    "emotional_volatility", "dominant_emotion",
 ]
+
+from models.music_linguistics.sentiment_lexicon import (
+    MUSIC_SENTIMENT_LEXICON, SentimentScore, score_text,
+    sentiment_trajectory, valence_arc, arousal_arc,
+    emotional_volatility, dominant_emotion,
+)

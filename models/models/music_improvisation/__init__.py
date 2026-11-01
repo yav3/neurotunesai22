@@ -112,3 +112,11 @@ from .solo_analysis import (
     rhythmic_density_curve, interval_histogram,
     SoloSummary, summarise_solo,
 )
+from .jazz_harmony import (
+    ChordTone, CHORD_INTERVALS, chord_tones as jazz_chord_tones,
+    available_tensions as jazz_available_tensions,
+    guide_tone_line as jazz_guide_tone_line,
+    approach_note as jazz_approach_note,
+    ii_V_I_voicings, tritone_substitution,
+    backdoor_progression, coltrane_changes, tension_resolution_score,
+)

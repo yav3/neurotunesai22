@@ -39,6 +39,20 @@ __all__ = [
     "test_meter_hypotheses", "BeatTrack", "track_beats",
     "metrical_weight", "syncopation_score", "GrooveAnalysis",
     "analyze_groove", "detect_polyrhythm",
+    "PolyrhythmPattern", "compute_lcm_cycle", "generate_polyrhythm",
+    "euclidean_rhythm_bjorklund", "cross_rhythm_density",
+    "polymetric_offset", "rhythmic_oddity", "maximal_evenness",
+    "polyrhythm_complexity", "isochronous_deviation",
+    "resultant_rhythm", "aksak_pattern", "tresillo",
+    "son_clave_3_2", "rumba_clave_3_2",
+    "SwingProfile", "SWING_TEMPLATES", "swing_ratio_to_offset",
+    "apply_swing", "detect_swing_ratio", "shuffle_feel",
+    "swing_template", "microtiming_deviation", "timing_profile",
+    "behind_the_beat", "ahead_of_beat",
+    "Meter", "polymetric_cycle_length", "coincidence_points",
+    "coincidence_density", "metric_dissonance", "hemiola_ratio",
+    "is_hemiola", "beat_pattern", "combined_pattern",
+    "metric_complexity", "grouping_conflict",
 ]
 
 from models.music_rhythm.meter_analysis import (
@@ -46,4 +60,24 @@ from models.music_rhythm.meter_analysis import (
     test_meter_hypotheses, BeatTrack, track_beats,
     metrical_weight, syncopation_score, GrooveAnalysis,
     analyze_groove, detect_polyrhythm,
+)
+from models.music_rhythm.polyrhythm import (
+    PolyrhythmPattern, compute_lcm_cycle, generate_polyrhythm,
+    euclidean_rhythm_bjorklund, cross_rhythm_density,
+    polymetric_offset, rhythmic_oddity, maximal_evenness,
+    polyrhythm_complexity, isochronous_deviation,
+    resultant_rhythm, aksak_pattern, tresillo,
+    son_clave_3_2, rumba_clave_3_2,
+)
+from models.music_rhythm.swing import (
+    SwingProfile, SWING_TEMPLATES, swing_ratio_to_offset,
+    apply_swing, detect_swing_ratio, shuffle_feel,
+    swing_template, microtiming_deviation, timing_profile,
+    behind_the_beat, ahead_of_beat,
+)
+from models.music_rhythm.polymetric import (
+    Meter, polymetric_cycle_length, coincidence_points,
+    coincidence_density, metric_dissonance, hemiola_ratio,
+    is_hemiola, beat_pattern, combined_pattern,
+    metric_complexity, grouping_conflict,
 )

@@ -33,6 +33,19 @@ from models.music_composition.rhythm_pattern import (
     create_polymetric, groove_template, humanize,
 )
 
+from models.music_composition.motivic_transformation import (
+    Motif, retrograde as motif_retrograde, inversion as motif_inversion,
+    retrograde_inversion, augmentation, diminution, transposition,
+    fragmentation, sequence as motif_sequence,
+    motivic_similarity, interval_sequence, contour, contour_similarity,
+    develop_motif, permute_rhythm, TRANSFORMS as MOTIF_TRANSFORMS,
+)
+from models.music_composition.cadence import (
+    CadenceType, Cadence, detect_cadence, generate_cadence,
+    cadential_strength, find_cadences, suggest_cadence,
+    is_cadential_64, cadence_rate,
+)
+
 __all__ = [
     "FirstSpecies", "SecondSpecies",
     "check_parallel_motion", "is_consonant", "contrary_motion_score",
@@ -54,4 +67,12 @@ __all__ = [
     "estimate_voice_count", "pitch_spread", "onset_synchrony",
     "rhythmic_independence_score", "textural_density",
     "classify_texture", "analyze_texture", "segment_texture",
+    "Motif", "motif_retrograde", "motif_inversion",
+    "retrograde_inversion", "augmentation", "diminution", "transposition",
+    "fragmentation", "motif_sequence",
+    "motivic_similarity", "interval_sequence", "contour", "contour_similarity",
+    "develop_motif", "permute_rhythm", "MOTIF_TRANSFORMS",
+    "CadenceType", "Cadence", "detect_cadence", "generate_cadence",
+    "cadential_strength", "find_cadences", "suggest_cadence",
+    "is_cadential_64", "cadence_rate",
 ]
