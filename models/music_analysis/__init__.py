@@ -16,6 +16,12 @@ from models.music_analysis.tonality import (
     TonalityAnalyzer, HarmonicRhythm, chromatic_ratio, harmonic_change_rate,
 )
 
+from models.music_analysis.structure_segmentation import (
+    SegmentType, Segment, self_similarity_matrix, novelty_curve,
+    detect_boundaries, label_segments, repetition_structure,
+    recurrence_plot, lag_matrix,
+)
+
 __all__ = [
     "KeyProfile", "KeyDetector", "detect_key",
     "MAJOR_PROFILE", "MINOR_PROFILE", "PITCH_CLASSES",
@@ -23,4 +29,7 @@ __all__ = [
     "StructureAnalyzer", "SectionLabeler", "compute_ssm", "find_boundaries",
     "LoudnessAnalyzer", "DynamicRangeAnalyzer", "rms_loudness", "lufs_approximate",
     "TonalityAnalyzer", "HarmonicRhythm", "chromatic_ratio", "harmonic_change_rate",
+    "SegmentType", "Segment", "self_similarity_matrix", "novelty_curve",
+    "detect_boundaries", "label_segments", "repetition_structure",
+    "recurrence_plot", "lag_matrix",
 ]
