@@ -37,12 +37,12 @@ class TestTemporalPerception:
         assert isinstance(d, bool)
 
     def test_forward_masking_decays(self):
-        t1 = forward_masking_threshold(80.0, 10.0)
-        t2 = forward_masking_threshold(80.0, 100.0)
+        t1 = forward_masking_threshold(10.0, 80.0)
+        t2 = forward_masking_threshold(100.0, 80.0)
         assert t1 > t2
 
     def test_backward_masking(self):
-        t = backward_masking_threshold(80.0, 5.0)
+        t = backward_masking_threshold(5.0, 80.0)
         assert isinstance(t, float)
         assert t >= 0.0
 
@@ -61,7 +61,9 @@ class TestTemporalPerception:
 
     def test_rhythm_perception_window(self):
         w = rhythm_perception_window(120.0)
-        assert w > 0.0
+        assert isinstance(w, tuple)
+        assert w[0] > 0.0
+        assert w[1] > w[0]
 
     def test_preferred_tempo_resonance(self):
         r = preferred_tempo_resonance(120.0)
@@ -86,22 +88,25 @@ class TestTemporalPerception:
 class TestAuditoryScene:
     def test_stream_segregation(self):
         ss = StreamSegregation()
-        fb = ss.fission_boundary(6.0)
-        assert isinstance(fb, float)
+        fb = ss.fission_semitones
+        assert isinstance(fb, (int, float))
+        assert fb > 0.0
 
-    def test_temporal_coherence(self):
+    def test_segregation_probability(self):
         ss = StreamSegregation()
-        tc = ss.temporal_coherence_boundary(100.0)
-        assert isinstance(tc, float)
+        p = ss.segregation_probability(12.0, 200.0)
+        assert 0.0 <= p <= 1.0
 
-    def test_proximity_grouping(self):
+    def test_proximity_score(self):
         ag = AuditoryGrouping()
-        onsets = np.array([0.0, 0.1, 0.2, 0.9, 1.0, 1.1])
-        groups = ag.proximity_group(onsets, threshold=0.3)
-        assert len(groups) == 2
+        score = ag.proximity_score(0.1, 2.0)
+        assert isinstance(score, float)
+        assert score >= 0.0
 
-    def test_similarity_grouping(self):
+    def test_similarity_score(self):
         ag = AuditoryGrouping()
-        features = np.array([[1.0, 0.0], [1.1, 0.1], [5.0, 5.0], [5.1, 5.1]])
-        groups = ag.similarity_group(features, threshold=1.0)
-        assert len(groups) >= 2
+        a = np.array([1.0, 0.5, 0.3])
+        b = np.array([1.1, 0.4, 0.35])
+        score = ag.similarity_score(a, b)
+        assert isinstance(score, float)
+        assert score >= 0.0

@@ -66,12 +66,24 @@ def polyrhythm_grid(ratio_a: int, ratio_b: int, resolution: int = 0) -> Polyrhyt
     )
 
 
-def resultant_rhythm(onsets_a: np.ndarray, onsets_b: np.ndarray) -> np.ndarray:
-    n = max(len(onsets_a), len(onsets_b))
+def resultant_rhythm(onsets_a, onsets_b) -> list:
+    if isinstance(onsets_a, (int, np.integer)) and isinstance(onsets_b, (int, np.integer)):
+        a, b = int(onsets_a), int(onsets_b)
+        n = _lcm(a, b)
+        grid = [0] * n
+        step_a = n / a if a > 0 else n
+        step_b = n / b if b > 0 else n
+        for i in range(a):
+            grid[int(round(i * step_a)) % n] = 1
+        for i in range(b):
+            grid[int(round(i * step_b)) % n] = 1
+        return grid
+    arr_a, arr_b = np.asarray(onsets_a), np.asarray(onsets_b)
+    n = max(len(arr_a), len(arr_b))
     result = np.zeros(n)
-    result[:len(onsets_a)] += onsets_a[:n]
-    result[:len(onsets_b)] += onsets_b[:n]
-    return np.clip(result, 0.0, 1.0)
+    result[:len(arr_a)] += arr_a[:n]
+    result[:len(arr_b)] += arr_b[:n]
+    return list(np.clip(result, 0.0, 1.0))
 
 
 def cross_rhythm_detect(
@@ -187,3 +199,135 @@ def onset_density(pattern: np.ndarray) -> float:
     if len(pattern) == 0:
         return 0.0
     return float(np.sum(pattern > 0.5) / len(pattern))
+
+
+# ---------------------------------------------------------------------------
+# Extended API — Bjorklund, clave patterns, polyrhythm generators
+# ---------------------------------------------------------------------------
+
+def compute_lcm_cycle(a: int, b: int) -> int:
+    return _lcm(a, b)
+
+
+@dataclass
+class _PolyVoices:
+    voices: List[List[int]]
+    cycle_length: int
+
+
+def generate_polyrhythm(pulse_a: int, pulse_b: int, total_steps: int) -> _PolyVoices:
+    va = [0] * total_steps
+    vb = [0] * total_steps
+    step_a = total_steps / pulse_a if pulse_a > 0 else total_steps
+    step_b = total_steps / pulse_b if pulse_b > 0 else total_steps
+    for i in range(pulse_a):
+        va[int(round(i * step_a)) % total_steps] = 1
+    for i in range(pulse_b):
+        vb[int(round(i * step_b)) % total_steps] = 1
+    return _PolyVoices(voices=[va, vb], cycle_length=total_steps)
+
+
+def euclidean_rhythm_bjorklund(k: int, n: int) -> List[int]:
+    if n <= 0:
+        return []
+    if k <= 0:
+        return [0] * n
+    if k >= n:
+        return [1] * n
+    groups: List[List[int]] = [[1] for _ in range(k)] + [[0] for _ in range(n - k)]
+    while True:
+        remainder = len(groups) - k
+        if remainder <= 1:
+            break
+        new_groups: List[List[int]] = []
+        pairs = min(k, remainder)
+        for i in range(pairs):
+            new_groups.append(groups[i] + groups[k + i])
+        for i in range(pairs, k):
+            new_groups.append(groups[i])
+        for i in range(k + pairs, len(groups)):
+            new_groups.append(groups[i])
+        groups = new_groups
+        k = pairs + max(0, k - pairs)
+    pattern: List[int] = []
+    for g in groups:
+        pattern.extend(g)
+    return pattern
+
+
+def cross_rhythm_density(pr: _PolyVoices) -> float:
+    combined = set()
+    for v in pr.voices:
+        for i, val in enumerate(v):
+            if val:
+                combined.add(i)
+    return len(combined) / pr.cycle_length if pr.cycle_length > 0 else 0.0
+
+
+def polymetric_offset(meter_a: int, meter_b: int, step: int) -> float:
+    if step == 0:
+        return 0.0
+    pos_a = (step % meter_a) / meter_a
+    pos_b = (step % meter_b) / meter_b
+    diff = abs(pos_a - pos_b)
+    return min(diff, 1.0 - diff)
+
+
+def rhythmic_oddity(pattern: List[int]) -> bool:
+    n = len(pattern)
+    if n == 0 or n % 2 != 0:
+        return False
+    onsets = [i for i, v in enumerate(pattern) if v]
+    if len(onsets) < 2:
+        return False
+    half = n // 2
+    for i in range(len(onsets)):
+        for j in range(i + 1, len(onsets)):
+            gap = (onsets[j] - onsets[i]) % n
+            if gap == half:
+                return False
+    return True
+
+
+def maximal_evenness(k: int, n: int) -> List[int]:
+    return euclidean_rhythm_bjorklund(k, n)
+
+
+def polyrhythm_complexity(a: int, b: int) -> float:
+    lcm_val = _lcm(a, b)
+    return float(lcm_val / max(a, b))
+
+
+def isochronous_deviation(onsets: np.ndarray, period: float) -> np.ndarray:
+    if len(onsets) == 0:
+        return np.array([])
+    expected = np.arange(len(onsets)) * period + onsets[0]
+    return onsets - expected
+
+
+def aksak_pattern(groups: List[int]) -> List[int]:
+    total = sum(groups)
+    pat = [0] * total
+    pos = 0
+    for g in groups:
+        pat[pos] = 1
+        pos += g
+    return pat
+
+
+def tresillo() -> List[int]:
+    return aksak_pattern([3, 3, 2])
+
+
+def son_clave_3_2() -> List[int]:
+    pat = [0] * 16
+    for i in [0, 3, 7, 11, 13]:
+        pat[i] = 1
+    return pat
+
+
+def rumba_clave_3_2() -> List[int]:
+    pat = [0] * 16
+    for i in [0, 3, 8, 11, 13]:
+        pat[i] = 1
+    return pat

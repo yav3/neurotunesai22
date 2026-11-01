@@ -45,6 +45,11 @@ __all__ = [
     "analyze_articulations", "articulation_consistency", "legato_score",
     "staccato_ratio", "dynamic_accent_positions", "phrase_articulation_profile",
     "expressive_range",
+    "SightReadingProfile", "PracticeExercise", "INTERVAL_DIFFICULTY", "KEY_ACCIDENTALS",
+    "sr_rhythmic_complexity_score", "sr_pitch_complexity_score", "interval_difficulty_score",
+    "key_complexity_score", "accidental_density", "temporal_irregularity",
+    "sr_estimate_difficulty", "generate_exercise", "progressive_sequence",
+    "difficulty_feature_vector",
 ]
 
 from .ornamentation import (
@@ -82,4 +87,13 @@ from .ensemble_sync import (
     sync_error_distribution, phase_coupling, tempo_negotiation,
     sectional_balance, balance_deviation, ensemble_cohesion,
     synchronization_over_time,
+)
+from .sight_reading import (
+    SightReadingProfile, PracticeExercise, INTERVAL_DIFFICULTY, KEY_ACCIDENTALS,
+    rhythmic_complexity_score as sr_rhythmic_complexity_score,
+    pitch_complexity_score as sr_pitch_complexity_score,
+    interval_difficulty_score, key_complexity_score,
+    accidental_density, temporal_irregularity,
+    estimate_difficulty as sr_estimate_difficulty,
+    generate_exercise, progressive_sequence, difficulty_feature_vector,
 )

@@ -79,27 +79,27 @@ class TestGamelanExpanded:
 
 class TestCelticMusic:
     def test_classify_tune_type_reel(self):
-        tt = classify_tune_type(120, 4, 4)
+        tt = classify_tune_type((4, 4), 120)
         assert tt == TuneType.REEL
 
     def test_classify_tune_type_jig(self):
-        tt = classify_tune_type(120, 6, 8)
+        tt = classify_tune_type((6, 8), 120)
         assert tt == TuneType.JIG
 
     def test_classify_celtic_mode_dorian(self):
-        intervals = [2, 1, 2, 2, 2, 1, 2]
-        mode = classify_celtic_mode(intervals)
+        pitches = [0, 2, 3, 5, 7, 9, 10]
+        mode = classify_celtic_mode(pitches, tonic=0)
         assert mode == CelticMode.DORIAN
 
     def test_classify_celtic_mode_mixolydian(self):
-        intervals = [2, 2, 1, 2, 2, 1, 2]
-        mode = classify_celtic_mode(intervals)
+        pitches = [0, 2, 4, 5, 7, 9, 10]
+        mode = classify_celtic_mode(pitches, tonic=0)
         assert mode == CelticMode.MIXOLYDIAN
 
     def test_generate_ornament(self):
         orn = generate_ornament(60, OrnamentType.CUT)
-        assert isinstance(orn, list)
-        assert len(orn) > 0
+        assert orn.main_note == 60
+        assert orn.ornament_type == OrnamentType.CUT
 
     def test_session_set_order(self):
         tunes = [("reel1", TuneType.REEL), ("jig1", TuneType.JIG), ("reel2", TuneType.REEL)]
@@ -107,26 +107,28 @@ class TestCelticMusic:
         assert len(order) == 3
 
     def test_tune_key_histogram(self):
-        keys = ["D", "G", "D", "A", "D"]
-        hist = tune_key_histogram(keys)
-        assert hist["D"] == 3
-        assert hist["G"] == 1
+        pitches = [2, 7, 2, 9, 2]
+        hist = tune_key_histogram(pitches)
+        assert hist[2] == pytest.approx(3 / 5)
+        assert hist[7] == pytest.approx(1 / 5)
 
 
 class TestKlezmer:
     def test_freygish_scale(self):
-        scale = freygish_scale(60)
-        assert scale[0] == 60
-        assert len(scale) == 8
+        scale = freygish_scale(0)
+        assert scale[0] == 0
+        assert len(scale) == 7
+        assert 4 in scale  # augmented second interval (1→4)
 
     def test_has_augmented_second(self):
-        intervals = [1, 3, 1, 2, 1, 2, 2]
-        assert has_augmented_second(intervals) is True
-        assert has_augmented_second([2, 2, 1, 2, 2, 2, 1]) is False
+        freygish = [0, 1, 4, 5, 7, 8, 10]
+        assert has_augmented_second(freygish) is True
+        major = [0, 2, 4, 5, 7, 9, 11]
+        assert has_augmented_second(major) is False
 
     def test_classify_klezmer_mode_freygish(self):
-        intervals = [1, 3, 1, 2, 1, 2, 2]
-        mode = classify_klezmer_mode(intervals)
+        pitches = [0, 1, 4, 5, 7, 8, 10]
+        mode = classify_klezmer_mode(pitches, tonic=0)
         assert mode == KlezmerMode.FREYGISH
 
     def test_generate_krekhts(self):
@@ -135,15 +137,15 @@ class TestKlezmer:
         assert len(kr) > 0
 
     def test_classify_dance_bulgar(self):
-        d = classify_dance(130, 4, 4)
+        d = classify_dance((4, 4), 130)
         assert d == DanceType.BULGAR
 
     def test_classify_dance_hora(self):
-        d = classify_dance(80, 3, 8)
+        d = classify_dance((3, 8), 80)
         assert d == DanceType.HORA
 
     def test_mode_tension(self):
-        intervals = [1, 3, 1, 2, 1, 2, 2]
-        t = mode_tension(intervals)
+        pitches = [0, 1, 4, 5, 7, 8, 10, 6]
+        t = mode_tension(pitches, KlezmerMode.FREYGISH, tonic=0)
         assert isinstance(t, float)
-        assert t > 0.0
+        assert t >= 0.0

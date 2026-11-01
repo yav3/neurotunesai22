@@ -108,6 +108,11 @@ __all__ = [
     "simplify_intervals", "quantize_timing", "reduce_polyphony",
     "adaptive_tempo", "target_prediction", "tremor_filter",
     "error_tolerance_score", "fatigue_model", "difficulty_estimate", "adapt_score",
+    "SimplificationLevel", "CognitiveMetric", "CognitiveProfile", "SimplificationResult",
+    "estimate_information_rate", "cs_rhythmic_complexity", "cs_melodic_complexity",
+    "harmonic_complexity_score", "cognitive_load_estimate",
+    "cs_simplify_rhythm", "cs_simplify_melody", "reduce_texture",
+    "regularise_structure", "adapt_tempo_to_profile", "create_simplified_version",
 ]
 
 from .assistive_playback import (
@@ -123,4 +128,15 @@ from .motor_adaptation import (
     simplify_intervals, quantize_timing, reduce_polyphony,
     adaptive_tempo, target_prediction, tremor_filter,
     error_tolerance_score, fatigue_model, difficulty_estimate, adapt_score,
+)
+from .cognitive_simplification import (
+    SimplificationLevel, CognitiveMetric, CognitiveProfile, SimplificationResult,
+    estimate_information_rate,
+    rhythmic_complexity as cs_rhythmic_complexity,
+    melodic_complexity as cs_melodic_complexity,
+    harmonic_complexity_score, cognitive_load_estimate,
+    simplify_rhythm as cs_simplify_rhythm,
+    simplify_melody as cs_simplify_melody,
+    reduce_texture, regularise_structure, adapt_tempo_to_profile,
+    create_simplified_version,
 )

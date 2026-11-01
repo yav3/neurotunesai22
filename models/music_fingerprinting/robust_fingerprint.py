@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Sequence
 from enum import Enum
 
-from scipy.signal import stft as scipy_stft, cwt, ricker, butter, sosfilt
+from scipy.signal import stft as scipy_stft, butter, sosfilt
 
 
 class HashAlgorithm(Enum):
@@ -95,11 +95,28 @@ def _bark_band_fingerprint(
     return AudioFingerprint(hashes, timestamps, HashAlgorithm.BARK_BAND, duration)
 
 
+def _ricker(points: int, a: float) -> np.ndarray:
+    t = np.arange(points) - (points - 1.0) / 2
+    norm = 2.0 / (np.sqrt(3 * a) * (np.pi ** 0.25))
+    tsq = (t / a) ** 2
+    return norm * (1.0 - tsq) * np.exp(-tsq / 2.0)
+
+
+def _manual_cwt(signal: np.ndarray, widths: np.ndarray) -> np.ndarray:
+    out = np.zeros((len(widths), len(signal)))
+    for i, w in enumerate(widths):
+        pts = min(10 * int(w) + 1, len(signal))
+        wavelet = _ricker(pts, float(w))
+        conv = np.convolve(signal, wavelet, mode='same')
+        out[i] = conv
+    return out
+
+
 def wavelet_fingerprint(
     signal: np.ndarray, cfg: FingerprintConfig,
 ) -> AudioFingerprint:
-    widths = np.arange(1, cfg.n_bands + 1)
-    cwtmatr = cwt(signal, ricker, widths)
+    widths = np.arange(1, cfg.n_bands + 1, dtype=float)
+    cwtmatr = _manual_cwt(signal, widths)
     hop = cfg.hop_size
     n_frames = cwtmatr.shape[1] // hop
     hashes: List[int] = []
@@ -230,9 +247,9 @@ def time_offset_histogram(
     if not offsets:
         return np.array([])
     arr = np.array(offsets)
-    if arr.ptp() < 1e-9:
+    if (arr.max() - arr.min()) < 1e-9:
         return arr
-    bins = max(10, int(arr.ptp() / tolerance))
+    bins = max(10, int((arr.max() - arr.min()) / tolerance))
     hist, _ = np.histogram(arr, bins=bins)
     return hist
 

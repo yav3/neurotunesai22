@@ -78,6 +78,19 @@ __all__ = [
     "PerformanceStyle", "STYLE_PARAMS", "MicroNoteEvent", "HumanizedNote", "MicroDynamicProfile",
     "humanize_velocity", "humanize_timing", "apply_swing",
     "humanize", "downbeat_accent", "analyze_micro_dynamics",
+    "MeterType", "LoudnessResult",
+    "k_weighting_coefficients", "apply_k_weighting",
+    "ln_momentary_loudness", "short_term_loudness", "loudness_gate",
+    "ln_integrated_loudness", "ln_loudness_range",
+    "true_peak", "normalize_loudness",
+    "ln_rms_db", "ln_peak_db", "ln_crest_factor",
+    "measure_loudness", "dynamic_range_meter",
+    "TransientMode", "TransientProfile", "TransientParams",
+    "td_envelope_follower", "fast_envelope", "slow_envelope",
+    "separate_transient_sustain", "transient_shape",
+    "detect_transients", "transient_profile",
+    "percussive_enhance", "sustain_enhance", "de_esser", "noise_gate",
+    "attack_time_ms", "td_crest_factor", "dynamic_eq_gain",
 ]
 
 from .micro_dynamics import (
@@ -107,6 +120,14 @@ from .dynamic_range import (
     DynamicRangeStats, rms_level, peak_level, crest_factor,
     lufs_approximate, dynamic_range_dr, loudness_normalise, analyze_dynamic_range,
 )
+from .loudness_war import (
+    ClippingStats, InterSamplePeak, LoudnessWarProfile,
+    crest_factor as lw_crest_factor, crest_factor_db as lw_crest_factor_db,
+    windowed_crest_factor, peak_to_loudness_ratio, peak_signal_ratio,
+    detect_clipping, detect_inter_sample_peaks, dynamic_spread,
+    loudness_fatigue_index, classify_era, analyze_loudness_war,
+    batch_crest_factor_trend,
+)
 from .dynamic_planning import (
     DynamicLevel as PlanDynamicLevel, ArcShape, DynamicArc,
     generate_arc, velocity_to_dynamic, dynamic_to_velocity,
@@ -114,4 +135,25 @@ from .dynamic_planning import (
     dynamic_variance_by_phrase, expressive_deviation,
     humanize_velocity as plan_humanize_velocity,
     structural_dynamic_template,
+)
+from .loudness_normalization import (
+    MeterType, LoudnessResult,
+    k_weighting_coefficients, apply_k_weighting,
+    momentary_loudness as ln_momentary_loudness,
+    short_term_loudness, loudness_gate,
+    integrated_loudness as ln_integrated_loudness,
+    loudness_range as ln_loudness_range,
+    true_peak, normalize_loudness,
+    rms_db as ln_rms_db, peak_db as ln_peak_db,
+    crest_factor as ln_crest_factor,
+    measure_loudness, dynamic_range_meter,
+)
+from .transient_design import (
+    TransientMode, TransientProfile, TransientParams,
+    envelope_follower as td_envelope_follower,
+    fast_envelope, slow_envelope,
+    separate_transient_sustain, transient_shape,
+    detect_transients, transient_profile,
+    percussive_enhance, sustain_enhance, de_esser, noise_gate,
+    attack_time_ms, crest_factor as td_crest_factor, dynamic_eq_gain,
 )

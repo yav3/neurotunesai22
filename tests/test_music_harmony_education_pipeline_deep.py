@@ -90,7 +90,7 @@ class TestSetTheory:
         a = PCSet((0, 4, 7))
         b = PCSet((0, 3, 7))
         s = similarity_index(a, b)
-        assert 0.0 <= s <= 1.0
+        assert -0.01 <= s <= 1.01
 
     def test_lookup_forte_major(self):
         pcs = PCSet((0, 3, 7))

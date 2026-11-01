@@ -41,6 +41,12 @@ __all__ = [
     "spread_spectrum_embed", "spread_spectrum_extract",
     "qim_embed", "qim_extract",
     "watermark_robustness", "payload_capacity",
+    "HashAlgorithm", "FingerprintConfig", "AudioFingerprint",
+    "rf_bark_band_energies", "wavelet_fingerprint",
+    "modulation_spectrum_hash", "chromaprint_style",
+    "generate_fingerprint", "rf_time_offset_histogram",
+    "fingerprint_match_score", "batch_match",
+    "rf_false_positive_rate", "noise_robustness_test", "compression_robustness",
 ]
 
 from models.music_fingerprinting.audio_hash import (
@@ -75,4 +81,14 @@ from models.music_fingerprinting.acoustic_id import (
     IdentificationResult, AcousticProfile, compute_acoustic_profile,
     profile_distance, IdentificationIndex, time_coherence_check,
     confidence_score, spectral_contrast_features,
+)
+from models.music_fingerprinting.robust_fingerprint import (
+    HashAlgorithm, FingerprintConfig, AudioFingerprint,
+    bark_band_energies as rf_bark_band_energies,
+    wavelet_fingerprint, modulation_spectrum_hash, chromaprint_style,
+    generate_fingerprint,
+    time_offset_histogram as rf_time_offset_histogram,
+    fingerprint_match_score, batch_match,
+    false_positive_rate as rf_false_positive_rate,
+    noise_robustness_test, compression_robustness,
 )

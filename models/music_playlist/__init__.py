@@ -47,9 +47,14 @@ __all__ = [
     "energy_arc_sequence",
     "MoodArc", "MoodPoint", "ARC_TEMPLATES",
     "plan_mood_journey", "match_track_to_target", "sequence_for_arc",
-    "TransitionFeature",
-    "key_compatibility", "energy_flow",
+    "TransitionFeature", "TransitionMethod", "TransitionDetail", "FullTransitionScore",
+    "key_compatibility", "energy_flow", "timbre_similarity",
     "compute_transition_score", "optimal_crossfade_point",
+    "full_transition_score", "optimal_crossfade_duration",
+    "classify_transition", "transition_matrix",
+    "playlist_flow_curve", "detect_flow_breaks",
+    "reorder_for_flow", "traveling_salesman_playlist",
+    "dj_set_segmentation", "energy_arc_score",
     "laplacian_smoothness", "spectral_flow", "spectral_flow_score",
     "detect_segments", "segment_coherence", "full_coherence_analysis",
     "CoherenceReport",
@@ -62,6 +67,13 @@ __all__ = [
     "FlowScore", "compute_flow",
     "TrackCandidate", "GenerationRules",
     "generate_playlist", "fill_gap", "split_playlist",
+    "ListenerState", "TrackEvent", "SessionState", "SessionAnalysis",
+    "attention_decay", "attention_boost", "fatigue_accumulation",
+    "ls_novelty_score", "classify_listener_state",
+    "ls_energy_trajectory", "smooth_energy_curve",
+    "skip_rate", "mean_skip_position", "replay_affinity",
+    "detect_flow_segments", "ls_fatigue_onset", "optimal_session_length",
+    "pacing_recommendation", "simulate_session",
 ]
 
 from models.music_playlist.mood_journey import (
@@ -69,9 +81,14 @@ from models.music_playlist.mood_journey import (
     plan_mood_journey, match_track_to_target, sequence_for_arc,
 )
 from models.music_playlist.transition_analysis import (
-    TransitionFeature,
-    key_compatibility, energy_flow,
+    TransitionFeature, TransitionMethod, TransitionDetail, FullTransitionScore,
+    key_compatibility, energy_flow, timbre_similarity,
     compute_transition_score, optimal_crossfade_point,
+    full_transition_score, optimal_crossfade_duration,
+    classify_transition, transition_matrix,
+    playlist_flow_curve, detect_flow_breaks,
+    reorder_for_flow, traveling_salesman_playlist,
+    dj_set_segmentation, energy_arc_score,
 )
 from models.music_playlist.coherence import (
     laplacian_smoothness, spectral_flow, spectral_flow_score,
@@ -100,4 +117,15 @@ from models.music_playlist.transition_model import (
     tempo_compatibility as tempo_compat2,
     energy_curve_fitness, crossfade_duration,
     PlaylistOptimizer as PlaylistOptimizer2,
+)
+from models.music_playlist.listening_session import (
+    ListenerState, TrackEvent, SessionState, SessionAnalysis,
+    attention_decay, attention_boost, fatigue_accumulation,
+    novelty_score as ls_novelty_score,
+    classify_listener_state,
+    energy_trajectory as ls_energy_trajectory,
+    smooth_energy_curve, skip_rate, mean_skip_position, replay_affinity,
+    detect_flow_segments,
+    fatigue_onset as ls_fatigue_onset,
+    optimal_session_length, pacing_recommendation, simulate_session,
 )

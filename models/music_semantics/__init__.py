@@ -78,6 +78,24 @@ __all__ = [
     "semantic_distance", "tag_cooccurrence_matrix", "latent_semantic_analysis",
     "concept_graph_sem", "analogy_completion", "interpolate_semantic",
     "semantic_trajectory", "cross_modal_alignment_sem",
+    "ConceptType", "MusicConcept", "SimilarityResult",
+    "ss_feature_vector", "feature_similarity", "taxonomic_similarity",
+    "wu_palmer_similarity", "distributional_similarity",
+    "ss_pointwise_mutual_information", "ss_concept_embedding",
+    "embedding_similarity_matrix", "metaphor_mapping",
+    "combined_similarity", "pairwise_concept_similarity", "concept_clustering",
+    "EmotionalDimension", "ETArcType", "EmotionalState", "EmotionalArc", "ETTensionCurve",
+    "valence_from_features", "arousal_from_features", "tension_from_harmony",
+    "compute_emotional_trajectory", "et_tension_curve",
+    "climax_strength", "emotional_distance", "et_emotional_velocity",
+    "emotional_smoothness", "et_arc_similarity",
+    "narrative_segments", "et_emotional_range",
+    "StyleCategory", "sr_HarmonicFunction", "FeatureProfile", "StyleInference",
+    "HarmonicRule", "CompositionEvaluation",
+    "classify_style", "classify_all_styles",
+    "sr_harmonic_function", "is_authentic_cadence", "is_plagal_cadence",
+    "is_deceptive_cadence", "is_half_cadence", "functional_progression_score",
+    "evaluate_melody", "evaluate_harmonic_progression",
 ]
 
 from .music_ontology import (
@@ -96,4 +114,32 @@ from .cross_modal import (
     TextureAssociation, spectral_to_texture, texture_distance,
     ShapeAssociation, BOUBA_KIKI_MAP, articulation_to_shape, dynamics_to_shape, shape_distance,
     cross_modal_coherence, synesthesia_profile,
+)
+from .emotional_trajectory import (
+    EmotionalDimension, ArcType as ETArcType,
+    EmotionalState, EmotionalArc, TensionCurve as ETTensionCurve,
+    valence_from_features, arousal_from_features, tension_from_harmony,
+    emotional_trajectory as compute_emotional_trajectory,
+    tension_curve as et_tension_curve,
+    climax_strength, emotional_distance, emotional_velocity as et_emotional_velocity,
+    emotional_smoothness, arc_similarity as et_arc_similarity,
+    narrative_segments, emotional_range as et_emotional_range,
+)
+from .symbolic_reasoning import (
+    StyleCategory, HarmonicFunction as sr_HarmonicFunction,
+    FeatureProfile, StyleInference, HarmonicRule, CompositionEvaluation,
+    classify_style, classify_all_styles,
+    harmonic_function as sr_harmonic_function,
+    is_authentic_cadence, is_plagal_cadence, is_deceptive_cadence, is_half_cadence,
+    functional_progression_score,
+    evaluate_melody, evaluate_harmonic_progression,
+)
+from .semantic_similarity import (
+    ConceptType, MusicConcept, SimilarityResult,
+    feature_vector as ss_feature_vector, feature_similarity,
+    taxonomic_similarity, wu_palmer_similarity, distributional_similarity,
+    pointwise_mutual_information as ss_pointwise_mutual_information,
+    concept_embedding as ss_concept_embedding,
+    embedding_similarity_matrix, metaphor_mapping,
+    combined_similarity, pairwise_concept_similarity, concept_clustering,
 )

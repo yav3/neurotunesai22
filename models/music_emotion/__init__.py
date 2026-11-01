@@ -97,6 +97,15 @@ __all__ = [
     "frechet_trajectory_distance", "trajectory_distance",
     "detect_arc_shape", "emotion_momentum", "emotion_inertia",
     "transition_matrix", "vad_to_quadrant",
+    "TimbreQuality", "TimbreDescriptor", "TimbreEmotionMapping",
+    "descriptor_to_vector", "normalise_descriptor",
+    "timbre_to_valence", "timbre_to_arousal", "timbre_to_dominance",
+    "classify_timbre_qualities", "timbre_emotion_map",
+    "timbre_emotion_trajectory", "timbre_distance",
+    "pairwise_timbre_distance", "emotion_centroid_from_timbres",
+    "timbre_emotion_variance", "spectral_centroid_from_magnitude",
+    "spectral_spread_from_magnitude", "spectral_flux_from_frames",
+    "roughness_from_partials", "descriptor_from_spectrum",
 ]
 
 from models.music_emotion.emotion_recognition import (
@@ -126,4 +135,15 @@ from models.music_emotion.harmony_emotion import (
     emotional_trajectory as harmonic_emotional_trajectory,
     emotional_range, emotional_centroid as harmonic_emotional_centroid,
     emotional_variance, valence_arousal_quadrant, major_minor_ratio,
+)
+from models.music_emotion.timbre_emotion import (
+    TimbreQuality, TimbreDescriptor, TimbreEmotionMapping,
+    descriptor_to_vector, normalise_descriptor,
+    timbre_to_valence, timbre_to_arousal, timbre_to_dominance,
+    classify_timbre_qualities, timbre_emotion_map,
+    timbre_emotion_trajectory, timbre_distance,
+    pairwise_timbre_distance, emotion_centroid_from_timbres,
+    timbre_emotion_variance, spectral_centroid_from_magnitude,
+    spectral_spread_from_magnitude, spectral_flux_from_frames,
+    roughness_from_partials, descriptor_from_spectrum,
 )

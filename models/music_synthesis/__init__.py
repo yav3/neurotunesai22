@@ -95,6 +95,33 @@ from .modular_routing import (
     ring_modulator, rectifier, wavefolder, envelope_follower,
 )
 
+from .filter_design import (
+    FilterType as fd_FilterType, BiquadCoeffs, FilterState, SVFState,
+    biquad_lowpass as fd_biquad_lowpass, biquad_highpass as fd_biquad_highpass,
+    biquad_bandpass as fd_biquad_bandpass, biquad_notch as fd_biquad_notch,
+    biquad_peak as fd_biquad_peak,
+    biquad_low_shelf as fd_biquad_low_shelf, biquad_high_shelf as fd_biquad_high_shelf,
+    apply_biquad as fd_apply_biquad, cascade_biquads, svf_tick, svf_filter,
+    moog_ladder, parametric_eq as fd_parametric_eq,
+    frequency_response, filter_envelope,
+)
+from .envelope_generator import (
+    EnvelopeStage, LFOWaveform, ADSRParams, DAHDSRParams, LFOParams,
+    ModulationRoute, ModulationMatrix,
+    adsr_envelope, dahdsr_envelope, exponential_adsr, multistage_envelope,
+    lfo_signal, portamento, legato_portamento,
+    velocity_curve, key_tracking, aftertouch_to_mod,
+)
+from .advanced_granular import (
+    GrainEnvelopeType, GrainSpec, StereoCloud, CloudStatistics,
+    envelope_function, extract_grain, pitch_shift_grain,
+    synthesize_grain, render_cloud,
+    synchronous_granular, asynchronous_granular,
+    granular_time_stretch as adv_granular_time_stretch,
+    granular_freeze as adv_granular_freeze,
+    spectral_grain, grain_density_curve, cloud_statistics,
+)
+
 __all__ = [
     "Oscillator", "SineOscillator", "SawtoothOscillator", "SquareOscillator",
     "TriangleOscillator", "NoiseGenerator", "NoiseType", "PulseWidthModulator",
@@ -113,4 +140,27 @@ __all__ = [
     "time_stretch_granular", "pitch_shift_granular", "granular_freeze",
     "karplus_strong", "damped_string", "bowed_string",
     "flute_waveguide", "drum_membrane",
+    "GrainEnvelopeType", "GrainSpec", "StereoCloud", "CloudStatistics",
+    "envelope_function", "extract_grain", "pitch_shift_grain",
+    "synthesize_grain", "render_cloud",
+    "synchronous_granular", "asynchronous_granular",
+    "adv_granular_time_stretch", "adv_granular_freeze",
+    "spectral_grain", "grain_density_curve", "cloud_statistics",
+    "SignalType", "Module", "Port", "ModulePort", "PatchMatrix", "PatchCable",
+    "cv_to_frequency", "frequency_to_cv", "quantize_cv", "cv_offset", "cv_scale",
+    "gate_from_cv", "trigger_from_gate", "clock_signal", "clock_divider", "clock_multiplier",
+    "gate_logic_and", "gate_logic_or", "gate_logic_xor",
+    "slew_limiter", "sample_and_hold", "voltage_controlled_mix",
+    "ring_modulator", "rectifier", "wavefolder", "envelope_follower",
+    "fd_FilterType", "BiquadCoeffs", "FilterState", "SVFState",
+    "fd_biquad_lowpass", "fd_biquad_highpass", "fd_biquad_bandpass",
+    "fd_biquad_notch", "fd_biquad_peak",
+    "fd_biquad_low_shelf", "fd_biquad_high_shelf",
+    "fd_apply_biquad", "cascade_biquads", "svf_tick", "svf_filter",
+    "moog_ladder", "fd_parametric_eq", "frequency_response", "filter_envelope",
+    "EnvelopeStage", "LFOWaveform", "ADSRParams", "DAHDSRParams", "LFOParams",
+    "ModulationRoute", "ModulationMatrix",
+    "adsr_envelope", "dahdsr_envelope", "exponential_adsr", "multistage_envelope",
+    "lfo_signal", "portamento", "legato_portamento",
+    "velocity_curve", "key_tracking", "aftertouch_to_mod",
 ]

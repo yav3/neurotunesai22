@@ -164,19 +164,32 @@ def perceptual_voice_separation(
 
 
 def attention_salience(
-    pitches: np.ndarray, velocities: np.ndarray, novelty: Optional[np.ndarray] = None
+    pitches_or_loudness, velocities_or_novelty=None, novelty: Optional[np.ndarray] = None
 ) -> np.ndarray:
-    n = len(pitches)
+    a = np.asarray(pitches_or_loudness, dtype=float)
+    n = len(a)
     if n == 0:
         return np.array([])
-    p_norm = (pitches - pitches.min()) / max(pitches.max() - pitches.min(), 1e-9)
-    v_norm = velocities / max(velocities.max(), 1e-9)
-    salience = 0.3 * p_norm + 0.4 * v_norm
-    if novelty is not None and len(novelty) == n:
-        salience += 0.3 * (novelty / max(novelty.max(), 1e-9))
+    if velocities_or_novelty is not None and novelty is None:
+        b = np.asarray(velocities_or_novelty, dtype=float)
+        a_norm = a / max(a.max(), 1e-9)
+        b_norm = b / max(b.max(), 1e-9)
+        salience = 0.5 * a_norm + 0.5 * b_norm
+    elif velocities_or_novelty is not None and novelty is not None:
+        b = np.asarray(velocities_or_novelty, dtype=float)
+        c = np.asarray(novelty, dtype=float)
+        a_range = max(a.max() - a.min(), 1e-9)
+        a_norm = (a - a.min()) / a_range
+        b_norm = b / max(b.max(), 1e-9)
+        salience = 0.3 * a_norm + 0.4 * b_norm
+        if len(c) == n:
+            salience += 0.3 * (c / max(c.max(), 1e-9))
+        else:
+            salience += 0.15
     else:
-        salience += 0.3 * 0.5
-    return salience / max(salience.max(), 1e-9)
+        salience = a / max(a.max(), 1e-9)
+    mx = salience.max()
+    return salience / mx if mx > 1e-9 else salience
 
 
 def stream_coherence(stream: AuditoryStream, pitches: np.ndarray) -> float:
@@ -184,3 +197,70 @@ def stream_coherence(stream: AuditoryStream, pitches: np.ndarray) -> float:
         return 1.0
     p = pitches[stream.note_indices]
     return gestalt_good_continuation(p)
+
+
+# ---------------------------------------------------------------------------
+# Extended API — SceneAnalyzer, gestalt helpers, RhythmicExpectation
+# ---------------------------------------------------------------------------
+
+class SceneAnalyzer:
+    def __init__(self, proximity_threshold: float = 7.0, time_threshold: float = 0.5):
+        self.proximity_threshold = proximity_threshold
+        self.time_threshold = time_threshold
+
+    def segregate_by_pitch(self, pitches, onsets) -> List[List[int]]:
+        p = np.asarray(pitches, dtype=float)
+        t = np.asarray(onsets, dtype=float)
+        streams = segregate_streams(p, t, max_pitch_gap=self.proximity_threshold, max_time_gap=self.time_threshold)
+        return [s.note_indices for s in streams]
+
+    def stream_coherence(self, pitches) -> float:
+        p = np.asarray(pitches, dtype=float)
+        return gestalt_good_continuation(p)
+
+
+def gestalt_proximity(onsets, threshold: float = 0.3) -> List[List[int]]:
+    times = np.asarray(onsets, dtype=float)
+    groups: List[List[int]] = [[0]]
+    for i in range(1, len(times)):
+        if times[i] - times[i - 1] > threshold:
+            groups.append([])
+        groups[-1].append(i)
+    return groups
+
+
+def gestalt_similarity(features: np.ndarray, threshold: float = 1.0) -> List[List[int]]:
+    n = features.shape[0]
+    labels = list(range(n))
+    for i in range(n):
+        for j in range(i + 1, n):
+            if np.linalg.norm(features[i] - features[j]) < threshold:
+                root_i, root_j = labels[i], labels[j]
+                if root_i != root_j:
+                    for k in range(n):
+                        if labels[k] == root_j:
+                            labels[k] = root_i
+    groups_map: Dict[int, List[int]] = {}
+    for i, lbl in enumerate(labels):
+        groups_map.setdefault(lbl, []).append(i)
+    return list(groups_map.values())
+
+
+@dataclass
+class RhythmicExpectation:
+    beat_period: float
+    phase: float = 0.0
+
+    def predict_next_beat(self, current_time: float) -> float:
+        elapsed = current_time - self.phase
+        beats_passed = int(elapsed / self.beat_period) if self.beat_period > 0 else 0
+        return self.phase + (beats_passed + 1) * self.beat_period
+
+
+def rhythmic_complexity(onsets, beat_period: float = 0.5) -> float:
+    t = np.asarray(onsets, dtype=float)
+    if len(t) < 2 or beat_period <= 0:
+        return 0.0
+    phases = (t % beat_period) / beat_period
+    deviations = np.minimum(phases, 1.0 - phases)
+    return float(np.mean(deviations))

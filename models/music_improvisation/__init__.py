@@ -75,6 +75,20 @@ __all__ = [
     "RegisterProfile", "register_profile",
     "rhythmic_density_curve", "interval_histogram",
     "SoloSummary", "summarise_solo",
+    "ApproachType", "DigitalPattern",
+    "BEBOP_MAJOR", "BEBOP_DOMINANT", "BEBOP_DORIAN", "BEBOP_MELODIC_MINOR",
+    "BebopPhrase", "GuidetoneLine",
+    "chromatic_approach", "diatonic_approach", "bebop_enclosure",
+    "double_chromatic_approach", "digital_pattern",
+    "chord_tones_from_type", "bebop_guide_tone_line",
+    "bebop_scale_run", "detect_approach_tones", "bebop_detect_enclosures",
+    "chromaticism_density", "chord_tone_targeting", "line_contour_variety",
+    "rhythmic_displacement", "ii_v_i_lick",
+    "GuideTone", "GuideToneLine", "gtl_ApproachType", "ApproachPattern",
+    "chord_tones_gtl", "guide_tones_for_chord", "build_guide_tone_line",
+    "gtl_approach_from_above", "gtl_approach_from_below", "gtl_enclosure",
+    "double_chromatic_approach_gtl", "bebop_approach",
+    "target_note_line", "contour_tension", "line_range", "common_tone_connections",
 ]
 
 from .modal_interchange_improv import (
@@ -124,4 +138,27 @@ from .constraint_solver import (
     ConstraintType, HarmonicContext, MelodicConstraint, ImprovConfig,
     build_domains, solve_melody, greedy_melody, evaluate_melody,
     melodic_tension_curve, phrase_structure_penalty,
+)
+from .guide_tone_lines import (
+    GuideTone, GuideToneLine,
+    ApproachType as gtl_ApproachType, ApproachPattern,
+    chord_tones as chord_tones_gtl, guide_tones_for_chord,
+    build_guide_tone_line,
+    approach_from_above as gtl_approach_from_above,
+    approach_from_below as gtl_approach_from_below,
+    enclosure as gtl_enclosure,
+    double_chromatic_approach as double_chromatic_approach_gtl,
+    bebop_approach,
+    target_note_line, contour_tension, line_range, common_tone_connections,
+)
+from .bebop_language import (
+    ApproachType, DigitalPattern,
+    BEBOP_MAJOR, BEBOP_DOMINANT, BEBOP_DORIAN, BEBOP_MELODIC_MINOR,
+    BebopPhrase, GuidetoneLine,
+    chromatic_approach, diatonic_approach, enclosure as bebop_enclosure,
+    double_chromatic_approach, digital_pattern,
+    chord_tones_from_type, guide_tone_line as bebop_guide_tone_line,
+    bebop_scale_run, detect_approach_tones, detect_enclosures as bebop_detect_enclosures,
+    chromaticism_density, chord_tone_targeting, line_contour_variety,
+    rhythmic_displacement, ii_v_i_lick,
 )

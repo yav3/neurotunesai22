@@ -110,6 +110,25 @@ __all__ = [
     "VoiceLeadingType", "VoiceLeading", "ChordTransition",
     "vl_classify_motion", "voice_leading_distance", "analyze_voice_leading",
     "smooth_vl", "optimal_voice_leading", "VoiceLeadingAnalyzer",
+    "IL_IntervalQuality", "ConsonanceClass", "IL_Interval",
+    "PERFECT_INTERVALS", "MAJOR_INTERVALS", "MINOR_INTERVALS",
+    "CONSONANCE_RATING", "IL_INTERVAL_NAMES",
+    "il_classify_interval", "il_interval_name",
+    "invert_interval", "consonance_rating", "classify_consonance",
+    "plomp_levelt_dissonance", "il_chord_dissonance",
+    "frequency_ratio", "cents_from_ratio", "ratio_from_cents",
+    "interval_vector_from_pitches", "all_intervals",
+    "interval_histogram", "melodic_interval_profile",
+    "consonance_curve", "average_consonance", "interval_entropy",
+    "leap_step_ratio", "directional_change_rate",
+    "ProlongationType", "StructuralLevel", "StructuralTone", "Ursatz", "ReductionResult",
+    "pitch_to_degree", "degree_to_pc", "detect_urlinie", "detect_bassbrechung",
+    "detect_neighbor", "detect_passing", "detect_arpeggiation",
+    "reduce_foreground", "structural_weight", "analyze_structure",
+    "tt_Quality", "tt_Triad", "tt_parallel", "tt_relative", "tt_leading_tone",
+    "tt_nebenverwandt", "tt_slide", "tt_hexpole", "TT_OPERATIONS",
+    "tt_apply_path", "tt_tonnetz_coords", "tt_tonnetz_distance",
+    "plr_distance", "tt_hexatonic_system", "octatonic_pool", "weitzmann_region", "GIS",
 ]
 
 from .counterpoint import (
@@ -155,4 +174,36 @@ from .neo_riemannian import (
     shortest_path as neo_shortest_path,
     HEXATONIC_SYSTEMS, hexatonic_system_for, hexatonic_pole,
     nebenverwandt, slide as neo_slide,
+)
+from .interval_logic import (
+    IntervalQuality as IL_IntervalQuality,
+    ConsonanceClass, Interval as IL_Interval,
+    PERFECT_INTERVALS, MAJOR_INTERVALS, MINOR_INTERVALS,
+    CONSONANCE_RATING, INTERVAL_NAMES as IL_INTERVAL_NAMES,
+    classify_interval as il_classify_interval,
+    interval_name as il_interval_name,
+    invert_interval, consonance_rating, classify_consonance,
+    plomp_levelt_dissonance, chord_dissonance as il_chord_dissonance,
+    frequency_ratio, cents_from_ratio, ratio_from_cents,
+    interval_vector_from_pitches, all_intervals,
+    interval_histogram, melodic_interval_profile,
+    consonance_curve, average_consonance, interval_entropy,
+    leap_step_ratio, directional_change_rate,
+)
+from .schenkerian_analysis import (
+    ProlongationType, StructuralLevel, StructuralTone, Ursatz, ReductionResult,
+    pitch_to_degree, degree_to_pc, detect_urlinie, detect_bassbrechung,
+    detect_neighbor, detect_passing, detect_arpeggiation,
+    reduce_foreground, structural_weight, analyze_structure,
+)
+from .transformational_theory import (
+    Quality as tt_Quality, Triad as tt_Triad,
+    parallel as tt_parallel, relative as tt_relative,
+    leading_tone as tt_leading_tone, nebenverwandt as tt_nebenverwandt,
+    slide as tt_slide, hexpole as tt_hexpole,
+    OPERATIONS as TT_OPERATIONS,
+    apply_path as tt_apply_path,
+    tonnetz_coords as tt_tonnetz_coords, tonnetz_distance as tt_tonnetz_distance,
+    plr_distance, hexatonic_system as tt_hexatonic_system,
+    octatonic_pool, weitzmann_region, GIS,
 )
