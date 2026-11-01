@@ -69,4 +69,16 @@ __all__ = [
     "skill_progression", "optimal_practice_schedule", "sight_reading_difficulty",
     "IntervalType", "INTERVAL_DIFFICULTY", "ear_training_accuracy",
     "spaced_repetition_interval", "practice_efficiency",
+    "KRUMHANSL_MAJOR", "KRUMHANSL_MINOR",
+    "TonalMode", "KeyEstimate", "TonalTensionProfile",
+    "pitch_class_distribution", "estimate_key", "key_profile_correlation",
+    "tonal_tension", "modulation_distance", "surprisal", "tonal_entropy", "key_clarity",
 ]
+
+from models.music_cognition.tonal_expectation import (
+    KRUMHANSL_MAJOR, KRUMHANSL_MINOR,
+    Mode as TonalMode, KeyEstimate, TonalTensionProfile,
+    pitch_class_distribution, estimate_key, key_profile_correlation,
+    tonal_tension, modulation_distance, surprisal,
+    entropy as tonal_entropy, key_clarity,
+)

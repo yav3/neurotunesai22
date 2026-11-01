@@ -11,7 +11,7 @@ from models.music_ethnomusicology.maqam import (
 )
 from models.music_ethnomusicology.gamelan import (
     SLENDRO_INTERVALS, PELOG_INTERVALS, GAMELAN_SCALES, PATHET_MAP,
-    GamelanScale, interlocking_pattern, colotomic_structure,
+    GamelanScale, interlocking_pattern, colotomy_structure,
 )
 from models.music_ethnomusicology.african_rhythm import (
     STANDARD_PATTERNS, TimelinePattern, euclidean_rhythm,
@@ -144,13 +144,13 @@ class TestGamelan:
         assert len(sangsih) == len(melody)
 
     def test_colotomic_lancaran(self):
-        structure = colotomic_structure(16, "lancaran")
+        structure = colotomy_structure(16, "lancaran")
         assert "gong" in structure
         assert "kenong" in structure
         assert all(0 <= pos < 16 for pos in structure["gong"])
 
     def test_colotomic_ketawang(self):
-        structure = colotomic_structure(32, "ketawang")
+        structure = colotomy_structure(32, "ketawang")
         assert "gong" in structure
 
     def test_pathet_map_non_empty(self):

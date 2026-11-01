@@ -42,12 +42,36 @@ __all__ = [
     "nt_xent_loss", "triplet_loss", "batch_triplet_loss",
     "hard_negative_mining", "MusicAugmentor", "ContrastiveTrainingState",
     "alignment_metric", "uniformity_metric",
+    "intonation_error_cents", "intonation_score", "intonation_bias",
+    "onset_timing_error", "rhythm_precision_score", "rhythm_consistency",
+    "SightReadingFeatures", "sight_reading_difficulty",
+    "PracticeItem", "sm2_update", "schedule_practice_session",
+    "PerformanceSnapshot", "performance_trend", "improvement_rate",
+    "weakness_detection",
 ]
 
+from .skill_assessment import (
+    intonation_error_cents, intonation_score, intonation_bias,
+    onset_timing_error, rhythm_precision_score, rhythm_consistency,
+    SightReadingFeatures, sight_reading_difficulty,
+    PracticeItem, sm2_update, schedule_practice_session,
+    PerformanceSnapshot, performance_trend, improvement_rate,
+    weakness_detection,
+)
 from .contrastive_learning import (
     AugmentationType, ContrastivePair, TripletSample,
     cosine_similarity, pairwise_cosine_similarity,
     nt_xent_loss, triplet_loss, batch_triplet_loss,
     hard_negative_mining, MusicAugmentor, ContrastiveTrainingState,
     alignment_metric, uniformity_metric,
+)
+from .curriculum_learning import (
+    DifficultyScorer, CurriculumScheduler as CurriculumScheduler2,
+    AntiCurriculumScheduler, self_paced_weight,
+    MixupAugmentor, LearningRateSchedule,
+)
+from .practice_analytics import (
+    PracticeSession, PracticeReport, tempo_stability,
+    error_density, identify_problem_spots, learning_curve,
+    spaced_repetition_schedule, analyze_practice,
 )

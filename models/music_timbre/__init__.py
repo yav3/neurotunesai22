@@ -26,6 +26,14 @@ from models.music_timbre.harmonic_analysis import (
     harmonic_to_noise_ratio, spectral_envelope, estimate_formants,
     harmonic_deviation, analyse_harmonics,
 )
+from models.music_timbre.spectral_envelope import (
+    autocorrelation, levinson_durbin, lpc_envelope,
+    cepstral_smoothing, true_envelope, spectral_tilt as lpc_spectral_tilt,
+)
+from models.music_timbre.attack_transient import (
+    AttackType, TransientDescriptor, compute_attack_time, rise_slope,
+    classify_attack, analyze_transient,
+)
 
 __all__ = [
     "TimbreDescriptors", "AttackDescriptor", "SpectralEnvelope",
@@ -44,4 +52,19 @@ __all__ = [
     "PartialSet", "HarmonicAnalysisResult", "extract_partials",
     "harmonic_to_noise_ratio", "spectral_envelope", "estimate_formants",
     "harmonic_deviation", "analyse_harmonics",
+    "autocorrelation", "levinson_durbin", "lpc_envelope",
+    "cepstral_smoothing", "true_envelope", "lpc_spectral_tilt",
+    "AttackType", "TransientDescriptor", "compute_attack_time", "rise_slope",
+    "classify_attack", "analyze_transient",
+    "MorphMethod", "SpectralFrame", "TimbreMorphResult",
+    "spectral_lerp", "morph_spectral_envelope",
+    "envelope_swap", "harmonic_blend",
+    "morph_trajectory", "spectral_distance", "brightness_transfer",
 ]
+
+from models.music_timbre.timbre_morphing import (
+    MorphMethod, SpectralFrame, TimbreMorphResult,
+    spectral_lerp, spectral_envelope as morph_spectral_envelope,
+    envelope_swap, harmonic_blend,
+    morph_trajectory, spectral_distance, brightness_transfer,
+)

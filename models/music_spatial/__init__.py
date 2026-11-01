@@ -45,12 +45,31 @@ __all__ = [
     "edt_from_ir", "ir_clarity", "definition_d50",
     "center_time", "bass_ratio",
     "image_source_reflections", "compute_acoustic_parameters",
+    "HRTFCoefficients", "woodworth_itd", "ild_model", "simple_hrtf",
+    "render_binaural_analytical", "render_binaural_moving",
+    "ambisonics_to_binaural", "crossfeed_bauer",
+    "PanningMethod", "SpeakerLayout", "STEREO", "QUAD",
+    "SURROUND_5_1", "SURROUND_7_1",
+    "vbap_gains", "dbap_gains", "equal_power_pan",
+    "speaker_distance_matrix", "pan_trajectory",
 ]
 
 from .binaural_render import (
     SourcePosition, BinauralOutput,
     itd_samples, ild_factor, render_binaural,
     mix_binaural, perceived_width,
+)
+from .binaural_rendering import (
+    HRTFCoefficients, woodworth_itd, ild_model, simple_hrtf,
+    render_binaural as render_binaural_analytical,
+    render_binaural_moving, ambisonics_to_binaural,
+    crossfeed as crossfeed_bauer,
+)
+from .surround_panning import (
+    PanningMethod, SpeakerLayout, STEREO, QUAD,
+    SURROUND_5_1, SURROUND_7_1,
+    vbap_gains, dbap_gains, equal_power_pan,
+    speaker_distance_matrix, pan_trajectory,
 )
 from .room_acoustics import (
     RoomParameters, AcousticParameters,

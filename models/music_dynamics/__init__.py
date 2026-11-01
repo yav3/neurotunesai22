@@ -75,4 +75,24 @@ __all__ = [
     "detect_crescendo_diminuendo", "detect_accents",
     "rubato_strength", "timing_jitter", "extract_phrase_arcs",
     "velocity_humanization", "compute_expression_profile",
+    "PerformanceStyle", "STYLE_PARAMS", "MicroNoteEvent", "HumanizedNote", "MicroDynamicProfile",
+    "humanize_velocity", "humanize_timing", "apply_swing",
+    "humanize", "downbeat_accent", "analyze_micro_dynamics",
 ]
+
+from .micro_dynamics import (
+    PerformanceStyle, STYLE_PARAMS,
+    NoteEvent as MicroNoteEvent, HumanizedNote, MicroDynamicProfile,
+    humanize_velocity, humanize_timing, apply_swing,
+    humanize, downbeat_accent, analyze_micro_dynamics,
+)
+from .sidechain import (
+    SidechainMode, SidechainParams,
+    rms_envelope as sc_rms_envelope, peak_envelope,
+    compute_gain_curve, apply_sidechain,
+    rhythmic_ducking, PumpingProfile, multiband_sidechain,
+)
+from .expressive_dynamics import (
+    DynamicProfile, dynamic_contour, detect_crescendo, detect_diminuendo,
+    detect_subito, loudness_histogram, dynamic_range_score, analyze_dynamics,
+)

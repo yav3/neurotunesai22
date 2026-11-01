@@ -86,12 +86,73 @@ __all__ = [
     "generate_voicings", "voice_leading_cost_cv", "smooth_voice_leading_cv",
     "check_parallel_fifths", "check_parallel_octaves",
     "voice_leading_quality", "drop2_voicing", "spread_voicing",
+    "IntervalClass", "classify_interval", "is_consonant", "is_step",
+    "MotionType", "motion_type",
+    "CFError", "validate_cantus_firmus",
+    "VoiceLeadingError", "check_first_species", "check_second_species",
+    "voice_leading_score",
+    "circle_of_fifths_distance", "relative_key", "parallel_key", "key_distance",
+    "pivot_chords", "common_tone_count", "common_tone_modulation_score",
+    "ChromaticMediant", "chromatic_mediant_relationship",
+    "EnharmonicReinterpretation", "detect_enharmonic_reinterpretation",
+    "ModulationPlan", "analyze_modulation",
+    "Species", "MotionKind", "classify_motion", "cp_interval_class",
+    "CounterpointViolation",
+    "check_parallel_perfects", "check_hidden_fifths_octaves",
+    "check_voice_crossing", "check_leap_resolution", "check_tritone_outline",
+    "first_species_check", "counterpoint_score",
+    "contrary_motion_ratio", "melodic_variety",
+    "Triad", "neo_P", "neo_L", "neo_R",
+    "apply_chain", "tonnetz_coordinates", "tonnetz_distance",
+    "neo_shortest_path",
+    "HEXATONIC_SYSTEMS", "hexatonic_system_for", "hexatonic_pole",
+    "nebenverwandt", "neo_slide",
+    "VoiceLeadingType", "VoiceLeading", "ChordTransition",
+    "vl_classify_motion", "voice_leading_distance", "analyze_voice_leading",
+    "smooth_vl", "optimal_voice_leading", "VoiceLeadingAnalyzer",
 ]
 
+from .counterpoint import (
+    IntervalClass, classify_interval, is_consonant, is_step,
+    MotionType, motion_type,
+    CFError, validate_cantus_firmus,
+    VoiceLeadingError, check_first_species, check_second_species,
+    voice_leading_score,
+)
+from .modulation import (
+    circle_of_fifths_distance, relative_key, parallel_key, key_distance,
+    pivot_chords, common_tone_count, common_tone_modulation_score,
+    ChromaticMediant, chromatic_mediant_relationship,
+    EnharmonicReinterpretation, detect_enharmonic_reinterpretation,
+    ModulationPlan, analyze_modulation,
+)
 from .chord_voicing import (
     VoiceLeadingRule as VoiceLeadingRuleCV, Voicing,
     generate_voicings, voice_leading_cost as voice_leading_cost_cv,
     smooth_voice_leading as smooth_voice_leading_cv,
     check_parallel_fifths, check_parallel_octaves,
     voice_leading_quality, drop2_voicing, spread_voicing,
+)
+from .counterpoint_rules import (
+    Species, MotionKind, classify_motion,
+    interval_class as cp_interval_class,
+    CounterpointViolation,
+    check_parallel_perfects, check_hidden_fifths_octaves,
+    check_voice_crossing, check_leap_resolution, check_tritone_outline,
+    first_species_check, counterpoint_score,
+    contrary_motion_ratio, melodic_variety,
+)
+from .voice_leading import (
+    VoiceLeadingType, VoiceLeading, ChordTransition,
+    classify_motion as vl_classify_motion,
+    voice_leading_distance, analyze_voice_leading,
+    smooth_voice_leading as smooth_vl,
+    optimal_voice_leading, VoiceLeadingAnalyzer,
+)
+from .neo_riemannian import (
+    Triad, P as neo_P, L as neo_L, R as neo_R,
+    apply_chain, tonnetz_coordinates, tonnetz_distance,
+    shortest_path as neo_shortest_path,
+    HEXATONIC_SYSTEMS, hexatonic_system_for, hexatonic_pole,
+    nebenverwandt, slide as neo_slide,
 )

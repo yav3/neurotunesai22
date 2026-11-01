@@ -27,6 +27,8 @@ from models.music_audio.effects import (
     EffectsChain,
 )
 
+from models.music_audio.onset_detection import OnsetDetector
+
 from models.music_audio.dynamics import (
     compute_rms, compute_crest_factor, compute_dynamic_range,
     compute_loudness_envelope, detect_clipping,
@@ -54,4 +56,21 @@ __all__ = [
     "phase_deviation_odf", "energy_odf",
     "adaptive_threshold", "pick_peaks", "detect_onsets",
     "compute_onset_features", "multi_method_onset_fusion", "onset_to_beat_alignment",
+    "OnsetDetector",
+    "ideal_binary_mask", "ideal_ratio_mask", "wiener_filter",
+    "harmonic_percussive_separation", "griffin_lim",
+    "SDR", "SIR", "SAR",
 ]
+
+from models.music_audio.source_separation import (
+    ideal_binary_mask, ideal_ratio_mask, wiener_filter,
+    harmonic_percussive_separation, griffin_lim,
+    SDR, SIR, SAR,
+)
+from models.music_audio.audio_restoration import (
+    NoiseProfile, estimate_noise_profile, spectral_subtraction,
+    wiener_filter as wiener_filter_restore,
+    detect_clipping as detect_clipping_restore,
+    declip_cubic, bandwidth_extension,
+    estimate_reverb_tail, dereverberate, adaptive_noise_gate,
+)

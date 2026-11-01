@@ -50,6 +50,18 @@ __all__ = [
     "TransitionFeature",
     "key_compatibility", "energy_flow",
     "compute_transition_score", "optimal_crossfade_point",
+    "laplacian_smoothness", "spectral_flow", "spectral_flow_score",
+    "detect_segments", "segment_coherence", "full_coherence_analysis",
+    "CoherenceReport",
+    "SetTrack", "SetConstraints",
+    "audience_attention_curve", "fatigue_penalty", "engagement_score",
+    "greedy_set_optimize", "set_duration", "optimize_and_report", "SetReport",
+    "PlaylistStats", "playlist_stats",
+    "coherence_score", "surprise_curve", "listening_fatigue",
+    "tempo_smoothness", "energy_arc_fit",
+    "FlowScore", "compute_flow",
+    "TrackCandidate", "GenerationRules",
+    "generate_playlist", "fill_gap", "split_playlist",
 ]
 
 from models.music_playlist.mood_journey import (
@@ -60,4 +72,32 @@ from models.music_playlist.transition_analysis import (
     TransitionFeature,
     key_compatibility, energy_flow,
     compute_transition_score, optimal_crossfade_point,
+)
+from models.music_playlist.coherence import (
+    laplacian_smoothness, spectral_flow, spectral_flow_score,
+    detect_segments, segment_coherence, full_coherence_analysis,
+    CoherenceReport,
+)
+from models.music_playlist.set_optimizer import (
+    SetTrack, SetConstraints,
+    audience_attention_curve, fatigue_penalty, engagement_score,
+    greedy_set_optimize, set_duration, optimize_and_report, SetReport,
+)
+from models.music_playlist.playlist_analytics import (
+    PlaylistStats, playlist_stats,
+    coherence_score, surprise_curve, listening_fatigue,
+    tempo_smoothness, energy_arc_fit,
+    FlowScore, compute_flow,
+)
+from models.music_playlist.playlist_generation import (
+    TrackCandidate, GenerationRules,
+    generate_playlist, fill_gap, split_playlist,
+)
+from models.music_playlist.transition_model import (
+    TransitionFeatures as TransitionFeatures2,
+    transition_score as transition_score2,
+    key_compatibility_score as key_compat_score2,
+    tempo_compatibility as tempo_compat2,
+    energy_curve_fitness, crossfade_duration,
+    PlaylistOptimizer as PlaylistOptimizer2,
 )

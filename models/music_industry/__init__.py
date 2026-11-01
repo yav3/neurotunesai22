@@ -35,6 +35,17 @@ from .market_analysis import (
     artist_market_position, trend_momentum, seasonal_index,
     market_saturation,
 )
+from .royalty_engine import (
+    RightsHolder, RoyaltyConfig,
+    validate_splits as validate_royalty_splits,
+    allocate_royalties,
+    streaming_payout, streaming_payout_curve, pro_rata_pool_share,
+    mechanical_royalty as mechanical_royalty_statutory,
+    performance_royalty_estimate,
+    sync_fee_estimate,
+    project_revenue, RevenueProjection as RoyaltyProjection,
+    streams_to_breakeven, recoupment_schedule,
+)
 from .release_strategy import (
     ReleaseType, RolloutPhase, ReleaseWindow, STANDARD_ROLLOUT, ReleasePlan,
     optimal_release_day, single_vs_album_roi, playlist_pitch_score, waterfall_schedule,
@@ -64,4 +75,18 @@ __all__ = [
     "market_saturation",
     "ReleaseType", "RolloutPhase", "ReleaseWindow", "STANDARD_ROLLOUT", "ReleasePlan",
     "optimal_release_day", "single_vs_album_roi", "playlist_pitch_score", "waterfall_schedule",
+    "RightsHolder", "RoyaltyConfig", "validate_royalty_splits", "allocate_royalties",
+    "streaming_payout", "streaming_payout_curve", "pro_rata_pool_share",
+    "mechanical_royalty_statutory", "performance_royalty_estimate",
+    "sync_fee_estimate", "project_revenue", "RoyaltyProjection",
+    "streams_to_breakeven", "recoupment_schedule",
+    "ListenerSegment", "ListenerProfile", "AudienceMetrics",
+    "classify_listener", "segment_audience", "compute_audience_metrics",
+    "churn_risk", "lifetime_value_estimate", "genre_overlap_matrix",
 ]
+
+from .audience_analytics import (
+    ListenerSegment, ListenerProfile, AudienceMetrics,
+    classify_listener, segment_audience, compute_audience_metrics,
+    churn_risk, lifetime_value_estimate, genre_overlap_matrix,
+)

@@ -46,7 +46,32 @@ __all__ = [
     "autocorrelation_pitch", "yin_frame", "track_pitch", "harmonic_product_spectrum",
     "median_filter_pitch", "PitchResult",
     "compute_mfcc", "mfcc_delta", "mfcc_delta_delta", "lifter", "MFCCResult",
+    "analytic_signal", "instantaneous_amplitude", "instantaneous_phase",
+    "instantaneous_frequency", "envelope_follower_hilbert",
+    "rms_envelope", "AMFMDecomposition", "am_fm_decompose",
+    "tremolo_rate", "tremolo_depth", "envelope_centroid",
+    "attack_time", "decay_time",
+    "AdaptiveFilterType", "AdaptiveFilterState",
+    "lms_update", "nlms_update", "rls_update", "kalman_filter_step",
+    "noise_cancellation", "echo_cancellation",
+    "system_identification", "compute_misalignment",
 ]
+
+from .harmonic_product_spectrum import (
+    PitchEstimate as HPSPitchEstimate,
+    harmonic_product_spectrum as hps_pitch,
+    autocorrelation_pitch as ac_pitch,
+    cepstral_pitch,
+    multi_pitch_estimate,
+    consensus_pitch,
+)
+from .adaptive_filtering import (
+    FilterType as AdaptiveFilterType,
+    AdaptiveFilterState,
+    lms_update, nlms_update, rls_update, kalman_filter_step,
+    noise_cancellation, echo_cancellation,
+    system_identification, compute_misalignment,
+)
 
 from .onset_detection import (
     spectral_flux, high_frequency_content, complex_domain,
@@ -59,4 +84,12 @@ from .pitch_tracking import (
 )
 from .mfcc import (
     compute_mfcc, mfcc_delta, mfcc_delta_delta, lifter, MFCCResult,
+)
+from .envelope import (
+    analytic_signal, instantaneous_amplitude, instantaneous_phase,
+    instantaneous_frequency,
+    envelope_follower as envelope_follower_hilbert,
+    rms_envelope, AMFMDecomposition, am_fm_decompose,
+    tremolo_rate, tremolo_depth, envelope_centroid,
+    attack_time, decay_time,
 )

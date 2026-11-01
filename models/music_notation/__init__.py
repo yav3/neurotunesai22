@@ -50,4 +50,21 @@ __all__ = [
     "Clef", "StaffLine", "NoteHead", "Beam", "StaffLayout",
     "Transposer", "InstrumentTransposition", "KeySignatureTransposer",
     "EnharmonicSpeller",
+    "LilyArticulation", "LilyNote", "LilyMeasure", "LilyScore",
+    "PITCH_TO_LILY", "LILY_TO_PITCH",
+    "midi_to_lily_note", "notes_to_score",
+    "parse_lily_pitch", "transpose_lily",
 ]
+
+from .lilypond import (
+    Articulation as LilyArticulation,
+    LilyNote, LilyMeasure, LilyScore,
+    PITCH_TO_LILY, LILY_TO_PITCH,
+    midi_to_lily_note, notes_to_score,
+    parse_lily_pitch, transpose_lily,
+)
+from .engraving import (
+    StaffMetrics, compute_note_spacing, stem_direction, beam_slope,
+    collision_detect, lyric_hyphenation_points, page_break_penalty,
+    accidental_stacking, tie_arc_height, optimal_system_breaks,
+)

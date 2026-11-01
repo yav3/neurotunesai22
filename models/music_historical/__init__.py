@@ -37,6 +37,13 @@ from .genre_genealogy import (
     genre_distance, genre_influence_chain, genres_by_era,
     genre_fusion_candidates, genre_innovation_index,
 )
+from .harmonic_language_evolution import (
+    ROMAN_NUMERALS, ERA_TRANSITION_MATRICES,
+    HarmonicProfile, ProgressionAnalysis,
+    harmonic_entropy, vocabulary_usage, dominant_resolution_rate,
+    analyze_progression, profile_era, era_entropy_trajectory,
+    generate_progression, transition_divergence,
+)
 
 __all__ = [
     "MusicalPeriod", "PeriodProfile", "PERIOD_PROFILES",
@@ -59,4 +66,30 @@ __all__ = [
     "Genre", "GENRE_TREE",
     "genre_distance", "genre_influence_chain", "genres_by_era",
     "genre_fusion_candidates", "genre_innovation_index",
+    "pythagorean_ratios", "pythagorean_cents", "pythagorean_comma",
+    "quarter_comma_meantone_ratios", "meantone_cents",
+    "JUST_RATIOS_5LIMIT", "just_intonation_cents", "syntonic_comma",
+    "werckmeister_iii_ratios", "werckmeister_iii_cents",
+    "TuningComparison", "compare_tunings",
+    "cents_to_frequency", "beat_frequency", "interval_purity",
+    "PeriodLabel", "StyleFeatures", "PERIOD_PROTOTYPES",
+    "period_likelihood", "dominant_period",
+    "temporal_evolution", "period_influence_graph",
 ]
+
+from .period_analysis import (
+    PeriodLabel, StyleFeatures, PERIOD_PROTOTYPES,
+    period_likelihood, dominant_period,
+    style_distance as period_style_distance,
+    temporal_evolution,
+    influence_graph as period_influence_graph,
+)
+
+from .tuning_systems import (
+    pythagorean_ratios, pythagorean_cents, pythagorean_comma,
+    quarter_comma_meantone_ratios, meantone_cents,
+    JUST_RATIOS_5LIMIT, just_intonation_cents, syntonic_comma,
+    werckmeister_iii_ratios, werckmeister_iii_cents,
+    TuningComparison, compare_tunings,
+    cents_to_frequency, beat_frequency, interval_purity,
+)

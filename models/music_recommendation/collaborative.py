@@ -72,8 +72,9 @@ class MFModel:
             for i in known_items:
                 if i < len(scores):
                     scores[i] = -np.inf
-        top_idx = np.argsort(scores)[::-1][:n]
-        return [(int(i), float(scores[i])) for i in top_idx]
+        top_idx = np.argsort(scores)[::-1]
+        results = [(int(i), float(scores[i])) for i in top_idx if scores[i] > -np.inf]
+        return results[:n]
 
 
 def als_train(
@@ -159,8 +160,9 @@ def user_knn_recommend(
     known = set(np.where(user_vec > 0)[0])
     for i in known:
         predicted[i] = -np.inf
-    top_idx = np.argsort(predicted)[::-1][:n]
-    return [(int(i), float(predicted[i])) for i in top_idx]
+    top_idx = np.argsort(predicted)[::-1]
+    results = [(int(i), float(predicted[i])) for i in top_idx if predicted[i] > -np.inf]
+    return results[:n]
 
 
 def item_knn_recommend(
@@ -196,8 +198,9 @@ def item_knn_recommend(
     known = set(liked)
     for i in known:
         scores[i] = -np.inf
-    top_idx = np.argsort(scores)[::-1][:n]
-    return [(int(i), float(scores[i])) for i in top_idx]
+    top_idx = np.argsort(scores)[::-1]
+    results = [(int(i), float(scores[i])) for i in top_idx if scores[i] > -np.inf]
+    return results[:n]
 
 
 @dataclass
@@ -220,8 +223,9 @@ class PopularityRecommender:
             for i in known_items:
                 if i < len(scores):
                     scores[i] = -np.inf
-        top_idx = np.argsort(scores)[::-1][:n]
-        return [(int(i), float(scores[i])) for i in top_idx]
+        top_idx = np.argsort(scores)[::-1]
+        results = [(int(i), float(scores[i])) for i in top_idx if scores[i] > -np.inf]
+        return results[:n]
 
 
 def implicit_confidence(play_counts: np.ndarray, alpha: float = 40.0) -> np.ndarray:

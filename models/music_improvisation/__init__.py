@@ -61,6 +61,20 @@ __all__ = [
     "metric_displacement", "clave_alignment",
     "generate_clave_pattern", "tresillo_pattern",
     "anticipation_pattern", "density_curve",
+    "OrnamentType", "Ornament", "trill", "mordent", "turn", "grace_note",
+    "appoggiatura", "acciaccatura", "tremolo", "glissando_pitches",
+    "ornament_duration", "apply_ornament_timing",
+    "sensory_dissonance", "voice_leading_distance", "tonal_distance",
+    "TensionPoint", "tension_curve", "tension_release_ratio",
+    "peak_tension_position", "mean_tension", "tension_variance",
+    "LickTemplate", "LickMatch",
+    "BEBOP_LICKS", "BLUES_LICKS", "COMMON_PATTERNS", "ALL_TEMPLATES",
+    "match_score", "find_licks", "vocabulary_richness", "suggest_next_lick",
+    "note_choice_distribution", "ApproachEvent", "detect_approaches",
+    "approach_type_distribution", "detect_enclosures",
+    "RegisterProfile", "register_profile",
+    "rhythmic_density_curve", "interval_histogram",
+    "SoloSummary", "summarise_solo",
 ]
 
 from .modal_interchange_improv import (
@@ -69,10 +83,40 @@ from .modal_interchange_improv import (
     borrowed_chord_tones, pivot_note, interchange_tension,
     InterchangeSequence, build_interchange_sequence,
 )
+from .ornaments import (
+    OrnamentType, Ornament, trill, mordent, turn, grace_note,
+    appoggiatura, acciaccatura, tremolo, glissando_pitches,
+    ornament_duration, apply_ornament_timing,
+)
 from .rhythm_patterns import (
     RhythmFeel, CLAVE_PATTERNS, RhythmicEvent,
     swing_offset, apply_swing, syncopation_score,
     metric_displacement, clave_alignment,
     generate_clave_pattern, tresillo_pattern,
     anticipation_pattern, density_curve,
+)
+from .tension_curve import (
+    sensory_dissonance, voice_leading_distance, tonal_distance,
+    TensionPoint, tension_curve, tension_release_ratio,
+    peak_tension_position, mean_tension, tension_variance,
+)
+from .lick_library import (
+    LickTemplate, LickMatch,
+    BEBOP_LICKS, BLUES_LICKS, COMMON_PATTERNS, ALL_TEMPLATES,
+    match_score, find_licks, vocabulary_richness, suggest_next_lick,
+)
+from .solo_analysis import (
+    note_choice_distribution, ApproachEvent, detect_approaches,
+    approach_type_distribution, detect_enclosures,
+    RegisterProfile, register_profile,
+    rhythmic_density_curve, interval_histogram,
+    SoloSummary, summarise_solo,
+)
+from .jazz_harmony import (
+    ChordTone, CHORD_INTERVALS, chord_tones as jazz_chord_tones,
+    available_tensions as jazz_available_tensions,
+    guide_tone_line as jazz_guide_tone_line,
+    approach_note as jazz_approach_note,
+    ii_V_I_voicings, tritone_substitution,
+    backdoor_progression, coltrane_changes, tension_resolution_score,
 )

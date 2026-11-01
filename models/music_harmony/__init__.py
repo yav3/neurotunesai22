@@ -63,4 +63,32 @@ __all__ = [
     "pitch_to_freq", "tension_profile", "resolution_strength",
     "harmonic_rhythm_density", "harmonic_rhythm_regularity",
     "tension_contour_features",
+    "TriadQuality", "Triad",
+    "parallel", "leading_tone", "relative",
+    "apply_sequence", "hexatonic_cycle", "octatonic_cycle",
+    "tonnetz_coordinates", "triad_tonnetz_centroid", "tonnetz_distance",
+    "voice_leading_distance", "plr_distance",
+    "HarmonicPathStats", "analyze_harmonic_path",
+    "PCSet", "to_pc_set", "transpose", "invert", "complement",
+    "normal_form", "prime_form", "interval_vector",
+    "is_z_related", "is_subset", "is_superset",
+    "common_tones_under_transposition", "similarity_index",
+    "FORTE_CATALOG_3", "FORTE_CATALOG_4", "lookup_forte", "all_subsets",
 ]
+
+from models.music_harmony.set_theory import (
+    PCSet, to_pc_set, transpose, invert, complement,
+    normal_form, prime_form, interval_vector,
+    is_z_related, is_subset, is_superset,
+    common_tones_under_transposition, similarity_index,
+    FORTE_CATALOG_3, FORTE_CATALOG_4, lookup_forte, all_subsets,
+)
+
+from models.music_harmony.neo_riemannian import (
+    TriadQuality, Triad,
+    parallel, leading_tone, relative,
+    apply_sequence, hexatonic_cycle, octatonic_cycle,
+    tonnetz_coordinates, triad_tonnetz_centroid, tonnetz_distance,
+    voice_leading_distance, plr_distance,
+    HarmonicPathStats, analyze_harmonic_path,
+)

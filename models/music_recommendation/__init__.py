@@ -52,6 +52,29 @@ from models.music_recommendation.filters import (
     ExclusionFilter,
     CompositeFilter,
 )
+from models.music_recommendation.collaborative import (
+    InteractionMatrix,
+    MFModel,
+    PopularityRecommender,
+    als_train,
+    bm25_weight,
+    implicit_confidence,
+    item_knn_recommend,
+    user_knn_recommend,
+)
+from models.music_recommendation.session_rec import (
+    SessionMomentumTracker,
+    SessionState,
+    SequentialPattern,
+    exponential_decay_centroid,
+    find_sequential_patterns,
+    markov_predict,
+    markov_transition_matrix,
+    session_centroid,
+    session_coherence_score,
+    session_diversity_score,
+    session_knn_recommend,
+)
 
 __all__ = [
     "cosine_similarity", "euclidean_distance", "weighted_feature_similarity",
@@ -66,4 +89,20 @@ __all__ = [
     "NoveltyScorer", "ExplorationExploitation", "GenreBridging", "MoodJourney",
     "BPMFilter", "GenreFilter", "KeyFilter", "DurationFilter",
     "EnergyFilter", "ExclusionFilter", "CompositeFilter",
+    "InteractionMatrix", "MFModel", "PopularityRecommender",
+    "als_train", "bm25_weight", "implicit_confidence",
+    "item_knn_recommend", "user_knn_recommend",
+    "SessionMomentumTracker", "SessionState", "SequentialPattern",
+    "exponential_decay_centroid", "find_sequential_patterns",
+    "markov_predict", "markov_transition_matrix", "session_centroid",
+    "session_coherence_score", "session_diversity_score", "session_knn_recommend",
+    "BanditStrategy", "ArmStats", "LinUCBArm", "LinUCBRecommender",
+    "ThompsonSamplingRecommender", "EpsilonGreedyRecommender",
+    "ucb1_scores", "exp3_weights", "RewardSignal", "evaluate_bandit",
 ]
+
+from models.music_recommendation.contextual_bandit import (
+    BanditStrategy, ArmStats, LinUCBArm, LinUCBRecommender,
+    ThompsonSamplingRecommender, EpsilonGreedyRecommender,
+    ucb1_scores, exp3_weights, RewardSignal, evaluate_bandit,
+)

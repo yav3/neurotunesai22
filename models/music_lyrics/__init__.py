@@ -38,6 +38,13 @@ from models.music_lyrics.multilingual import (
     MultilingualTokenizer,
     MultilingualPoetryAnalyzer,
 )
+from models.music_lyrics.poetry_analysis import (
+    MeterType as MeterTypePA, StanzaForm, RhymeAnalysis, MeterAnalysis,
+    PoetryAnalysis, estimate_syllables, syllable_count_line,
+    end_sound, detect_rhyme_scheme as detect_rhyme_scheme_pa,
+    estimate_stress, detect_meter as detect_meter_pa,
+    classify_stanza_form, vocabulary_richness, analyze_poetry,
+)
 
 __all__ = [
     "LyricRecord", "PoemRecord", "CorpusStats",
@@ -49,4 +56,9 @@ __all__ = [
     "CorpusBuilder",
     "CorpusSource", "OPEN_CORPUS_SOURCES", "METER_TYPES",
     "ProsodyAnalysis", "MultilingualTokenizer", "MultilingualPoetryAnalyzer",
+    "MeterTypePA", "StanzaForm", "RhymeAnalysis", "MeterAnalysis",
+    "PoetryAnalysis", "estimate_syllables", "syllable_count_line",
+    "end_sound", "detect_rhyme_scheme_pa",
+    "estimate_stress", "detect_meter_pa",
+    "classify_stanza_form", "vocabulary_richness", "analyze_poetry",
 ]

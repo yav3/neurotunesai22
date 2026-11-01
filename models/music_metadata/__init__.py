@@ -43,6 +43,14 @@ __all__ = [
     "parse_id3v2_tags", "parse_vorbis_tags",
     "normalize_metadata", "metadata_completeness", "merge_metadata",
     "validate_isrc_format", "validate_iswc_format",
+    "Landmark", "MatchResult",
+    "find_spectral_peaks", "generate_landmarks", "hash_landmark",
+    "build_fingerprint_db", "query_fingerprint",
+    "TagPrediction",
+    "infer_genre_tags", "infer_mood_tags", "infer_instrument_tags",
+    "infer_era_tags", "combine_tag_predictions",
+    "normalize_key_signature", "normalize_tempo", "normalize_duration",
+    "validate_metadata_schema", "merge_metadata_fields",
 ]
 
 from .linked_data import (
@@ -83,5 +91,6 @@ from .tag_inference import (
 )
 from .normalization import (
     normalize_key_signature, normalize_tempo, normalize_duration,
-    validate_metadata_schema, merge_metadata,
+    validate_metadata_schema,
+    merge_metadata as merge_metadata_fields,
 )

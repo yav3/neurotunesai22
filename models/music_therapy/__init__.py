@@ -84,8 +84,22 @@ __all__ = [
     "generate_entrainment_tempo_curve", "heartbeat_synchronization_score",
     "breathing_rhythm_profile", "DrumCircleConfig", "drum_circle_cohesion",
     "movement_tempo_matching", "rhythmic_complexity_index", "adaptive_tempo_recommendation",
+    "BowlType", "BrainwaveState", "BRAINWAVE_RANGES", "CHAKRA_FREQUENCIES",
+    "SingingBowl", "BinauralBeatConfig", "DroneLayer",
+    "SoundBathPhase", "SoundBathSession",
+    "binaural_beat_for_state", "isochronic_tone_frequency",
+    "bowl_harmony_score", "drone_layer_from_fundamental",
+    "design_relaxation_session", "session_frequency_map",
 ]
 
+from .sound_bath import (
+    BowlType, BrainwaveState, BRAINWAVE_RANGES, CHAKRA_FREQUENCIES,
+    SingingBowl, BinauralBeatConfig, DroneLayer,
+    SoundBathPhase, SoundBathSession,
+    binaural_beat_for_state, isochronic_tone_frequency,
+    bowl_harmony_score, drone_layer_from_fundamental,
+    design_relaxation_session, session_frequency_map,
+)
 from .guided_imagery import (
     GIMPhase, ProgramPiece, GIMProgram, BONNY_PROGRAMS,
     ImageryScorecard, program_arc, match_client_readiness, SessionPlan,
@@ -99,4 +113,9 @@ from .rhythm_intervention import (
     generate_entrainment_tempo_curve, heartbeat_synchronization_score,
     breathing_rhythm_profile, DrumCircleConfig, drum_circle_cohesion,
     movement_tempo_matching, rhythmic_complexity_index, adaptive_tempo_recommendation,
+)
+from .rhythmic_entrainment import (
+    EntrainmentState, kuramoto_phase_coupling, phase_locking_value,
+    adaptive_tempo_prescription, rhythmic_complexity_for_therapy,
+    entrainment_trajectory, iso_principle_trajectory,
 )

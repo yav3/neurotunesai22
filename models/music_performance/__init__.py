@@ -41,10 +41,30 @@ __all__ = [
     "OrnamentType", "Ornament", "MicroEvent",
     "realize_trill", "realize_mordent", "realize_turn",
     "realize_ornament", "apply_ornaments", "OrnamentDensity", "compute_density",
+    "ArticulationType", "NoteArticulation", "classify_articulation",
+    "analyze_articulations", "articulation_consistency", "legato_score",
+    "staccato_ratio", "dynamic_accent_positions", "phrase_articulation_profile",
+    "expressive_range",
 ]
 
 from .ornamentation import (
     OrnamentType, Ornament, MicroEvent,
     realize_trill, realize_mordent, realize_turn,
     realize_ornament, apply_ornaments, OrnamentDensity, compute_density,
+)
+from .articulation import (
+    ArticulationType, NoteArticulation, classify_articulation,
+    analyze_articulations, articulation_consistency, legato_score,
+    staccato_ratio, dynamic_accent_positions, phrase_articulation_profile,
+    expressive_range,
+)
+from .stage_acoustics import (
+    VenueProfile, estimate_rt60, clarity_c80, definition_d50,
+    center_time, bass_ratio, stage_support, analyze_venue,
+)
+from .performance_metrics import (
+    PerformanceScore, timing_accuracy, pitch_accuracy,
+    dynamic_fidelity, articulation_score as perf_articulation_score,
+    tempo_stability as perf_tempo_stability, rhythmic_evenness,
+    ProgressTracker as MetricsProgressTracker,
 )
