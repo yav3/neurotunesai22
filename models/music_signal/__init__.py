@@ -56,6 +56,10 @@ __all__ = [
     "noise_cancellation", "echo_cancellation",
     "system_identification", "compute_misalignment",
     "affine_projection",
+    "PhaseVocoderConfig", "pv_stft", "pv_istft",
+    "phase_vocoder_stretch", "time_stretch", "pitch_shift",
+    "phase_lock", "transient_preservation_mask",
+    "robotisation", "whisperisation",
 ]
 
 from .harmonic_product_spectrum import (
@@ -94,6 +98,13 @@ from .envelope import (
     rms_envelope, AMFMDecomposition, am_fm_decompose,
     tremolo_rate, tremolo_depth, envelope_centroid,
     attack_time, decay_time,
+)
+from .phase_vocoder import (
+    PhaseVocoderConfig,
+    stft as pv_stft, istft as pv_istft,
+    phase_vocoder_stretch, time_stretch, pitch_shift,
+    phase_lock, transient_preservation_mask,
+    robotisation, whisperisation,
 )
 from .signal_quality import (
     QualityReport, snr, snr_from_noisy, segmental_snr,

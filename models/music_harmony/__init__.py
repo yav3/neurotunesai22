@@ -76,6 +76,14 @@ __all__ = [
     "voice_crossings", "analyze_counterpoint", "detect_suspensions",
     "voice_independence", "step_skip_ratio",
     "PCSet", "to_pc_set", "transpose", "invert", "complement",
+    "JazzChordType", "JazzMode", "JazzChord", "IIVIProgression",
+    "VoicingResult", "CHORD_INTERVALS", "MODE_INTERVALS",
+    "detect_ii_v_i", "tritone_substitute", "is_tritone_sub",
+    "shell_voicing", "rootless_voicing_a", "rootless_voicing_b",
+    "drop_2_voicing", "drop_3_voicing", "chord_scale", "scale_pitches",
+    "available_tensions", "jh_voice_leading_distance", "smooth_voice_lead",
+    "bebop_chromatic_approach", "guide_tone_line",
+    "backdoor_progression", "coltrane_changes", "turnaround", "harmonic_density",
     "normal_form", "prime_form", "interval_vector",
     "is_z_related", "is_subset", "is_superset",
     "common_tones_under_transposition", "similarity_index",
@@ -109,6 +117,16 @@ from models.music_harmony.harmonic_rhythm import (
     phrase_harmonic_density, cadential_rhythm_score, harmonic_syncopation,
     harmonic_regularity, compute_harmonic_rhythm_profile,
     harmonic_rhythm_distance, classify_harmonic_rhythm,
+)
+from models.music_harmony.jazz_harmony import (
+    JazzChordType, JazzMode, JazzChord, IIVIProgression,
+    VoicingResult, CHORD_INTERVALS, MODE_INTERVALS,
+    detect_ii_v_i, tritone_substitute, is_tritone_sub,
+    shell_voicing, rootless_voicing_a, rootless_voicing_b,
+    drop_2_voicing, drop_3_voicing, chord_scale, scale_pitches,
+    available_tensions, voice_leading_distance as jh_voice_leading_distance,
+    smooth_voice_lead, bebop_chromatic_approach, guide_tone_line,
+    backdoor_progression, coltrane_changes, turnaround, harmonic_density,
 )
 from models.music_harmony.counterpoint import (
     IntervalQuality, MotionType, CantusFirmusAnalysis,

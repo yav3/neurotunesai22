@@ -84,10 +84,12 @@ __all__ = [
     "instantaneous_frequency", "group_delay",
     "SynchrosqueezedResult", "synchrosqueeze",
     "PartialTrack", "track_spectral_peaks", "identity_phase_lock_vocoder",
-    "scat_morlet_wavelet", "wavelet_convolution", "lowpass_filter", "compute_scales",
-    "ScatteringCoefficients", "scattering_transform",
-    "scattering_distance", "scattering_features",
-    "temporal_scattering_modulation",
+    "ScatteringCoefficients", "FilterBankParams",
+    "scat_morlet_wavelet", "build_wavelet_filterbank",
+    "scattering_order_0", "scattering_order_1", "scattering_order_2",
+    "compute_scattering", "scattering_distance",
+    "time_shift_invariance_test", "scattering_modulation_spectrum",
+    "joint_time_frequency_scattering",
 ]
 
 from models.music_transforms.constant_q import (
@@ -133,9 +135,12 @@ from models.music_transforms.spectral_reassignment import (
     PartialTrack, track_spectral_peaks, identity_phase_lock_vocoder,
 )
 from models.music_transforms.scattering_transform import (
-    morlet_wavelet as scat_morlet_wavelet, wavelet_convolution,
-    lowpass_filter, compute_scales,
-    ScatteringCoefficients, scattering_transform,
-    scattering_distance, scattering_features,
-    temporal_scattering_modulation,
+    ScatteringCoefficients, FilterBankParams,
+    morlet_wavelet as scat_morlet_wavelet,
+    build_wavelet_filterbank,
+    scattering_order_0, scattering_order_1, scattering_order_2,
+    compute_scattering, scattering_distance,
+    time_shift_invariance_test,
+    modulation_spectrum as scattering_modulation_spectrum,
+    joint_time_frequency_scattering,
 )
