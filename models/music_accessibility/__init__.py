@@ -127,6 +127,11 @@ __all__ = [
     "simulate_audiogram", "hearing_aid_gain",
     "cochlear_implant_vocoder", "hm_sii",
     "frequency_compression", "dynamic_range_compression",
+    "MusicRole", "NavigationLevel", "MusicElement", "NavigationLandmark",
+    "AccessibilityTree", "describe_note", "sr_describe_chord", "describe_rest",
+    "describe_key_signature", "describe_time_signature", "describe_dynamic",
+    "sr_describe_tempo", "describe_measure", "build_element", "build_landmarks",
+    "build_accessibility_tree", "navigate_to", "score_summary", "element_to_aria",
 ]
 
 from .assistive_playback import (
@@ -171,4 +176,13 @@ from .braille_music import (
     midi_to_braille_note, melody_to_braille,
     braille_to_text_description, interval_sign,
     score_to_braille, braille_line_length,
+)
+from .screen_reader_music import (
+    MusicRole, NavigationLevel, MusicElement, NavigationLandmark,
+    AccessibilityTree, describe_note,
+    describe_chord as sr_describe_chord, describe_rest,
+    describe_key_signature, describe_time_signature, describe_dynamic,
+    describe_tempo as sr_describe_tempo,
+    describe_measure, build_element, build_landmarks,
+    build_accessibility_tree, navigate_to, score_summary, element_to_aria,
 )

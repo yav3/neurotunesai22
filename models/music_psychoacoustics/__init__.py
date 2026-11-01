@@ -116,6 +116,12 @@ __all__ = [
     "update_attention", "compute_salience_map", "attentional_blink",
     "informational_masking", "streaming_attention_trajectory",
     "perceptual_importance",
+    "MaskingThreshold", "BitAllocation", "DistortionMeasure",
+    "quiet_threshold_db", "bark_freq", "bark_band_edges",
+    "simultaneous_masking", "temporal_masking_pre", "temporal_masking_post",
+    "compute_masking_threshold", "signal_to_mask_ratio", "perceptual_entropy",
+    "allocate_bits", "noise_shaping_curve", "perceptual_distortion",
+    "psychoacoustic_model_1", "coding_gain_db",
 ]
 
 from models.music_psychoacoustics.consonance_model import (
@@ -171,4 +177,12 @@ from models.music_psychoacoustics.auditory_attention import (
     update_attention, compute_salience_map, attentional_blink,
     informational_masking, streaming_attention_trajectory,
     perceptual_importance,
+)
+from models.music_psychoacoustics.perceptual_coding import (
+    MaskingThreshold, BitAllocation, DistortionMeasure,
+    quiet_threshold_db, bark_freq, bark_band_edges,
+    simultaneous_masking, temporal_masking_pre, temporal_masking_post,
+    compute_masking_threshold, signal_to_mask_ratio, perceptual_entropy,
+    allocate_bits, noise_shaping_curve, perceptual_distortion,
+    psychoacoustic_model_1, coding_gain_db,
 )

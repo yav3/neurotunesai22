@@ -162,3 +162,9 @@ from models.music_cognition.embodied_cognition import (
     movement_audio_synchrony, groove_body_response,
     DanceMetrics, analyze_dance,
 )
+from models.music_cognition.perception_model import (
+    AuditoryFilterbank, PitchPerception, LoudnessModel,
+    TimbrePerception, RhythmPerception, HarmonyPerception,
+    StreamSegregation, PerceptualDistance,
+    erb_rate, erb_rate_inv, erb_bandwidth, gammatone_impulse_response,
+)

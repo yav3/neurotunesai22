@@ -738,3 +738,210 @@ def pretrain_from_signals(
         pipe.add_audio(sig, label=label)
     result = pipe.run(max_steps=max_steps)
     return pipe, result
+
+
+# ===================================================================
+# Feature-enhanced pipeline: multi-stream → frontier model
+# ===================================================================
+
+class FeatureEnhancedPipeline:
+    """Bridge between multi-stream audio features and the frontier model.
+
+    Extracts mel + MFCC + chroma + onset + spectral features via
+    feature_integration.AudioFeatureExtractor, fuses them through
+    MultiStreamFeatureIntegrator (gated or attention fusion), then
+    uses the fused representation as the transformer input — replacing
+    the standard mel-only conv front-end with a richer, music-aware
+    feature space.
+
+    Architecture:
+        Raw audio → AudioFeatureExtractor (9 streams)
+                  → MultiStreamFeatureIntegrator (gated fusion → d_model)
+                  → TransformerEncoder
+                  → QuantizationModule + ContrastiveHead
+                  → SPSA training loop
+
+    This gives the model access to pitch (chroma), timbral (MFCC, spectral),
+    rhythmic (onset strength), and spectral shape information from the start,
+    rather than learning all of it from raw mel spectrograms alone.
+    """
+
+    def __init__(
+        self,
+        config: Optional[FrontierPipelineConfig] = None,
+        fusion_method: str = "gated",
+        seed: int = 42,
+    ):
+        from .feature_integration import (
+            FeatureIntegrationConfig,
+            MultiStreamFeatureIntegrator,
+            AudioFeatureExtractor,
+            build_default_integrator,
+        )
+        self.config = config or FrontierPipelineConfig()
+        self.seed = seed
+        self.rng = np.random.RandomState(seed)
+
+        self.extractor = AudioFeatureExtractor(
+            sr=self.config.sr,
+            n_fft=self.config.n_fft,
+            hop_length=self.config.hop_length,
+            n_mels=self.config.n_mels,
+        )
+
+        fi_config = FeatureIntegrationConfig(
+            d_model=self.config.d_model,
+            fusion_method=fusion_method,
+            seed=seed,
+        )
+        self.integrator = MultiStreamFeatureIntegrator(fi_config)
+        self.integrator.add_stream("mel", input_dim=self.config.n_mels)
+        self.integrator.add_stream("mfcc", input_dim=13)
+        self.integrator.add_stream("chroma", input_dim=12)
+        self.integrator.add_stream("onset", input_dim=1)
+        self.integrator.add_stream("centroid", input_dim=1)
+        self.integrator.add_stream("bandwidth", input_dim=1)
+        self.integrator.add_stream("contrast", input_dim=6)
+
+        frontier_cfg = self.config.to_frontier_config()
+        self.model = MusicFrontierModel(frontier_cfg)
+        self._spectrograms: List[np.ndarray] = []
+        self._labels: List[Optional[int]] = []
+        self._raw_signals: List[np.ndarray] = []
+
+    def add_audio(self, signal: np.ndarray, label: Optional[int] = None) -> None:
+        """Add a raw audio signal for training."""
+        self._raw_signals.append(signal)
+        self._labels.append(label)
+        from .frontier_model import _simple_mel_spectrogram
+        spec = _simple_mel_spectrogram(
+            signal, self.config.n_mels, self.config.n_fft,
+            self.config.hop_length, self.config.sr,
+        )
+        self._spectrograms.append(spec)
+
+    def load_synthetic(self, n_samples: int = 50) -> None:
+        gen = SyntheticAudioGenerator(seed=self.seed)
+        signals = gen.generate_dataset(
+            n_samples, duration_s=self.config.segment_duration_s, sr=self.config.sr,
+        )
+        for i, sig in enumerate(signals):
+            self.add_audio(sig, label=i % 4)
+
+    def extract_multi_stream(self, signal: np.ndarray) -> np.ndarray:
+        """Extract and fuse multi-stream features from a raw signal.
+
+        Returns (d_model, T) fused representation.
+        """
+        features = self.extractor.extract(signal)
+        return self.integrator.forward(features)
+
+    def _run_transformer_on_fused(self, fused: np.ndarray) -> np.ndarray:
+        """Run transformer on pre-fused (d_model, T) features.
+
+        Bypasses the transformer's input projection (proj_W) since the
+        integrator already outputs d_model-dimensional features. Applies
+        positional encoding and all transformer layers directly.
+        """
+        x = fused.T  # (T, d_model)
+        T = x.shape[0]
+        trans = self.model.transformer
+        x = x + trans.pos_enc[:T]
+        for layer in trans.layers:
+            x, _ = layer.forward(x)
+        from .frontier_model import _layer_norm
+        x = _layer_norm(x, trans.final_gamma, trans.final_beta)
+        return x  # (T, d_model)
+
+    def extract_embeddings(self) -> Tuple[np.ndarray, np.ndarray]:
+        """Extract embeddings using multi-stream features + transformer.
+
+        For each signal: multi-stream fusion → transformer → mean pool.
+        Returns (embeddings, labels).
+        """
+        embeddings = []
+        labels = []
+        for i, sig in enumerate(self._raw_signals):
+            fused = self.extract_multi_stream(sig)  # (d_model, T)
+            hidden = self._run_transformer_on_fused(fused)  # (T, d_model)
+            emb = hidden.mean(axis=0)  # (d_model,)
+            embeddings.append(emb)
+            labels.append(self._labels[i] if self._labels[i] is not None else -1)
+        return np.array(embeddings), np.array(labels)
+
+    def probe_classification(
+        self,
+        n_classes: int = 4,
+        n_steps: int = 100,
+        lr: float = 1e-3,
+    ) -> Dict:
+        """Linear probe on multi-stream embeddings."""
+        embeddings, labels = self.extract_embeddings()
+        valid = labels >= 0
+        embeddings, labels = embeddings[valid], labels[valid]
+        if len(embeddings) == 0:
+            return {"accuracy": 0.0, "n_samples": 0}
+        probe = LinearProbe(self.config.d_model, n_classes, seed=self.seed)
+        for _ in range(n_steps):
+            probe.train_step(embeddings, labels, lr=lr)
+        return {
+            "accuracy": probe.accuracy(embeddings, labels),
+            "n_samples": len(embeddings),
+            "n_classes": n_classes,
+        }
+
+    def compare_with_baseline(
+        self,
+        n_samples: int = 20,
+        n_probe_steps: int = 50,
+    ) -> Dict:
+        """Compare multi-stream vs mel-only embeddings on classification.
+
+        Runs both pipelines on identical synthetic data and reports
+        probe accuracy for each — the direct test of whether multi-stream
+        features help downstream tasks.
+        """
+        if not self._raw_signals:
+            self.load_synthetic(n_samples)
+
+        multi_result = self.probe_classification(n_steps=n_probe_steps)
+
+        mel_embeddings = []
+        labels = []
+        for i, spec in enumerate(self._spectrograms):
+            features = self.model.feature_extractor.forward(spec)  # (T, C)
+            enc_out = self.model.transformer.forward(features)  # uses proj_W
+            emb = enc_out["hidden_states"].mean(axis=0)
+            mel_embeddings.append(emb)
+            labels.append(self._labels[i] if self._labels[i] is not None else -1)
+        mel_emb = np.array(mel_embeddings)
+        mel_lab = np.array(labels)
+        valid = mel_lab >= 0
+        mel_emb, mel_lab = mel_emb[valid], mel_lab[valid]
+        mel_probe = LinearProbe(self.config.d_model, 4, seed=self.seed)
+        for _ in range(n_probe_steps):
+            mel_probe.train_step(mel_emb, mel_lab, lr=1e-3)
+        mel_acc = mel_probe.accuracy(mel_emb, mel_lab)
+
+        return {
+            "multi_stream_accuracy": multi_result["accuracy"],
+            "mel_only_accuracy": mel_acc,
+            "improvement": multi_result["accuracy"] - mel_acc,
+            "n_samples": len(self._raw_signals),
+        }
+
+
+def quick_multi_stream_test(n_samples: int = 10, seed: int = 42) -> Dict:
+    """Quick smoke test for the multi-stream enhanced pipeline."""
+    config = FrontierPipelineConfig(
+        d_model=64, n_heads=4, n_layers=2, d_ff=128,
+        conv_channels=[32, 64],
+        conv_kernels=[10, 3],
+        conv_strides=[5, 2],
+        n_codebooks=1, codebook_size=32, codebook_dim=32,
+        seed=seed,
+    )
+    pipe = FeatureEnhancedPipeline(config, fusion_method="gated", seed=seed)
+    pipe.load_synthetic(n_samples)
+    result = pipe.compare_with_baseline(n_probe_steps=30)
+    return result

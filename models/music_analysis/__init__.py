@@ -74,6 +74,11 @@ __all__ = [
     "tonal_centroid", "tonnetz_transform", "chroma_cross_correlation",
     "key_strength_profile", "chroma_flux", "median_filter_chroma",
     "log_compression_chroma",
+    "DynamicType", "DynamicEvent", "DynamicProfile",
+    "rms_contour", "rms_to_db", "peak_contour", "dynamic_range",
+    "sectional_dynamic_range", "detect_crescendo", "detect_decrescendo",
+    "detect_sforzando", "is_terraced_dynamics", "loudness_war_score",
+    "da_crest_factor", "compression_ratio_estimate", "analyze_dynamics",
 ]
 
 from .tempo_analysis import (
@@ -138,4 +143,11 @@ from .texture_analysis import (
     classify_texture_frame, pitch_class_entropy,
     textural_complexity, analyze_texture,
     melodic_prominence, texture_transition_matrix,
+)
+from models.music_analysis.dynamic_analysis import (
+    DynamicType, DynamicEvent, DynamicProfile,
+    rms_contour, rms_to_db, peak_contour, dynamic_range,
+    sectional_dynamic_range, detect_crescendo, detect_decrescendo,
+    detect_sforzando, is_terraced_dynamics, loudness_war_score,
+    crest_factor as da_crest_factor, compression_ratio_estimate, analyze_dynamics,
 )

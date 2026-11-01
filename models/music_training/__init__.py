@@ -59,6 +59,11 @@ __all__ = [
     "interleaving_benefit", "mastery_probability",
     "skill_decay", "difficulty_calibration",
     "sequence_curriculum", "practice_schedule", "skill_progress_forecast",
+    "LossResult", "spectral_convergence", "log_stft_magnitude_loss",
+    "multi_resolution_stft_loss", "mel_weighted_loss", "reconstruction_loss",
+    "kl_divergence_gaussian", "vae_loss", "cl_contrastive_loss",
+    "feature_matching_loss", "adversarial_loss_generator",
+    "adversarial_loss_discriminator", "weighted_mse", "focal_loss",
 ]
 
 from .skill_assessment import (
@@ -122,4 +127,11 @@ from .curriculum_sequencing import (
     interleaving_benefit, mastery_probability,
     skill_decay, difficulty_calibration,
     sequence_curriculum, practice_schedule, skill_progress_forecast,
+)
+from models.music_training.loss_functions import (
+    LossResult, spectral_convergence, log_stft_magnitude_loss,
+    multi_resolution_stft_loss, mel_weighted_loss, reconstruction_loss,
+    kl_divergence_gaussian, vae_loss, contrastive_loss as cl_contrastive_loss,
+    triplet_loss, feature_matching_loss, adversarial_loss_generator,
+    adversarial_loss_discriminator, hard_negative_mining, weighted_mse, focal_loss,
 )

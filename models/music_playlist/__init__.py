@@ -81,6 +81,12 @@ __all__ = [
     "cold_start_fallback", "popularity_baseline",
     "ndcg_at_k", "precision_at_k", "recall_at_k",
     "mean_reciprocal_rank", "catalog_coverage",
+    "ListeningRecord", "TasteVector", "um_UserProfile",
+    "completion_ratio", "implicit_rating", "preference_decay",
+    "estimate_taste_vector", "um_novelty_score", "familiarity_score",
+    "novelty_familiarity_balance", "genre_affinity", "temporal_listening_pattern",
+    "user_similarity_cosine", "user_similarity_jaccard", "collaborative_neighbors",
+    "session_length_stats", "um_skip_rate", "build_user_profile",
 ]
 
 from models.music_playlist.mood_journey import (
@@ -144,4 +150,13 @@ from models.music_playlist.listening_session import (
     detect_flow_segments,
     fatigue_onset as ls_fatigue_onset,
     optimal_session_length, pacing_recommendation, simulate_session,
+)
+from models.music_playlist.user_modeling import (
+    ListeningRecord, TasteVector, UserProfile as um_UserProfile,
+    completion_ratio, implicit_rating, preference_decay,
+    estimate_taste_vector, novelty_score as um_novelty_score,
+    familiarity_score, novelty_familiarity_balance, genre_affinity,
+    temporal_listening_pattern,
+    user_similarity_cosine, user_similarity_jaccard, collaborative_neighbors,
+    session_length_stats, skip_rate as um_skip_rate, build_user_profile,
 )

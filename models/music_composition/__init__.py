@@ -174,3 +174,16 @@ from models.music_composition.variation_technique import (
     ornamental_variation, textural_thickening,
     variation_distance, cumulative_variation_arc,
 )
+from models.music_composition.deep_composition import (
+    MarkovChain,
+    LSystem, dragon_curve_melody, sierpinski_melody,
+    pink_noise, brown_noise, fractal_melody,
+    elementary_ca, ca_to_melody, ca_to_rhythm,
+    GeneticMelodyConfig, genetic_melody,
+    interference_pattern, resultant_rhythm, complementary_rhythm,
+    poisson_events, gaussian_cloud, logistic_map_sequence,
+    ConstraintSpec, check_stepwise_motion, check_range, check_scale_adherence,
+    constraint_generate,
+    fitness_tonal_coherence, fitness_rhythmic_interest, fitness_contour_shape,
+    DeepCompositionAnalysis, analyze_composition_deep,
+)

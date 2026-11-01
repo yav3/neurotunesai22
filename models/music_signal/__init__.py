@@ -138,3 +138,17 @@ from .source_separation import (
     ideal_binary_mask, ideal_ratio_mask,
     sdr, sir, sar, harmonic_mask,
 )
+from .deep_signal import (
+    hz_to_erb, erb_to_hz, erb_bandwidth, hz_to_bark, bark_to_hz, hz_to_cam,
+    gammatone_impulse_response, gammatone_filterbank, apply_gammatone,
+    gammatone_spectrogram,
+    morlet_wavelet, cwt_morlet, cwt_scales_from_frequencies, cwt_scalogram,
+    haar_wavelet_decompose, haar_wavelet_reconstruct,
+    wavelet_energy_distribution, wavelet_entropy,
+    reassigned_spectrogram,
+    specific_loudness, total_loudness, loudness_contour,
+    lyon_cochlear_model,
+    spectral_flux_log, spectral_novelty,
+    harmonic_chroma, tonnetz_transform,
+    DeepSignalAnalysis, analyze_signal_deep,
+)

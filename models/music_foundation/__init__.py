@@ -5,15 +5,35 @@ from .encoder import (
 )
 from .pretraining import (
     InfoNCELoss, MaskedFeaturePrediction, CrossModalAlignment, PretrainingObjective,
+    VICRegLoss, BarlowTwinsLoss, BYOLLoss, MaskedAcousticModel,
+    MultiTaskPretraining, CodebookDiversityLoss, TemporalOrderPrediction,
 )
 from .decoder import (
     DecoderConfig, MusicDecoder, ReconstructionHead, GenerationHead,
 )
-from .tokenizer import MusicCodebook, MusicTokenizer
-from .optimizer import SGD, Adam, AdamW, GradientClipper
-from .gradient import numerical_gradient, GradientAccumulator
+from .tokenizer import (
+    MusicCodebook, MusicTokenizer,
+    EMACodebook, gumbel_softmax_quantize, FiniteScalarQuantizer,
+    ProductQuantizer, ResidualVQ,
+)
+from .optimizer import (
+    SGD, Adam, AdamW, GradientClipper,
+    LAMB, Adafactor, Lion,
+    cosine_annealing, cosine_warmup, linear_warmup_decay, one_cycle,
+    inverse_sqrt, exponential_decay,
+    ExponentialMovingAverage, ParameterGroupOptimizer,
+)
+from .gradient import (
+    numerical_gradient, GradientAccumulator,
+    spsa_gradient, nes_gradient, add_gradient_noise, centralize_gradients,
+    GradientVarianceTracker, LookaheadGradient, project_gradient_to_subspace,
+    empirical_fisher_diagonal, pcgrad,
+)
 from .positional import (
     sinusoidal_encoding, RotaryPositionalEncoding, TemporalEncoding, RelativePositionBias,
+    alibi_slopes, alibi_bias, ConditionalPositionalEncoding,
+    MusicalMeterEncoding, PitchPositionalEncoding, MultiScaleTemporalEncoding,
+    log_relative_position_buckets, LogRelativePositionBias, NTKAwareRoPE,
 )
 from .trainer import TrainerConfig, MusicTrainer, EarlyStopping, TrainingHistory
 from .inference import (
@@ -56,6 +76,7 @@ from .frontier_pipeline import (
     FrontierPipelineConfig, FrontierDataset, SpectrogramAugmenter,
     FrontierEvaluator, FrontierEvalResult, LinearProbe,
     FrontierTrainingPipeline, quick_pretrain, pretrain_from_signals,
+    FeatureEnhancedPipeline, quick_multi_stream_test,
 )
 from .frontier_trainer import (
     FrontierTrainerConfig, FrontierTrainer, AudioDataset, cosine_schedule,
@@ -108,4 +129,20 @@ from .feature_integration import (
     compute_mfcc, compute_chroma, compute_spectral_contrast, compute_onset_strength,
     compute_spectral_centroid, compute_spectral_bandwidth, compute_spectral_rolloff,
     compute_zero_crossing_rate,
+)
+from .data_pipeline import (
+    AudioClip, SpectrogramConfig, BatcherConfig, AugScheduleConfig,
+    PipelineConfig, StreamingBatcher, OnTheFlyAugmenter, CurriculumSampler,
+    AudioPipeline, load_wav, load_directory, generate_synthetic_clips,
+    compute_mel_spectrogram, mel_to_audio, process_batch_spectrograms,
+    compute_dataset_stats, apply_global_normalization,
+    stratified_split, k_fold_indices,
+)
+from .benchmark import (
+    BenchmarkConfig, BenchmarkReport, BenchmarkSuite,
+    ProbeClassifier, RetrievalBenchmark, ClusteringBenchmark,
+    centered_kernel_alignment, intrinsic_dimensionality_mle,
+    isotropy_score, effective_rank, representation_similarity_analysis,
+    normalized_mutual_information, adjusted_rand_index, silhouette_score,
+    loss_landscape_1d, gradient_signal_to_noise, convergence_analysis,
 )

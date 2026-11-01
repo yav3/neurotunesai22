@@ -101,6 +101,12 @@ __all__ = [
     "auditory_motor_coupling", "em_entrainment_strength",
     "isochronous_sequence", "gradual_tempo_shift", "tempo_adaptation_sequence",
     "gait_training_protocol", "bilateral_entrainment_ratio",
+    "OutcomeDomain", "AssessmentScore", "OutcomeResult", "SessionTrajectory",
+    "raw_change", "percent_change", "cohens_d", "pooled_cohens_d",
+    "rci_session", "clinically_significant_change",
+    "session_trend", "outcome_trajectory_cluster",
+    "responder_rate", "number_needed_to_treat", "minimal_detectable_change",
+    "session_dose_correlation",
 ]
 
 from .sound_bath import (
@@ -150,4 +156,12 @@ from .therapeutic_assessment import (
     compute_outcome, aggregate_progress,
     reliable_change_index, clinically_significant,
     SessionReport, generate_session_report,
+)
+from .session_outcome import (
+    OutcomeDomain, AssessmentScore, OutcomeResult, SessionTrajectory,
+    raw_change, percent_change, cohens_d, pooled_cohens_d,
+    reliable_change_index as rci_session, clinically_significant_change,
+    compute_outcome, session_trend, outcome_trajectory_cluster,
+    responder_rate, number_needed_to_treat, minimal_detectable_change,
+    session_dose_correlation,
 )
