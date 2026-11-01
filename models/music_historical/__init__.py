@@ -19,6 +19,15 @@ from .instrumentation_history import (
     available_instruments, orchestra_size_by_period, instrument_family_balance,
 )
 
+from .performance_practice import (
+    TuningSystem, ArticulationStyle, PerformancePractice, PERIOD_PRACTICES,
+    reference_pitch_for_year, tuning_deviation_cents, ornamentation_density,
+)
+from .composer_network import (
+    ComposerProfile, CANONICAL_COMPOSERS,
+    composers_by_period, contemporaries, innovation_chain, stylistic_similarity,
+)
+
 __all__ = [
     "MusicalPeriod", "PeriodProfile", "PERIOD_PROFILES",
     "classify_period_by_year", "period_harmonic_signature", "style_distance",
@@ -30,4 +39,8 @@ __all__ = [
     "period_from_year",
     "InstrumentEra", "INSTRUMENT_TIMELINE",
     "available_instruments", "orchestra_size_by_period", "instrument_family_balance",
+    "TuningSystem", "ArticulationStyle", "PerformancePractice", "PERIOD_PRACTICES",
+    "reference_pitch_for_year", "tuning_deviation_cents", "ornamentation_density",
+    "ComposerProfile", "CANONICAL_COMPOSERS",
+    "composers_by_period", "contemporaries", "innovation_chain", "stylistic_similarity",
 ]

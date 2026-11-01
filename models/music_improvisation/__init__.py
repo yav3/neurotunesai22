@@ -20,6 +20,15 @@ from .jazz_voicings import (
     voice_leading_cost,
 )
 
+from .jazz_improv import (
+    CHORD_SCALE_MAP, AVAILABLE_TENSIONS, GUIDE_TONES,
+    ChordContext, available_pitches, guide_tone_line,
+    sequence, fragment, augment_rhythm, diminish_rhythm,
+    invert_motive, retrograde,
+    CallResponse, generate_response,
+    tension_profile, phrase_contour,
+)
+
 __all__ = [
     "ScaleMode", "scale_degrees", "chord_tones_in_scale",
     "available_tensions", "approach_note_options", "target_note_gravity",
@@ -28,4 +37,10 @@ __all__ = [
     "call_response_score", "rhythmic_complement", "melodic_answer", "phrase_balance",
     "VoicingType", "voice_chord", "rootless_voicing",
     "drop2_voicing", "shell_voicing", "quartal_voicing", "voice_leading_cost",
+    "CHORD_SCALE_MAP", "AVAILABLE_TENSIONS", "GUIDE_TONES",
+    "ChordContext", "available_pitches", "guide_tone_line",
+    "sequence", "fragment", "augment_rhythm", "diminish_rhythm",
+    "invert_motive", "retrograde",
+    "CallResponse", "generate_response",
+    "tension_profile", "phrase_contour",
 ]
