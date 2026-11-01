@@ -163,6 +163,122 @@ class TestJazzVoicings:
         assert cost > 0
 
 
+class TestModalInterchange:
+    def test_mode_pitch_classes_ionian(self):
+        from models.music_improvisation.modal_interchange_improv import (
+            Mode, mode_pitch_classes, common_tones, mode_distance,
+            find_interchange_options, pivot_note, interchange_tension,
+            build_interchange_sequence,
+        )
+        pcs = mode_pitch_classes(0, Mode.IONIAN)
+        assert pcs == {0, 2, 4, 5, 7, 9, 11}
+
+    def test_common_tones_self(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, common_tones
+        ct = common_tones(0, Mode.IONIAN, 0, Mode.IONIAN)
+        assert len(ct) == 7
+
+    def test_mode_distance_self_zero(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, mode_distance
+        assert mode_distance(0, Mode.IONIAN, 0, Mode.IONIAN) == 0
+
+    def test_mode_distance_positive(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, mode_distance
+        d = mode_distance(0, Mode.IONIAN, 0, Mode.ALTERED)
+        assert d > 0
+
+    def test_find_options_ranked_by_smoothness(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, find_interchange_options
+        opts = find_interchange_options(0, Mode.IONIAN)
+        assert len(opts) > 0
+        smoothnesses = [o.smoothness for o in opts]
+        assert smoothnesses == sorted(smoothnesses, reverse=True)
+
+    def test_pivot_note_exists(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, pivot_note
+        p = pivot_note(0, Mode.IONIAN, Mode.MIXOLYDIAN)
+        assert p is not None
+
+    def test_interchange_tension_range(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, interchange_tension
+        t = interchange_tension(0, Mode.IONIAN, Mode.ALTERED)
+        assert 0.0 <= t <= 1.0
+
+    def test_build_sequence_length(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, build_interchange_sequence
+        import numpy as np
+        seq = build_interchange_sequence(0, Mode.DORIAN, 4, 8.0, rng=np.random.default_rng(42))
+        assert len(seq.modes) == 4
+        assert seq.total_beats == 32.0
+
+    def test_sequence_tension_profile(self):
+        from models.music_improvisation.modal_interchange_improv import Mode, build_interchange_sequence
+        import numpy as np
+        seq = build_interchange_sequence(0, Mode.IONIAN, 3, 4.0, rng=np.random.default_rng(0))
+        profile = seq.tension_profile()
+        assert len(profile) == 2
+        assert all(0.0 <= t <= 1.0 for t in profile)
+
+
+class TestRhythmPatterns:
+    def test_swing_straight_eighth(self):
+        from models.music_improvisation.rhythm_patterns import swing_offset
+        assert swing_offset(0.0, 0.67) == pytest.approx(0.0)
+
+    def test_swing_upbeat_delayed(self):
+        from models.music_improvisation.rhythm_patterns import swing_offset
+        swung = swing_offset(0.5, 0.67)
+        assert swung > 0.5
+
+    def test_apply_swing_preserves_count(self):
+        from models.music_improvisation.rhythm_patterns import apply_swing, RhythmicEvent
+        events = [RhythmicEvent(i * 0.5, 0.5) for i in range(4)]
+        swung = apply_swing(events, 0.67)
+        assert len(swung) == 4
+
+    def test_syncopation_downbeats_low(self):
+        from models.music_improvisation.rhythm_patterns import syncopation_score
+        assert syncopation_score([0.0, 2.0, 4.0], 4) < 0.5
+
+    def test_syncopation_upbeats_high(self):
+        from models.music_improvisation.rhythm_patterns import syncopation_score
+        assert syncopation_score([0.5, 1.5, 2.5], 4) == 1.0
+
+    def test_metric_displacement(self):
+        from models.music_improvisation.rhythm_patterns import metric_displacement, RhythmicEvent
+        events = [RhythmicEvent(0.0, 1.0), RhythmicEvent(1.0, 1.0)]
+        shifted = metric_displacement(events, 0.5)
+        assert shifted[0].onset_beat == pytest.approx(0.5)
+
+    def test_clave_alignment_perfect(self):
+        from models.music_improvisation.rhythm_patterns import clave_alignment, CLAVE_PATTERNS
+        onsets = CLAVE_PATTERNS["son_32"]
+        assert clave_alignment(onsets, "son_32") == pytest.approx(1.0)
+
+    def test_generate_clave_pattern_count(self):
+        from models.music_improvisation.rhythm_patterns import generate_clave_pattern
+        events = generate_clave_pattern("son_32", 2)
+        assert len(events) == 10
+
+    def test_tresillo_pattern(self):
+        from models.music_improvisation.rhythm_patterns import tresillo_pattern
+        events = tresillo_pattern(1)
+        assert len(events) == 3
+        onsets = [e.onset_beat for e in events]
+        assert onsets == pytest.approx([0.0, 1.5, 3.0])
+
+    def test_anticipation_before_target(self):
+        from models.music_improvisation.rhythm_patterns import anticipation_pattern
+        events = anticipation_pattern([1.0, 2.0], 0.5)
+        assert events[0].onset_beat == pytest.approx(0.5)
+
+    def test_density_curve_nonempty(self):
+        from models.music_improvisation.rhythm_patterns import density_curve, RhythmicEvent
+        events = [RhythmicEvent(i * 0.5, 0.25) for i in range(8)]
+        curve = density_curve(events, 2.0)
+        assert len(curve) > 0
+
+
 class TestPackageExports:
     def test_all_exports(self):
         import models.music_improvisation as mi
@@ -170,3 +286,5 @@ class TestPackageExports:
         assert hasattr(mi, "Motif")
         assert hasattr(mi, "call_response_score")
         assert hasattr(mi, "VoicingType")
+        assert hasattr(mi, "Mode")
+        assert hasattr(mi, "RhythmFeel")
