@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "neurotunes-foundational"
+version = "0.1.0"
+description = "Foundational-frontier multimodal transformer for neurological disease modeling"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyarrow>=14.0",
+    "scipy>=1.11",
+    "scikit-learn>=1.3",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "black", "ruff"]
+wandb = ["wandb>=0.16"]
+
+[tool.setuptools.packages.find]
+include = ["models*", "synthetic_data*"]
