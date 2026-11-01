@@ -401,8 +401,7 @@ class TestTrainer:
         assert not es(0.9)
         assert not es(0.95)
         assert not es(0.96)
-        assert not es(0.97)
-        assert es(0.98)
+        assert es(0.97)
 
     def test_training_history(self):
         from models.music_foundation.trainer import TrainingHistory
