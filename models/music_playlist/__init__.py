@@ -74,6 +74,13 @@ __all__ = [
     "skip_rate", "mean_skip_position", "replay_affinity",
     "detect_flow_segments", "ls_fatigue_onset", "optimal_session_length",
     "pacing_recommendation", "simulate_session",
+    "UserProfile", "ItemProfile", "RatingMatrix", "CFConfig",
+    "build_rating_matrix", "user_similarity", "item_similarity",
+    "user_based_predict", "item_based_predict",
+    "matrix_factorization_als", "implicit_feedback_scores",
+    "cold_start_fallback", "popularity_baseline",
+    "ndcg_at_k", "precision_at_k", "recall_at_k",
+    "mean_reciprocal_rank", "catalog_coverage",
 ]
 
 from models.music_playlist.mood_journey import (
@@ -117,6 +124,15 @@ from models.music_playlist.transition_model import (
     tempo_compatibility as tempo_compat2,
     energy_curve_fitness, crossfade_duration,
     PlaylistOptimizer as PlaylistOptimizer2,
+)
+from models.music_playlist.collaborative_filtering import (
+    UserProfile, ItemProfile, RatingMatrix, CFConfig,
+    build_rating_matrix, user_similarity, item_similarity,
+    user_based_predict, item_based_predict,
+    matrix_factorization_als, implicit_feedback_scores,
+    cold_start_fallback, popularity_baseline,
+    ndcg_at_k, precision_at_k, recall_at_k,
+    mean_reciprocal_rank, catalog_coverage,
 )
 from models.music_playlist.listening_session import (
     ListenerState, TrackEvent, SessionState, SessionAnalysis,

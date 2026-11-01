@@ -73,6 +73,18 @@ __all__ = [
     "ifs_attractor", "ifs_to_pitches",
     "gp_self_similar_rhythm", "gp_cantor_rhythm",
     "pink_noise_melody", "poisson_rhythm", "gp_markov_rhythm", "tendency_mask",
+    "WaveNetConfig", "SampleRNNConfig", "VocoderConfig", "SynthesisResult",
+    "causal_pad", "dilated_conv1d", "causal_dilated_conv1d",
+    "gated_activation", "wavenet_residual_block", "wavenet_forward",
+    "init_wavenet_weights", "receptive_field",
+    "frame_level_rnn", "sample_level_mlp", "upsample_conditioning",
+    "samplernn_forward", "init_samplernn_weights",
+    "temperature_sample", "nucleus_sample", "top_k_sample",
+    "apply_repetition_penalty", "mu_law_encode", "mu_law_decode",
+    "additive_synthesis", "harmonic_amplitudes", "subtractive_synthesis",
+    "noise_band_synthesis", "pulse_train",
+    "get_window", "ns_stft", "ns_istft",
+    "griffin_lim", "overlap_add", "mel_spectrogram_to_audio",
 ]
 
 from models.music_generation.rhythm_generation import (
@@ -125,4 +137,18 @@ from models.music_generation.generative_processes import (
     pink_noise_melody, poisson_rhythm,
     markov_rhythm as gp_markov_rhythm,
     tendency_mask,
+)
+from models.music_generation.neural_synthesis import (
+    WaveNetConfig, SampleRNNConfig, VocoderConfig, SynthesisResult,
+    causal_pad, dilated_conv1d, causal_dilated_conv1d,
+    gated_activation, wavenet_residual_block, wavenet_forward,
+    init_wavenet_weights, receptive_field,
+    frame_level_rnn, sample_level_mlp, upsample_conditioning,
+    samplernn_forward, init_samplernn_weights,
+    temperature_sample, nucleus_sample, top_k_sample,
+    apply_repetition_penalty, mu_law_encode, mu_law_decode,
+    additive_synthesis, harmonic_amplitudes, subtractive_synthesis,
+    noise_band_synthesis, pulse_train,
+    get_window, stft as ns_stft, istft as ns_istft,
+    griffin_lim, overlap_add, mel_spectrogram_to_audio,
 )

@@ -68,6 +68,12 @@ __all__ = [
     "label_ssm_segments", "form_string",
     "repetition_ratio", "diagonal_strength", "find_repeated_sections",
     "StructureSegment",
+    "ChromaConfig", "ChromaResult", "ChordTemplate",
+    "compute_chromagram", "stft_to_chroma", "harmonic_chromagram",
+    "chord_templates", "template_match_chords", "chroma_distance",
+    "tonal_centroid", "tonnetz_transform", "chroma_cross_correlation",
+    "key_strength_profile", "chroma_flux", "median_filter_chroma",
+    "log_compression_chroma",
 ]
 
 from .tempo_analysis import (
@@ -115,6 +121,14 @@ from .motivic_analysis import (
     classify_transformation, extract_motives,
     track_motive_occurrences, motivic_density_curve,
     analyze_motivic_development, motivic_coherence,
+)
+from .chroma_analysis import (
+    ChromaConfig, ChromaResult, ChordTemplate,
+    compute_chromagram, stft_to_chroma, harmonic_chromagram,
+    chord_templates, template_match_chords, chroma_distance,
+    tonal_centroid, tonnetz_transform, chroma_cross_correlation,
+    key_strength_profile, chroma_flux, median_filter_chroma,
+    log_compression_chroma,
 )
 from .texture_analysis import (
     TextureType, TextureSegment, TextureProfile,

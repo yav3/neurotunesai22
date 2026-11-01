@@ -80,6 +80,13 @@ __all__ = [
     "compensate_drift", "packet_loss_concealment", "sync_score",
     "optimal_monitoring_latency", "jitter_buffer_push", "jitter_buffer_pull",
     "jitter_buffer_level",
+    "ReviewCriterion", "ReviewScore", "PeerReview", "ReviewSummary",
+    "DEFAULT_CRITERIA",
+    "create_review", "aggregate_reviews", "reviewer_reliability",
+    "inter_rater_agreement", "weighted_consensus",
+    "feedback_quality_score", "review_bias_detection",
+    "bayesian_score_estimate", "rank_submissions",
+    "calibration_factor", "detect_outlier_reviews",
 ]
 
 from .live_coding import (
@@ -113,6 +120,15 @@ from .operational_transform import (
     apply_op as ot_apply_op, apply_ops as ot_apply_ops,
     compose as ot_compose, invert as ot_invert,
     OTServer, verify_tp1, random_ops, convergence_test,
+)
+from .peer_review import (
+    ReviewCriterion, ReviewScore, PeerReview, ReviewSummary,
+    DEFAULT_CRITERIA,
+    create_review, aggregate_reviews, reviewer_reliability,
+    inter_rater_agreement, weighted_consensus,
+    feedback_quality_score, review_bias_detection,
+    bayesian_score_estimate, rank_submissions,
+    calibration_factor, detect_outlier_reviews,
 )
 from .latency_compensation import (
     NetworkStats, JitterBuffer, SyncState,

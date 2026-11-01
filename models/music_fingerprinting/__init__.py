@@ -54,6 +54,13 @@ __all__ = [
     "ph_match_hashes", "find_offset",
     "tempo_invariant_hash", "ph_hash_similarity",
     "locality_sensitive_hash", "hash_database_search", "sub_fingerprint_sequence",
+    "HashConfig", "FingerprintMatch", "HashDatabase",
+    "sh_mel_frequencies", "sh_bark_scale_bands",
+    "sh_compute_band_energies", "sh_energy_difference_hash",
+    "spectral_peak_hash", "sh_hamming_distance", "sh_hash_similarity",
+    "build_hash_database", "query_database",
+    "fingerprint_robustness", "sh_bit_error_rate",
+    "hash_entropy", "collision_rate",
 ]
 
 from models.music_fingerprinting.audio_hash import (
@@ -98,6 +105,20 @@ from models.music_fingerprinting.robust_fingerprint import (
     fingerprint_match_score, batch_match,
     false_positive_rate as rf_false_positive_rate,
     noise_robustness_test, compression_robustness,
+)
+from models.music_fingerprinting.spectral_hashing import (
+    HashConfig, FingerprintMatch, HashDatabase,
+    mel_frequencies as sh_mel_frequencies,
+    bark_scale_bands as sh_bark_scale_bands,
+    compute_band_energies as sh_compute_band_energies,
+    energy_difference_hash as sh_energy_difference_hash,
+    spectral_peak_hash,
+    hamming_distance as sh_hamming_distance,
+    hash_similarity as sh_hash_similarity,
+    build_hash_database, query_database,
+    fingerprint_robustness,
+    bit_error_rate as sh_bit_error_rate,
+    hash_entropy, collision_rate,
 )
 from models.music_fingerprinting.perceptual_hash import (
     PerceptualHash, HashMatch,

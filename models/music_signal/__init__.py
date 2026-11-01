@@ -60,6 +60,11 @@ __all__ = [
     "phase_vocoder_stretch", "time_stretch", "pitch_shift",
     "phase_lock", "transient_preservation_mask",
     "robotisation", "whisperisation",
+    "NoiseProfile", "DenoiseConfig",
+    "nr_estimate_noise_profile", "nr_spectral_subtraction",
+    "nr_wiener_filter", "adaptive_noise_gate", "spectral_noise_gate",
+    "nr_compute_snr", "multi_band_noise_gate", "nr_noise_floor_estimate",
+    "nr_harmonic_percussive_separation", "median_filter_denoise",
 ]
 
 from .harmonic_product_spectrum import (
@@ -114,6 +119,18 @@ from .signal_quality import (
     dc_offset, inter_channel_phase, phase_correlation,
     spectral_distortion, itakura_saito_distance,
     clipping_detection, quality_report,
+)
+from .noise_reduction import (
+    NoiseProfile, DenoiseConfig,
+    estimate_noise_profile as nr_estimate_noise_profile,
+    spectral_subtraction as nr_spectral_subtraction,
+    wiener_filter as nr_wiener_filter,
+    adaptive_noise_gate, spectral_noise_gate,
+    compute_snr as nr_compute_snr,
+    multi_band_noise_gate,
+    noise_floor_estimate as nr_noise_floor_estimate,
+    harmonic_percussive_separation as nr_harmonic_percussive_separation,
+    median_filter_denoise,
 )
 from .source_separation import (
     SeparationResult, nmf, nmf_separate,

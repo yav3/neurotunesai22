@@ -72,6 +72,14 @@ __all__ = [
     "PracticeBlock", "segment_practice_blocks",
     "improvement_curve", "diminishing_returns_point",
     "DifficultyEstimate", "estimate_difficulty",
+    "cs_SkillDomain", "Difficulty", "Skill", "cs_LearnerState",
+    "cs_Exercise", "cs_LessonPlan", "DIFFICULTY_LEVELS",
+    "build_prerequisite_graph", "cs_topological_sort",
+    "prerequisite_satisfaction", "readiness_score", "next_skills",
+    "cs_spaced_repetition_interval", "cs_update_mastery",
+    "difficulty_progression", "zone_of_proximal_development",
+    "generate_lesson_plan", "learning_efficiency",
+    "cs_skill_gap_analysis", "estimated_completion_time", "mastery_decay",
 ]
 
 from models.music_education.interval_training import (
@@ -113,6 +121,23 @@ from models.music_education.practice_analysis import (
     PracticeBlock, segment_practice_blocks,
     improvement_curve, diminishing_returns_point,
     DifficultyEstimate, estimate_difficulty,
+)
+from models.music_education.curriculum_sequencing import (
+    SkillDomain as cs_SkillDomain,
+    Difficulty, Skill,
+    LearnerState as cs_LearnerState,
+    Exercise as cs_Exercise,
+    LessonPlan as cs_LessonPlan,
+    DIFFICULTY_LEVELS,
+    build_prerequisite_graph,
+    topological_sort as cs_topological_sort,
+    prerequisite_satisfaction, readiness_score, next_skills,
+    spaced_repetition_interval as cs_spaced_repetition_interval,
+    update_mastery as cs_update_mastery,
+    difficulty_progression, zone_of_proximal_development,
+    generate_lesson_plan, learning_efficiency,
+    skill_gap_analysis as cs_skill_gap_analysis,
+    estimated_completion_time, mastery_decay,
 )
 from models.music_education.adaptive_curriculum import (
     MusicSkill, SKILL_LEVELS, skill_level_label,

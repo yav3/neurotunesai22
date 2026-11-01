@@ -35,6 +35,15 @@ from .diffusion import (
     DiffusionConfig, LatentDiffusionModel, NoisePredictor,
 )
 from .frontier import FrontierConfig, MusicFrontierModel
+from .frontier_model import (
+    FrontierConfig as DeepFrontierConfig,
+    MusicFrontierModel as DeepFrontierModel,
+    ConvFeatureExtractor, TransformerEncoder, TransformerLayer,
+    QuantizationModule, ContrastiveHead, ClassificationHead,
+    generate_span_mask, contrastive_loss, diversity_loss,
+    masked_prediction_loss as frontier_masked_prediction_loss,
+    cosine_warmup_schedule, TrainingState, batch_spectrograms,
+)
 from .evaluation import (
     RetrievalMetrics, ClassificationMetrics, EmbeddingMetrics, EvalReport,
     ModelEvaluator, evaluate_retrieval, evaluate_classification, evaluate_embeddings,
