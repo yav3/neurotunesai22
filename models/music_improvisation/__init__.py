@@ -56,6 +56,11 @@ __all__ = [
     "mode_distance", "InterchangeOption", "find_interchange_options",
     "borrowed_chord_tones", "pivot_note", "interchange_tension",
     "InterchangeSequence", "build_interchange_sequence",
+    "RhythmFeel", "CLAVE_PATTERNS", "RhythmicEvent",
+    "swing_offset", "apply_swing", "syncopation_score",
+    "metric_displacement", "clave_alignment",
+    "generate_clave_pattern", "tresillo_pattern",
+    "anticipation_pattern", "density_curve",
 ]
 
 from .modal_interchange_improv import (
@@ -63,4 +68,11 @@ from .modal_interchange_improv import (
     mode_distance, InterchangeOption, find_interchange_options,
     borrowed_chord_tones, pivot_note, interchange_tension,
     InterchangeSequence, build_interchange_sequence,
+)
+from .rhythm_patterns import (
+    RhythmFeel, CLAVE_PATTERNS, RhythmicEvent,
+    swing_offset, apply_swing, syncopation_score,
+    metric_displacement, clave_alignment,
+    generate_clave_pattern, tresillo_pattern,
+    anticipation_pattern, density_curve,
 )

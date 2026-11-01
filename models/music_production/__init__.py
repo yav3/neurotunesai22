@@ -40,4 +40,17 @@ __all__ = [
     "BeatGrid", "TempoEstimator", "GrooveTemplate", "ClickTrack",
     "EQBandType", "EQBand", "biquad_coefficients", "apply_biquad",
     "frequency_response", "spectral_tilt", "ParametricEQ", "auto_eq_match",
+    "DynamicRangeStats", "CompressorSettings",
+    "amplitude_to_db", "db_to_amplitude", "rms_level", "peak_level",
+    "analyze_dynamic_range", "compression_curve", "gain_reduction",
+    "apply_compression", "limiter_ceiling", "loudness_normalize",
+    "multiband_split_points",
 ]
+
+from models.music_production.dynamic_range import (
+    DynamicRangeStats, CompressorSettings,
+    amplitude_to_db, db_to_amplitude, rms_level, peak_level,
+    analyze_dynamic_range, compression_curve, gain_reduction,
+    apply_compression, limiter_ceiling, loudness_normalize,
+    multiband_split_points,
+)
