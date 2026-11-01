@@ -74,3 +74,14 @@ from .augmentation import (
     cutmix_spectrogram,
     build_augmentation_chain, default_pretraining_chain, two_view_augmentation,
 )
+from .attention import (
+    AttentionConfig, AttentionOutput,
+    scaled_dot_product_attention, multi_head_attention,
+    relative_position_encoding, relative_attention_logits, relative_position_attention,
+    local_attention_mask, causal_mask, causal_local_mask,
+    cross_attention,
+    harmonic_position_encoding, pitch_aware_attention,
+    random_fourier_features, performer_attention,
+    attention_head_diversity, attention_sparsity, effective_attention_span,
+    init_attention_weights,
+)

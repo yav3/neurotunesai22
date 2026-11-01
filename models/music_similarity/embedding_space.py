@@ -100,6 +100,7 @@ def euclidean_distance_matrix(embeddings: np.ndarray) -> np.ndarray:
     sq = np.sum(E ** 2, axis=1)
     D2 = sq[:, None] + sq[None, :] - 2.0 * E @ E.T
     np.maximum(D2, 0.0, out=D2)
+    np.fill_diagonal(D2, 0.0)
     return np.sqrt(D2)
 
 
