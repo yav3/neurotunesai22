@@ -35,3 +35,8 @@ from .diffusion import (
     DiffusionConfig, LatentDiffusionModel, NoisePredictor,
 )
 from .frontier import FrontierConfig, MusicFrontierModel
+from .evaluation import (
+    RetrievalMetrics, ClassificationMetrics, EmbeddingMetrics, EvalReport,
+    ModelEvaluator, evaluate_retrieval, evaluate_classification, evaluate_embeddings,
+)
+from .checkpoint import save_checkpoint, load_checkpoint, save_npz, load_npz
