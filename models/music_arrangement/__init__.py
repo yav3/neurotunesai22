@@ -98,6 +98,11 @@ __all__ = [
     "dc_doubling_effectiveness", "dc_octave_coupling_strength",
     "dc_unison_beating", "dc_section_balance", "dc_tutti_density",
     "dc_recommend_doublings",
+    "TransitionType", "SectionProfile", "TransitionParams", "TransitionPlan",
+    "energy_curve", "density_ramp", "spectral_fill",
+    "build_riser", "drop_impact", "breakdown_strip",
+    "compute_transition", "transition_smoothness", "section_contrast",
+    "plan_arrangement_transitions", "evaluate_transition_quality", "crossfade_curve",
 ]
 
 from .instrument_combination import (
@@ -167,4 +172,11 @@ from .doubling_rules import (
     fits_range as dr_fits_range, register_weight, blend_score as dr_blend_score,
     power_balance, spacing_penalty, evaluate_doubling, suggest_doubling,
     section_balance,
+)
+from .section_transition import (
+    TransitionType, SectionProfile, TransitionParams, TransitionPlan,
+    energy_curve, density_ramp, spectral_fill,
+    build_riser, drop_impact, breakdown_strip,
+    compute_transition, transition_smoothness, section_contrast,
+    plan_arrangement_transitions, evaluate_transition_quality, crossfade_curve,
 )
