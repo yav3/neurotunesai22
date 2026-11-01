@@ -107,6 +107,9 @@ __all__ = [
     "neo_shortest_path",
     "HEXATONIC_SYSTEMS", "hexatonic_system_for", "hexatonic_pole",
     "nebenverwandt", "neo_slide",
+    "VoiceLeadingType", "VoiceLeading", "ChordTransition",
+    "vl_classify_motion", "voice_leading_distance", "analyze_voice_leading",
+    "smooth_vl", "optimal_voice_leading", "VoiceLeadingAnalyzer",
 ]
 
 from .counterpoint import (
@@ -138,6 +141,13 @@ from .counterpoint_rules import (
     check_voice_crossing, check_leap_resolution, check_tritone_outline,
     first_species_check, counterpoint_score,
     contrary_motion_ratio, melodic_variety,
+)
+from .voice_leading import (
+    VoiceLeadingType, VoiceLeading, ChordTransition,
+    classify_motion as vl_classify_motion,
+    voice_leading_distance, analyze_voice_leading,
+    smooth_voice_leading as smooth_vl,
+    optimal_voice_leading, VoiceLeadingAnalyzer,
 )
 from .neo_riemannian import (
     Triad, P as neo_P, L as neo_L, R as neo_R,

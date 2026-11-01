@@ -57,6 +57,14 @@ __all__ = [
     "system_identification", "compute_misalignment",
 ]
 
+from .harmonic_product_spectrum import (
+    PitchEstimate as HPSPitchEstimate,
+    harmonic_product_spectrum as hps_pitch,
+    autocorrelation_pitch as ac_pitch,
+    cepstral_pitch,
+    multi_pitch_estimate,
+    consensus_pitch,
+)
 from .adaptive_filtering import (
     FilterType as AdaptiveFilterType,
     AdaptiveFilterState,

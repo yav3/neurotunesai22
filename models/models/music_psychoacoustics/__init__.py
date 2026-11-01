@@ -41,6 +41,18 @@ from models.music_psychoacoustics.timbre_perception import (
     analyze_timbre, timbre_distance,
 )
 
+from models.music_psychoacoustics.temporal_perception import (
+    IntegrationWindow, INTEGRATION_WINDOWS,
+    weber_tempo_jnd, tempo_discrimination,
+    forward_masking_threshold, backward_masking_threshold,
+    gap_detection_threshold, temporal_order_judgment,
+    temporal_modulation_transfer, rhythm_perception_window,
+    preferred_tempo_resonance, ioi_variability, perceptual_attack_time,
+)
+from models.music_psychoacoustics.auditory_scene import (
+    StreamSegregation, AuditoryGrouping,
+)
+
 __all__ = [
     "hz_to_bark", "bark_to_hz", "hz_to_erb", "erb_to_hz", "erb_bandwidth",
     "CriticalBandAnalyzer", "GammatoneFilterbank",
@@ -66,4 +78,11 @@ __all__ = [
     "odd_even_ratio", "inharmonicity", "warmth",
     "roughness_dissonance", "total_roughness",
     "analyze_timbre", "timbre_distance",
+    "IntegrationWindow", "INTEGRATION_WINDOWS",
+    "weber_tempo_jnd", "tempo_discrimination",
+    "forward_masking_threshold", "backward_masking_threshold",
+    "gap_detection_threshold", "temporal_order_judgment",
+    "temporal_modulation_transfer", "rhythm_perception_window",
+    "preferred_tempo_resonance", "ioi_variability", "perceptual_attack_time",
+    "StreamSegregation", "AuditoryGrouping",
 ]

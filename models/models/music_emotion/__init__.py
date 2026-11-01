@@ -85,4 +85,14 @@ __all__ = [
     "closest_emotion_word", "sentiment_polarity", "arousal_level",
     "DimensionalEmotionModel", "MusicMoodClassifier",
     "PLUTCHIK_EMOTIONS", "MOOD_LABELS",
+    "EmotionCategory", "AudioFeatures", "EmotionPrediction", "FEATURE_WEIGHTS",
+    "predict_vad", "vad_to_category", "predict_emotion",
+    "emotion_recognition_trajectory", "emotion_transition_matrix",
 ]
+
+from models.music_emotion.emotion_recognition import (
+    EmotionCategory, AudioFeatures, EmotionPrediction, FEATURE_WEIGHTS,
+    predict_vad, vad_to_category, predict_emotion,
+    emotion_trajectory as emotion_recognition_trajectory,
+    emotion_transition_matrix,
+)

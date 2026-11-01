@@ -61,8 +61,16 @@ __all__ = [
     "record_event", "events_in_range", "player_activity",
     "activity_density", "player_contribution", "interaction_matrix",
     "session_fingerprint", "merge_recordings", "tempo_changes", "note_events_only",
+    "CodeLanguage", "SyncMode", "CodeSnippet", "PerformerState", "SharedClock", "LiveSession",
+    "submit_code", "code_diff", "performer_activity", "session_entropy",
+    "quantize_to_bar", "active_performers",
 ]
 
+from .live_coding import (
+    CodeLanguage, SyncMode, CodeSnippet, PerformerState, SharedClock, LiveSession,
+    submit_code, code_diff, performer_activity, session_entropy,
+    quantize_to_bar, active_performers,
+)
 from .rehearsal_planning import (
     RehearsalFocus, SectionDifficulty, RehearsalPlan, ProgressRecord,
     estimate_section_difficulty, plan_rehearsal, learning_curve,

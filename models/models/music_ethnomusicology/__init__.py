@@ -7,7 +7,11 @@ from models.music_ethnomusicology.maqam import (
 )
 from models.music_ethnomusicology.gamelan import (
     GamelanScale, SLENDRO_INTERVALS, PELOG_INTERVALS, PATHET_MAP,
-    interlocking_pattern, colotomic_structure,
+    ScaleType, Pathet, IramaLevel, ColotomyStructure, KotekanPattern,
+    COLOTOMY, SLENDRO_CENTS, PELOG_CENTS,
+    interlocking_pattern, colotomy_structure,
+    gamelan_interval_cents, pathet_classification, kotekan_pattern,
+    balungan_density, irama_level, garap_elaboration,
 )
 from models.music_ethnomusicology.african_rhythm import (
     TimelinePattern, STANDARD_PATTERNS, cross_rhythm, rotate_pattern,
@@ -56,7 +60,11 @@ __all__ = [
     "Raga", "RAGA_CATALOG", "THAAT_SCALES", "thaat_to_ragas", "raga_similarity", "classify_raga",
     "Maqam", "MAQAM_CATALOG", "maqam_modulation_distance", "classify_maqam",
     "GamelanScale", "SLENDRO_INTERVALS", "PELOG_INTERVALS", "PATHET_MAP",
-    "interlocking_pattern", "colotomic_structure",
+    "ScaleType", "Pathet", "IramaLevel", "ColotomyStructure", "KotekanPattern",
+    "COLOTOMY", "SLENDRO_CENTS", "PELOG_CENTS",
+    "interlocking_pattern", "colotomy_structure",
+    "gamelan_interval_cents", "pathet_classification", "kotekan_pattern",
+    "balungan_density", "irama_level", "garap_elaboration",
     "TimelinePattern", "STANDARD_PATTERNS", "cross_rhythm", "rotate_pattern",
     "pattern_density", "syncopation_index", "euclidean_rhythm",
     "Palo", "PALO_CATALOG", "COMPAS_PATTERNS",
@@ -85,6 +93,12 @@ __all__ = [
     "compute_contour_similarity", "cluster_variants", "extract_archetype",
     "transmission_stability", "geographic_diffusion",
     "melodic_drift_rate", "syllable_alignment_score",
+    "CelticMode", "TuneType", "OrnamentType",
+    "classify_tune_type", "classify_celtic_mode", "generate_ornament",
+    "session_set_order", "tune_key_histogram",
+    "KlezmerMode", "DanceType",
+    "classify_klezmer_mode", "has_augmented_second", "generate_krekhts",
+    "classify_dance", "freygish_scale", "mode_tension",
 ]
 
 from models.music_ethnomusicology.oral_tradition import (
@@ -92,4 +106,14 @@ from models.music_ethnomusicology.oral_tradition import (
     compute_contour_similarity, cluster_variants, extract_archetype,
     transmission_stability, geographic_diffusion,
     melodic_drift_rate, syllable_alignment_score,
+)
+from models.music_ethnomusicology.celtic_music import (
+    CelticMode, TuneType, OrnamentType,
+    classify_tune_type, classify_celtic_mode, generate_ornament,
+    session_set_order, tune_key_histogram,
+)
+from models.music_ethnomusicology.klezmer import (
+    KlezmerMode, DanceType,
+    classify_klezmer_mode, has_augmented_second, generate_krekhts,
+    classify_dance, freygish_scale, mode_tension,
 )

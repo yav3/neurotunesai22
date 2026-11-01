@@ -71,8 +71,16 @@ __all__ = [
     "TextureAssociation", "spectral_to_texture", "texture_distance",
     "ShapeAssociation", "BOUBA_KIKI_MAP", "articulation_to_shape", "dynamics_to_shape", "shape_distance",
     "cross_modal_coherence", "synesthesia_profile",
+    "MusicOntology", "MusicKnowledgeBase",
+    "OntologyNode", "OntologyEdge",
+    "NodeType", "OntologyRelationType",
 ]
 
+from .music_ontology import (
+    MusicOntology, MusicKnowledgeBase,
+    OntologyNode, OntologyEdge,
+    NodeType, RelationType as OntologyRelationType,
+)
 from .cross_modal import (
     ColourAssociation, PITCH_HUE_MAP, pitch_to_colour, chord_colour, colour_distance,
     TextureAssociation, spectral_to_texture, texture_distance,

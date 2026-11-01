@@ -75,4 +75,14 @@ __all__ = [
     "detect_crescendo_diminuendo", "detect_accents",
     "rubato_strength", "timing_jitter", "extract_phrase_arcs",
     "velocity_humanization", "compute_expression_profile",
+    "PerformanceStyle", "STYLE_PARAMS", "MicroNoteEvent", "HumanizedNote", "MicroDynamicProfile",
+    "humanize_velocity", "humanize_timing", "apply_swing",
+    "humanize", "downbeat_accent", "analyze_micro_dynamics",
 ]
+
+from .micro_dynamics import (
+    PerformanceStyle, STYLE_PARAMS,
+    NoteEvent as MicroNoteEvent, HumanizedNote, MicroDynamicProfile,
+    humanize_velocity, humanize_timing, apply_swing,
+    humanize, downbeat_accent, analyze_micro_dynamics,
+)

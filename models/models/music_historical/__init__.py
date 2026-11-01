@@ -37,6 +37,13 @@ from .genre_genealogy import (
     genre_distance, genre_influence_chain, genres_by_era,
     genre_fusion_candidates, genre_innovation_index,
 )
+from .harmonic_language_evolution import (
+    ROMAN_NUMERALS, ERA_TRANSITION_MATRICES,
+    HarmonicProfile, ProgressionAnalysis,
+    harmonic_entropy, vocabulary_usage, dominant_resolution_rate,
+    analyze_progression, profile_era, era_entropy_trajectory,
+    generate_progression, transition_divergence,
+)
 
 __all__ = [
     "MusicalPeriod", "PeriodProfile", "PERIOD_PROFILES",

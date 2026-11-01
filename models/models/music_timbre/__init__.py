@@ -56,4 +56,15 @@ __all__ = [
     "cepstral_smoothing", "true_envelope", "lpc_spectral_tilt",
     "AttackType", "TransientDescriptor", "compute_attack_time", "rise_slope",
     "classify_attack", "analyze_transient",
+    "MorphMethod", "SpectralFrame", "TimbreMorphResult",
+    "spectral_lerp", "morph_spectral_envelope",
+    "envelope_swap", "harmonic_blend",
+    "morph_trajectory", "spectral_distance", "brightness_transfer",
 ]
+
+from models.music_timbre.timbre_morphing import (
+    MorphMethod, SpectralFrame, TimbreMorphResult,
+    spectral_lerp, spectral_envelope as morph_spectral_envelope,
+    envelope_swap, harmonic_blend,
+    morph_trajectory, spectral_distance, brightness_transfer,
+)

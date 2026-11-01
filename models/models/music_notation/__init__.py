@@ -50,4 +50,16 @@ __all__ = [
     "Clef", "StaffLine", "NoteHead", "Beam", "StaffLayout",
     "Transposer", "InstrumentTransposition", "KeySignatureTransposer",
     "EnharmonicSpeller",
+    "LilyArticulation", "LilyNote", "LilyMeasure", "LilyScore",
+    "PITCH_TO_LILY", "LILY_TO_PITCH",
+    "midi_to_lily_note", "notes_to_score",
+    "parse_lily_pitch", "transpose_lily",
 ]
+
+from .lilypond import (
+    Articulation as LilyArticulation,
+    LilyNote, LilyMeasure, LilyScore,
+    PITCH_TO_LILY, LILY_TO_PITCH,
+    midi_to_lily_note, notes_to_score,
+    parse_lily_pitch, transpose_lily,
+)

@@ -59,8 +59,23 @@ __all__ = [
     "ProcessingStage", "BatchConfig", "TrackResult", "BatchResult",
     "validate_batch_config", "process_single", "process_batch",
     "estimate_time", "retry_failed",
+    "FoldResult", "CVResult",
+    "k_fold_split", "stratified_k_fold", "leave_one_out", "group_k_fold",
+    "accuracy", "mean_absolute_error", "f1_score_binary", "cv_confusion_matrix",
+    "learning_curve_points",
 ]
 
+from models.music_pipeline.dataset_builder import (
+    DatasetSplit, stratified_split, FeatureCache,
+    compute_dataset_statistics, DatasetStats,
+    balance_classes, normalize_features,
+)
+from models.music_pipeline.cross_validation import (
+    FoldResult, CVResult,
+    k_fold_split, stratified_k_fold, leave_one_out, group_k_fold,
+    accuracy, mean_absolute_error, f1_score_binary, confusion_matrix as cv_confusion_matrix,
+    learning_curve_points,
+)
 from models.music_pipeline.batch_processor import (
     ProcessingStage, BatchConfig, TrackResult, BatchResult,
     validate_batch_config, process_single, process_batch,
