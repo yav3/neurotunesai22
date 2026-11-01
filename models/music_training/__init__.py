@@ -19,6 +19,12 @@ from models.music_training.augmentation import (
     mixup,
 )
 
+from models.music_training.curriculum import (
+    DifficultyMetric, CurriculumStrategy, SampleDifficulty,
+    score_by_loss, score_by_entropy, score_by_complexity,
+    CurriculumScheduler, SelfPacedWeight,
+)
+
 __all__ = [
     "MusicDataset", "FeatureNormalizer",
     "ContrastiveLoss", "ReconstructionLoss", "MultiTaskHead",
@@ -28,4 +34,7 @@ __all__ = [
     "CheckpointManager",
     "pitch_shift_features", "tempo_scale_features", "noise_injection",
     "feature_dropout", "mixup",
+    "DifficultyMetric", "CurriculumStrategy", "SampleDifficulty",
+    "score_by_loss", "score_by_entropy", "score_by_complexity",
+    "CurriculumScheduler", "SelfPacedWeight",
 ]

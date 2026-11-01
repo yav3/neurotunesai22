@@ -159,7 +159,7 @@ def detect_tonicizations(
         c_next = chords[i + 1]
         if c_curr.quality not in (ChordQuality.DOMINANT7, ChordQuality.MAJOR):
             continue
-        expected_root = (c_curr.root + 7) % 12
+        expected_root = (c_curr.root + 5) % 12
         if c_next.root != expected_root:
             continue
         if c_next.quality in (ChordQuality.MAJOR, ChordQuality.MINOR):

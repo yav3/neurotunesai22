@@ -27,9 +27,31 @@ from models.music_audio.effects import (
     EffectsChain,
 )
 
+from models.music_audio.dynamics import (
+    compute_rms, compute_crest_factor, compute_dynamic_range,
+    compute_loudness_envelope, detect_clipping,
+    DynamicsCompressor, DynamicsLimiter,
+)
+from models.music_audio.onset import (
+    OnsetMethod, Onset, OnsetFeatures,
+    spectral_flux, high_frequency_content, complex_domain_odf,
+    phase_deviation_odf, energy_odf,
+    adaptive_threshold, pick_peaks, detect_onsets,
+    compute_onset_features, multi_method_onset_fusion,
+    onset_to_beat_alignment,
+)
+
 __all__ = [
     "SpatialPosition", "SpatialPanner", "AmbisonicsEncoder", "RoomSimulator",
     "StemType", "StemSeparator", "SpectralStemEstimator", "StemRemixer",
     "MIDINote", "MIDITrack", "MIDISequence", "PianoRollConverter",
     "AudioEffect", "Reverb", "Delay", "Compressor", "EQBand", "EQ", "EffectsChain",
+    "compute_rms", "compute_crest_factor", "compute_dynamic_range",
+    "compute_loudness_envelope", "detect_clipping",
+    "DynamicsCompressor", "DynamicsLimiter",
+    "OnsetMethod", "Onset", "OnsetFeatures",
+    "spectral_flux", "high_frequency_content", "complex_domain_odf",
+    "phase_deviation_odf", "energy_odf",
+    "adaptive_threshold", "pick_peaks", "detect_onsets",
+    "compute_onset_features", "multi_method_onset_fusion", "onset_to_beat_alignment",
 ]

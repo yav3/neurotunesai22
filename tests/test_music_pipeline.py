@@ -183,3 +183,252 @@ class TestAnnotationPipeline:
         assert "bright" in tags
         assert "danceable" in tags
         assert "positive" in tags
+
+
+# --- Signal quality ---
+
+class TestPeakAmplitude:
+    def test_sine(self):
+        from models.music_pipeline.quality import peak_amplitude
+        t = np.arange(1000) / 1000.0
+        sig = 0.8 * np.sin(2 * np.pi * 10 * t)
+        assert abs(peak_amplitude(sig) - 0.8) < 0.01
+
+    def test_empty(self):
+        from models.music_pipeline.quality import peak_amplitude
+        assert peak_amplitude(np.array([])) == 0.0
+
+
+class TestRmsLevel:
+    def test_constant(self):
+        from models.music_pipeline.quality import rms_level
+        sig = np.ones(100) * 0.5
+        assert abs(rms_level(sig) - 0.5) < 1e-6
+
+    def test_silence(self):
+        from models.music_pipeline.quality import rms_level
+        assert rms_level(np.zeros(100)) == 0.0
+
+
+class TestRmsToDb:
+    def test_unity(self):
+        from models.music_pipeline.quality import rms_to_db
+        assert abs(rms_to_db(1.0)) < 1e-6
+
+    def test_half(self):
+        from models.music_pipeline.quality import rms_to_db
+        db = rms_to_db(0.5)
+        assert abs(db - (-6.02)) < 0.1
+
+    def test_silence(self):
+        from models.music_pipeline.quality import rms_to_db
+        assert rms_to_db(0.0) == -100.0
+
+
+class TestClippingRatio:
+    def test_no_clipping(self):
+        from models.music_pipeline.quality import clipping_ratio
+        sig = np.ones(100) * 0.5
+        assert clipping_ratio(sig) == 0.0
+
+    def test_all_clipped(self):
+        from models.music_pipeline.quality import clipping_ratio
+        sig = np.ones(100) * 1.0
+        assert clipping_ratio(sig) == 1.0
+
+
+class TestSilenceRatio:
+    def test_loud_signal(self):
+        from models.music_pipeline.quality import silence_ratio
+        sig = np.ones(4096) * 0.5
+        assert silence_ratio(sig, sr=22050, frame_length=1024) == 0.0
+
+    def test_silent_signal(self):
+        from models.music_pipeline.quality import silence_ratio
+        sig = np.zeros(4096)
+        assert silence_ratio(sig, sr=22050, frame_length=1024) == 1.0
+
+
+class TestEstimateSnr:
+    def test_signal_with_pauses(self):
+        from models.music_pipeline.quality import estimate_snr
+        sig = np.zeros(22050)
+        sig[:11025] = 0.5 * np.sin(np.arange(11025) * 0.1)
+        snr = estimate_snr(sig, frame_length=1024)
+        assert snr > 10
+
+    def test_returns_float(self):
+        from models.music_pipeline.quality import estimate_snr
+        rng = np.random.RandomState(42)
+        sig = rng.randn(22050)
+        snr = estimate_snr(sig)
+        assert isinstance(snr, float)
+
+
+class TestDcOffset:
+    def test_zero_mean(self):
+        from models.music_pipeline.quality import dc_offset
+        t = np.arange(1000) / 1000.0
+        sig = np.sin(2 * np.pi * 10 * t)
+        assert abs(dc_offset(sig)) < 0.01
+
+    def test_offset(self):
+        from models.music_pipeline.quality import dc_offset
+        sig = np.ones(100) * 0.3
+        assert abs(dc_offset(sig) - 0.3) < 1e-6
+
+
+class TestCrestFactor:
+    def test_square_wave(self):
+        from models.music_pipeline.quality import crest_factor
+        sig = np.ones(100) * 0.5
+        assert abs(crest_factor(sig) - 1.0) < 1e-6
+
+    def test_impulsive(self):
+        from models.music_pipeline.quality import crest_factor
+        sig = np.zeros(1000)
+        sig[500] = 1.0
+        assert crest_factor(sig) > 10
+
+
+class TestDynamicRange:
+    def test_constant(self):
+        from models.music_pipeline.quality import dynamic_range
+        sig = np.ones(4096) * 0.5
+        assert dynamic_range(sig) == 0.0
+
+    def test_varied(self):
+        from models.music_pipeline.quality import dynamic_range
+        sig = np.concatenate([np.ones(2048) * 0.01, np.ones(2048) * 0.5])
+        dr = dynamic_range(sig, frame_length=512)
+        assert dr > 10
+
+
+class TestAssessQuality:
+    def test_clean_sine(self):
+        from models.music_pipeline.quality import assess_quality
+        sig = np.zeros(22050)
+        sig[:11025] = 0.5 * np.sin(np.arange(11025) * 0.1)
+        report = assess_quality(sig, sr=22050)
+        assert report.clipping_ratio == 0.0
+        assert report.duration_s == 1.0
+        assert report.peak_amplitude > 0
+
+    def test_clipped_signal(self):
+        from models.music_pipeline.quality import assess_quality
+        sig = np.ones(22050)
+        report = assess_quality(sig, sr=22050)
+        assert "clipping" in report.issues
+        assert not report.is_valid
+
+    def test_silent_signal(self):
+        from models.music_pipeline.quality import assess_quality
+        sig = np.zeros(22050)
+        report = assess_quality(sig, sr=22050)
+        assert "mostly_silent" in report.issues
+
+
+# --- Normalization ---
+
+class TestZScoreNormalizer:
+    def test_fit_transform(self):
+        from models.music_pipeline.normalization import ZScoreNormalizer
+        rng = np.random.RandomState(42)
+        X = rng.randn(50, 5) * 3 + 10
+        norm = ZScoreNormalizer()
+        Z = norm.fit_transform(X)
+        assert abs(Z.mean()) < 0.1
+        assert abs(Z.std() - 1.0) < 0.1
+
+    def test_inverse(self):
+        from models.music_pipeline.normalization import ZScoreNormalizer
+        rng = np.random.RandomState(42)
+        X = rng.randn(30, 4) * 2 + 5
+        norm = ZScoreNormalizer()
+        Z = norm.fit_transform(X)
+        X_back = norm.inverse_transform(Z)
+        assert np.allclose(X, X_back, atol=1e-10)
+
+    def test_not_fitted_raises(self):
+        from models.music_pipeline.normalization import ZScoreNormalizer
+        norm = ZScoreNormalizer()
+        with pytest.raises(RuntimeError):
+            norm.transform(np.ones((5, 3)))
+
+    def test_statistics(self):
+        from models.music_pipeline.normalization import ZScoreNormalizer
+        rng = np.random.RandomState(42)
+        X = rng.randn(20, 3)
+        norm = ZScoreNormalizer()
+        norm.fit(X)
+        assert norm.statistics is not None
+        assert norm.statistics.n_features == 3
+        assert norm.statistics.n_samples == 20
+
+
+class TestMinMaxNormalizer:
+    def test_default_range(self):
+        from models.music_pipeline.normalization import MinMaxNormalizer
+        X = np.array([[1, 2], [3, 4], [5, 6]], dtype=float)
+        norm = MinMaxNormalizer()
+        Z = norm.fit_transform(X)
+        assert Z.min() >= 0.0 - 1e-10
+        assert Z.max() <= 1.0 + 1e-10
+
+    def test_custom_range(self):
+        from models.music_pipeline.normalization import MinMaxNormalizer
+        X = np.array([[0, 10], [5, 20], [10, 30]], dtype=float)
+        norm = MinMaxNormalizer(feature_range=(-1.0, 1.0))
+        Z = norm.fit_transform(X)
+        assert Z.min() >= -1.0 - 1e-10
+        assert Z.max() <= 1.0 + 1e-10
+
+    def test_inverse(self):
+        from models.music_pipeline.normalization import MinMaxNormalizer
+        X = np.array([[2, 3], [4, 5], [6, 7]], dtype=float)
+        norm = MinMaxNormalizer()
+        Z = norm.fit_transform(X)
+        X_back = norm.inverse_transform(Z)
+        assert np.allclose(X, X_back, atol=1e-10)
+
+
+class TestRobustNormalizer:
+    def test_median_centered(self):
+        from models.music_pipeline.normalization import RobustNormalizer
+        rng = np.random.RandomState(42)
+        X = rng.randn(100, 3) * 5 + 100
+        norm = RobustNormalizer()
+        Z = norm.fit_transform(X)
+        assert abs(np.median(Z[:, 0])) < 0.1
+
+    def test_outlier_robust(self):
+        from models.music_pipeline.normalization import RobustNormalizer
+        X = np.array([[1], [2], [3], [4], [5], [1000]], dtype=float)
+        norm = RobustNormalizer()
+        Z = norm.fit_transform(X)
+        assert abs(Z[5, 0]) > 100
+
+
+class TestFeatureSelector:
+    def test_removes_constant(self):
+        from models.music_pipeline.normalization import FeatureSelector
+        X = np.array([[1, 5, 3], [1, 6, 4], [1, 7, 5]], dtype=float)
+        sel = FeatureSelector(variance_threshold=0.01)
+        Z = sel.fit_transform(X)
+        assert Z.shape[1] == 2
+
+    def test_n_selected(self):
+        from models.music_pipeline.normalization import FeatureSelector
+        rng = np.random.RandomState(42)
+        X = np.column_stack([rng.randn(20), np.zeros(20), rng.randn(20)])
+        sel = FeatureSelector()
+        sel.fit(X)
+        assert sel.n_selected == 2
+
+    def test_correlation_prune(self):
+        from models.music_pipeline.normalization import FeatureSelector
+        rng = np.random.RandomState(42)
+        base = rng.randn(50)
+        X = np.column_stack([base, base + 0.001 * rng.randn(50), rng.randn(50)])
+        result = FeatureSelector.correlation_prune(X, threshold=0.95)
+        assert result.shape[1] == 2

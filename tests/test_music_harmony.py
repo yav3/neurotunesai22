@@ -1,6 +1,7 @@
-"""Tests for music_harmony: chords, progressions, voice leading, functional harmony."""
+"""Tests for music_harmony: chords, progressions, voice leading, functional harmony, key detection, tension."""
 from __future__ import annotations
 import pytest
+import numpy as np
 
 from models.music_harmony.chords import (
     Chord, ChordQuality, CHORD_TYPES, chord_from_name, chord_from_pitches,
@@ -18,6 +19,20 @@ from models.music_harmony.functional import (
     HarmonicFunction, classify_function, cadence_type,
     CADENCE_TYPES, tonicization_target,
 )
+from models.music_harmony.key_profile import (
+    KeyEstimate, pitch_class_histogram, detect_key,
+    key_clarity, windowed_key_detection, key_stability,
+    pitch_class_entropy,
+    KRUMHANSL_MAJOR, KRUMHANSL_MINOR, PROFILE_SETS,
+)
+from models.music_harmony.tension import (
+    TensionProfile, interval_dissonance, chord_dissonance,
+    roughness_pair, chord_roughness, chord_roughness_from_pitches,
+    pitch_to_freq, tension_profile, resolution_strength,
+    harmonic_rhythm_density, harmonic_rhythm_regularity,
+    tension_contour_features,
+)
+from models.music_harmony.modulation import Key
 
 
 # ── Chords ──────────────────────────────────────────────────────────────
@@ -332,3 +347,274 @@ class TestFunctionalHarmony:
 
     def test_cadence_types_count(self):
         assert len(CADENCE_TYPES) >= 10
+
+
+# ── Key Detection ──────────────────────────────────────────────────────
+
+class TestPitchClassHistogram:
+    def test_single_note(self):
+        hist = pitch_class_histogram(np.array([60]))
+        assert hist[0] == 1.0
+        assert hist.sum() == 1.0
+
+    def test_c_major_scale(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71])
+        hist = pitch_class_histogram(pitches)
+        assert hist[0] == 1.0  # C
+        assert hist[1] == 0.0  # C#
+        assert hist[7] == 1.0  # G
+
+    def test_weighted(self):
+        pitches = np.array([60, 64, 67])
+        weights = np.array([2.0, 1.0, 1.0])
+        hist = pitch_class_histogram(pitches, weights)
+        assert hist[0] == 2.0
+        assert hist[4] == 1.0
+
+    def test_octave_equivalence(self):
+        hist = pitch_class_histogram(np.array([48, 60, 72]))
+        assert hist[0] == 3.0
+
+
+class TestDetectKey:
+    def test_c_major_scale(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71] * 4)
+        est = detect_key(pitches)
+        assert est.key.root == 0
+        assert est.key.mode == "major"
+        assert est.correlation > 0.7
+
+    def test_a_minor_scale(self):
+        pitches = np.array([69, 71, 72, 74, 76, 77, 79] * 4)
+        est = detect_key(pitches)
+        assert est.key.mode in ("minor", "major")
+        assert est.correlation > 0.5
+
+    def test_all_correlations_has_24_keys(self):
+        pitches = np.array([60, 64, 67])
+        est = detect_key(pitches)
+        assert len(est.all_correlations) == 24
+
+    def test_temperley_profile(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71] * 4)
+        est = detect_key(pitches, profile_set="temperley")
+        assert est.key.root == 0
+
+    def test_aarden_profile(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71] * 4)
+        est = detect_key(pitches, profile_set="aarden")
+        assert est.key.root in (0, 9)
+
+    def test_empty_gives_default(self):
+        pitches = np.array([], dtype=int)
+        est = detect_key(pitches)
+        assert isinstance(est.key, Key)
+
+
+class TestKeyClarity:
+    def test_clear_key(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71] * 8)
+        est = detect_key(pitches)
+        c = key_clarity(est)
+        assert c > 0.0
+
+    def test_ambiguous_key(self):
+        pitches = np.array(list(range(60, 72)))
+        est = detect_key(pitches)
+        c = key_clarity(est)
+        assert c < 0.3
+
+
+class TestWindowedKeyDetection:
+    def test_returns_list(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71] * 10)
+        results = windowed_key_detection(pitches, window_size=16, hop_size=8)
+        assert len(results) > 0
+        assert all(isinstance(r, KeyEstimate) for r in results)
+
+    def test_short_input(self):
+        pitches = np.array([60, 64, 67])
+        results = windowed_key_detection(pitches, window_size=16)
+        assert len(results) == 1
+
+
+class TestKeyStability:
+    def test_stable(self):
+        pitches = np.array([60, 62, 64, 65, 67, 69, 71] * 10)
+        results = windowed_key_detection(pitches, window_size=16, hop_size=4)
+        s = key_stability(results)
+        assert s > 0.5
+
+    def test_single_estimate(self):
+        est = detect_key(np.array([60, 64, 67]))
+        assert key_stability([est]) == 1.0
+
+
+class TestPitchClassEntropy:
+    def test_uniform(self):
+        hist = np.ones(12)
+        e = pitch_class_entropy(hist)
+        assert abs(e - np.log2(12)) < 0.01
+
+    def test_single_pc(self):
+        hist = np.zeros(12)
+        hist[0] = 10.0
+        e = pitch_class_entropy(hist)
+        assert e == 0.0
+
+    def test_empty(self):
+        assert pitch_class_entropy(np.zeros(12)) == 0.0
+
+
+# ── Harmonic Tension ───────────────────────────────────────────────────
+
+class TestIntervalDissonance:
+    def test_unison(self):
+        assert interval_dissonance(0) == 0.0
+
+    def test_perfect_fifth(self):
+        assert interval_dissonance(7) == pytest.approx(0.05)
+
+    def test_tritone(self):
+        assert interval_dissonance(6) > 0.5
+
+    def test_minor_second(self):
+        assert interval_dissonance(1) == pytest.approx(1.0)
+
+    def test_octave_wrap(self):
+        assert interval_dissonance(12) == 0.0
+
+
+class TestChordDissonance:
+    def test_major_low(self):
+        c = Chord(root=0, quality=ChordQuality.MAJOR)
+        d = chord_dissonance(c)
+        assert 0.0 < d < 0.3
+
+    def test_diminished_higher(self):
+        c_maj = Chord(root=0, quality=ChordQuality.MAJOR)
+        b_dim = Chord(root=11, quality=ChordQuality.DIMINISHED)
+        assert chord_dissonance(b_dim) > chord_dissonance(c_maj)
+
+    def test_single_note(self):
+        c = Chord(root=0, quality=ChordQuality.POWER)
+        d = chord_dissonance(c)
+        assert isinstance(d, float)
+
+
+class TestRoughness:
+    def test_unison_zero(self):
+        assert roughness_pair(440.0, 440.0) == 0.0
+
+    def test_octave_low(self):
+        r = roughness_pair(220.0, 440.0)
+        assert r < 0.3
+
+    def test_minor_second_high(self):
+        r = roughness_pair(261.63, 277.18)
+        assert r > 0.0
+
+    def test_zero_freq(self):
+        assert roughness_pair(0.0, 440.0) == 0.0
+
+    def test_chord_roughness_triad(self):
+        r = chord_roughness([261.63, 329.63, 392.0])
+        assert r > 0.0
+
+    def test_from_pitches(self):
+        r = chord_roughness_from_pitches([60, 64, 67])
+        assert r > 0.0
+
+
+class TestPitchToFreq:
+    def test_a4(self):
+        assert pitch_to_freq(69) == pytest.approx(440.0)
+
+    def test_c4(self):
+        assert pitch_to_freq(60) == pytest.approx(261.63, rel=0.01)
+
+
+class TestTensionProfile:
+    def test_basic_profile(self):
+        chords = [
+            Chord(0, ChordQuality.MAJOR),
+            Chord(7, ChordQuality.DOMINANT7),
+            Chord(0, ChordQuality.MAJOR),
+        ]
+        key = Key(root=0, mode="major")
+        tp = tension_profile(chords, key)
+        assert len(tp.composite) == 3
+        assert tp.composite[1] > tp.composite[0]
+
+    def test_with_voicings(self):
+        chords = [Chord(0, ChordQuality.MAJOR)]
+        key = Key(root=0, mode="major")
+        voicings = [[60, 64, 67]]
+        tp = tension_profile(chords, key, voicings=voicings)
+        assert len(tp.roughness) == 1
+        assert tp.roughness[0] > 0.0
+
+    def test_chromatic_chord_high_tonal_distance(self):
+        chords = [Chord(1, ChordQuality.MAJOR)]
+        key = Key(root=0, mode="major")
+        tp = tension_profile(chords, key)
+        assert tp.tonal_distance[0] > 0.5
+
+
+class TestResolutionStrength:
+    def test_dominant_to_tonic(self):
+        v7 = Chord(7, ChordQuality.DOMINANT7)
+        i = Chord(0, ChordQuality.MAJOR)
+        key = Key(root=0, mode="major")
+        s = resolution_strength(v7, i, key)
+        assert s > 0.3
+
+    def test_tonic_to_tonic(self):
+        i = Chord(0, ChordQuality.MAJOR)
+        key = Key(root=0, mode="major")
+        s = resolution_strength(i, i, key)
+        assert s >= 0.0
+
+
+class TestHarmonicRhythm:
+    def test_density(self):
+        onsets = [0.0, 1.0, 2.0, 3.0]
+        d = harmonic_rhythm_density(onsets, 4.0)
+        assert d == pytest.approx(1.0)
+
+    def test_density_zero_duration(self):
+        assert harmonic_rhythm_density([0.0], 0.0) == 0.0
+
+    def test_regularity_uniform(self):
+        onsets = [0.0, 1.0, 2.0, 3.0]
+        r = harmonic_rhythm_regularity(onsets)
+        assert r == pytest.approx(1.0)
+
+    def test_regularity_irregular(self):
+        onsets = [0.0, 0.1, 2.0, 2.1]
+        r = harmonic_rhythm_regularity(onsets)
+        assert r < 0.5
+
+    def test_regularity_single(self):
+        assert harmonic_rhythm_regularity([0.0]) == 1.0
+
+
+class TestTensionContourFeatures:
+    def test_basic(self):
+        chords = [
+            Chord(0, ChordQuality.MAJOR),
+            Chord(5, ChordQuality.MAJOR),
+            Chord(7, ChordQuality.DOMINANT7),
+            Chord(0, ChordQuality.MAJOR),
+        ]
+        key = Key(root=0, mode="major")
+        tp = tension_profile(chords, key)
+        feats = tension_contour_features(tp)
+        assert "mean" in feats
+        assert "slope" in feats
+        assert feats["range"] >= 0.0
+
+    def test_empty(self):
+        tp = TensionProfile([], [], [], [])
+        feats = tension_contour_features(tp)
+        assert feats["mean"] == 0.0

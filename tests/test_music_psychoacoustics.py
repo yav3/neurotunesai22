@@ -1,4 +1,4 @@
-"""Tests for music_psychoacoustics: critical bands, masking, loudness, pitch perception."""
+"""Tests for music_psychoacoustics: critical bands, masking, loudness, pitch, timbre, scene."""
 import math
 import numpy as np
 import pytest
@@ -15,6 +15,16 @@ from models.music_psychoacoustics.loudness import (
 )
 from models.music_psychoacoustics.pitch_perception import (
     VirtualPitch, PitchSalience, estimate_pitch,
+)
+from models.music_psychoacoustics.timbre import (
+    TimbreDescriptors, TimbreSpace,
+    spectral_centroid, spectral_spread, spectral_flux,
+    spectral_rolloff, spectral_flatness, brightness,
+    attack_time, log_attack_time, temporal_centroid,
+    zero_crossing_rate, compute_timbre_descriptors,
+)
+from models.music_psychoacoustics.auditory_scene import (
+    AuditoryStream, StreamSegregation, AuditoryGrouping,
 )
 
 
@@ -236,3 +246,317 @@ class TestEstimatePitch:
         mags = np.array([1.0, 0.8, 0.5, 0.3])
         f0, score = estimate_pitch(freqs, mags)
         assert f0 > 0
+
+
+# --- Timbre ---
+
+class TestSpectralCentroid:
+    def test_single_peak(self):
+        freqs = np.array([100.0, 200.0, 300.0, 400.0, 500.0])
+        mag = np.array([0.0, 0.0, 1.0, 0.0, 0.0])
+        assert spectral_centroid(mag, freqs) == 300.0
+
+    def test_uniform_spectrum(self):
+        freqs = np.array([100.0, 200.0, 300.0])
+        mag = np.ones(3)
+        sc = spectral_centroid(mag, freqs)
+        assert abs(sc - 200.0) < 1e-6
+
+    def test_silence(self):
+        freqs = np.array([100.0, 200.0])
+        mag = np.zeros(2)
+        assert spectral_centroid(mag, freqs) == 0.0
+
+
+class TestSpectralSpread:
+    def test_single_bin(self):
+        freqs = np.array([100.0, 200.0, 300.0])
+        mag = np.array([0.0, 1.0, 0.0])
+        assert spectral_spread(mag, freqs) == 0.0
+
+    def test_wide_spread(self):
+        freqs = np.array([100.0, 200.0, 300.0, 400.0, 500.0])
+        mag = np.array([1.0, 0.0, 0.0, 0.0, 1.0])
+        assert spectral_spread(mag, freqs) > 0
+
+
+class TestSpectralFlux:
+    def test_identical_frames(self):
+        mag = np.ones(64)
+        assert spectral_flux(mag, mag) == 0.0
+
+    def test_different_frames(self):
+        assert spectral_flux(np.ones(10), np.zeros(10)) > 0
+
+
+class TestSpectralRolloff:
+    def test_concentrated_low(self):
+        freqs = np.array([100.0, 200.0, 300.0, 400.0, 500.0])
+        mag = np.array([10.0, 0.0, 0.0, 0.0, 0.0])
+        assert spectral_rolloff(mag, freqs) == 100.0
+
+    def test_silence(self):
+        freqs = np.array([100.0, 200.0])
+        assert spectral_rolloff(np.zeros(2), freqs) == 0.0
+
+
+class TestSpectralFlatness:
+    def test_white_noise(self):
+        mag = np.ones(100)
+        sf = spectral_flatness(mag)
+        assert abs(sf - 1.0) < 0.01
+
+    def test_pure_tone(self):
+        mag = np.zeros(100)
+        mag[25] = 10.0
+        sf = spectral_flatness(mag)
+        assert sf < 0.1
+
+
+class TestBrightness:
+    def test_all_above_cutoff(self):
+        freqs = np.array([2000.0, 3000.0, 4000.0])
+        mag = np.ones(3)
+        assert brightness(mag, freqs, cutoff=1500.0) == 1.0
+
+    def test_all_below_cutoff(self):
+        freqs = np.array([100.0, 200.0, 300.0])
+        mag = np.ones(3)
+        assert brightness(mag, freqs, cutoff=1500.0) == 0.0
+
+
+class TestAttackTime:
+    def test_sharp_attack(self):
+        env = np.zeros(1000)
+        env[10:50] = np.linspace(0, 1, 40)
+        env[50:] = np.linspace(1, 0.5, 950)
+        at = attack_time(env, sr=1000.0)
+        assert 0.0 < at < 0.1
+
+    def test_empty_envelope(self):
+        assert attack_time(np.array([])) == 0.0
+
+    def test_log_attack_time_negative_for_fast(self):
+        env = np.zeros(100)
+        env[0] = 1.0
+        env[1:] = 0.5
+        lat = log_attack_time(env, sr=44100.0)
+        assert lat < 0
+
+
+class TestTemporalCentroid:
+    def test_early_energy(self):
+        env = np.zeros(100)
+        env[:10] = 1.0
+        tc = temporal_centroid(env, sr=100.0)
+        assert tc < 0.15
+
+    def test_late_energy(self):
+        env = np.zeros(100)
+        env[80:] = 1.0
+        tc = temporal_centroid(env, sr=100.0)
+        assert tc > 0.7
+
+
+class TestZeroCrossingRate:
+    def test_pure_sine(self):
+        t = np.arange(1000) / 1000.0
+        sig = np.sin(2 * np.pi * 10 * t)
+        zcr = zero_crossing_rate(sig)
+        assert 0.01 < zcr < 0.05
+
+    def test_constant(self):
+        assert zero_crossing_rate(np.ones(100)) == 0.0
+
+    def test_short_signal(self):
+        assert zero_crossing_rate(np.array([1.0])) == 0.0
+
+
+class TestComputeTimbreDescriptors:
+    def test_sine_tone(self):
+        sr = 22050.0
+        t = np.arange(4096) / sr
+        sig = np.sin(2 * np.pi * 440 * t)
+        d = compute_timbre_descriptors(sig, sr)
+        assert isinstance(d, TimbreDescriptors)
+        assert d.spectral_centroid > 0
+        assert d.zero_crossing_rate > 0
+
+    def test_short_signal_padded(self):
+        d = compute_timbre_descriptors(np.array([1.0, -1.0, 0.5]))
+        assert isinstance(d, TimbreDescriptors)
+
+    def test_noise_higher_flatness(self):
+        rng = np.random.RandomState(42)
+        noise = rng.randn(4096)
+        sr = 22050.0
+        t = np.arange(4096) / sr
+        tone = np.sin(2 * np.pi * 440 * t)
+        d_noise = compute_timbre_descriptors(noise, sr)
+        d_tone = compute_timbre_descriptors(tone, sr)
+        assert d_noise.spectral_flatness > d_tone.spectral_flatness
+
+
+class TestTimbreSpace:
+    @pytest.fixture
+    def sample_descriptors(self):
+        rng = np.random.RandomState(42)
+        descs = []
+        for _ in range(20):
+            sr = 22050.0
+            freq = rng.uniform(200, 2000)
+            t = np.arange(4096) / sr
+            sig = np.sin(2 * np.pi * freq * t) + 0.1 * rng.randn(4096)
+            descs.append(compute_timbre_descriptors(sig, sr))
+        return descs
+
+    def test_fit_transform(self, sample_descriptors):
+        ts = TimbreSpace(n_dimensions=3)
+        ts.fit(sample_descriptors)
+        point = ts.transform(sample_descriptors[0])
+        assert len(point) == 3
+
+    def test_distance_self_zero(self, sample_descriptors):
+        ts = TimbreSpace(n_dimensions=3)
+        ts.fit(sample_descriptors)
+        d = ts.distance(sample_descriptors[0], sample_descriptors[0])
+        assert abs(d) < 1e-6
+
+    def test_distance_triangle_inequality(self, sample_descriptors):
+        ts = TimbreSpace(n_dimensions=3)
+        ts.fit(sample_descriptors)
+        a, b, c = sample_descriptors[:3]
+        assert ts.distance(a, c) <= ts.distance(a, b) + ts.distance(b, c) + 1e-10
+
+    def test_unfitted_fallback(self):
+        ts = TimbreSpace(n_dimensions=2)
+        d = compute_timbre_descriptors(np.sin(np.arange(4096) * 0.1))
+        point = ts.transform(d)
+        assert len(point) == 2
+
+
+# --- Auditory scene analysis ---
+
+class TestStreamSegregation:
+    def test_freq_to_semitones_octave(self):
+        ss = StreamSegregation()
+        assert abs(ss.freq_to_semitones(220.0, 440.0) - 12.0) < 0.01
+
+    def test_segregation_prob_small_sep(self):
+        ss = StreamSegregation()
+        p = ss.segregation_probability(2.0)
+        assert p < 0.3
+
+    def test_segregation_prob_large_sep(self):
+        ss = StreamSegregation()
+        p = ss.segregation_probability(15.0)
+        assert p > 0.7
+
+    def test_segregation_prob_increases_with_sep(self):
+        ss = StreamSegregation()
+        p_low = ss.segregation_probability(3.0)
+        p_high = ss.segregation_probability(10.0)
+        assert p_high > p_low
+
+    def test_tempo_effect(self):
+        ss = StreamSegregation()
+        p_fast = ss.segregation_probability(8.0, ioi_seconds=0.05)
+        p_slow = ss.segregation_probability(8.0, ioi_seconds=0.4)
+        assert p_fast > p_slow
+
+    def test_segregate_two_streams(self):
+        ss = StreamSegregation()
+        freqs = np.array([200.0, 800.0, 210.0, 790.0, 205.0, 810.0])
+        streams = ss.segregate(freqs)
+        assert len(streams) == 2
+        assert sum(s.n_events for s in streams) == 6
+
+    def test_segregate_single_stream(self):
+        ss = StreamSegregation()
+        freqs = np.array([440.0, 445.0, 438.0, 442.0])
+        streams = ss.segregate(freqs)
+        assert len(streams) == 1
+
+    def test_segregate_empty(self):
+        ss = StreamSegregation()
+        assert ss.segregate(np.array([])) == []
+
+    def test_buildup_rate_monotonic(self):
+        ss = StreamSegregation()
+        curve = ss.buildup_rate(8.0, n_repetitions=20)
+        assert len(curve) == 20
+        for i in range(len(curve) - 1):
+            assert curve[i + 1] >= curve[i] - 1e-10
+
+    def test_buildup_rate_zero_sep(self):
+        ss = StreamSegregation()
+        curve = ss.buildup_rate(0.0)
+        assert np.allclose(curve, 0.0)
+
+
+class TestAuditoryGrouping:
+    def test_proximity_score_same_point(self):
+        ag = AuditoryGrouping()
+        assert abs(ag.proximity_score(0.0, 0.0) - 1.0) < 1e-6
+
+    def test_proximity_score_far(self):
+        ag = AuditoryGrouping()
+        s = ag.proximity_score(10.0, 20.0)
+        assert s < 0.01
+
+    def test_similarity_identical(self):
+        v = np.array([1.0, 2.0, 3.0])
+        assert abs(AuditoryGrouping.similarity_score(v, v) - 1.0) < 1e-6
+
+    def test_similarity_orthogonal(self):
+        a = np.array([1.0, 0.0])
+        b = np.array([0.0, 1.0])
+        assert abs(AuditoryGrouping.similarity_score(a, b)) < 1e-6
+
+    def test_common_fate_correlated(self):
+        t = np.arange(100) * 0.01
+        a = np.sin(2 * np.pi * 5 * t)
+        b = np.sin(2 * np.pi * 5 * t + 0.1)
+        score = AuditoryGrouping.common_fate_score(a, b)
+        assert score > 0.9
+
+    def test_common_fate_uncorrelated(self):
+        rng = np.random.RandomState(42)
+        a = rng.randn(100)
+        b = rng.randn(100)
+        score = AuditoryGrouping.common_fate_score(a, b)
+        assert abs(score) < 0.5
+
+    def test_good_continuation_linear(self):
+        freqs = np.linspace(200, 400, 10)
+        times = np.linspace(0, 1, 10)
+        score = AuditoryGrouping.good_continuation_score(freqs, times)
+        assert score > 0.9
+
+    def test_good_continuation_erratic(self):
+        rng = np.random.RandomState(42)
+        freqs = rng.uniform(100, 1000, 10)
+        times = np.linspace(0, 1, 10)
+        score = AuditoryGrouping.good_continuation_score(freqs, times)
+        assert score < 0.5
+
+    def test_group_events_cluster(self):
+        ag = AuditoryGrouping()
+        freqs = np.array([440.0, 445.0, 1200.0, 1210.0])
+        times = np.array([0.0, 0.1, 0.0, 0.1])
+        groups = ag.group_events(freqs, times, proximity_threshold=0.3)
+        assert len(groups) == 2
+
+    def test_group_events_empty(self):
+        ag = AuditoryGrouping()
+        assert ag.group_events(np.array([]), np.array([])) == []
+
+    def test_closure_detect_loud_surround(self):
+        mag = np.ones(100) * 10.0
+        mag[40:50] = 5.0
+        assert AuditoryGrouping.closure_detect(mag, 40, 50, threshold_db=10.0)
+
+    def test_closure_detect_deep_gap(self):
+        mag = np.ones(100) * 10.0
+        mag[40:50] = 0.001
+        assert not AuditoryGrouping.closure_detect(mag, 40, 50, threshold_db=6.0)

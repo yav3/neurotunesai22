@@ -16,6 +16,12 @@ from models.music_playlist.playlist_optimizer import (
     PlaylistOptimizer,
 )
 
+from models.music_playlist.diversity import (
+    genre_diversity, tempo_diversity, artist_diversity,
+    decade_spread, mood_coverage, PlaylistDiversityReport,
+    compute_diversity,
+)
+
 __all__ = [
     "TransitionType",
     "TransitionScore",
@@ -26,4 +32,7 @@ __all__ = [
     "TrackSlot",
     "PlaylistConstraints",
     "PlaylistOptimizer",
+    "genre_diversity", "tempo_diversity", "artist_diversity",
+    "decade_spread", "mood_coverage", "PlaylistDiversityReport",
+    "compute_diversity",
 ]
