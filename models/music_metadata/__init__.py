@@ -31,10 +31,20 @@ __all__ = [
     "Namespace", "Triple", "LinkedRecord",
     "build_track_record", "build_artist_record", "resolve_same_as",
     "triple_count", "filter_by_namespace", "merge_records",
+    "FingerprintAlgorithm", "FingerprintMeta", "ChromaprintConfig",
+    "LandmarkConfig", "FingerprintMatch",
+    "fingerprint_similarity", "generate_spectral_hash",
+    "landmark_hash", "decode_landmark_hash", "match_fingerprints",
 ]
 
 from .linked_data import (
     Namespace, Triple, LinkedRecord,
     build_track_record, build_artist_record, resolve_same_as,
     triple_count, filter_by_namespace, merge_records,
+)
+from .audio_fingerprint_meta import (
+    FingerprintAlgorithm, FingerprintMeta, ChromaprintConfig,
+    LandmarkConfig, FingerprintMatch,
+    fingerprint_similarity, generate_spectral_hash,
+    landmark_hash, decode_landmark_hash, match_fingerprints,
 )
