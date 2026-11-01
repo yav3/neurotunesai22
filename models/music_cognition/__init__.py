@@ -93,6 +93,15 @@ __all__ = [
     "body_resonance", "optimal_tempo_for_movement",
     "movement_audio_synchrony", "groove_body_response",
     "DanceMetrics", "analyze_dance",
+    "NarmourAnalysis", "ExpectationProfile",
+    "registral_direction_score", "intervallic_difference_score",
+    "registral_return_score", "proximity_score", "closure_score",
+    "narmour_implication", "build_pitch_transition_matrix",
+    "markov_pitch_expectation", "me_information_content", "melodic_surprise_curve",
+    "KeyProfile", "KeyFindingResult", "TonalDistance",
+    "find_key", "inter_key_distance", "tonal_hierarchy_distance",
+    "toroidal_key_coordinates", "detect_modulations", "tonal_tension_curve",
+    "tc_pitch_class_distribution",
 ]
 
 from models.music_cognition.schema_theory import (
@@ -130,6 +139,20 @@ from models.music_cognition.musical_syntax import (
     ProlongationalNode, detect_syntactic_violations, harmonic_syntax_score,
     prolongational_reduction, syntactic_complexity, cadence_detection,
     hierarchical_tension, expectancy_violation_eran,
+)
+from models.music_cognition.melodic_expectation import (
+    NarmourAnalysis, ExpectationProfile,
+    registral_direction_score, intervallic_difference_score,
+    registral_return_score, proximity_score, closure_score,
+    narmour_implication, build_pitch_transition_matrix,
+    markov_pitch_expectation, information_content as me_information_content,
+    melodic_surprise_curve,
+)
+from models.music_cognition.tonal_cognition import (
+    KeyProfile, KeyFindingResult, TonalDistance,
+    find_key, inter_key_distance, tonal_hierarchy_distance,
+    toroidal_key_coordinates, detect_modulations, tonal_tension_curve,
+    pitch_class_distribution as tc_pitch_class_distribution,
 )
 from models.music_cognition.embodied_cognition import (
     BodyPart, BODY_PARTS, MovementPhase,

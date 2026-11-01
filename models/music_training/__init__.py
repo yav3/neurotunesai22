@@ -54,6 +54,11 @@ __all__ = [
     "tempo_difficulty", "estimate_difficulty",
     "generate_exercise", "adaptive_exercise_sequence",
     "reading_speed_estimate", "sr_weakness_profile",
+    "SkillLevel", "LearningObjective", "StudentState", "CurriculumItem",
+    "zone_of_proximal_development", "spacing_effect_weight",
+    "interleaving_benefit", "mastery_probability",
+    "skill_decay", "difficulty_calibration",
+    "sequence_curriculum", "practice_schedule", "skill_progress_forecast",
 ]
 
 from .skill_assessment import (
@@ -110,4 +115,11 @@ from .sight_reading import (
     range_difficulty, tempo_difficulty, estimate_difficulty,
     generate_exercise, adaptive_exercise_sequence,
     reading_speed_estimate, weakness_profile as sr_weakness_profile,
+)
+from .curriculum_sequencing import (
+    SkillLevel, LearningObjective, StudentState, CurriculumItem,
+    zone_of_proximal_development, spacing_effect_weight,
+    interleaving_benefit, mastery_probability,
+    skill_decay, difficulty_calibration,
+    sequence_curriculum, practice_schedule, skill_progress_forecast,
 )

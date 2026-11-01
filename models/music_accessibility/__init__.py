@@ -121,6 +121,12 @@ __all__ = [
     "midi_to_braille_note", "melody_to_braille",
     "braille_to_text_description", "interval_sign",
     "score_to_braille", "braille_line_length",
+    "Audiogram", "HearingAidPrescription", "CIVocoderConfig",
+    "ISO226_FREQUENCIES", "ISO226_THRESHOLDS_0_PHON",
+    "presbycusis_threshold_shift", "noise_induced_threshold_shift",
+    "simulate_audiogram", "hearing_aid_gain",
+    "cochlear_implant_vocoder", "hm_sii",
+    "frequency_compression", "dynamic_range_compression",
 ]
 
 from .assistive_playback import (
@@ -147,6 +153,14 @@ from .cognitive_simplification import (
     simplify_melody as cs_simplify_melody,
     reduce_texture, regularise_structure, adapt_tempo_to_profile,
     create_simplified_version,
+)
+from .hearing_models import (
+    Audiogram, HearingAidPrescription, CIVocoderConfig,
+    ISO226_FREQUENCIES, ISO226_THRESHOLDS_0_PHON,
+    presbycusis_threshold_shift, noise_induced_threshold_shift,
+    simulate_audiogram, hearing_aid_gain,
+    cochlear_implant_vocoder, speech_intelligibility_index as hm_sii,
+    frequency_compression, dynamic_range_compression,
 )
 from .braille_music import (
     BrailleOctave, OCTAVE_MARKS,

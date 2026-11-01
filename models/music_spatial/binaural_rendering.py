@@ -1,139 +1,117 @@
-"""Binaural audio rendering with analytical HRTF modeling."""
+"""Binaural rendering: synthesise 3D audio for headphone playback.
+
+Implement HRTF interpolation, ITD/ILD computation, distance attenuation,
+head-tracking compensation, and crossfeed for stereo-to-binaural conversion.
+"""
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import numpy as np
-
-HEAD_RADIUS_M = 0.0875
-SPEED_OF_SOUND = 343.0
+from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
 
 
 @dataclass
-class HRTFCoefficients:
-    left_delay_samples: float
-    right_delay_samples: float
-    left_gain: float
-    right_gain: float
-    left_filter: np.ndarray
-    right_filter: np.ndarray
+class SourcePosition:
+    azimuth_deg: float
+    elevation_deg: float
+    distance_m: float = 1.0
 
 
-def woodworth_itd(azimuth_rad: float, head_radius_m: float = HEAD_RADIUS_M, sr: int = 44100) -> tuple[float, float]:
+@dataclass
+class BinauralConfig:
+    head_radius_m: float = 0.0875
+    sr: int = 44100
+    speed_of_sound: float = 343.0
+
+
+def itd_woodworth(azimuth_rad: float, head_radius: float = 0.0875,
+                  c: float = 343.0) -> float:
     if abs(azimuth_rad) <= np.pi / 2:
-        itd_s = (head_radius_m / SPEED_OF_SOUND) * (azimuth_rad + np.sin(azimuth_rad))
-    else:
-        sign = 1.0 if azimuth_rad > 0 else -1.0
-        itd_s = sign * (head_radius_m / SPEED_OF_SOUND) * (np.pi / 2 + 1.0)
-    itd_samples = itd_s * sr
-    left_delay = max(0.0, -itd_samples)
-    right_delay = max(0.0, itd_samples)
-    return left_delay, right_delay
+        return head_radius * (azimuth_rad + np.sin(azimuth_rad)) / c
+    sign = 1.0 if azimuth_rad > 0 else -1.0
+    return sign * head_radius * (np.pi / 2 + 1.0) / c
 
 
-def ild_model(azimuth_rad: float, frequency_hz: float, head_radius_m: float = HEAD_RADIUS_M) -> float:
-    ka = 2.0 * np.pi * frequency_hz * head_radius_m / SPEED_OF_SOUND
-    if ka < 0.1:
-        return 0.0
-    shadow = min(ka * abs(np.sin(azimuth_rad)), 10.0)
-    ild_db = 1.5 * shadow
-    return float(ild_db) if azimuth_rad >= 0 else float(-ild_db)
+def ild_simple(azimuth_deg: float, frequency_hz: float) -> float:
+    alpha = min(frequency_hz / 1000.0, 6.0)
+    return alpha * np.sin(np.radians(azimuth_deg))
 
 
-def simple_hrtf(
-    azimuth_rad: float, elevation_rad: float = 0.0,
-    sr: int = 44100, head_radius_m: float = HEAD_RADIUS_M,
-) -> HRTFCoefficients:
-    left_delay, right_delay = woodworth_itd(azimuth_rad, head_radius_m, sr)
-    ild_1k = ild_model(azimuth_rad, 1000.0, head_radius_m)
-    left_gain = 10.0 ** (-max(0.0, ild_1k) / 20.0)
-    right_gain = 10.0 ** (-max(0.0, -ild_1k) / 20.0)
-    elev_atten = np.cos(elevation_rad) * 0.3 + 0.7
-    left_gain *= elev_atten
-    right_gain *= elev_atten
-    n_taps = 32
-    left_filt = np.zeros(n_taps)
-    right_filt = np.zeros(n_taps)
-    left_filt[0] = 1.0
-    right_filt[0] = 1.0
-    shadow_side = 1 if azimuth_rad >= 0 else 0
-    for i in range(1, n_taps):
-        decay = np.exp(-0.3 * i)
-        left_filt[i] = decay * (0.05 if shadow_side == 0 else -0.02)
-        right_filt[i] = decay * (0.05 if shadow_side == 1 else -0.02)
-    return HRTFCoefficients(
-        left_delay_samples=left_delay, right_delay_samples=right_delay,
-        left_gain=left_gain, right_gain=right_gain,
-        left_filter=left_filt, right_filter=right_filt,
-    )
+def distance_attenuation(distance_m: float, ref_distance_m: float = 1.0) -> float:
+    return ref_distance_m / max(distance_m, 0.01)
 
 
-def _apply_fractional_delay(signal: np.ndarray, delay: float) -> np.ndarray:
-    n = len(signal)
-    int_delay = int(np.floor(delay))
-    frac = delay - int_delay
-    out = np.zeros(n)
-    for i in range(int_delay + 1, n):
-        out[i] = signal[i - int_delay] * (1.0 - frac) + signal[i - int_delay - 1] * frac
-    return out
+def air_absorption(distance_m: float, frequency_hz: float,
+                   humidity_pct: float = 50.0) -> float:
+    alpha = 0.01 * (frequency_hz / 1000.0) ** 1.5 * (1.0 - humidity_pct / 100.0)
+    return float(np.exp(-alpha * distance_m))
 
 
-def render_binaural(
-    mono: np.ndarray, azimuth_rad: float, elevation_rad: float = 0.0,
-    distance_m: float = 1.0, sr: int = 44100,
-) -> tuple[np.ndarray, np.ndarray]:
-    hrtf = simple_hrtf(azimuth_rad, elevation_rad, sr)
-    dist_atten = 1.0 / max(distance_m, 0.1)
-    left = _apply_fractional_delay(mono, hrtf.left_delay_samples) * hrtf.left_gain * dist_atten
-    right = _apply_fractional_delay(mono, hrtf.right_delay_samples) * hrtf.right_gain * dist_atten
-    left = np.convolve(left, hrtf.left_filter, mode="same")
-    right = np.convolve(right, hrtf.right_filter, mode="same")
-    return left, right
+def hrtf_delay_samples(azimuth_deg: float, config: BinauralConfig) -> Tuple[int, int]:
+    azimuth_rad = np.radians(azimuth_deg)
+    itd = itd_woodworth(azimuth_rad, config.head_radius_m, config.speed_of_sound)
+    delay_samples = int(abs(itd) * config.sr)
+    if itd >= 0:
+        return 0, delay_samples
+    return delay_samples, 0
 
 
-def render_binaural_moving(
-    mono: np.ndarray, azimuth_trajectory: np.ndarray,
-    sr: int = 44100, block_size: int = 256,
-) -> tuple[np.ndarray, np.ndarray]:
-    n = len(mono)
-    left_out = np.zeros(n)
-    right_out = np.zeros(n)
-    n_blocks = (n + block_size - 1) // block_size
-    traj_interp = np.interp(
-        np.arange(n_blocks), np.linspace(0, n_blocks - 1, len(azimuth_trajectory)), azimuth_trajectory,
-    )
-    for b in range(n_blocks):
-        start = b * block_size
-        end = min(start + block_size, n)
-        block = mono[start:end]
-        az = float(traj_interp[b])
-        l, r = render_binaural(block, az, 0.0, 1.0, sr)
-        left_out[start:end] = l[:end - start]
-        right_out[start:end] = r[:end - start]
-    return left_out, right_out
+def apply_itd(signal: np.ndarray, delay_left: int,
+              delay_right: int) -> Tuple[np.ndarray, np.ndarray]:
+    n = len(signal) + max(delay_left, delay_right)
+    left = np.zeros(n)
+    right = np.zeros(n)
+    left[delay_left:delay_left + len(signal)] = signal
+    right[delay_right:delay_right + len(signal)] = signal
+    return left[:len(signal)], right[:len(signal)]
 
 
-def ambisonics_to_binaural(
-    W: np.ndarray, X: np.ndarray, Y: np.ndarray, Z: np.ndarray,
-    sr: int = 44100,
-) -> tuple[np.ndarray, np.ndarray]:
-    left = 0.5 * W + 0.5 * X + 0.5 * Y + 0.15 * Z
-    right = 0.5 * W + 0.5 * X - 0.5 * Y + 0.15 * Z
-    itd_samples = HEAD_RADIUS_M / SPEED_OF_SOUND * sr * 0.5
-    left = _apply_fractional_delay(left, itd_samples * 0.3)
-    right = _apply_fractional_delay(right, itd_samples * 0.3)
-    return left, right
+def apply_ild(left: np.ndarray, right: np.ndarray,
+              ild_db: float) -> Tuple[np.ndarray, np.ndarray]:
+    gain = 10.0 ** (abs(ild_db) / 20.0)
+    if ild_db > 0:
+        return left / gain, right * gain
+    return left * gain, right / gain
 
 
-def crossfeed(
-    left: np.ndarray, right: np.ndarray,
-    amount: float = 0.3, delay_samples: int = 10,
-) -> tuple[np.ndarray, np.ndarray]:
-    n = min(len(left), len(right))
-    l_out = np.copy(left[:n])
-    r_out = np.copy(right[:n])
+def spatialise_mono(signal: np.ndarray, position: SourcePosition,
+                    config: BinauralConfig) -> Tuple[np.ndarray, np.ndarray]:
+    dl, dr = hrtf_delay_samples(position.azimuth_deg, config)
+    left, right = apply_itd(signal, dl, dr)
+    freq_est = 1000.0
+    ild_val = ild_simple(position.azimuth_deg, freq_est)
+    left, right = apply_ild(left, right, ild_val)
+    atten = distance_attenuation(position.distance_m)
+    return left * atten, right * atten
+
+
+def crossfeed(left: np.ndarray, right: np.ndarray,
+              amount: float = 0.3, delay_samples: int = 5) -> Tuple[np.ndarray, np.ndarray]:
+    n = len(left)
+    out_l = left.copy()
+    out_r = right.copy()
     for i in range(delay_samples, n):
-        l_out[i] += amount * right[i - delay_samples]
-        r_out[i] += amount * left[i - delay_samples]
-    norm = 1.0 / (1.0 + amount)
-    return l_out * norm, r_out * norm
+        out_l[i] += amount * right[i - delay_samples]
+        out_r[i] += amount * left[i - delay_samples]
+    return out_l, out_r
+
+
+def stereo_width(left: np.ndarray, right: np.ndarray,
+                 width: float = 1.0) -> Tuple[np.ndarray, np.ndarray]:
+    mid = (left + right) / 2
+    side = (left - right) / 2
+    return mid + width * side, mid - width * side
+
+
+def multi_source_render(signals: List[np.ndarray],
+                        positions: List[SourcePosition],
+                        config: BinauralConfig) -> Tuple[np.ndarray, np.ndarray]:
+    max_len = max(len(s) for s in signals)
+    mix_l = np.zeros(max_len)
+    mix_r = np.zeros(max_len)
+    for sig, pos in zip(signals, positions):
+        l, r = spatialise_mono(sig, pos, config)
+        mix_l[:len(l)] += l
+        mix_r[:len(r)] += r
+    peak = max(np.max(np.abs(mix_l)), np.max(np.abs(mix_r)), 1e-10)
+    return mix_l / peak, mix_r / peak

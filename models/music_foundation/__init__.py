@@ -56,3 +56,21 @@ from .end_to_end import (
     MusicFoundationPipeline as E2EMusicFoundationPipeline,
     run_demo as e2e_run_demo,
 )
+from .representation import (
+    PoolingConfig, RepresentationOutput,
+    mean_pool, attention_pool, multi_scale_pool,
+    Codebook, init_codebook, quantize, update_codebook_ema, codebook_perplexity,
+    generate_mask, masked_prediction_loss, contrastive_prediction_loss, sample_negatives,
+    barlow_twins_loss, variance_loss, invariance_loss, covariance_loss, vicreg_loss,
+    feature_pyramid, pyramid_merge,
+    representation_entropy, isotropy_score, effective_rank, alignment_uniformity,
+)
+from .augmentation import (
+    AugType, AugConfig, AugResult,
+    gain_jitter, polarity_inversion, additive_noise, soft_clip,
+    random_crop, fade_in_out,
+    frequency_mask, time_mask, spec_augment, frequency_warp, random_eq,
+    pitch_shift_resample, tempo_stretch, mixup as foundation_mixup,
+    cutmix_spectrogram,
+    build_augmentation_chain, default_pretraining_chain, two_view_augmentation,
+)

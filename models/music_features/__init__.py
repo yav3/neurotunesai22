@@ -52,6 +52,12 @@ __all__ = [
     "sd_spectral_flatness", "sd_spectral_slope", "spectral_decrease",
     "spectral_crest_factor", "bark_band_energies",
     "sd_mfcc", "spectral_contrast", "spectral_feature_vector",
+    "hz_to_mel", "mel_to_hz", "mf_mel_filterbank", "chroma_filterbank",
+    "mel_spectrogram", "log_mel_spectrogram", "mf_mfcc",
+    "delta_features", "delta_delta_features",
+    "chroma_stft", "chroma_cqt", "chroma_cens", "tonnetz_features",
+    "mf_spectral_contrast", "mf_spectral_bandwidth", "mf_spectral_flatness",
+    "mf_zcr", "mf_rms", "MelFeatureSet", "extract_mel_features",
 ]
 
 from models.music_features.rhythm_features import (
@@ -82,4 +88,20 @@ from models.music_features.spectral_descriptors import (
     spectral_decrease, spectral_crest_factor,
     bark_band_energies, mel_filterbank as sd_mel_filterbank,
     mfcc as sd_mfcc, spectral_contrast, spectral_feature_vector,
+)
+from models.music_features.mel_features import (
+    hz_to_mel, mel_to_hz,
+    mel_filterbank as mf_mel_filterbank,
+    chroma_filterbank,
+    mel_spectrogram, log_mel_spectrogram,
+    mfcc as mf_mfcc,
+    delta_features, delta_delta_features,
+    chroma_stft, chroma_cqt, chroma_cens,
+    tonnetz_features,
+    spectral_contrast as mf_spectral_contrast,
+    spectral_bandwidth as mf_spectral_bandwidth,
+    spectral_flatness as mf_spectral_flatness,
+    zero_crossing_rate as mf_zcr,
+    rms_energy as mf_rms,
+    MelFeatureSet, extract_mel_features,
 )

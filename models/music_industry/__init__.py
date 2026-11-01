@@ -102,6 +102,22 @@ __all__ = [
     "songwriter_split_calculator", "songwriter_fairness_index",
     "recoupment_tracker", "rm_market_share_hhi", "streaming_market_hhi",
     "blended_platform_rate", "advance_sizing",
+    "RM2_RevenueStream", "RM2_StreamingTier",
+    "RoyaltyStructure", "ArtistDeal",
+    "rm2_streaming_revenue", "rm2_mechanical_royalty",
+    "rm2_sync_license_value", "touring_revenue",
+    "recoup_schedule", "revenue_forecast",
+    "rm2_break_even_streams", "rm2_catalog_valuation",
+    "market_share_index", "rm2_royalty_waterfall",
+    "StreamingMarketShare", "GenreTrend", "ArtistGrowthModel",
+    "compute_market_share", "detect_genre_trends", "model_artist_growth",
+    "exponential_smoothing_forecast", "playlist_placement_value",
+    "release_timing_score", "ma_herfindahl_index", "genre_diversity_index",
+    "DistributionDeal", "TerritoryPricing", "PaymentSplit", "RecoupmentSchedule",
+    "ReleaseMetadata", "FormatSpec", "AGGREGATOR_PROFILES",
+    "compute_aggregator_fees", "territory_adjusted_price", "per_stream_rate",
+    "compute_payment_splits", "dc_breakeven_streams",
+    "annual_revenue_projection", "compute_recoupment",
 ]
 
 from .streaming_economics import (
@@ -156,4 +172,30 @@ from .royalty_models import (
     songwriter_split_calculator, songwriter_fairness_index,
     recoupment_tracker, rm_market_share_hhi, streaming_market_hhi,
     blended_platform_rate, advance_sizing,
+)
+from .market_analytics import (
+    StreamingMarketShare, GenreTrend, ArtistGrowthModel,
+    compute_market_share, detect_genre_trends, model_artist_growth,
+    exponential_smoothing_forecast, playlist_placement_value,
+    release_timing_score, herfindahl_index as ma_herfindahl_index,
+    genre_diversity_index,
+)
+from .distribution_chain import (
+    DistributionDeal, TerritoryPricing, PaymentSplit, RecoupmentSchedule,
+    ReleaseMetadata, FormatSpec, AGGREGATOR_PROFILES,
+    compute_aggregator_fees, territory_adjusted_price, per_stream_rate,
+    compute_payment_splits, breakeven_streams as dc_breakeven_streams,
+    annual_revenue_projection, compute_recoupment,
+)
+from .revenue_modeling import (
+    RevenueStream as RM2_RevenueStream,
+    StreamingTier as RM2_StreamingTier,
+    RoyaltyStructure, ArtistDeal,
+    streaming_revenue as rm2_streaming_revenue,
+    mechanical_royalty as rm2_mechanical_royalty,
+    sync_license_value as rm2_sync_license_value,
+    touring_revenue, recoup_schedule, revenue_forecast,
+    break_even_streams as rm2_break_even_streams,
+    catalog_valuation as rm2_catalog_valuation,
+    market_share_index, royalty_waterfall as rm2_royalty_waterfall,
 )

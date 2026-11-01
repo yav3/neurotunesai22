@@ -68,6 +68,11 @@ __all__ = [
     "range_constraint", "scale_membership", "contrary_motion_score",
     "arc_consistency_3", "backtrack_search",
     "harmonize_melody", "generate_with_constraints",
+    "OUParams", "LogisticParams", "IFSRule",
+    "gp_ornstein_uhlenbeck", "logistic_map", "henon_map", "brownian_bridge",
+    "ifs_attractor", "ifs_to_pitches",
+    "gp_self_similar_rhythm", "gp_cantor_rhythm",
+    "pink_noise_melody", "poisson_rhythm", "gp_markov_rhythm", "tendency_mask",
 ]
 
 from models.music_generation.rhythm_generation import (
@@ -109,4 +114,15 @@ from models.music_generation.constraint_satisfaction import (
     range_constraint, scale_membership, contrary_motion_score,
     arc_consistency_3, backtrack_search,
     harmonize_melody, generate_with_constraints,
+)
+from models.music_generation.generative_processes import (
+    OUParams, LogisticParams, IFSRule,
+    ornstein_uhlenbeck as gp_ornstein_uhlenbeck,
+    logistic_map, henon_map, brownian_bridge,
+    ifs_attractor, ifs_to_pitches,
+    self_similar_rhythm as gp_self_similar_rhythm,
+    cantor_rhythm as gp_cantor_rhythm,
+    pink_noise_melody, poisson_rhythm,
+    markov_rhythm as gp_markov_rhythm,
+    tendency_mask,
 )

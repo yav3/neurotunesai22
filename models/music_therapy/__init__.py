@@ -96,6 +96,11 @@ __all__ = [
     "compute_outcome", "aggregate_progress",
     "reliable_change_index", "clinically_significant",
     "SessionReport", "generate_session_report",
+    "EMEntrainmentState", "EntrainmentSession", "GaitTrainingProtocol",
+    "kuramoto_oscillator", "em_plv",
+    "auditory_motor_coupling", "em_entrainment_strength",
+    "isochronous_sequence", "gradual_tempo_shift", "tempo_adaptation_sequence",
+    "gait_training_protocol", "bilateral_entrainment_ratio",
 ]
 
 from .sound_bath import (
@@ -129,6 +134,13 @@ from .dose_response import (
     TherapyDose, DoseResponseCurve, fit_dose_response,
     therapeutic_threshold, optimal_dose, dose_efficiency,
     diminishing_returns_point, session_schedule, cumulative_response,
+)
+from .entrainment_models import (
+    EntrainmentState as EMEntrainmentState, EntrainmentSession, GaitTrainingProtocol,
+    kuramoto_oscillator, phase_locking_value as em_plv,
+    auditory_motor_coupling, entrainment_strength as em_entrainment_strength,
+    isochronous_sequence, gradual_tempo_shift, tempo_adaptation_sequence,
+    gait_training_protocol, bilateral_entrainment_ratio,
 )
 from .therapeutic_assessment import (
     GoalDomain, ProgressLevel, TherapeuticGoal, SessionObservation, OutcomeMeasure,

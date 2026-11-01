@@ -90,6 +90,10 @@ __all__ = [
     "compute_scattering", "scattering_distance",
     "time_shift_invariance_test", "scattering_modulation_spectrum",
     "joint_time_frequency_scattering",
+    "SpectralFrame", "MorphParams", "MorphTrajectory",
+    "morph_extract_envelope", "spectral_interpolation", "phase_vocoder_morph",
+    "cross_synthesis", "timbre_distance", "morph_trajectory",
+    "harmonic_matching", "frequency_warping", "spectral_blend", "morph_sequence",
 ]
 
 from models.music_transforms.constant_q import (
@@ -143,4 +147,12 @@ from models.music_transforms.scattering_transform import (
     time_shift_invariance_test,
     modulation_spectrum as scattering_modulation_spectrum,
     joint_time_frequency_scattering,
+)
+from models.music_transforms.spectral_morphing import (
+    SpectralFrame, MorphParams, MorphTrajectory,
+    extract_spectral_envelope as morph_extract_envelope,
+    spectral_interpolation, phase_vocoder_morph,
+    cross_synthesis, timbre_distance, morph_trajectory,
+    harmonic_matching, frequency_warping, spectral_blend,
+    morph_sequence,
 )

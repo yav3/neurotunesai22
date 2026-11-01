@@ -95,6 +95,14 @@ __all__ = [
     "rms_energy", "zero_crossing_rate_stream",
     "spectral_centroid_stream", "spectral_rolloff_stream", "spectral_flux_stream",
     "chunk_audio", "process_full_signal", "overlap_add_reconstruct",
+    "CacheEntry", "CacheStats", "ContentAddressedCache",
+    "make_cache_key", "memoize_feature",
+    "ErrorSeverity", "CircuitState", "PipelineError", "RetryConfig",
+    "CircuitBreaker", "HealthMetrics",
+    "classify_error", "compute_backoff_delay", "should_retry",
+    "update_health_metrics", "fallback_chain",
+    "FeatureSchema", "FeatureRecord", "content_hash",
+    "InMemoryFeatureStore", "feature_matrix", "stale_report",
 ]
 
 from models.music_pipeline.dataset_builder import (
@@ -150,4 +158,18 @@ from models.music_pipeline.streaming_pipeline import (
     spectral_flux as spectral_flux_stream,
     chunk_audio, process_full_signal,
     overlap_add as overlap_add_reconstruct,
+)
+from models.music_pipeline.feature_cache import (
+    CacheEntry, CacheStats, FeatureCache as ContentAddressedCache,
+    make_cache_key, memoize_feature,
+)
+from models.music_pipeline.error_handling import (
+    ErrorSeverity, CircuitState, PipelineError, RetryConfig,
+    CircuitBreaker, HealthMetrics,
+    classify_error, compute_backoff_delay, should_retry,
+    update_health_metrics, fallback_chain,
+)
+from models.music_pipeline.feature_store import (
+    FeatureSchema, FeatureRecord, content_hash,
+    InMemoryFeatureStore, feature_matrix, stale_report,
 )

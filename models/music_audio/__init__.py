@@ -27,7 +27,19 @@ from models.music_audio.effects import (
     EffectsChain,
 )
 
-from models.music_audio.onset_detection import OnsetDetector
+from models.music_audio.onset_detection import (
+    OnsetDetector,
+    OnsetType, OnsetResult,
+    spectral_flux as od_spectral_flux,
+    high_frequency_content as od_high_frequency_content,
+    complex_domain as od_complex_domain,
+    superflux, onset_strength_envelope as od_onset_strength_envelope,
+    adaptive_threshold as od_adaptive_threshold,
+    pick_onsets, onset_backtrack,
+    classify_onset_type, transient_steady_separation,
+    attack_time, compute_tempo_from_onsets,
+    detect_onsets as od_detect_onsets,
+)
 
 from models.music_audio.dynamics import (
     compute_rms, compute_crest_factor, compute_dynamic_range,
@@ -57,6 +69,12 @@ __all__ = [
     "adaptive_threshold", "pick_peaks", "detect_onsets",
     "compute_onset_features", "multi_method_onset_fusion", "onset_to_beat_alignment",
     "OnsetDetector",
+    "OnsetType", "OnsetResult",
+    "od_spectral_flux", "od_high_frequency_content",
+    "od_complex_domain", "superflux", "od_onset_strength_envelope",
+    "od_adaptive_threshold", "pick_onsets", "onset_backtrack",
+    "classify_onset_type", "transient_steady_separation",
+    "attack_time", "compute_tempo_from_onsets", "od_detect_onsets",
     "ideal_binary_mask", "ideal_ratio_mask", "wiener_filter",
     "harmonic_percussive_separation", "griffin_lim",
     "SDR", "SIR", "SAR",

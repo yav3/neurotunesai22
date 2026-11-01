@@ -114,6 +114,11 @@ __all__ = [
     "melodic_overlap", "harmonic_overlap", "rhythmic_overlap", "structural_overlap",
     "classify_derivative", "analyze_derivative",
     "transposition_invariant_overlap", "self_quotation_ratio",
+    "rc_LicenseType", "UsageMedium", "UsageRight", "RoyaltyShare",
+    "SyncLicense", "ClearanceResult",
+    "mechanical_rate", "compute_royalty_split", "aggregate_royalties",
+    "clearance_check", "license_compatibility", "usage_conflict",
+    "rc_sync_license_value", "territory_coverage", "rights_chain_audit",
 ]
 
 from models.music_copyright.plagiarism_detection import (
@@ -140,6 +145,14 @@ from models.music_copyright.content_fingerprint import (
     MelodicSimilarity, melodic_similarity as cf_melodic_similarity,
     onset_grid, rhythmic_similarity,
     chord_ngram_similarity, originality_score as cf_originality_score,
+)
+from models.music_copyright.rights_clearance import (
+    LicenseType as rc_LicenseType, UsageMedium, UsageRight, RoyaltyShare,
+    SyncLicense, ClearanceResult,
+    mechanical_rate, compute_royalty_split, aggregate_royalties,
+    clearance_check, license_compatibility, usage_conflict,
+    sync_license_value as rc_sync_license_value,
+    territory_coverage, rights_chain_audit,
 )
 from models.music_copyright.derivative_work_analysis import (
     DerivativeCategory, OverlapResult,

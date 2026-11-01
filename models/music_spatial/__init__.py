@@ -45,9 +45,11 @@ __all__ = [
     "edt_from_ir", "ir_clarity", "definition_d50",
     "center_time", "bass_ratio",
     "image_source_reflections", "compute_acoustic_parameters",
-    "HRTFCoefficients", "woodworth_itd", "ild_model", "simple_hrtf",
-    "render_binaural_analytical", "render_binaural_moving",
-    "ambisonics_to_binaural", "crossfeed_bauer",
+    "BR_SourcePosition", "BinauralConfig",
+    "itd_woodworth", "ild_simple", "distance_attenuation", "air_absorption",
+    "hrtf_delay_samples", "apply_itd", "apply_ild",
+    "spatialise_mono", "crossfeed_bauer",
+    "stereo_width", "multi_source_render",
     "PanningMethod", "SpeakerLayout", "STEREO", "QUAD",
     "SURROUND_5_1", "SURROUND_7_1",
     "vbap_gains", "dbap_gains", "equal_power_pan",
@@ -73,6 +75,16 @@ __all__ = [
     "reflection_coefficient", "absorption_to_impedance",
     "inverse_square_law", "sound_intensity_to_spl", "spl_to_intensity",
     "doppler_shift", "fresnel_zone_radius", "RayPath", "trace_ray_2d",
+    "WFSArray", "WFSSource", "DrivingSignal",
+    "compute_array_geometry", "planar_driving_function",
+    "circular_driving_function", "focused_source_driving",
+    "spatial_aliasing_frequency", "kirchhoff_helmholtz_weights",
+    "render_wavefield_2d", "array_truncation_error",
+    "AmbisonicSignal", "AmbisonicConfig",
+    "spherical_harmonic_real", "ambisonic_encode", "ambisonic_decode",
+    "sc_max_re_decode_weights", "binaural_render_ambisonic",
+    "directional_loudness_map", "diffuseness_estimate", "spatial_coherence",
+    "sc_energy_vector", "velocity_vector", "ambisonic_rotation",
 ]
 
 from .binaural_render import (
@@ -81,10 +93,11 @@ from .binaural_render import (
     mix_binaural, perceived_width,
 )
 from .binaural_rendering import (
-    HRTFCoefficients, woodworth_itd, ild_model, simple_hrtf,
-    render_binaural as render_binaural_analytical,
-    render_binaural_moving, ambisonics_to_binaural,
-    crossfeed as crossfeed_bauer,
+    SourcePosition as BR_SourcePosition, BinauralConfig,
+    itd_woodworth, ild_simple, distance_attenuation, air_absorption,
+    hrtf_delay_samples, apply_itd, apply_ild,
+    spatialise_mono, crossfeed as crossfeed_bauer,
+    stereo_width, multi_source_render,
 )
 from .surround_panning import (
     PanningMethod, SpeakerLayout, STEREO, QUAD,
@@ -122,6 +135,22 @@ from .hoa_transforms import (
     rotate_soundfield_euler,
     sound_intensity_vector, doa_from_intensity, diffuseness,
     plane_wave_decomposition, max_re_weights, in_phase_weights,
+)
+from .wavefield_synthesis import (
+    WFSArray, WFSSource, DrivingSignal,
+    compute_array_geometry, planar_driving_function,
+    circular_driving_function, focused_source_driving,
+    spatial_aliasing_frequency, kirchhoff_helmholtz_weights,
+    render_wavefield_2d, array_truncation_error,
+)
+from .spatial_coding import (
+    AmbisonicSignal, AmbisonicConfig,
+    spherical_harmonic_real, ambisonic_encode, ambisonic_decode,
+    max_re_decode_weights as sc_max_re_decode_weights,
+    binaural_render_ambisonic, directional_loudness_map,
+    diffuseness_estimate, spatial_coherence,
+    energy_vector as sc_energy_vector, velocity_vector,
+    ambisonic_rotation,
 )
 from .spatial_scene import (
     Vec3, SpatialSource, SpatialScene,

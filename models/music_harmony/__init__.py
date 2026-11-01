@@ -88,7 +88,30 @@ __all__ = [
     "is_z_related", "is_subset", "is_superset",
     "common_tones_under_transposition", "similarity_index",
     "FORTE_CATALOG_3", "FORTE_CATALOG_4", "lookup_forte", "all_subsets",
+    "fa_HarmonicFunction", "fa_CadenceType", "fa_RomanNumeral", "fa_FunctionalAnalysis",
+    "fa_FUNCTION_MAP",
+    "pitch_class_set_to_chord_quality", "chord_to_roman_numeral",
+    "detect_cadence", "harmonic_tension", "detect_tonicization",
+    "fa_tension_curve", "functional_rhythm", "analyze_progression",
+    "harmonic_surprise",
 ]
+
+from models.music_harmony.functional_analysis import (
+    HarmonicFunction as fa_HarmonicFunction,
+    CadenceType as fa_CadenceType,
+    RomanNumeral as fa_RomanNumeral,
+    FunctionalAnalysis as fa_FunctionalAnalysis,
+    FUNCTION_MAP as fa_FUNCTION_MAP,
+    pitch_class_set_to_chord_quality,
+    chord_to_roman_numeral,
+    detect_cadence,
+    harmonic_tension,
+    detect_tonicization,
+    tension_curve as fa_tension_curve,
+    functional_rhythm,
+    analyze_progression,
+    harmonic_surprise,
+)
 
 from models.music_harmony.set_theory import (
     PCSet, to_pc_set, transpose, invert, complement,

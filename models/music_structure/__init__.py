@@ -18,11 +18,10 @@ from models.music_structure.self_similarity import (
     StructureAnalysis, analyze_structure,
 )
 from models.music_structure.repetition_analysis import (
-    Motif, MotifOccurrence, RepetitionStructure,
-    cosine_similarity_matrix, lag_similarity, lag_spectrum,
-    find_repeated_segments, structural_thumbnail,
+    RepetitionSpan, lag_similarity_matrix as rep_lag_similarity,
+    diagonal_strength, find_repetitions, repetition_density,
     compression_ratio as structural_compression_ratio,
-    build_repetition_structure,
+    novelty_from_repetition, repetition_hierarchy,
 )
 
 __all__ = [
@@ -72,6 +71,11 @@ __all__ = [
     "rhythmic_tension", "dynamic_tension",
     "compute_tension_flow", "detect_climaxes", "classify_arc", "tension_arc",
     "tension_similarity", "tension_derivative", "cumulative_tension", "tension_entropy",
+    "FormSection", "FormAnalysis",
+    "detect_sections", "section_similarity_matrix", "label_sections_by_similarity",
+    "classify_form", "sonata_form_likelihood", "verse_chorus_likelihood",
+    "golden_ratio_position", "climax_proximity_to_golden_ratio",
+    "arch_form_score", "palindrome_score", "energy_trajectory", "analyze_form",
 ]
 
 from models.music_structure.novelty_curve import (
@@ -118,4 +122,13 @@ from models.music_structure.tension_flow import (
     compute_tension_curve as compute_tension_flow,
     detect_climaxes, classify_arc, tension_arc,
     tension_similarity, tension_derivative, cumulative_tension, tension_entropy,
+)
+from models.music_structure.form_analysis import (
+    FormSection, FormAnalysis,
+    detect_sections, section_similarity_matrix,
+    label_sections_by_similarity, classify_form,
+    sonata_form_likelihood, verse_chorus_likelihood,
+    golden_ratio_position, climax_proximity_to_golden_ratio,
+    arch_form_score, palindrome_score,
+    energy_trajectory, analyze_form,
 )
