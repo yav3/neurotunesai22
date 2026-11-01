@@ -22,6 +22,13 @@ from .tuning_systems import (
     cents_deviation, frequency_ratio, compare_tunings,
 )
 
+from .extended_techniques import (
+    InstrumentFamily as ExtInstrumentFamily, TechniqueCategory, ExtendedTechnique,
+    HarmonicNode, MultiphonicSpectrum, PreparedPianoModification,
+    natural_harmonic_series, harmonic_amplitude_model, string_harmonic_nodes,
+    multiphonic_roughness, technique_difficulty_score, COMMON_TECHNIQUES,
+)
+
 __all__ = [
     "InstrumentFamily", "InstrumentClass", "Instrument", "INSTRUMENT_DATABASE",
     "instruments_by_family", "pitch_range", "transposition_interval",
@@ -36,4 +43,8 @@ __all__ = [
     "TuningSystem", "equal_temperament", "pythagorean",
     "just_intonation", "meantone", "well_temperament",
     "cents_deviation", "frequency_ratio", "compare_tunings",
+    "TechniqueCategory", "ExtendedTechnique",
+    "HarmonicNode", "MultiphonicSpectrum", "PreparedPianoModification",
+    "natural_harmonic_series", "harmonic_amplitude_model", "string_harmonic_nodes",
+    "multiphonic_roughness", "technique_difficulty_score", "COMMON_TECHNIQUES",
 ]

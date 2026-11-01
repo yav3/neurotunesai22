@@ -43,4 +43,29 @@ __all__ = [
     "onset_spectral_flux", "high_frequency_content", "complex_domain_odf",
     "energy_odf", "phase_deviation_odf",
     "adaptive_threshold", "pick_onsets", "compute_odf",
+    "MetricLevel", "RhythmicEvent", "GrooveProfile",
+    "inter_onset_intervals", "ioi_statistics", "swing_ratio",
+    "microtiming_deviations", "syncopation_lhl", "metric_weight_pattern",
+    "rhythmic_density", "onset_entropy", "metric_clarity", "compute_groove_profile",
+    "SpectralDescriptors", "spectral_centroid", "spectral_spread",
+    "spectral_skewness", "spectral_kurtosis", "spectral_flatness",
+    "spectral_crest", "spectral_rolloff", "spectral_slope",
+    "spectral_decrease", "spectral_flux",
+    "compute_spectral_descriptors", "Formant", "estimate_formants",
+    "harmonic_to_noise_ratio",
 ]
+
+from .rhythm_analysis import (
+    MetricLevel, RhythmicEvent, GrooveProfile,
+    inter_onset_intervals, ioi_statistics, swing_ratio,
+    microtiming_deviations, syncopation_lhl, metric_weight_pattern,
+    rhythmic_density, onset_entropy, metric_clarity, compute_groove_profile,
+)
+from .spectral_analysis import (
+    SpectralDescriptors, spectral_centroid, spectral_spread,
+    spectral_skewness, spectral_kurtosis, spectral_flatness,
+    spectral_crest, spectral_rolloff, spectral_slope,
+    spectral_decrease, spectral_flux,
+    compute_spectral_descriptors, Formant, estimate_formants,
+    harmonic_to_noise_ratio,
+)

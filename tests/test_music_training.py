@@ -282,3 +282,87 @@ class TestAugmentation:
         mixed, lam = mixup(a, b, alpha=1.0, seed=42)
         assert 0 <= lam <= 1
         np.testing.assert_allclose(mixed, lam * a + (1 - lam) * b)
+
+
+class TestContrastiveLearning:
+    def test_cosine_similarity_identical(self):
+        from models.music_training.contrastive_learning import cosine_similarity
+        a = np.array([1.0, 2.0, 3.0])
+        assert cosine_similarity(a, a) == pytest.approx(1.0)
+
+    def test_cosine_similarity_orthogonal(self):
+        from models.music_training.contrastive_learning import cosine_similarity
+        a = np.array([1.0, 0.0])
+        b = np.array([0.0, 1.0])
+        assert cosine_similarity(a, b) == pytest.approx(0.0, abs=1e-10)
+
+    def test_pairwise_cosine(self):
+        from models.music_training.contrastive_learning import pairwise_cosine_similarity
+        emb = np.eye(3)
+        sim = pairwise_cosine_similarity(emb)
+        assert sim.shape == (3, 3)
+        np.testing.assert_allclose(np.diag(sim), 1.0)
+
+    def test_nt_xent_loss_positive(self):
+        from models.music_training.contrastive_learning import nt_xent_loss
+        z_i = np.array([1.0, 0.0, 0.0])
+        z_j = np.array([0.9, 0.1, 0.0])
+        negatives = np.random.RandomState(0).randn(5, 3)
+        loss = nt_xent_loss(z_i, z_j, negatives)
+        assert loss > 0
+
+    def test_triplet_loss_correct_order(self):
+        from models.music_training.contrastive_learning import triplet_loss
+        anchor = np.array([1.0, 0.0])
+        positive = np.array([0.9, 0.1])
+        negative = np.array([-1.0, 0.0])
+        loss = triplet_loss(anchor, positive, negative, margin=0.5)
+        assert loss >= 0.0
+
+    def test_hard_negative_mining(self):
+        from models.music_training.contrastive_learning import hard_negative_mining
+        anchor = np.array([1.0, 0.0, 0.0])
+        negatives = np.array([
+            [0.9, 0.1, 0.0],
+            [-1.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+        ])
+        hard = hard_negative_mining(anchor, negatives, k=1)
+        assert len(hard) == 1
+
+    def test_music_augmentor(self):
+        from models.music_training.contrastive_learning import MusicAugmentor, AugmentationType
+        aug = MusicAugmentor(augmentations=[AugmentationType.NOISE, AugmentationType.TIME_STRETCH])
+        features = np.ones(64)
+        augmented = aug.apply(features, seed=42)
+        assert augmented.shape == features.shape
+        assert not np.allclose(augmented, features)
+
+    def test_alignment_metric(self):
+        from models.music_training.contrastive_learning import alignment_metric
+        a = np.array([1.0, 0.0])
+        b = np.array([1.0, 0.0])
+        align = alignment_metric(a, b)
+        assert align == pytest.approx(0.0, abs=1e-5)
+
+    def test_uniformity_metric(self):
+        from models.music_training.contrastive_learning import uniformity_metric
+        z = np.random.RandomState(42).randn(20, 8)
+        z = z / np.linalg.norm(z, axis=1, keepdims=True)
+        unif = uniformity_metric(z)
+        assert unif < 0
+
+    def test_contrastive_training_state(self):
+        from models.music_training.contrastive_learning import ContrastiveTrainingState
+        state = ContrastiveTrainingState(embed_dim=16, temperature=0.1)
+        assert state.embed_dim == 16
+        assert state.temperature == 0.1
+
+
+class TestTrainingPackageExports:
+    def test_new_exports(self):
+        import models.music_training as mt
+        assert hasattr(mt, "AugmentationType")
+        assert hasattr(mt, "ContrastivePair")
+        assert hasattr(mt, "nt_xent_loss")
+        assert hasattr(mt, "MusicAugmentor")

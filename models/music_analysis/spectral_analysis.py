@@ -5,6 +5,7 @@ flatness, crest, decrease, slope, and formant tracking for music analysis.
 """
 from __future__ import annotations
 
+
 import math
 from dataclasses import dataclass
 

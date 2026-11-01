@@ -39,10 +39,24 @@ __all__ = [
     "SourcePosition", "BinauralOutput",
     "itd_samples", "ild_factor", "render_binaural",
     "mix_binaural", "perceived_width",
+    "RoomParameters", "AcousticParameters",
+    "sabine_rt60", "eyring_rt60", "total_absorption",
+    "schroeder_curve", "estimate_rt60_from_ir",
+    "edt_from_ir", "ir_clarity", "definition_d50",
+    "center_time", "bass_ratio",
+    "image_source_reflections", "compute_acoustic_parameters",
 ]
 
 from .binaural_render import (
     SourcePosition, BinauralOutput,
     itd_samples, ild_factor, render_binaural,
     mix_binaural, perceived_width,
+)
+from .room_acoustics import (
+    RoomParameters, AcousticParameters,
+    sabine_rt60, eyring_rt60, total_absorption,
+    schroeder_curve, estimate_rt60_from_ir,
+    early_decay_time as edt_from_ir,
+    clarity as ir_clarity, definition_d50, center_time, bass_ratio,
+    image_source_reflections, compute_acoustic_parameters,
 )

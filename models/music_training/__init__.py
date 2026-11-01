@@ -37,4 +37,17 @@ __all__ = [
     "DifficultyMetric", "CurriculumStrategy", "SampleDifficulty",
     "score_by_loss", "score_by_entropy", "score_by_complexity",
     "CurriculumScheduler", "SelfPacedWeight",
+    "AugmentationType", "ContrastivePair", "TripletSample",
+    "cosine_similarity", "pairwise_cosine_similarity",
+    "nt_xent_loss", "triplet_loss", "batch_triplet_loss",
+    "hard_negative_mining", "MusicAugmentor", "ContrastiveTrainingState",
+    "alignment_metric", "uniformity_metric",
 ]
+
+from .contrastive_learning import (
+    AugmentationType, ContrastivePair, TripletSample,
+    cosine_similarity, pairwise_cosine_similarity,
+    nt_xent_loss, triplet_loss, batch_triplet_loss,
+    hard_negative_mining, MusicAugmentor, ContrastiveTrainingState,
+    alignment_metric, uniformity_metric,
+)

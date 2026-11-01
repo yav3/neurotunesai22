@@ -193,3 +193,172 @@ class TestTonality:
         hr = HarmonicRhythm()
         dur = hr.average_chord_duration(chroma_seq)
         assert dur > 0.0
+
+
+class TestRhythmAnalysis:
+    def test_ioi_simple(self):
+        from models.music_analysis.rhythm_analysis import inter_onset_intervals
+        onsets = np.array([0.0, 0.5, 1.0, 1.5])
+        iois = inter_onset_intervals(onsets)
+        assert len(iois) == 3
+        assert np.allclose(iois, 0.5)
+
+    def test_ioi_statistics(self):
+        from models.music_analysis.rhythm_analysis import ioi_statistics
+        iois = np.array([0.5, 0.5, 0.5, 0.5])
+        stats = ioi_statistics(iois)
+        assert stats["mean"] == pytest.approx(0.5)
+        assert stats["std"] == pytest.approx(0.0, abs=1e-10)
+
+    def test_swing_ratio_straight(self):
+        from models.music_analysis.rhythm_analysis import swing_ratio
+        onsets = np.array([0.0, 0.5, 1.0, 1.5, 2.0])
+        ratio = swing_ratio(onsets, beat_duration=1.0)
+        assert 0.45 < ratio < 0.55
+
+    def test_microtiming_deviations(self):
+        from models.music_analysis.rhythm_analysis import microtiming_deviations
+        onsets = np.array([0.01, 0.49, 1.02, 1.48])
+        grid = np.array([0.0, 0.5, 1.0, 1.5])
+        devs = microtiming_deviations(onsets, grid)
+        assert len(devs) == 4
+        assert all(abs(d) < 0.05 for d in devs)
+
+    def test_metric_weight_pattern_4_4(self):
+        from models.music_analysis.rhythm_analysis import metric_weight_pattern
+        pattern = metric_weight_pattern(4, subdivisions=2)
+        assert pattern[0] > pattern[1]
+        assert len(pattern) == 8
+
+    def test_rhythmic_density(self):
+        from models.music_analysis.rhythm_analysis import rhythmic_density
+        onsets = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+        density = rhythmic_density(onsets, duration=1.0)
+        assert density == pytest.approx(5.0)
+
+    def test_onset_entropy_uniform(self):
+        from models.music_analysis.rhythm_analysis import onset_entropy
+        positions = np.array([0, 1, 2, 3, 4, 5, 6, 7])
+        ent = onset_entropy(positions, n_bins=8)
+        assert ent > 2.0
+
+    def test_groove_profile_valid(self):
+        from models.music_analysis.rhythm_analysis import compute_groove_profile
+        onsets = np.array([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
+        grid = np.array([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
+        profile = compute_groove_profile(onsets, grid, 120.0)
+        assert hasattr(profile, "swing")
+        assert hasattr(profile, "mean_deviation")
+
+    def test_syncopation_lhl_downbeats(self):
+        from models.music_analysis.rhythm_analysis import syncopation_lhl
+        onsets = np.array([0.0, 1.0, 2.0, 3.0])
+        score = syncopation_lhl(onsets, beats_per_bar=4)
+        assert score >= 0.0
+
+    def test_metric_clarity(self):
+        from models.music_analysis.rhythm_analysis import metric_clarity
+        onsets = np.array([0.0, 0.5, 1.0, 1.5, 2.0])
+        clarity = metric_clarity(onsets, tempo_bpm=120.0)
+        assert 0.0 <= clarity <= 1.0
+
+
+class TestSpectralAnalysis:
+    def test_spectral_centroid(self):
+        from models.music_analysis.spectral_analysis import spectral_centroid
+        freqs = np.linspace(0, 11025, 512)
+        mags = np.zeros(512)
+        mags[100] = 1.0
+        c = spectral_centroid(mags, freqs)
+        assert abs(c - freqs[100]) < 50.0
+
+    def test_spectral_spread(self):
+        from models.music_analysis.spectral_analysis import spectral_spread, spectral_centroid
+        freqs = np.linspace(0, 11025, 512)
+        mags = np.zeros(512)
+        mags[100] = 1.0
+        c = spectral_centroid(mags, freqs)
+        s = spectral_spread(mags, freqs, c)
+        assert s >= 0.0
+
+    def test_spectral_flatness_pure_tone(self):
+        from models.music_analysis.spectral_analysis import spectral_flatness
+        mags = np.zeros(256)
+        mags[50] = 1.0
+        flat = spectral_flatness(mags)
+        assert flat < 0.01
+
+    def test_spectral_flatness_white_noise(self):
+        from models.music_analysis.spectral_analysis import spectral_flatness
+        rng = np.random.RandomState(42)
+        mags = np.abs(rng.randn(256)) + 0.01
+        flat = spectral_flatness(mags)
+        assert flat > 0.5
+
+    def test_spectral_crest(self):
+        from models.music_analysis.spectral_analysis import spectral_crest
+        mags = np.ones(256)
+        crest = spectral_crest(mags)
+        assert crest == pytest.approx(1.0)
+
+    def test_spectral_rolloff(self):
+        from models.music_analysis.spectral_analysis import spectral_rolloff
+        freqs = np.linspace(0, 11025, 512)
+        mags = np.zeros(512)
+        mags[:100] = 1.0
+        rolloff = spectral_rolloff(mags, freqs, threshold=0.85)
+        assert rolloff < freqs[200]
+
+    def test_spectral_slope(self):
+        from models.music_analysis.spectral_analysis import spectral_slope
+        freqs = np.linspace(100, 11025, 512)
+        mags = np.linspace(1.0, 0.1, 512)
+        slope = spectral_slope(mags, freqs)
+        assert slope < 0
+
+    def test_spectral_flux(self):
+        from models.music_analysis.spectral_analysis import spectral_flux
+        current = np.ones(256)
+        previous = np.zeros(256)
+        flux = spectral_flux(current, previous)
+        assert flux > 0
+
+    def test_compute_descriptors(self):
+        from models.music_analysis.spectral_analysis import compute_spectral_descriptors
+        freqs = np.linspace(0, 11025, 512)
+        mags = np.abs(np.random.RandomState(0).randn(512)) + 0.01
+        desc = compute_spectral_descriptors(mags, freqs)
+        assert hasattr(desc, "centroid")
+        assert hasattr(desc, "spread")
+        assert hasattr(desc, "flatness")
+
+    def test_formant_estimation(self):
+        from models.music_analysis.spectral_analysis import estimate_formants
+        freqs = np.linspace(0, 4000, 2048)
+        mags = np.zeros(2048)
+        mags[100] = 2.0
+        mags[400] = 1.5
+        mags[700] = 1.0
+        formants = estimate_formants(mags, freqs, n_formants=3)
+        assert len(formants) <= 3
+
+    def test_hnr_harmonic_signal(self):
+        from models.music_analysis.spectral_analysis import harmonic_to_noise_ratio
+        freqs = np.linspace(0, 11025, 512)
+        mags = np.zeros(512)
+        f0 = 440.0
+        for h in range(1, 6):
+            idx = int(h * f0 / 11025 * 512)
+            if idx < 512:
+                mags[idx] = 1.0 / h
+        hnr = harmonic_to_noise_ratio(mags, freqs, f0)
+        assert hnr > 5.0
+
+
+class TestAnalysisPackageExports:
+    def test_new_exports(self):
+        import models.music_analysis as ma
+        assert hasattr(ma, "MetricLevel")
+        assert hasattr(ma, "GrooveProfile")
+        assert hasattr(ma, "SpectralDescriptors")
+        assert hasattr(ma, "spectral_centroid")

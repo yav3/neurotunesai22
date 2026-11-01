@@ -35,6 +35,10 @@ __all__ = [
     "LandmarkConfig", "FingerprintMatch",
     "fingerprint_similarity", "generate_spectral_hash",
     "landmark_hash", "decode_landmark_hash", "match_fingerprints",
+    "MBEntityType", "MBArtistType", "MBReleaseType", "MBRelationshipType",
+    "is_valid_mbid", "generate_deterministic_mbid",
+    "MBEntityFull", "MBArtist", "MBRecording2", "MBWork2", "MBRelease2",
+    "MBRelationship", "EntityGraph",
 ]
 
 from .linked_data import (
@@ -47,4 +51,12 @@ from .audio_fingerprint_meta import (
     LandmarkConfig, FingerprintMatch,
     fingerprint_similarity, generate_spectral_hash,
     landmark_hash, decode_landmark_hash, match_fingerprints,
+)
+from .musicbrainz import (
+    EntityType as MBEntityType, ArtistType as MBArtistType,
+    ReleaseType as MBReleaseType, RelationshipType as MBRelationshipType,
+    is_valid_mbid, generate_deterministic_mbid,
+    MBEntity as MBEntityFull, Artist as MBArtist,
+    Recording as MBRecording2, Work as MBWork2, Release as MBRelease2,
+    Relationship as MBRelationship, EntityGraph,
 )
