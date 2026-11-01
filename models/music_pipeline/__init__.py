@@ -34,7 +34,26 @@ from models.music_pipeline.inference import (
     StreamingPredictor,
 )
 
+from models.music_pipeline.model_evaluation import (
+    ClassificationReport, RegressionReport, RankingReport,
+    confusion_matrix as eval_confusion_matrix,
+    classification_report, regression_report,
+    dcg_at_k, ndcg_at_k, mean_reciprocal_rank,
+    precision_at_k, average_precision, ranking_report,
+    calibration_error, brier_score,
+    onset_detection_f1, pitch_accuracy, beat_tracking_f1,
+    chord_recognition_accuracy, segment_boundary_f1, source_separation_sdr,
+)
+
 __all__ = [
+    "ClassificationReport", "RegressionReport", "RankingReport",
+    "eval_confusion_matrix",
+    "classification_report", "regression_report",
+    "dcg_at_k", "ndcg_at_k", "mean_reciprocal_rank",
+    "precision_at_k", "average_precision", "ranking_report",
+    "calibration_error", "brier_score",
+    "onset_detection_f1", "pitch_accuracy", "beat_tracking_f1",
+    "chord_recognition_accuracy", "segment_boundary_f1", "source_separation_sdr",
     "ModelType", "PredictionStatus", "ModelVersion", "PredictionResult",
     "InferenceMetrics", "ModelRegistry", "PredictFn",
     "predict_with_timeout", "batch_predict", "ensemble_predict",
@@ -63,6 +82,19 @@ __all__ = [
     "k_fold_split", "stratified_k_fold", "leave_one_out", "group_k_fold",
     "accuracy", "mean_absolute_error", "f1_score_binary", "cv_confusion_matrix",
     "learning_curve_points",
+    "StageType", "StageResult", "ChainResult",
+    "remove_dc", "trim_silence", "mix_to_mono", "mix_to_stereo",
+    "loudness_normalize", "peak_normalize", "resample_linear",
+    "pre_emphasis", "de_emphasis", "apply_fade", "add_dither", "clip_guard",
+    "PreprocessingChain", "default_chain", "speech_chain", "mastering_chain",
+    "RingBuffer", "StreamConfig", "StreamState", "FeatureFrame",
+    "create_ring_buffer", "push_samples", "pull_frame", "advance_read",
+    "overlap_add_process", "streaming_stft", "streaming_features",
+    "detect_onset_streaming", "adaptive_gain", "latency_report",
+    "AudioChunk", "OnsetDetector", "StreamProcessor", "LatencyTracker",
+    "rms_energy", "zero_crossing_rate_stream",
+    "spectral_centroid_stream", "spectral_rolloff_stream", "spectral_flux_stream",
+    "chunk_audio", "process_full_signal", "overlap_add_reconstruct",
 ]
 
 from models.music_pipeline.dataset_builder import (
@@ -80,4 +112,42 @@ from models.music_pipeline.batch_processor import (
     ProcessingStage, BatchConfig, TrackResult, BatchResult,
     validate_batch_config, process_single, process_batch,
     estimate_time, retry_failed,
+)
+from models.music_pipeline.preprocessing_chain import (
+    StageType, StageResult, ChainResult,
+    remove_dc, trim_silence, mix_to_mono, mix_to_stereo,
+    loudness_normalize, peak_normalize, resample_linear,
+    pre_emphasis, de_emphasis, apply_fade, add_dither, clip_guard,
+    PreprocessingChain, default_chain, speech_chain, mastering_chain,
+)
+from models.music_pipeline.preprocessing_chain import (
+    StageType, StageResult, ChainResult, PreprocessingChain,
+    remove_dc, trim_silence, mix_to_mono, mix_to_stereo,
+    loudness_normalize, peak_normalize, resample_linear,
+    pre_emphasis, de_emphasis, apply_fade, add_dither, clip_guard,
+    default_chain, speech_chain, mastering_chain,
+)
+from models.music_pipeline.quality_gate import (
+    Verdict, GateCategory, GateResult, GatingReport,
+    QualityGateConfig, run_quality_gates, batch_quality_gate,
+    rejection_summary,
+    gate_sample_rate, gate_duration, gate_clipping, gate_dc_offset,
+    gate_silence_fraction, gate_snr, gate_spectral_bandwidth,
+    gate_spectral_flatness, gate_loudness_range, gate_true_peak,
+)
+from models.music_pipeline.streaming_processor import (
+    RingBuffer, StreamConfig, StreamState, FeatureFrame,
+    create_ring_buffer, push_samples, pull_frame, advance_read,
+    overlap_add_process, streaming_stft, streaming_features,
+    detect_onset_streaming, adaptive_gain, latency_report,
+)
+from models.music_pipeline.streaming_pipeline import (
+    AudioChunk, OnsetDetector, StreamProcessor, LatencyTracker,
+    rms_energy,
+    zero_crossing_rate as zero_crossing_rate_stream,
+    spectral_centroid as spectral_centroid_stream,
+    spectral_rolloff as spectral_rolloff_stream,
+    spectral_flux as spectral_flux_stream,
+    chunk_audio, process_full_signal,
+    overlap_add as overlap_add_reconstruct,
 )

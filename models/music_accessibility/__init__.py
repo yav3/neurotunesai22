@@ -53,7 +53,20 @@ from .score_simplification import (
     reduce_polyphony, suggest_level, tempo_adjustment,
 )
 
+from .frequency_remapping import (
+    STANDARD_FREQS, AudiogramPoint, RemappingConfig, RemappingResult,
+    interpolate_audiogram, hearing_loss_gain, apply_frequency_gain,
+    frequency_lowering, spectral_envelope_compression,
+    equal_loudness_weight, full_remapping_pipeline,
+    compensation_error, bandwidth_utilization,
+)
+
 __all__ = [
+    "STANDARD_FREQS", "AudiogramPoint", "RemappingConfig", "RemappingResult",
+    "interpolate_audiogram", "hearing_loss_gain", "apply_frequency_gain",
+    "frequency_lowering", "spectral_envelope_compression",
+    "equal_loudness_weight", "full_remapping_pipeline",
+    "compensation_error", "bandwidth_utilization",
     "AbilityLevel", "SimplificationProfile", "LEVEL_PROFILES",
     "NoteEvent", "difficulty_score", "simplify_melody",
     "reduce_polyphony", "suggest_level", "tempo_adjustment",
@@ -85,4 +98,29 @@ __all__ = [
     "ParameterMapping", "PitchSonifier", "RhythmSonifier",
     "MultidimensionalSonifier", "SonificationEvaluator",
     "PitchTracker", "VoiceToMIDI", "VocalGestureDetector", "VoiceCommandClassifier",
+    "PlaybackRegion", "CuePoint", "PlaybackProfile",
+    "time_stretch_factor", "pitch_shift_ratio", "resample_signal",
+    "mono_mixdown", "dynamic_compression_simple",
+    "extract_loop_region", "apply_crossfade", "find_nearest_cue",
+    "generate_practice_regions", "playback_duration", "apply_profile",
+    "accessibility_score",
+    "MotorProfile", "MotorCapability",
+    "simplify_intervals", "quantize_timing", "reduce_polyphony",
+    "adaptive_tempo", "target_prediction", "tremor_filter",
+    "error_tolerance_score", "fatigue_model", "difficulty_estimate", "adapt_score",
 ]
+
+from .assistive_playback import (
+    PlaybackRegion, CuePoint, PlaybackProfile,
+    time_stretch_factor, pitch_shift_ratio, resample_signal,
+    mono_mixdown, dynamic_compression_simple,
+    extract_loop_region, apply_crossfade, find_nearest_cue,
+    generate_practice_regions, playback_duration, apply_profile,
+    accessibility_score,
+)
+from .motor_adaptation import (
+    MotorProfile, MotorCapability,
+    simplify_intervals, quantize_timing, reduce_polyphony,
+    adaptive_tempo, target_prediction, tremor_filter,
+    error_tolerance_score, fatigue_model, difficulty_estimate, adapt_score,
+)

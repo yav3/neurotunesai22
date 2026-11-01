@@ -107,3 +107,21 @@ from .self_similarity import (
     repetition_ratio, diagonal_strength, find_repeated_sections,
     StructureSegment,
 )
+from .motivic_analysis import (
+    TransformationType, Motive, MotiveOccurrence, MotivicDevelopment,
+    interval_sequence, contour_sequence, invert_intervals, retrograde_intervals,
+    augment_durations, diminish_durations,
+    mongeau_sankoff_distance, contour_similarity,
+    classify_transformation, extract_motives,
+    track_motive_occurrences, motivic_density_curve,
+    analyze_motivic_development, motivic_coherence,
+)
+from .texture_analysis import (
+    TextureType, TextureSegment, TextureProfile,
+    estimate_voice_count, voice_density_curve,
+    onset_synchrony, registral_spread, registral_spread_curve,
+    voice_spacing, spacing_regularity,
+    classify_texture_frame, pitch_class_entropy,
+    textural_complexity, analyze_texture,
+    melodic_prominence, texture_transition_matrix,
+)

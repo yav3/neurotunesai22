@@ -52,6 +52,27 @@ __all__ = [
     "SURROUND_5_1", "SURROUND_7_1",
     "vbap_gains", "dbap_gains", "equal_power_pan",
     "speaker_distance_matrix", "pan_trajectory",
+    "AtmosphericConditions", "air_absorption_coefficient", "apply_air_absorption",
+    "doppler_factor", "doppler_shift_signal",
+    "spherical_spreading_db", "cylindrical_spreading_db",
+    "GroundReflection", "total_propagation_loss",
+    "acn_index", "sn3d_norm", "n3d_norm", "real_spherical_harmonic",
+    "encode_hoa", "encode_hoa_multi", "decode_hoa_speakers",
+    "rotate_soundfield_euler",
+    "sound_intensity_vector", "doa_from_intensity", "diffuseness",
+    "plane_wave_decomposition", "max_re_weights", "in_phase_weights",
+    "Vec3", "SpatialSource", "SpatialScene",
+    "render_stereo", "render_binaural_simple",
+    "Keyframe", "interpolate_trajectory", "source_velocity",
+    "apparent_source_width", "listener_envelopment",
+    "interaural_cross_correlation", "spatial_complexity",
+    "Medium", "WavefrontSample",
+    "spherical_spreading", "cylindrical_spreading",
+    "apply_air_absorption", "delay_samples", "fractional_delay",
+    "WaveguideMesh2D", "diffraction_edge",
+    "reflection_coefficient", "absorption_to_impedance",
+    "inverse_square_law", "sound_intensity_to_spl", "spl_to_intensity",
+    "doppler_shift", "fresnel_zone_radius", "RayPath", "trace_ray_2d",
 ]
 
 from .binaural_render import (
@@ -71,6 +92,16 @@ from .surround_panning import (
     vbap_gains, dbap_gains, equal_power_pan,
     speaker_distance_matrix, pan_trajectory,
 )
+from .wave_propagation import (
+    Medium, WavefrontSample,
+    spherical_spreading, cylindrical_spreading,
+    air_absorption_coefficient, apply_air_absorption,
+    delay_samples, fractional_delay,
+    WaveguideMesh2D, diffraction_edge,
+    reflection_coefficient, absorption_to_impedance,
+    inverse_square_law, sound_intensity_to_spl, spl_to_intensity,
+    doppler_shift, fresnel_zone_radius, RayPath, trace_ray_2d,
+)
 from .room_acoustics import (
     RoomParameters, AcousticParameters,
     sabine_rt60, eyring_rt60, total_absorption,
@@ -78,4 +109,24 @@ from .room_acoustics import (
     early_decay_time as edt_from_ir,
     clarity as ir_clarity, definition_d50, center_time, bass_ratio,
     image_source_reflections, compute_acoustic_parameters,
+)
+from .doppler_propagation import (
+    AtmosphericConditions, air_absorption_coefficient, apply_air_absorption,
+    doppler_factor, doppler_shift_signal,
+    spherical_spreading_db, cylindrical_spreading_db,
+    GroundReflection, total_propagation_loss,
+)
+from .hoa_transforms import (
+    acn_index, sn3d_norm, n3d_norm, real_spherical_harmonic,
+    encode_hoa, encode_hoa_multi, decode_hoa_speakers,
+    rotate_soundfield_euler,
+    sound_intensity_vector, doa_from_intensity, diffuseness,
+    plane_wave_decomposition, max_re_weights, in_phase_weights,
+)
+from .spatial_scene import (
+    Vec3, SpatialSource, SpatialScene,
+    render_stereo, render_binaural_simple,
+    Keyframe, interpolate_trajectory, source_velocity,
+    apparent_source_width, listener_envelopment,
+    interaural_cross_correlation, spatial_complexity,
 )

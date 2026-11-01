@@ -1,172 +1,189 @@
-"""Polyrhythmic pattern analysis and generation.
+"""Polyrhythm analysis: cross-rhythms, Euclidean rhythms, rhythmic dissonance."""
 
-Implements Bjorklund/Toussaint euclidean rhythms, polyrhythm generation,
-cross-rhythm density, and rhythmic oddity analysis.
-"""
 from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
+
+__all__ = [
+    "PolyrhythmPattern", "EuclideanRhythm",
+    "polyrhythm_grid", "resultant_rhythm", "cross_rhythm_detect",
+    "euclidean_rhythm", "rhythmic_dissonance", "polymetric_superposition",
+    "rhythm_augment", "rhythm_diminish", "rhythm_retrograde", "rhythm_rotate",
+    "rhythmic_complexity", "onset_density",
+]
 
 
 @dataclass
 class PolyrhythmPattern:
-    voices: List[List[int]]
-    cycle_length: int
-    lcm_beats: int
+    ratio_a: int
+    ratio_b: int
+    lcm_period: int
+    onset_grid_a: np.ndarray
+    onset_grid_b: np.ndarray
+    resultant: np.ndarray
 
 
-def compute_lcm_cycle(a: int, b: int) -> int:
-    return abs(a * b) // math.gcd(a, b)
+@dataclass
+class EuclideanRhythm:
+    n_slots: int
+    n_onsets: int
+    pattern: np.ndarray
+    rotation: int = 0
 
 
-def generate_polyrhythm(p: int, q: int, beats: int | None = None) -> PolyrhythmPattern:
-    lcm = compute_lcm_cycle(p, q)
-    n = beats if beats is not None else lcm
-    voice_p = [0] * n
-    voice_q = [0] * n
-    step_p = n / p
-    step_q = n / q
-    for i in range(p):
-        idx = int(round(i * step_p)) % n
-        voice_p[idx] = 1
-    for i in range(q):
-        idx = int(round(i * step_q)) % n
-        voice_q[idx] = 1
-    return PolyrhythmPattern(voices=[voice_p, voice_q], cycle_length=n, lcm_beats=lcm)
+def _gcd(a: int, b: int) -> int:
+    while b:
+        a, b = b, a % b
+    return a
 
 
-def euclidean_rhythm_bjorklund(pulses: int, steps: int) -> List[int]:
-    """Bjorklund's algorithm for maximally-even distribution of pulses in steps."""
-    if pulses <= 0:
-        return [0] * steps
-    if pulses >= steps:
-        return [1] * steps
-    groups: list = [[1] for _ in range(pulses)] + [[0] for _ in range(steps - pulses)]
-    while True:
-        remainder = len(groups) - pulses
-        if remainder <= 1:
-            break
-        new_groups = []
-        take = min(pulses, remainder)
-        for i in range(take):
-            new_groups.append(groups[i] + groups[pulses + i])
-        leftover = groups[take:pulses] + groups[pulses + take:]
-        groups = new_groups + leftover
-        pulses = len(new_groups)
-    result: list[int] = []
-    for g in groups:
-        result.extend(g)
-    return result
+def _lcm(a: int, b: int) -> int:
+    return abs(a * b) // _gcd(a, b)
 
 
-def cross_rhythm_density(pattern: PolyrhythmPattern) -> float:
-    if not pattern.voices or pattern.cycle_length == 0:
+def polyrhythm_grid(ratio_a: int, ratio_b: int, resolution: int = 0) -> PolyrhythmPattern:
+    period = _lcm(ratio_a, ratio_b)
+    if resolution <= 0:
+        resolution = period
+    grid_a = np.zeros(resolution, dtype=np.float64)
+    grid_b = np.zeros(resolution, dtype=np.float64)
+    step_a = resolution / ratio_a
+    step_b = resolution / ratio_b
+    for i in range(ratio_a):
+        idx = int(round(i * step_a)) % resolution
+        grid_a[idx] = 1.0
+    for i in range(ratio_b):
+        idx = int(round(i * step_b)) % resolution
+        grid_b[idx] = 1.0
+    resultant = np.clip(grid_a + grid_b, 0.0, 1.0)
+    return PolyrhythmPattern(
+        ratio_a=ratio_a, ratio_b=ratio_b, lcm_period=period,
+        onset_grid_a=grid_a, onset_grid_b=grid_b, resultant=resultant,
+    )
+
+
+def resultant_rhythm(onsets_a: np.ndarray, onsets_b: np.ndarray) -> np.ndarray:
+    n = max(len(onsets_a), len(onsets_b))
+    result = np.zeros(n)
+    result[:len(onsets_a)] += onsets_a[:n]
+    result[:len(onsets_b)] += onsets_b[:n]
+    return np.clip(result, 0.0, 1.0)
+
+
+def cross_rhythm_detect(
+    onsets_a: np.ndarray, onsets_b: np.ndarray, tolerance: float = 0.05
+) -> Optional[Tuple[int, int]]:
+    hits_a = np.where(onsets_a > 0.5)[0]
+    hits_b = np.where(onsets_b > 0.5)[0]
+    if len(hits_a) < 2 or len(hits_b) < 2:
+        return None
+    n_a = len(hits_a)
+    n_b = len(hits_b)
+    g = _gcd(n_a, n_b)
+    ratio = (n_a // g, n_b // g)
+    if ratio[0] == ratio[1]:
+        return None
+    span_a = float(hits_a[-1] - hits_a[0])
+    span_b = float(hits_b[-1] - hits_b[0])
+    if span_a == 0 or span_b == 0:
+        return ratio
+    ioi_a = span_a / (n_a - 1)
+    ioi_b = span_b / (n_b - 1)
+    expected_ratio = ioi_b / ioi_a
+    actual_ratio = ratio[0] / ratio[1]
+    if abs(expected_ratio - actual_ratio) / max(actual_ratio, 1e-9) < tolerance:
+        return ratio
+    return None
+
+
+def euclidean_rhythm(n_slots: int, n_onsets: int, rotation: int = 0) -> EuclideanRhythm:
+    if n_onsets <= 0:
+        return EuclideanRhythm(n_slots, 0, np.zeros(n_slots), rotation)
+    if n_onsets >= n_slots:
+        return EuclideanRhythm(n_slots, n_slots, np.ones(n_slots), rotation)
+    pattern = [0] * n_slots
+    bucket = 0
+    for i in range(n_slots):
+        bucket += n_onsets
+        if bucket >= n_slots:
+            bucket -= n_slots
+            pattern[i] = 1
+    arr = np.array(pattern, dtype=np.float64)
+    if rotation != 0:
+        arr = np.roll(arr, rotation)
+    return EuclideanRhythm(n_slots, n_onsets, arr, rotation)
+
+
+def rhythmic_dissonance(onsets_a: np.ndarray, onsets_b: np.ndarray) -> float:
+    if len(onsets_a) == 0 or len(onsets_b) == 0:
         return 0.0
-    coincidences = 0
-    for i in range(pattern.cycle_length):
-        if all(v[i % len(v)] for v in pattern.voices):
-            coincidences += 1
-    return coincidences / pattern.cycle_length
-
-
-def polymetric_offset(meter_a: int, meter_b: int, position: int) -> float:
-    if meter_a == 0 or meter_b == 0:
+    n = min(len(onsets_a), len(onsets_b))
+    a = onsets_a[:n]
+    b = onsets_b[:n]
+    simultaneous = np.sum((a > 0.5) & (b > 0.5))
+    total_onsets = np.sum(a > 0.5) + np.sum(b > 0.5)
+    if total_onsets == 0:
         return 0.0
-    phase_a = (position % meter_a) / meter_a
-    phase_b = (position % meter_b) / meter_b
-    return abs(phase_a - phase_b)
+    overlap_ratio = 2.0 * simultaneous / total_onsets
+    return 1.0 - overlap_ratio
 
 
-def rhythmic_oddity(pattern: List[int]) -> bool:
-    """Test Pressing's rhythmic oddity property: no two inter-onset intervals
-    that sum to exactly half the cycle length are adjacent."""
-    onsets = [i for i, v in enumerate(pattern) if v]
-    if len(onsets) < 2:
-        return False
-    n = len(pattern)
-    half = n / 2.0
-    iois = []
-    for i in range(len(onsets)):
-        nxt = onsets[(i + 1) % len(onsets)]
-        cur = onsets[i]
-        ioi = (nxt - cur) % n
-        iois.append(ioi)
-    for i in range(len(iois)):
-        pair_sum = iois[i] + iois[(i + 1) % len(iois)]
-        if abs(pair_sum - half) < 1e-9:
-            return False
-    return True
+def polymetric_superposition(
+    meter_a: int, meter_b: int, n_cycles: int = 1, resolution: int = 0
+) -> np.ndarray:
+    period = _lcm(meter_a, meter_b) * n_cycles
+    if resolution <= 0:
+        resolution = period
+    grid = np.zeros(resolution)
+    step_a = resolution / (meter_a * n_cycles)
+    step_b = resolution / (meter_b * n_cycles)
+    for i in range(meter_a * n_cycles + 1):
+        idx = min(int(round(i * step_a)), resolution - 1)
+        grid[idx] = 1.0
+    for i in range(meter_b * n_cycles + 1):
+        idx = min(int(round(i * step_b)), resolution - 1)
+        grid[idx] = 1.0
+    return np.clip(grid, 0.0, 1.0)
 
 
-def maximal_evenness(k: int, n: int) -> List[int]:
-    """Toussaint's maximally-even distribution — equivalent to euclidean rhythm."""
-    return euclidean_rhythm_bjorklund(k, n)
+def rhythm_augment(pattern: np.ndarray, factor: int = 2) -> np.ndarray:
+    return np.repeat(pattern, factor)
 
 
-def polyrhythm_complexity(p: int, q: int) -> float:
-    """Measure complexity of a p:q polyrhythm.
-    Higher when the ratio is farther from simple integer relationships."""
-    if p == 0 or q == 0:
+def rhythm_diminish(pattern: np.ndarray, factor: int = 2) -> np.ndarray:
+    if factor <= 1:
+        return pattern.copy()
+    return pattern[::factor]
+
+
+def rhythm_retrograde(pattern: np.ndarray) -> np.ndarray:
+    return pattern[::-1].copy()
+
+
+def rhythm_rotate(pattern: np.ndarray, steps: int = 1) -> np.ndarray:
+    return np.roll(pattern, steps)
+
+
+def rhythmic_complexity(pattern: np.ndarray) -> float:
+    if len(pattern) == 0:
         return 0.0
-    g = math.gcd(p, q)
-    reduced_p, reduced_q = p // g, q // g
-    return math.log2(reduced_p * reduced_q)
-
-
-def isochronous_deviation(onsets: np.ndarray, period: float) -> np.ndarray:
-    """Measure how much each onset deviates from a perfectly isochronous grid."""
-    if len(onsets) == 0 or period <= 0:
-        return np.array([])
-    grid_positions = np.round(onsets / period) * period
-    return onsets - grid_positions
-
-
-def resultant_rhythm(p: int, q: int) -> List[int]:
-    """Schillinger's resultant rhythm: the union of p-pulse and q-pulse patterns."""
-    lcm = compute_lcm_cycle(p, q)
-    result = [0] * lcm
-    for i in range(lcm):
-        if i % (lcm // p) == 0 or i % (lcm // q) == 0:
-            result[i] = 1
-    return result
-
-
-def aksak_pattern(groups: List[int]) -> List[int]:
-    """Generate an aksak (additive) rhythm from a list of beat groups.
-    E.g., [2,2,3] for 7/8 in Balkan music."""
-    pattern: list[int] = []
-    for g in groups:
-        pattern.append(1)
-        pattern.extend([0] * (g - 1))
-    return pattern
-
-
-def tresillo() -> List[int]:
-    """The 3+3+2 tresillo pattern — foundational Afro-Cuban rhythm."""
-    return aksak_pattern([3, 3, 2])
-
-
-def son_clave_3_2() -> List[int]:
-    """Son clave 3-2 pattern in 16 pulses."""
-    pattern = [0] * 16
-    for i in [0, 3, 7, 11, 13]:
-        pattern[i] = 1
-    return pattern
-
-
-def rumba_clave_3_2() -> List[int]:
-    """Rumba clave 3-2 pattern in 16 pulses."""
-    pattern = [0] * 16
-    for i in [0, 3, 7, 10, 13]:
-        pattern[i] = 1
-    return pattern
-
-
-def onset_density(pattern: List[int]) -> float:
-    if not pattern:
+    onsets = np.where(pattern > 0.5)[0]
+    if len(onsets) <= 1:
         return 0.0
-    return sum(pattern) / len(pattern)
+    ioi = np.diff(onsets).astype(float)
+    mean_ioi = np.mean(ioi)
+    if mean_ioi == 0:
+        return 0.0
+    cv = float(np.std(ioi) / mean_ioi)
+    density = len(onsets) / len(pattern)
+    return float(cv * density)
+
+
+def onset_density(pattern: np.ndarray) -> float:
+    if len(pattern) == 0:
+        return 0.0
+    return float(np.sum(pattern > 0.5) / len(pattern))

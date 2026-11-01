@@ -132,4 +132,18 @@ __all__ = [
     "ImpulseResponse", "IRSynthesizer", "Convolver",
     "RoomAcousticAnalyzer", "SpeechIntelligibility", "AcousticQualityMetrics",
     "MaterialAbsorption",
+    "RoomDimensions", "rs_MaterialAbsorption", "RoomAcousticParams",
+    "sabine_rt60", "eyring_rt60", "rs_mean_free_path",
+    "image_source_rir", "rs_energy_decay_curve", "rs_rt60_from_edc",
+    "rs_clarity", "rs_definition", "rs_centre_time", "rs_analyze_room",
 ]
+
+from models.music_acoustics.room_simulation import (
+    RoomDimensions, MaterialAbsorption as rs_MaterialAbsorption,
+    RoomAcousticParams,
+    sabine_rt60, eyring_rt60, mean_free_path as rs_mean_free_path,
+    image_source_rir, energy_decay_curve as rs_energy_decay_curve,
+    rt60_from_edc as rs_rt60_from_edc,
+    clarity as rs_clarity, definition as rs_definition,
+    centre_time as rs_centre_time, analyze_room as rs_analyze_room,
+)

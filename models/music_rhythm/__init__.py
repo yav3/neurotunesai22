@@ -39,12 +39,12 @@ __all__ = [
     "test_meter_hypotheses", "BeatTrack", "track_beats",
     "metrical_weight", "syncopation_score", "GrooveAnalysis",
     "analyze_groove", "detect_polyrhythm",
-    "PolyrhythmPattern", "compute_lcm_cycle", "generate_polyrhythm",
-    "euclidean_rhythm_bjorklund", "cross_rhythm_density",
-    "polymetric_offset", "rhythmic_oddity", "maximal_evenness",
-    "polyrhythm_complexity", "isochronous_deviation",
-    "resultant_rhythm", "aksak_pattern", "tresillo",
-    "son_clave_3_2", "rumba_clave_3_2",
+    "PolyrhythmPattern", "EuclideanRhythm",
+    "polyrhythm_grid", "resultant_rhythm", "cross_rhythm_detect",
+    "euclidean_rhythm_poly", "rhythmic_dissonance",
+    "polymetric_superposition", "rhythmic_complexity", "onset_density",
+    "poly_rhythm_augment", "poly_rhythm_diminish",
+    "poly_rhythm_retrograde", "poly_rhythm_rotate",
     "SwingProfile", "SWING_TEMPLATES", "swing_ratio_to_offset",
     "apply_swing", "detect_swing_ratio", "shuffle_feel",
     "swing_template", "microtiming_deviation", "timing_profile",
@@ -53,8 +53,34 @@ __all__ = [
     "coincidence_density", "metric_dissonance", "hemiola_ratio",
     "is_hemiola", "beat_pattern", "combined_pattern",
     "metric_complexity", "grouping_conflict",
+    "RhythmEvent", "RhythmSequence",
+    "rhythm_augment", "rhythm_diminish", "rhythm_displace", "rhythm_rotate",
+    "rhythm_retrograde", "interleave", "thin", "densify",
+    "accent_pattern", "rhythm_quantize", "swing_transform", "rhythm_humanize",
+    "necklace_class", "rhythm_similarity", "syncopation_strength",
+    "RhythmicComplexityProfile",
+    "metrically_weighted_syncopation", "onset_entropy", "renyi_entropy",
+    "npvi", "wnbd", "onset_density_rc", "evenness",
+    "toussaint_complexity", "groove_syncopation_profile",
+    "rhythmic_complexity_profile", "compare_rhythmic_complexity",
+    "GrooveStyle", "TimingDeviation", "GrooveTemplate",
+    "et_quantise_to_grid", "timing_deviations", "et_swing_ratio",
+    "rubato_curve", "rubato_strength",
+    "groove_template_from_performance", "apply_groove",
+    "et_phrase_timing_arc", "jitter_rms", "beat_strength_profile",
+    "anticipation_ratio",
+    "SpectralFluxResult", "spectral_flux", "high_frequency_content",
+    "complex_domain", "adaptive_threshold", "pick_peaks",
+    "onset_strength", "inter_onset_intervals", "ioi_histogram",
+    "ioi_regularity", "onset_tempo", "od_onset_density",
+    "onset_clustering", "onset_synchrony",
 ]
 
+from models.music_rhythm.microtiming import (
+    quantize_to_grid, make_isochronous_grid, timing_profile as expressive_timing_profile,
+    analyze_swing, swing_ratio_to_percentage, tempo_envelope,
+    transfer_microtiming, groove_similarity, agogic_accent_positions,
+)
 from models.music_rhythm.meter_analysis import (
     pulse_autocorrelation, estimate_tempo, MeterHypothesis,
     test_meter_hypotheses, BeatTrack, track_beats,
@@ -62,12 +88,15 @@ from models.music_rhythm.meter_analysis import (
     analyze_groove, detect_polyrhythm,
 )
 from models.music_rhythm.polyrhythm import (
-    PolyrhythmPattern, compute_lcm_cycle, generate_polyrhythm,
-    euclidean_rhythm_bjorklund, cross_rhythm_density,
-    polymetric_offset, rhythmic_oddity, maximal_evenness,
-    polyrhythm_complexity, isochronous_deviation,
-    resultant_rhythm, aksak_pattern, tresillo,
-    son_clave_3_2, rumba_clave_3_2,
+    PolyrhythmPattern, EuclideanRhythm,
+    polyrhythm_grid, resultant_rhythm, cross_rhythm_detect,
+    euclidean_rhythm as euclidean_rhythm_poly,
+    rhythmic_dissonance, polymetric_superposition,
+    rhythm_augment as poly_rhythm_augment,
+    rhythm_diminish as poly_rhythm_diminish,
+    rhythm_retrograde as poly_rhythm_retrograde,
+    rhythm_rotate as poly_rhythm_rotate,
+    rhythmic_complexity, onset_density,
 )
 from models.music_rhythm.swing import (
     SwingProfile, SWING_TEMPLATES, swing_ratio_to_offset,
@@ -80,4 +109,36 @@ from models.music_rhythm.polymetric import (
     coincidence_density, metric_dissonance, hemiola_ratio,
     is_hemiola, beat_pattern, combined_pattern,
     metric_complexity, grouping_conflict,
+)
+from models.music_rhythm.rhythm_transform import (
+    RhythmEvent, RhythmSequence,
+    augment as rhythm_augment, diminish as rhythm_diminish,
+    displace as rhythm_displace, rotate as rhythm_rotate,
+    retrograde as rhythm_retrograde, interleave, thin, densify,
+    accent_pattern, quantize as rhythm_quantize,
+    swing_transform, humanize as rhythm_humanize,
+    necklace_class, rhythm_similarity, syncopation_strength,
+)
+from models.music_rhythm.rhythmic_complexity import (
+    RhythmicComplexityProfile,
+    metrically_weighted_syncopation, onset_entropy, renyi_entropy,
+    npvi, wnbd, onset_density as onset_density_rc, evenness,
+    toussaint_complexity, groove_syncopation_profile,
+    rhythmic_complexity_profile, compare_rhythmic_complexity,
+)
+from models.music_rhythm.expressive_timing import (
+    GrooveStyle, TimingDeviation, GrooveTemplate,
+    quantise_to_grid as et_quantise_to_grid,
+    timing_deviations, swing_ratio as et_swing_ratio,
+    rubato_curve, rubato_strength,
+    groove_template_from_performance, apply_groove,
+    phrase_timing_arc as et_phrase_timing_arc,
+    jitter_rms, beat_strength_profile, anticipation_ratio,
+)
+from models.music_rhythm.onset_detection import (
+    SpectralFluxResult, spectral_flux, high_frequency_content,
+    complex_domain, adaptive_threshold, pick_peaks,
+    onset_strength, inter_onset_intervals, ioi_histogram,
+    ioi_regularity, tempo_from_onsets as onset_tempo,
+    onset_density as od_onset_density, onset_clustering, onset_synchrony,
 )

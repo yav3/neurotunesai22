@@ -98,4 +98,21 @@ __all__ = [
     "FormantSynthesizer", "ResonanceModel",
     "StringResonance", "MembraneResonance", "BarResonance", "ResonatorBank", "CoupledStringModel",
     "InstrumentFeatureExtractor", "InstrumentSimilarityMatrix", "InstrumentFamilyClassifier",
+    "KarplusStrongParams", "karplus_strong", "karplus_strong_extended",
+    "ReedModelParams", "reed_model", "ModalParams", "modal_synthesis",
+    "pm_bar_frequencies", "pm_membrane_frequencies", "pm_bar_model", "pm_membrane_model",
+    "BowedStringParams", "bowed_string", "EstimatedParams", "pm_estimate_parameters",
+    "excitation_resonance_decompose",
 ]
+
+from .physical_modeling import (
+    KarplusStrongParams, karplus_strong, karplus_strong_extended,
+    ReedModelParams, reed_model, ModalParams, modal_synthesis,
+    bar_frequencies as pm_bar_frequencies,
+    membrane_frequencies as pm_membrane_frequencies,
+    bar_model as pm_bar_model,
+    membrane_model as pm_membrane_model,
+    BowedStringParams, bowed_string,
+    EstimatedParams, estimate_parameters as pm_estimate_parameters,
+    excitation_resonance_decompose,
+)

@@ -1,8 +1,14 @@
-"""Playlist transition quality analysis between tracks."""
+"""Playlist transition quality analysis between tracks.
+
+Transition scoring, classification, playlist flow optimization (greedy NN,
+2-opt TSP), DJ set segmentation, and energy/mood arc analysis.
+Pure numpy — no external dependencies.
+"""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
+from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -16,11 +22,30 @@ class TransitionFeature(Enum):
     MOOD = "mood"
 
 
+class TransitionMethod(Enum):
+    CROSSFADE = "crossfade"
+    BEATMATCH = "beatmatch"
+    KEY_COMPATIBLE = "key_compatible"
+    ENERGY_MATCH = "energy_match"
+    MOOD_BRIDGE = "mood_bridge"
+    CUT = "cut"
+
+
 @dataclass
-class TransitionScore:
+class TransitionDetail:
     feature: TransitionFeature
     similarity: float
     penalty: float
+
+
+@dataclass
+class FullTransitionScore:
+    tempo_compatibility: float
+    key_compatibility: float
+    energy_flow: float
+    timbre_similarity: float
+    overall: float
+    method: TransitionMethod = TransitionMethod.CROSSFADE
 
 
 def key_compatibility(key1: int, mode1: int, key2: int, mode2: int) -> float:

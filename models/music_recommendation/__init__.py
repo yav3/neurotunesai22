@@ -106,3 +106,20 @@ from models.music_recommendation.contextual_bandit import (
     ThompsonSamplingRecommender, EpsilonGreedyRecommender,
     ucb1_scores, exp3_weights, RewardSignal, evaluate_bandit,
 )
+from models.music_recommendation.collaborative_filtering import (
+    UserItemMatrix, cosine_similarity as cf_cosine_similarity,
+    pearson_similarity, adjusted_cosine_similarity,
+    user_knn as cf_user_knn, predict_rating_user_knn, item_knn as cf_item_knn,
+    MFModel as CFMFModel, matrix_factorization,
+    implicit_weight, cold_start_popularity, cold_start_content_bridge,
+    intra_list_diversity, serendipity_score, diversity_rerank,
+    coverage as rec_coverage, novelty as rec_novelty,
+)
+from models.music_recommendation.context_aware import (
+    TimeOfDay, Activity, ListeningContext, ContextualPreference,
+    BanditArm, epsilon_greedy, ucb1, thompson_sampling,
+    SessionState as CtxSessionState, session_decay_scores,
+    ListeningHistory as CtxListeningHistory, freshness_score, recency_boost,
+    context_similarity, ContextualHistory, ACTIVITY_AUDIO_PRIORS,
+    activity_match_score,
+)

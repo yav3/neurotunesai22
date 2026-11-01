@@ -119,3 +119,8 @@ from .rhythmic_entrainment import (
     adaptive_tempo_prescription, rhythmic_complexity_for_therapy,
     entrainment_trajectory, iso_principle_trajectory,
 )
+from .dose_response import (
+    TherapyDose, DoseResponseCurve, fit_dose_response,
+    therapeutic_threshold, optimal_dose, dose_efficiency,
+    diminishing_returns_point, session_schedule, cumulative_response,
+)

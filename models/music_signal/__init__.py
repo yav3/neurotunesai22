@@ -93,3 +93,18 @@ from .envelope import (
     tremolo_rate, tremolo_depth, envelope_centroid,
     attack_time, decay_time,
 )
+from .signal_quality import (
+    QualityReport, snr, snr_from_noisy, segmental_snr,
+    thd, thd_plus_n, sinad, enob,
+    noise_floor_estimate, dynamic_range_from_signal,
+    crest_factor as crest_factor_quality,
+    dc_offset, inter_channel_phase, phase_correlation,
+    spectral_distortion, itakura_saito_distance,
+    clipping_detection, quality_report,
+)
+from .source_separation import (
+    SeparationResult, nmf, nmf_separate,
+    hpss, wiener_filter, spectral_subtraction,
+    ideal_binary_mask, ideal_ratio_mask,
+    sdr, sir, sar, harmonic_mask,
+)

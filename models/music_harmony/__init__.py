@@ -69,6 +69,12 @@ __all__ = [
     "tonnetz_coordinates", "triad_tonnetz_centroid", "tonnetz_distance",
     "voice_leading_distance", "plr_distance",
     "HarmonicPathStats", "analyze_harmonic_path",
+    "IntervalQuality", "MotionType", "CantusFirmusAnalysis",
+    "CounterpointAnalysis", "SuspensionPattern",
+    "classify_interval", "interval_between", "classify_motion",
+    "analyze_cantus_firmus", "detect_parallel_fifths_cp", "detect_parallel_octaves_cp",
+    "voice_crossings", "analyze_counterpoint", "detect_suspensions",
+    "voice_independence", "step_skip_ratio",
     "PCSet", "to_pc_set", "transpose", "invert", "complement",
     "normal_form", "prime_form", "interval_vector",
     "is_z_related", "is_subset", "is_superset",
@@ -91,4 +97,26 @@ from models.music_harmony.neo_riemannian import (
     tonnetz_coordinates, triad_tonnetz_centroid, tonnetz_distance,
     voice_leading_distance, plr_distance,
     HarmonicPathStats, analyze_harmonic_path,
+)
+from models.music_harmony.voice_leading_optimization import (
+    pitch_class_distance, optimal_voice_leading,
+    NeoRiemannianOp, neo_riemannian_transform, neo_riemannian_distance,
+    VoiceLeadingPath, analyze_voice_leading_path, parsimonious_realization,
+)
+from models.music_harmony.harmonic_rhythm import (
+    HarmonicEvent, HarmonicRhythmProfile, chord_change_rate,
+    on_beat_ratio, harmonic_acceleration, acceleration_slope,
+    phrase_harmonic_density, cadential_rhythm_score, harmonic_syncopation,
+    harmonic_regularity, compute_harmonic_rhythm_profile,
+    harmonic_rhythm_distance, classify_harmonic_rhythm,
+)
+from models.music_harmony.counterpoint import (
+    IntervalQuality, MotionType, CantusFirmusAnalysis,
+    CounterpointAnalysis, SuspensionPattern,
+    classify_interval, interval_between, classify_motion,
+    analyze_cantus_firmus,
+    detect_parallel_fifths as detect_parallel_fifths_cp,
+    detect_parallel_octaves as detect_parallel_octaves_cp,
+    voice_crossings, analyze_counterpoint, detect_suspensions,
+    voice_independence, step_skip_ratio,
 )

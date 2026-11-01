@@ -120,3 +120,8 @@ from .jazz_harmony import (
     ii_V_I_voicings, tritone_substitution,
     backdoor_progression, coltrane_changes, tension_resolution_score,
 )
+from .constraint_solver import (
+    ConstraintType, HarmonicContext, MelodicConstraint, ImprovConfig,
+    build_domains, solve_melody, greedy_melody, evaluate_melody,
+    melodic_tension_curve, phrase_structure_penalty,
+)

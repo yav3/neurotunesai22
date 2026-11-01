@@ -74,12 +74,22 @@ __all__ = [
     "MusicOntology", "MusicKnowledgeBase",
     "OntologyNode", "OntologyEdge",
     "NodeType", "OntologyRelationType",
+    "SemanticDimension", "SemanticVector", "SemanticSpace",
+    "semantic_distance", "tag_cooccurrence_matrix", "latent_semantic_analysis",
+    "concept_graph_sem", "analogy_completion", "interpolate_semantic",
+    "semantic_trajectory", "cross_modal_alignment_sem",
 ]
 
 from .music_ontology import (
     MusicOntology, MusicKnowledgeBase,
     OntologyNode, OntologyEdge,
     NodeType, RelationType as OntologyRelationType,
+)
+from .semantic_embedding import (
+    SemanticDimension, SemanticVector, SemanticSpace,
+    semantic_distance, tag_cooccurrence_matrix, latent_semantic_analysis,
+    concept_graph as concept_graph_sem, analogy_completion, interpolate_semantic,
+    semantic_trajectory, cross_modal_alignment as cross_modal_alignment_sem,
 )
 from .cross_modal import (
     ColourAssociation, PITCH_HUE_MAP, pitch_to_colour, chord_colour, colour_distance,

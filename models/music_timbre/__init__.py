@@ -60,6 +60,19 @@ __all__ = [
     "spectral_lerp", "morph_spectral_envelope",
     "envelope_swap", "harmonic_blend",
     "morph_trajectory", "spectral_distance", "brightness_transfer",
+    "lpc_spectral_envelope_morph", "morph_spectral_crosssynth",
+    "formant_transplant", "brightness_match",
+    "TimbreMorphSequence", "log_spectral_distance",
+    "harmonic_brightness",
+    "median_filter_horizontal", "median_filter_vertical",
+    "HPSSResult", "hpss", "iterative_hpss",
+    "VoiceDetectionFeatures", "detect_vibrato", "formant_prominence",
+    "voice_detection_features", "spectral_template_basis",
+    "DrumHit", "classify_drum_hit", "detect_drum_onsets", "drum_pattern_density",
+    "InstrumentClass", "InstrumentFeatures",
+    "ir_extract_features", "ir_feature_vector", "ir_cosine_similarity",
+    "classify_nearest", "classify_mahalanobis",
+    "temporal_class_profile", "ir_feature_importance",
 ]
 
 from models.music_timbre.timbre_morphing import (
@@ -67,4 +80,42 @@ from models.music_timbre.timbre_morphing import (
     spectral_lerp, spectral_envelope as morph_spectral_envelope,
     envelope_swap, harmonic_blend,
     morph_trajectory, spectral_distance, brightness_transfer,
+)
+from models.music_timbre.spectral_morphing import (
+    spectral_envelope as lpc_spectral_envelope_morph,
+    morph_spectral as morph_spectral_crosssynth,
+    formant_transplant, brightness_match,
+    TimbreMorphSequence, timbre_distance as log_spectral_distance,
+    harmonic_brightness,
+)
+from models.music_timbre.instrument_templates import (
+    InstrumentFamily, SpectralTemplate, IdentificationResult,
+    INSTRUMENT_TEMPLATES, harmonic_spectrum_from_template,
+    template_match_score, identify_instrument,
+    family_probabilities, attack_time_estimate, match_by_attack,
+)
+from models.music_timbre.perceptual_timbre_space import (
+    MPEG7Descriptor, TimbreVector, harmonic_spectral_centroid,
+    harmonic_spectral_deviation, harmonic_spectral_spread,
+    log_attack_time as mpeg7_log_attack_time,
+    temporal_centroid as mpeg7_temporal_centroid,
+    spectral_flatness_measure, compute_mpeg7_descriptors,
+    sethares_roughness, pairwise_timbre_distance, mds_2d,
+    timbre_centroid, timbre_interpolation,
+    cluster_timbres_kmeans, silhouette_score,
+    grey_dimensions, mcadams_dimensions,
+)
+from models.music_timbre.source_separation_features import (
+    median_filter_horizontal, median_filter_vertical,
+    HPSSResult, hpss, iterative_hpss,
+    VoiceDetectionFeatures, detect_vibrato, formant_prominence,
+    voice_detection_features, spectral_template_basis,
+    DrumHit, classify_drum_hit, detect_drum_onsets, drum_pattern_density,
+)
+from models.music_timbre.instrument_recognition import (
+    InstrumentClass, InstrumentFeatures,
+    extract_features as ir_extract_features, feature_vector as ir_feature_vector,
+    cosine_similarity as ir_cosine_similarity,
+    classify_nearest, classify_mahalanobis,
+    temporal_class_profile, feature_importance as ir_feature_importance,
 )

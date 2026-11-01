@@ -92,4 +92,33 @@ __all__ = [
     "Purpose", "FairUseFactors", "composite_fair_use_score", "fair_use_risk_level",
     "analyze_fair_use",
     "mechanical_royalty", "streaming_royalty", "SyncLicenseTerms", "compute_statement",
+    "SimilarityDimension", "SimilarityScore", "PlagiarismDetectionReport",
+    "melodic_similarity", "chord_progression_similarity",
+    "rhythm_onset_similarity", "structural_similarity",
+    "combined_plagiarism_score",
+    "CFSpectralPeak", "CFFingerprintHash",
+    "cf_find_spectral_peaks", "hash_peak_pairs", "cf_fingerprint",
+    "MatchResult", "match_fingerprints",
+    "interval_sequence", "edit_distance", "longest_common_subsequence",
+    "MelodicSimilarity", "cf_melodic_similarity",
+    "onset_grid", "rhythmic_similarity",
+    "chord_ngram_similarity", "cf_originality_score",
 ]
+
+from models.music_copyright.plagiarism_detection import (
+    SimilarityDimension, SimilarityScore,
+    PlagiarismReport as PlagiarismDetectionReport,
+    melodic_similarity, chord_progression_similarity,
+    rhythm_onset_similarity, structural_similarity,
+    combined_plagiarism_score,
+)
+from models.music_copyright.content_fingerprint import (
+    SpectralPeak as CFSpectralPeak, FingerprintHash as CFFingerprintHash,
+    find_spectral_peaks as cf_find_spectral_peaks,
+    hash_peak_pairs, fingerprint as cf_fingerprint,
+    MatchResult, match_fingerprints,
+    interval_sequence, edit_distance, longest_common_subsequence,
+    MelodicSimilarity, melodic_similarity as cf_melodic_similarity,
+    onset_grid, rhythmic_similarity,
+    chord_ngram_similarity, originality_score as cf_originality_score,
+)

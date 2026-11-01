@@ -28,11 +28,12 @@ from models.music_cultural.world_scales import (
 
 # Deep tuning system library
 from models.music_cultural.tuning_systems import (
-    CentConverter, TuningSystem, EqualTemperament,
-    TET_12, TET_19, TET_24, TET_31, TET_53,
-    JustIntonation, PythagoreanTuning, MeantoneTemperament,
-    QUARTER_COMMA_MEANTONE, THIRD_COMMA_MEANTONE, SIXTH_COMMA_MEANTONE,
-    WellTemperament, TuningComparator,
+    TuningSystem, TuningComparison,
+    pythagorean_tuning, just_intonation, equal_temperament,
+    meantone_tuning, maqam_quarter_tones, slendro_tuning,
+    pelog_tuning, shruti_tuning, cents_from_ratio,
+    ratio_from_cents, tuning_deviation, compare_tunings,
+    frequency_from_cents, nearest_12tet_note,
 )
 
 # Deep rhythm system library
@@ -81,11 +82,12 @@ __all__ = [
     "TIZITA_MAJOR", "TIZITA_MINOR", "BATI_MAJOR", "BATI_MINOR", "AMBASSEL",
     "BLUES", "WHOLE_TONE", "HUNGARIAN_MINOR", "PERSIAN", "BYZANTINE",
     # Tuning systems
-    "CentConverter", "TuningSystem", "EqualTemperament",
-    "TET_12", "TET_19", "TET_24", "TET_31", "TET_53",
-    "JustIntonation", "PythagoreanTuning", "MeantoneTemperament",
-    "QUARTER_COMMA_MEANTONE", "THIRD_COMMA_MEANTONE", "SIXTH_COMMA_MEANTONE",
-    "WellTemperament", "TuningComparator",
+    "TuningSystem", "TuningComparison",
+    "pythagorean_tuning", "just_intonation", "equal_temperament",
+    "meantone_tuning", "maqam_quarter_tones", "slendro_tuning",
+    "pelog_tuning", "shruti_tuning", "cents_from_ratio",
+    "ratio_from_cents", "tuning_deviation", "compare_tunings",
+    "frequency_from_cents", "nearest_12tet_note",
     # Rhythm systems
     "TimeSystem", "Tala", "Usul", "ClaveSyncopation",
     "TINTAL", "JHAPTAL", "RUPAK", "EKTAL", "DADRA", "KEHERWA", "TALA_REGISTRY",
@@ -102,4 +104,99 @@ __all__ = [
     "RAQS", "ZALAQA", "RASHA",
     "CUT", "STRIKE", "CRAN", "ROLL", "SLIDE_IRISH", "TREBLE",
     "RASGUEADO", "PICADO", "ALZAPUA", "TREMOLO_FLAMENCO",
+    "Tradition", "ScaleProfile", "RhythmProfile",
+    "TraditionFingerprint", "TRADITION_FINGERPRINTS",
+    "FusionAnalysis",
+    "scale_interval_similarity", "tuning_deviation_12tet", "microtonal_content",
+    "rhythm_accent_correlation", "tradition_distance", "tradition_similarity_matrix",
+    "analyze_fusion_potential", "classify_tradition",
+    "GeographicPoint", "StyleRegion",
+    "haversine_distance", "geographic_distance_matrix", "feature_distance_matrix",
+    "mantel_test", "spatial_autocorrelation", "inverse_distance_weighting",
+    "classify_region", "diffusion_gradient", "cultural_boundary_detection",
+    "isolation_by_distance",
+    "DancePattern", "DANCE_CATALOG", "pattern_to_binary", "accent_to_weight",
+    "dance_pattern_similarity", "classify_dance",
+    "generate_onset_times", "dance_syncopation_score",
+    "swing_feel_from_pattern", "tempo_in_range",
+    "ModalFamily", "Mode", "CHURCH_MODES", "MELODIC_MINOR_MODES", "PENTATONIC_MODES",
+    "pitch_class_histogram", "mode_template", "correlate_profile", "detect_mode",
+    "transpose_mode", "modal_brightness", "modal_interchange_candidates",
+    "characteristic_interval_strength", "interval_vector", "mode_distance",
+    "brightness_ordering", "mode_subset_of", "common_tones",
+    "TransmissionMode", "CulturalNode", "InfluenceEdge", "DiffusionState",
+    "cin_build_influence_graph", "cultural_feature_distance",
+    "cin_cultural_distance_matrix", "proximity_influence_graph",
+    "threshold_diffusion", "continuous_diffusion", "influence_centrality",
+    "transmission_pathways", "pathway_strength", "dominant_pathway",
+    "cin_cultural_mds", "innovation_rate", "cultural_entropy",
+    "syncretism_score", "influence_asymmetry", "net_influence",
+    "CulturalDimension", "TraditionProfile", "CulturalDistanceResult",
+    "scale_distance", "rhythm_distance", "tuning_distance",
+    "ornament_distance", "form_distance", "texture_distance", "timbre_distance",
+    "cultural_distance_metric", "pairwise_distance_matrix_cultural",
+    "tradition_mds_2d", "tradition_cluster",
+    "influence_graph_cultural", "borrowing_score", "fusion_potential",
+    "PerformanceTradition", "VibratoType", "VibratoProfile",
+    "TempoConvention", "DynamicConvention", "ArticulationProfile",
+    "ImprovisationProfile", "PerformancePractice", "PRACTICE_CATALOG",
+    "practice_vector", "practice_distance", "practice_similarity",
+    "pairwise_practice_matrix", "classify_tradition_perf",
+    "vibrato_similarity", "tempo_flexibility_score", "expressive_freedom_score",
 ]
+
+from models.music_cultural.dance_rhythm import (
+    DancePattern, DANCE_CATALOG, pattern_to_binary, accent_to_weight,
+    pattern_similarity as dance_pattern_similarity, classify_dance,
+    generate_onset_times, syncopation_score as dance_syncopation_score,
+    swing_feel_from_pattern, tempo_in_range,
+)
+from models.music_cultural.cross_cultural_analysis import (
+    Tradition, ScaleProfile, RhythmProfile,
+    TraditionFingerprint, TRADITION_FINGERPRINTS,
+    FusionAnalysis,
+    scale_interval_similarity, tuning_deviation_12tet, microtonal_content,
+    rhythm_accent_correlation, tradition_distance, tradition_similarity_matrix,
+    analyze_fusion_potential, classify_tradition,
+)
+from models.music_cultural.modal_systems import (
+    ModalFamily, Mode, CHURCH_MODES, MELODIC_MINOR_MODES, PENTATONIC_MODES,
+    pitch_class_histogram, mode_template, correlate_profile, detect_mode,
+    transpose_mode, modal_brightness, modal_interchange_candidates,
+    characteristic_interval_strength, interval_vector, mode_distance,
+    brightness_ordering, mode_subset_of, common_tones,
+)
+from models.music_cultural.geographic_mapping import (
+    GeographicPoint, StyleRegion,
+    haversine_distance, geographic_distance_matrix, feature_distance_matrix,
+    mantel_test, spatial_autocorrelation, inverse_distance_weighting,
+    classify_region, diffusion_gradient, cultural_boundary_detection,
+    isolation_by_distance,
+)
+from models.music_cultural.cultural_influence_network import (
+    TransmissionMode, CulturalNode, InfluenceEdge, DiffusionState,
+    build_influence_graph as cin_build_influence_graph,
+    cultural_feature_distance, cultural_distance_matrix as cin_cultural_distance_matrix,
+    proximity_influence_graph, threshold_diffusion, continuous_diffusion,
+    influence_centrality, transmission_pathways, pathway_strength, dominant_pathway,
+    cultural_mds as cin_cultural_mds, innovation_rate, cultural_entropy,
+    syncretism_score, influence_asymmetry, net_influence,
+)
+from models.music_cultural.cultural_distance import (
+    CulturalDimension, TraditionProfile, CulturalDistanceResult,
+    scale_distance, rhythm_distance, tuning_distance,
+    ornament_distance, form_distance, texture_distance, timbre_distance,
+    cultural_distance as cultural_distance_metric,
+    pairwise_distance_matrix as pairwise_distance_matrix_cultural,
+    tradition_mds_2d, tradition_cluster,
+    influence_graph as influence_graph_cultural,
+    borrowing_score, fusion_potential,
+)
+from models.music_cultural.performance_practice import (
+    PerformanceTradition, VibratoType, VibratoProfile,
+    TempoConvention, DynamicConvention, ArticulationProfile,
+    ImprovisationProfile, PerformancePractice, PRACTICE_CATALOG,
+    practice_vector, practice_distance, practice_similarity,
+    pairwise_practice_matrix, classify_tradition as classify_tradition_perf,
+    vibrato_similarity, tempo_flexibility_score, expressive_freedom_score,
+)

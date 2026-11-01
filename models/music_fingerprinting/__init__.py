@@ -37,6 +37,10 @@ __all__ = [
     "AudioHash", "perceptual_hash", "hash_similarity",
     "content_id", "HashIndex", "bark_bands", "spectral_flatness",
     "Peak", "FingerprintHash", "SpectralPeakExtractor",
+    "WatermarkConfig", "WatermarkResult",
+    "spread_spectrum_embed", "spread_spectrum_extract",
+    "qim_embed", "qim_extract",
+    "watermark_robustness", "payload_capacity",
 ]
 
 from models.music_fingerprinting.audio_hash import (
@@ -53,4 +57,22 @@ from models.music_fingerprinting.query_by_humming import (
     extract_pitch_contour, pitch_to_midi_cents, normalize_contour,
     dtw_distance, subsequence_dtw,
     build_melody_database, search_melody_database, contour_similarity,
+)
+from models.music_fingerprinting.robust_hashing import (
+    RobustHash, MatchResult as RobustMatchResult,
+    bark_band_energies, energy_difference_hash,
+    hamming_distance, bit_error_rate, majority_vote_hash,
+    repetition_encode, repetition_decode,
+    compute_robust_hash, match_hashes, sliding_match, hash_to_hex,
+)
+from models.music_fingerprinting.watermarking import (
+    WatermarkConfig, WatermarkResult,
+    spread_spectrum_embed, spread_spectrum_extract,
+    qim_embed, qim_extract,
+    watermark_robustness, payload_capacity,
+)
+from models.music_fingerprinting.acoustic_id import (
+    IdentificationResult, AcousticProfile, compute_acoustic_profile,
+    profile_distance, IdentificationIndex, time_coherence_check,
+    confidence_score, spectral_contrast_features,
 )

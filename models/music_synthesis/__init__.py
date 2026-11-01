@@ -86,6 +86,14 @@ from .physical_modeling import (
     karplus_strong, damped_string, bowed_string,
     flute_waveguide, drum_membrane,
 )
+from .modular_routing import (
+    SignalType, Module, Port, ModulePort, PatchMatrix, PatchCable,
+    cv_to_frequency, frequency_to_cv, quantize_cv, cv_offset, cv_scale,
+    gate_from_cv, trigger_from_gate, clock_signal, clock_divider, clock_multiplier,
+    gate_logic_and, gate_logic_or, gate_logic_xor,
+    slew_limiter, sample_and_hold, voltage_controlled_mix,
+    ring_modulator, rectifier, wavefolder, envelope_follower,
+)
 
 __all__ = [
     "Oscillator", "SineOscillator", "SawtoothOscillator", "SquareOscillator",

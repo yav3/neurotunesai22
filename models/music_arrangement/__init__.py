@@ -76,6 +76,18 @@ __all__ = [
     "VoicingConstraint", "VOICING_RULES", "POWER_DB",
     "score_voicing", "suggest_doublings",
     "orchestral_balance_detailed", "REGISTER_CURVES", "register_effectiveness",
+    "BrassInstrument", "BRASS_RANGES", "VoicingTechnique", "BrassVoicing",
+    "close_voicing", "drop2", "drop24", "spread_voicing",
+    "assign_brass_instruments", "brass_range_check",
+    "voicing_tension", "parallel_motion",
+    "ReductionType", "NoteEvent", "ReducedScore",
+    "sr_extract_melody", "sr_extract_bass",
+    "piano_reduction", "lead_sheet_extraction",
+    "voice_importance", "sr_texture_density", "adaptive_thinning",
+    "OEInstrumentFamily", "InstrumentSpec",
+    "oe_in_range", "range_utilization", "tessitura_comfort",
+    "timbre_compatibility", "assign_voices", "oe_doubling_score",
+    "voice_crossing_count", "spacing_score", "orchestration_score",
 ]
 
 from .instrument_combination import (
@@ -95,4 +107,34 @@ from .orchestration_rules import (
     score_voicing, suggest_doublings,
     orchestral_balance as orchestral_balance_detailed,
     REGISTER_CURVES, register_effectiveness,
+)
+from .brass_voicing import (
+    BrassInstrument, BRASS_RANGES, VoicingTechnique, BrassVoicing,
+    close_voicing, drop2, drop24, spread_voicing,
+    assign_instruments as assign_brass_instruments,
+    range_check as brass_range_check,
+    voicing_tension, parallel_motion,
+)
+from .score_reduction import (
+    ReductionType, NoteEvent, ReducedScore,
+    extract_melody as sr_extract_melody,
+    extract_bass as sr_extract_bass,
+    piano_reduction, lead_sheet_extraction,
+    voice_importance, texture_density as sr_texture_density,
+    adaptive_thinning,
+)
+from .orchestration_engine import (
+    InstrumentFamily as OEInstrumentFamily, InstrumentSpec,
+    in_range as oe_in_range, range_utilization, tessitura_comfort,
+    timbre_compatibility, assign_voices, doubling_score as oe_doubling_score,
+    voice_crossing_count, spacing_score, orchestration_score,
+)
+from .texture_evolution import (
+    TextureCategory, RegisterBand, REGISTER_BOUNDS, RK_IDEAL_BALANCE,
+    TextureSnapshot, CollaParteEvent, TextureEvolution,
+    classify_texture, note_to_register, register_distribution,
+    rk_balance_score, muddy_interval_count, detect_colla_parte,
+    instrumentation_density_curve, register_weight_curve,
+    texture_change_points, analyze_texture_evolution,
+    rk_balance_summary, texture_variety_index, colla_parte_fraction,
 )

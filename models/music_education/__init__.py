@@ -1,6 +1,11 @@
 """Music education: pedagogy, ear training, sight-reading, practice planning, assessment."""
 from models.music_education.ear_training import (
-    IntervalTrainer, ChordTrainer, RhythmDictation,
+    IntervalQuality, IntervalQuestion, ChordQuestion, DictationExercise,
+    EarTrainingScore, interval_name, interval_difficulty,
+    generate_interval_question, score_interval_answer,
+    chord_pitches, generate_chord_question, score_chord_answer,
+    generate_dictation, score_dictation, contour_score,
+    adaptive_difficulty, session_summary,
 )
 from models.music_education.sight_reading import (
     SightReadingGenerator, DifficultyEstimator,
@@ -60,6 +65,13 @@ __all__ = [
     "ErrorType", "PerformanceError", "PerformanceRubricScore",
     "dtw_alignment", "classify_errors", "score_performance",
     "difficulty_adjustment", "ProgressRecord",
+    "PracticeSM2State", "practice_sm2_update", "schedule_passages",
+    "PracticeErrorType", "NoteError",
+    "detect_pitch_errors", "detect_timing_errors", "detect_dynamic_errors",
+    "TempoAnalysis", "analyze_tempo_consistency",
+    "PracticeBlock", "segment_practice_blocks",
+    "improvement_curve", "diminishing_returns_point",
+    "DifficultyEstimate", "estimate_difficulty",
 ]
 
 from models.music_education.interval_training import (
@@ -90,4 +102,25 @@ from models.music_education.score_reading import (
     staff_position_to_midi, midi_to_staff_position,
     identify_key_signature, analyze_reading_difficulty,
     generate_reading_exercise, common_reading_errors,
+)
+from models.music_education.practice_analysis import (
+    SM2State as PracticeSM2State,
+    sm2_update as practice_sm2_update,
+    schedule_passages,
+    ErrorType as PracticeErrorType,
+    NoteError, detect_pitch_errors, detect_timing_errors, detect_dynamic_errors,
+    TempoAnalysis, analyze_tempo_consistency,
+    PracticeBlock, segment_practice_blocks,
+    improvement_curve, diminishing_returns_point,
+    DifficultyEstimate, estimate_difficulty,
+)
+from models.music_education.adaptive_curriculum import (
+    MusicSkill, SKILL_LEVELS, skill_level_label,
+    prerequisites_satisfied, recommended_skills,
+    ResponseRecord, estimate_difficulty_mle, estimate_discrimination_mle,
+    estimate_2pl_parameters, SPRTState, run_sprt,
+    power_law_predict, fit_power_law, predict_mastery_trial,
+    CurriculumItem, sm2_music_update, schedule_curriculum_session,
+    ProgressSnapshot, accuracy_trajectory, time_on_task_summary,
+    skill_gap_analysis, compute_progress_snapshot,
 )

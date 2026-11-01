@@ -71,7 +71,29 @@ from .curriculum_learning import (
     MixupAugmentor, LearningRateSchedule,
 )
 from .practice_analytics import (
-    PracticeSession, PracticeReport, tempo_stability,
+    PracticeSession, PracticeReport, PracticeEvent, PracticeStreak,
+    WeakSpot, SM2Card,
+    tempo_stability, tempo_accuracy as train_tempo_accuracy,
+    note_accuracy, note_accuracy_over_time, tempo_accuracy_over_time,
     error_density, identify_problem_spots, learning_curve,
-    spaced_repetition_schedule, analyze_practice,
+    fit_learning_curve, spaced_repetition_schedule, analyze_practice,
+    detect_weak_spots, improvement_trend,
+    schedule_review, quality_from_accuracy,
+    session_efficiency, passage_mastery, practice_summary,
+)
+from .ear_training import (
+    INTERVAL_NAMES, INTERVAL_SEMITONES, ChordQuality, CHORD_INTERVALS,
+    IntervalResponse, ChordResponse,
+    score_interval_recognition, interval_confusion_matrix,
+    identify_chord_quality, score_chord_identification,
+    MelodicDictationResult, HarmonicDictationResult,
+    EloSkill, INTERVAL_DIFFICULTY, CHORD_DIFFICULTY,
+    select_exercise_difficulty, generate_interval_exercise,
+    generate_chord_exercise, generate_rhythm_exercise,
+)
+from .practice_curriculum import (
+    MusicalDimension, PieceDifficulty,
+    estimate_rhythmic_difficulty, estimate_harmonic_difficulty,
+    estimate_technical_difficulty, MasteryState, ZPDSequencer,
+    spaced_repetition_interval, forgetting_curve,
 )

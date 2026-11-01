@@ -54,6 +54,25 @@ __all__ = [
     "section_boundaries", "build_form_tree",
     "repetition_matrix", "novelty_curve",
     "section_similarity_matrix", "classify_form",
+    "AnnotationType", "Annotation", "HarmonicSeries", "PitchContour", "FormantTrack",
+    "harmonic_series_annotations", "onset_annotations", "section_boundary_annotations",
+    "pitch_contour_annotations", "formant_annotations", "note_region_annotations",
+    "spectral_peak_annotations", "noise_band_annotations",
+    "merge_annotations", "filter_annotations", "annotation_density",
+    "EasingType", "Keyframe", "AnimationTrack", "Timeline", "BeatSync",
+    "ease", "ease_array", "crossfade",
+    "lfo_track", "beat_reactive_track", "onset_reactive_track",
+    "spectrum_band_tracks",
+    "SRConfig", "stft_magnitude", "amplitude_to_db",
+    "hz_to_mel", "mel_to_hz", "mel_filterbank", "sr_mel_spectrogram",
+    "cqt_kernel", "constant_q_transform", "sr_chromagram",
+    "sr_spectral_flux", "onset_strength", "spectral_contrast",
+    "interpolate_keyframes", "keyframes_from_features",
+    "snap_to_beats", "beat_sync_curve",
+    "WaveformGeometry", "waveform_display_data", "band_energy_series",
+    "SpectrogramTile", "spectrogram_tiles",
+    "ColorMapping", "feature_to_color",
+    "CameraKeyframe", "camera_path",
 ]
 
 from .waveform_display import (
@@ -94,4 +113,47 @@ from .form_diagram import (
     section_boundaries, build_form_tree,
     repetition_matrix, novelty_curve,
     section_similarity_matrix, classify_form,
+)
+from .spectrogram_annotation import (
+    AnnotationType, Annotation, HarmonicSeries, PitchContour, FormantTrack,
+    harmonic_series_annotations, onset_annotations,
+    section_boundary_annotations, pitch_contour_annotations,
+    formant_annotations, note_region_annotations,
+    spectral_peak_annotations, noise_band_annotations,
+    merge_annotations, filter_annotations, annotation_density,
+)
+from .animation_timeline import (
+    EasingType, Keyframe, AnimationTrack, Timeline, BeatSync,
+    ease, ease_array, crossfade,
+    lfo_track, beat_reactive_track, onset_reactive_track,
+    spectrum_band_tracks,
+)
+from .animation_timeline import (
+    EasingType, ease, ease_array, Keyframe, AnimationTrack, BeatSync,
+    Timeline, beat_reactive_track, onset_reactive_track,
+    spectrum_band_tracks, lfo_track, crossfade,
+)
+from .spectrogram_annotation import (
+    AnnotationType, Annotation, HarmonicSeries, PitchContour, FormantTrack,
+    harmonic_series_annotations, onset_annotations, section_boundary_annotations,
+    pitch_contour_annotations, formant_annotations, note_region_annotations,
+    spectral_peak_annotations, noise_band_annotations,
+    merge_annotations, filter_annotations, annotation_density,
+)
+from .spectrogram_renderer import (
+    SpectrogramConfig as SRConfig,
+    stft_magnitude, amplitude_to_db, hz_to_mel, mel_to_hz,
+    mel_filterbank, mel_spectrogram as sr_mel_spectrogram,
+    cqt_kernel, constant_q_transform,
+    chromagram as sr_chromagram,
+    spectral_flux as sr_spectral_flux,
+    onset_strength, spectral_contrast,
+)
+from .animation_data import (
+    interpolate_keyframes, keyframes_from_features,
+    snap_to_beats, beat_sync_curve,
+    WaveformGeometry, waveform_display_data, band_energy_series,
+    SpectrogramTile, spectrogram_tiles,
+    ColorMapping, feature_to_color,
+    CameraKeyframe, camera_path,
 )

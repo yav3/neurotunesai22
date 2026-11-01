@@ -68,3 +68,18 @@ from .performance_metrics import (
     tempo_stability as perf_tempo_stability, rhythmic_evenness,
     ProgressTracker as MetricsProgressTracker,
 )
+from .expression_analysis import (
+    ArticulationType as ExprArticulationType, NoteEvent,
+    RubatoSegment, detect_rubato, rubato_amount,
+    DynamicShape, detect_dynamic_shapes, dynamic_range,
+    classify_articulation as classify_expr_articulation,
+    articulation_profile, VibratoAnalysis, analyze_vibrato,
+    expressive_timing_deviation,
+)
+from .ensemble_sync import (
+    PerformerTrack, SyncMetrics, inter_onset_alignment,
+    pairwise_sync_matrix, granger_precedence, detect_leader,
+    sync_error_distribution, phase_coupling, tempo_negotiation,
+    sectional_balance, balance_deviation, ensemble_cohesion,
+    synchronization_over_time,
+)

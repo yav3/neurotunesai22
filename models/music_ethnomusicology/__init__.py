@@ -99,6 +99,28 @@ __all__ = [
     "KlezmerMode", "DanceType",
     "classify_klezmer_mode", "has_augmented_second", "generate_krekhts",
     "classify_dance", "freygish_scale", "mode_tension",
+    "OrnamentTradition", "GamakaType", "OrnamentCurve",
+    "generate_gamaka", "arabic_tahrir", "flamenco_melisma",
+    "celtic_roll", "baroque_trill", "jazz_bend",
+    "apply_ornament", "ornament_complexity", "compare_ornaments",
+    "tradition_ornament_catalog",
+    "CantometricsProfile", "VocalWidth", "NasalQuality", "RegisterType",
+    "RhythmicOrg", "SocialOrg", "TextRelation", "TRADITION_PROTOTYPES",
+    "profile_to_vector", "profile_distance", "profile_similarity",
+    "cluster_profiles", "tradition_fingerprint", "most_distinctive_features",
+    "ScaleSystem", "ModeProfile",
+    "pitch_class_profile", "interval_histogram", "interval_class_vector",
+    "mode_correlation", "mode_distance", "classify_scale_mode",
+    "detect_mode_modulation", "microtonality_score",
+    "freq_to_cents", "cents_to_freq", "interval_cents", "nearest_et_deviation",
+    "WorldTuningSystem",
+    "TURKISH_MAKAM_SCALES", "ARABIC_MAQAM_SCALES",
+    "SLENDRO_5", "PELOG_7", "THAI_7TET", "SHRUTI_22", "ALL_TUNING_SYSTEMS",
+    "scale_deviation", "detect_tuning_system",
+    "MicrotonalInflection", "detect_microtonal_inflections",
+    "GamelanAnalysis", "analyze_gamelan_tuning",
+    "RagaAnalysis", "extract_raga_features",
+    "AJNAS_CATALOG", "JinsSegment", "identify_jins",
 ]
 
 from models.music_ethnomusicology.oral_tradition import (
@@ -116,4 +138,40 @@ from models.music_ethnomusicology.klezmer import (
     KlezmerMode, DanceType,
     classify_klezmer_mode, has_augmented_second, generate_krekhts,
     classify_dance, freygish_scale, mode_tension,
+)
+from models.music_ethnomusicology.melodic_ornamentation import (
+    OrnamentTradition, GamakaType, OrnamentCurve, GAMAKA_PROFILES,
+    generate_gamaka, arabic_tahrir, flamenco_melisma, celtic_roll,
+    baroque_trill, jazz_bend, apply_ornament, ornament_complexity,
+    compare_ornaments, tradition_ornament_catalog,
+)
+from models.music_ethnomusicology.melodic_ornamentation import (
+    OrnamentTradition, GamakaType, OrnamentCurve,
+    generate_gamaka, arabic_tahrir, flamenco_melisma,
+    celtic_roll, baroque_trill, jazz_bend,
+    apply_ornament, ornament_complexity, compare_ornaments,
+    tradition_ornament_catalog,
+)
+from models.music_ethnomusicology.cantometrics import (
+    CantometricsProfile, VocalWidth, NasalQuality, RegisterType,
+    RhythmicOrg, SocialOrg, TextRelation, TRADITION_PROTOTYPES,
+    profile_to_vector, profile_distance, profile_similarity,
+    cluster_profiles, tradition_fingerprint, most_distinctive_features,
+)
+from models.music_ethnomusicology.tuning_systems_world import (
+    freq_to_cents, cents_to_freq, interval_cents, nearest_et_deviation,
+    TuningSystem as WorldTuningSystem,
+    TURKISH_MAKAM_SCALES, ARABIC_MAQAM_SCALES,
+    SLENDRO_5, PELOG_7, THAI_7TET, SHRUTI_22, ALL_TUNING_SYSTEMS,
+    scale_deviation, detect_tuning_system,
+    MicrotonalInflection, detect_microtonal_inflections,
+    GamelanAnalysis, analyze_gamelan_tuning,
+    RagaAnalysis, extract_raga_features,
+    AJNAS_CATALOG, JinsSegment, identify_jins,
+)
+from models.music_ethnomusicology.mode_classification import (
+    ScaleSystem, ModeProfile,
+    pitch_class_profile, interval_histogram, interval_class_vector,
+    mode_correlation, mode_distance, classify_mode as classify_scale_mode,
+    detect_modulation as detect_mode_modulation, microtonality_score,
 )

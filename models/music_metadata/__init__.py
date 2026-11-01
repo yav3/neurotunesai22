@@ -51,6 +51,15 @@ __all__ = [
     "infer_era_tags", "combine_tag_predictions",
     "normalize_key_signature", "normalize_tempo", "normalize_duration",
     "validate_metadata_schema", "merge_metadata_fields",
+    "QualityDimension", "FieldScore", "QualityReport",
+    "completeness_score", "consistency_score", "accuracy_score",
+    "freshness_score", "conformance_score", "quality_report",
+    "batch_quality_scores", "quality_histogram",
+    "ConflictStrategy", "SourceRecord", "FieldResolution", "ReconciliationResult",
+    "fuzzy_similarity", "text_similarity", "numeric_similarity",
+    "field_similarity", "record_similarity", "find_duplicates",
+    "resolve_field", "reconcile", "pairwise_similarity_matrix",
+    "cluster_duplicates", "merge_sources",
 ]
 
 from .linked_data import (
@@ -93,4 +102,30 @@ from .normalization import (
     normalize_key_signature, normalize_tempo, normalize_duration,
     validate_metadata_schema,
     merge_metadata as merge_metadata_fields,
+)
+from .quality_scoring import (
+    QualityDimension, FieldScore, QualityReport,
+    completeness_score, consistency_score, accuracy_score,
+    freshness_score, conformance_score, quality_report,
+    batch_quality_scores, quality_histogram,
+)
+from .reconciliation import (
+    ConflictStrategy, SourceRecord, FieldResolution, ReconciliationResult,
+    fuzzy_similarity, text_similarity, numeric_similarity,
+    field_similarity, record_similarity, find_duplicates,
+    resolve_field, reconcile, pairwise_similarity_matrix,
+    cluster_duplicates, merge_sources,
+)
+from .tag_taxonomy import (
+    TagNode, TagSimilarity, FolksonomyStats,
+    build_taxonomy, tag_cooccurrence_matrix as taxonomy_cooccurrence_matrix,
+    tag_pmi, propagate_tags, normalize_tag,
+    folksonomy_stats, tag_hierarchy_depth,
+)
+from .metadata_enrichment import (
+    TagSource, EnrichedTag, EnrichmentResult,
+    GENRE_CENTROIDS, MOOD_FEATURE_MAP,
+    infer_genre, infer_mood, infer_tempo_descriptor,
+    infer_key_tag, infer_instrumentation,
+    cross_reference_tags, tag_coverage, enrichment_digest, enrich,
 )

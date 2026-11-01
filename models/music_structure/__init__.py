@@ -57,6 +57,21 @@ __all__ = [
     "group_into_periods", "phrase_length_regularity",
     "melodic_arch_score", "build_phrase_tree",
     "sentence_structure", "hypermeter_level",
+    "circle_of_fifths_distance", "surface_dissonance", "hierarchical_tension",
+    "melodic_attraction", "syncopation_density", "metric_instability",
+    "loudness_rate_of_change", "TensionWeights", "TensionCurve",
+    "compute_tension_curve", "tension_resolution_ratio", "tension_arc_type",
+    "label_entropy", "lempel_ziv_complexity", "transition_entropy",
+    "repetition_rate", "ssm_block_entropy", "diagonal_periodicity",
+    "fractal_dimension_ssm", "StructuralComplexity", "compute_structural_complexity",
+    "pitch_interval_distance", "rhythmic_edit_distance", "chroma_sequence_distance",
+    "LocalAlignment", "smith_waterman", "MotifMatch",
+    "matrix_profile_1d", "discover_motifs", "normalised_match_score",
+    "TensionPoint", "Climax", "TensionArc",
+    "harmonic_tension_flow", "dissonance_tension", "register_tension",
+    "rhythmic_tension", "dynamic_tension",
+    "compute_tension_flow", "detect_climaxes", "classify_arc", "tension_arc",
+    "tension_similarity", "tension_derivative", "cumulative_tension", "tension_entropy",
 ]
 
 from models.music_structure.novelty_curve import (
@@ -78,4 +93,29 @@ from models.music_structure.hierarchical_segmentation import (
     laplacian_segmentation, build_hierarchy,
     segment_homogeneity, boundary_precision_recall,
     form_string as form_string_hierarchical,
+)
+from models.music_structure.tension_curve import (
+    circle_of_fifths_distance, surface_dissonance, hierarchical_tension,
+    melodic_attraction, syncopation_density, metric_instability,
+    loudness_rate_of_change, TensionWeights, TensionCurve,
+    compute_tension_curve, tension_resolution_ratio, tension_arc_type,
+)
+from models.music_structure.structural_complexity import (
+    label_entropy, lempel_ziv_complexity, transition_entropy,
+    repetition_rate, ssm_block_entropy, diagonal_periodicity,
+    fractal_dimension_ssm, StructuralComplexity, compute_structural_complexity,
+)
+from models.music_structure.approximate_matching import (
+    pitch_interval_distance, rhythmic_edit_distance, chroma_sequence_distance,
+    LocalAlignment, smith_waterman, MotifMatch,
+    matrix_profile_1d, discover_motifs, normalised_match_score,
+)
+from models.music_structure.tension_flow import (
+    TensionPoint, Climax, TensionArc,
+    harmonic_tension as harmonic_tension_flow,
+    dissonance_tension, register_tension,
+    rhythmic_tension, dynamic_tension,
+    compute_tension_curve as compute_tension_flow,
+    detect_climaxes, classify_arc, tension_arc,
+    tension_similarity, tension_derivative, cumulative_tension, tension_entropy,
 )

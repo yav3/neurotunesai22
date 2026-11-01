@@ -56,10 +56,62 @@ __all__ = [
     "MUSIC_SENTIMENT_LEXICON", "SentimentScore", "score_text",
     "sentiment_trajectory", "valence_arc", "arousal_arc",
     "emotional_volatility", "dominant_emotion",
+    "NarrativePhase", "NarrativeArc", "SemanticShift", "ThematicProfile",
+    "estimate_narrative_arc", "semantic_shift_between", "pairwise_semantic_shifts",
+    "thematic_profile", "repetition_density", "lexical_density", "imagery_score",
+    "RhymeQuality", "RhymeScore", "SchemeAnalysis",
+    "score_rhyme", "analyze_rhyme_scheme", "internal_rhyme_density",
+    "multisyllabic_rhyme_score",
+    "AdaptationDimension", "AdaptationScore", "SyllableMap", "VowelProfile",
+    "syllable_map", "syllable_fidelity", "vowel_openness_similarity",
+    "stress_alignment_score", "rhyme_preservation_score", "semantic_fidelity_score",
+    "score_adaptation", "back_translation_consistency", "note_density_ratio",
+    "PaintingGesture", "PaintingSuggestion", "RepetitionPainting",
+    "detect_painting_words", "direction_to_contour", "dynamic_curve_from_gestures",
+    "suggest_painting", "painting_density",
+    "melodic_interval_from_direction", "tempo_adjustment",
+    "detect_word_repetition", "onomatopoeia_gestures",
+    "DIRECTION_WORDS", "SPEED_WORDS", "TEXTURE_WORDS", "DYNAMIC_WORDS",
 ]
 
 from models.music_linguistics.sentiment_lexicon import (
     MUSIC_SENTIMENT_LEXICON, SentimentScore, score_text,
     sentiment_trajectory, valence_arc, arousal_arc,
     emotional_volatility, dominant_emotion,
+)
+from models.music_linguistics.text_music_alignment import (
+    AlignmentType, SyllableNote, AlignmentScore,
+    syllable_count, simple_stress_pattern, stress_match_score,
+    melismatic_ratio, detect_melismas, phrase_boundary_alignment,
+    compute_alignment_score, word_painting_candidates,
+)
+from models.music_linguistics.discourse_analysis import (
+    NarrativePhase, NarrativeArc, SemanticShift, ThematicProfile,
+    estimate_narrative_arc, semantic_shift_between, pairwise_semantic_shifts,
+    thematic_profile, repetition_density, lexical_density, imagery_score,
+)
+from models.music_linguistics.rhyme_quality import (
+    RhymeQuality, RhymeScore, SchemeAnalysis,
+    score_rhyme, analyze_rhyme_scheme, internal_rhyme_density,
+    multisyllabic_rhyme_score,
+)
+from models.music_linguistics.translation_scoring import (
+    AdaptationDimension, AdaptationScore, SyllableMap, VowelProfile,
+    syllable_map, syllable_fidelity, vowel_openness_similarity,
+    stress_alignment_score, rhyme_preservation_score, semantic_fidelity_score,
+    score_adaptation, back_translation_consistency, note_density_ratio,
+)
+from models.music_linguistics.prosody_analysis import (
+    SyllableStress, ProsodicFit,
+    extract_stress_pattern, stress_beat_alignment,
+    melismatic_classification, vowel_openness_map,
+    text_rhythm_ioi, prosodic_fit_score,
+)
+from models.music_linguistics.word_painting import (
+    PaintingGesture, PaintingSuggestion, RepetitionPainting,
+    detect_painting_words, direction_to_contour, dynamic_curve_from_gestures,
+    suggest_painting, painting_density,
+    melodic_interval_from_direction, tempo_adjustment,
+    detect_word_repetition, onomatopoeia_gestures,
+    DIRECTION_WORDS, SPEED_WORDS, TEXTURE_WORDS, DYNAMIC_WORDS,
 )

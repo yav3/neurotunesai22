@@ -75,4 +75,43 @@ __all__ = [
     "CadenceType", "Cadence", "detect_cadence", "generate_cadence",
     "cadential_strength", "find_cadences", "suggest_cadence",
     "is_cadential_64", "cadence_rate",
+    "ToneRow", "RowForm", "RowTransformation",
+    "validate_row", "prime", "serial_retrograde", "serial_inversion",
+    "serial_retrograde_inversion", "transpose_row", "row_matrix",
+    "interval_vector", "all_interval_row", "combinatoriality",
+    "derive_row",
+    "HarmonicFunction", "Chord", "Progression", "ModulationEvent",
+    "ROMAN_TO_SCALE_DEGREE", "FUNCTION_MAP", "TENSION_VALUES",
+    "parse_roman", "chord_tension", "functional_analysis",
+    "tension_arc", "root_motion_profile", "fifth_motion_ratio",
+    "harmonic_rhythm_density", "harmonic_variety",
+    "progression_complexity", "detect_cadence_type",
+    "detect_modulations", "progression_from_symbols",
 ]
+
+from models.music_composition.harmonic_planning import (
+    ChordSymbol, TensionScore, HarmonicPlan,
+    surface_dissonance, harmonic_distance, tonal_distance,
+    compute_tension, arch_tension, ramp_tension, wave_tension,
+    plan_progression, valid_next_chords, degree_to_chord,
+    FUNCTIONAL_GRAMMAR, DIATONIC_SETS, CHORD_TYPES,
+)
+from models.music_composition.harmonic_analysis import (
+    HarmonicFunction, Chord, Progression, ModulationEvent,
+    ROMAN_TO_SCALE_DEGREE, FUNCTION_MAP, TENSION_VALUES,
+    parse_roman, chord_tension, functional_analysis,
+    tension_arc, root_motion_profile, fifth_motion_ratio,
+    harmonic_rhythm_density, harmonic_variety,
+    progression_complexity, detect_cadence_type,
+    detect_modulations, progression_from_symbols,
+)
+from models.music_composition.serial_technique import (
+    ToneRow, RowForm, RowTransformation,
+    validate_row, prime,
+    retrograde as serial_retrograde,
+    inversion as serial_inversion,
+    retrograde_inversion as serial_retrograde_inversion,
+    transpose_row, row_matrix,
+    interval_vector, all_interval_row, combinatoriality,
+    derive_row,
+)

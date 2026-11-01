@@ -73,12 +73,69 @@ __all__ = [
     "TonalMode", "KeyEstimate", "TonalTensionProfile",
     "pitch_class_distribution", "estimate_key", "key_profile_correlation",
     "tonal_tension", "modulation_distance", "surprisal", "tonal_entropy", "key_clarity",
+    "AuditoryStream", "StreamingEvent", "SceneAnalysis",
+    "segregate_streams", "gestalt_proximity_score", "gestalt_similarity_score",
+    "gestalt_common_fate", "gestalt_good_continuation",
+    "detect_stream_boundaries", "perceptual_voice_separation",
+    "scene_attention_salience", "stream_coherence",
+    "CognitiveLoadEstimate", "InformationDensity", "WorkingMemoryModel",
+    "harmonic_information_rate", "pitch_entropy", "rhythmic_entropy",
+    "textural_density", "estimate_cognitive_load", "attention_resource_allocation",
+    "processing_bottleneck", "musical_syntax_complexity",
+    "PerformanceCognitiveLoad", "estimate_performance_load",
+    "ProlongationType", "SyntacticRelation", "SyntacticEvent", "SyntacticViolation",
+    "ProlongationalNode", "detect_syntactic_violations", "harmonic_syntax_score",
+    "prolongational_reduction", "syntactic_complexity", "cadence_detection",
+    "hierarchical_tension", "expectancy_violation_eran",
+    "BodyPart", "BODY_PARTS", "MovementPhase",
+    "movement_periodicity", "entrainment_strength", "phase_coupling",
+    "kinetic_energy", "movement_fluency", "gesture_segmentation",
+    "body_resonance", "optimal_tempo_for_movement",
+    "movement_audio_synchrony", "groove_body_response",
+    "DanceMetrics", "analyze_dance",
 ]
 
+from models.music_cognition.schema_theory import (
+    SchemaTemplate, SCHEMA_CATALOG,
+    ROMANESCA, PRINNER, FONTE, MONTE, DO_RE_MI, SOL_FA_MI,
+    QUIESCENZA, CADENZA_DOPPIA, INDUGIO, FENAROLI,
+    pitch_to_degree, pitches_to_degrees,
+    match_schema, find_schemata,
+    generate_schema_melody, generate_schema_bass,
+    schema_complexity, schema_catalog_summary,
+)
 from models.music_cognition.tonal_expectation import (
     KRUMHANSL_MAJOR, KRUMHANSL_MINOR,
     Mode as TonalMode, KeyEstimate, TonalTensionProfile,
     pitch_class_distribution, estimate_key, key_profile_correlation,
     tonal_tension, modulation_distance, surprisal,
     entropy as tonal_entropy, key_clarity,
+)
+from models.music_cognition.auditory_scene import (
+    AuditoryStream, StreamingEvent, SceneAnalysis,
+    segregate_streams, gestalt_proximity_score, gestalt_similarity_score,
+    gestalt_common_fate, gestalt_good_continuation,
+    detect_stream_boundaries, perceptual_voice_separation,
+    attention_salience as scene_attention_salience, stream_coherence,
+)
+from models.music_cognition.cognitive_load import (
+    CognitiveLoadEstimate, InformationDensity, WorkingMemoryModel,
+    harmonic_information_rate, pitch_entropy, rhythmic_entropy,
+    textural_density, estimate_cognitive_load, attention_resource_allocation,
+    processing_bottleneck, musical_syntax_complexity,
+    PerformanceCognitiveLoad, estimate_performance_load,
+)
+from models.music_cognition.musical_syntax import (
+    ProlongationType, SyntacticRelation, SyntacticEvent, SyntacticViolation,
+    ProlongationalNode, detect_syntactic_violations, harmonic_syntax_score,
+    prolongational_reduction, syntactic_complexity, cadence_detection,
+    hierarchical_tension, expectancy_violation_eran,
+)
+from models.music_cognition.embodied_cognition import (
+    BodyPart, BODY_PARTS, MovementPhase,
+    movement_periodicity, entrainment_strength, phase_coupling,
+    kinetic_energy, movement_fluency, gesture_segmentation,
+    body_resonance, optimal_tempo_for_movement,
+    movement_audio_synchrony, groove_body_response,
+    DanceMetrics, analyze_dance,
 )

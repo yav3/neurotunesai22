@@ -93,6 +93,25 @@ from .sidechain import (
     rhythmic_ducking, PumpingProfile, multiband_sidechain,
 )
 from .expressive_dynamics import (
-    DynamicProfile, dynamic_contour, detect_crescendo, detect_diminuendo,
-    detect_subito, loudness_histogram, dynamic_range_score, analyze_dynamics,
+    DynamicMarking as ExpressiveDynamicMarking,
+    DynamicContourType, DynamicEvent as ExpressiveDynamicEvent,
+    DynamicProfile as ExpressiveDynamicProfile,
+    rms_envelope as expressive_rms_envelope, db_envelope,
+    detect_crescendo as expressive_detect_crescendo,
+    detect_decrescendo, detect_sforzando,
+    terraced_dynamics as expressive_terraced, dynamic_range as expressive_dynamic_range,
+    dynamic_variance, accent_pattern as expressive_accent_pattern,
+    loudness_contour_similarity, analyze_dynamics as expressive_analyze_dynamics,
+)
+from .dynamic_range import (
+    DynamicRangeStats, rms_level, peak_level, crest_factor,
+    lufs_approximate, dynamic_range_dr, loudness_normalise, analyze_dynamic_range,
+)
+from .dynamic_planning import (
+    DynamicLevel as PlanDynamicLevel, ArcShape, DynamicArc,
+    generate_arc, velocity_to_dynamic, dynamic_to_velocity,
+    crescendo_curve, phrase_dynamic_plan, dynamic_contrast,
+    dynamic_variance_by_phrase, expressive_deviation,
+    humanize_velocity as plan_humanize_velocity,
+    structural_dynamic_template,
 )

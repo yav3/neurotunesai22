@@ -63,12 +63,27 @@ __all__ = [
     "ChromagramExtractor", "ChromagramResult",
     "KeyDetector", "KeyProfile", "KeyEstimate",
     "PITCH_CLASSES", "KRUMHANSL_MAJOR", "KRUMHANSL_MINOR",
-    "cwt_morlet_wavelet", "cwt_transform", "cwt_scalogram", "cwt_scale_to_frequency",
-    "wavelet_ridge_extraction", "instantaneous_frequency_from_cwt",
-    "cross_wavelet_coherence",
+    "WaveletType", "ScaleogramResult", "WaveletFeatures",
+    "cwt_morlet_wavelet", "mexican_hat_wavelet", "paul_wavelet",
+    "cwt_transform", "cwt_scalogram",
+    "wavelet_spectral_centroid", "energy_per_scale",
+    "wavelet_ridge_extraction", "extract_wavelet_features",
+    "dwt_decompose", "dwt_energy_distribution",
     "compute_stft_derivatives", "reassign_time_frequency",
     "reassigned_spectrogram", "synchrosqueezed_transform",
     "extract_ridges", "ridge_to_frequency",
+    "GammatoneParams", "erb_space", "erb_bandwidth", "gammatone_ir",
+    "apply_gammatone_bank", "bark_critical_band", "bark_space",
+    "constant_q_bank", "wavelet_packet_bank", "adaptive_resolution",
+    "subband_envelope", "cochleagram", "modulation_spectrum",
+    "mel_gammatone_bank", "filter_energy_profile",
+    "SpectralEnvelope", "cepstral_envelope", "lpc_envelope",
+    "spectral_tilt", "spectral_flatness_per_band",
+    "envelope_interpolation", "formant_shift",
+    "ReassignedSpectrogram", "sr_reassigned_spectrogram",
+    "instantaneous_frequency", "group_delay",
+    "SynchrosqueezedResult", "synchrosqueeze",
+    "PartialTrack", "track_spectral_peaks", "identity_phase_lock_vocoder",
 ]
 
 from models.music_transforms.constant_q import (
@@ -76,10 +91,14 @@ from models.music_transforms.constant_q import (
     cqt_to_chroma, cqt_spectrogram, harmonic_cqt, pitch_salience,
 )
 from models.music_transforms.wavelet_analysis import (
-    morlet_wavelet as cwt_morlet_wavelet, cwt_transform, scalogram as cwt_scalogram,
-    scale_to_frequency as cwt_scale_to_frequency,
-    wavelet_ridge_extraction, instantaneous_frequency_from_cwt,
-    cross_wavelet_coherence,
+    WaveletType, ScaleogramResult, WaveletFeatures,
+    morlet_wavelet as cwt_morlet_wavelet,
+    mexican_hat_wavelet, paul_wavelet,
+    cwt as cwt_transform, scaleogram as cwt_scalogram,
+    wavelet_spectral_centroid, energy_per_scale,
+    detect_ridges as wavelet_ridge_extraction,
+    extract_wavelet_features,
+    dwt_decompose, dwt_energy_distribution,
 )
 from models.music_transforms.reassigned_spectrogram import (
     compute_stft_derivatives, reassign_time_frequency,
@@ -90,4 +109,22 @@ from models.music_transforms.chromagram import (
     ChromagramExtractor, ChromagramResult,
     KeyDetector, KeyProfile, KeyEstimate,
     PITCH_CLASSES, KRUMHANSL_MAJOR, KRUMHANSL_MINOR,
+)
+from models.music_transforms.adaptive_filterbank import (
+    GammatoneParams, erb_space, erb_bandwidth, gammatone_ir,
+    apply_gammatone_bank, bark_critical_band, bark_space,
+    constant_q_bank, wavelet_packet_bank, adaptive_resolution,
+    subband_envelope, cochleagram, modulation_spectrum,
+    mel_gammatone_bank, filter_energy_profile,
+)
+from models.music_transforms.spectral_envelope import (
+    SpectralEnvelope, cepstral_envelope, lpc_envelope,
+    spectral_tilt, spectral_flatness_per_band,
+    envelope_interpolation, formant_shift,
+)
+from models.music_transforms.spectral_reassignment import (
+    ReassignedSpectrogram, reassigned_spectrogram as sr_reassigned_spectrogram,
+    instantaneous_frequency, group_delay,
+    SynchrosqueezedResult, synchrosqueeze,
+    PartialTrack, track_spectral_peaks, identity_phase_lock_vocoder,
 )

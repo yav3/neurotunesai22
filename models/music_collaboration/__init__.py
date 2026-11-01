@@ -35,7 +35,18 @@ from .skill_matching import (
     greedy_assign, ensemble_compatibility, skill_gap_analysis,
 )
 
+from .communication_protocol import (
+    MessageType, VectorClock, Message, GCounter, PNCounter,
+    LWWRegister, ORSet, SessionBus,
+    latency_compensated_timestamp, merge_concurrent_edits,
+    message_integrity_check,
+)
+
 __all__ = [
+    "MessageType", "VectorClock", "Message", "GCounter", "PNCounter",
+    "LWWRegister", "ORSet", "SessionBus",
+    "latency_compensated_timestamp", "merge_concurrent_edits",
+    "message_integrity_check",
     "SyncMetric", "compute_async", "mutual_adaptation", "granger_influence",
     "entrainment_score", "phase_correction_gain", "ensemble_cohesion",
     "ContributionType", "Contribution", "CompositionGraph",
@@ -64,6 +75,11 @@ __all__ = [
     "CodeLanguage", "SyncMode", "CodeSnippet", "PerformerState", "SharedClock", "LiveSession",
     "submit_code", "code_diff", "performer_activity", "session_entropy",
     "quantize_to_bar", "active_performers",
+    "NetworkStats", "JitterBuffer", "SyncState",
+    "estimate_rtt", "adaptive_buffer_size", "clock_drift_estimate",
+    "compensate_drift", "packet_loss_concealment", "sync_score",
+    "optimal_monitoring_latency", "jitter_buffer_push", "jitter_buffer_pull",
+    "jitter_buffer_level",
 ]
 
 from .live_coding import (
@@ -85,4 +101,23 @@ from .session_recording import (
 from .ensemble_dynamics import (
     EnsembleSynchrony, compute_onset_synchrony, compute_tempo_agreement,
     entrainment_index, turn_taking_analysis, blend_score, analyze_ensemble,
+)
+from .score_annotation import (
+    AnnotationCategory, AnnotationStatus, MusicAnchor, Annotation, AnnotationSet,
+    make_annotation_id, annotation_density, annotation_coverage,
+    category_distribution, author_activity, resolution_rate, priority_summary,
+    merge_annotation_sets, hotspot_measures, unresolved_critical,
+)
+from .operational_transform import (
+    OpType, NotePayload, Operation, transform as ot_transform,
+    apply_op as ot_apply_op, apply_ops as ot_apply_ops,
+    compose as ot_compose, invert as ot_invert,
+    OTServer, verify_tp1, random_ops, convergence_test,
+)
+from .latency_compensation import (
+    NetworkStats, JitterBuffer, SyncState,
+    estimate_rtt, adaptive_buffer_size, clock_drift_estimate,
+    compensate_drift, packet_loss_concealment, sync_score,
+    optimal_monitoring_latency, jitter_buffer_push, jitter_buffer_pull,
+    jitter_buffer_level,
 )

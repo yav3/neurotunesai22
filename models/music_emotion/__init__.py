@@ -88,6 +88,15 @@ __all__ = [
     "EmotionCategory", "AudioFeatures", "EmotionPrediction", "FEATURE_WEIGHTS",
     "predict_vad", "vad_to_category", "predict_emotion",
     "emotion_recognition_trajectory", "emotion_transition_matrix",
+    "AVPoint", "AVTrajectory", "ArousalValenceModel",
+    "av_spectral_features", "av_rhythm_features", "av_extract_features",
+    "av_trajectory", "emotion_density", "quadrant_distribution",
+    "emotional_arc_similarity",
+    "ArcShape", "EmotionPoint", "TrajectoryStats", "TrajectoryDistance",
+    "analyze_trajectory", "dtw_trajectory_distance",
+    "frechet_trajectory_distance", "trajectory_distance",
+    "detect_arc_shape", "emotion_momentum", "emotion_inertia",
+    "transition_matrix", "vad_to_quadrant",
 ]
 
 from models.music_emotion.emotion_recognition import (
@@ -95,4 +104,26 @@ from models.music_emotion.emotion_recognition import (
     predict_vad, vad_to_category, predict_emotion,
     emotion_trajectory as emotion_recognition_trajectory,
     emotion_transition_matrix,
+)
+from models.music_emotion.arousal_model import (
+    AVPoint, AVTrajectory, ArousalValenceModel,
+    spectral_features as av_spectral_features,
+    rhythm_features as av_rhythm_features,
+    extract_features as av_extract_features,
+    av_trajectory, emotion_density, quadrant_distribution,
+    emotional_arc_similarity,
+)
+from models.music_emotion.emotion_trajectory import (
+    ArcShape, EmotionPoint, TrajectoryStats, TrajectoryDistance,
+    analyze_trajectory, dtw_trajectory_distance,
+    frechet_trajectory_distance, trajectory_distance,
+    detect_arc_shape, emotion_momentum, emotion_inertia,
+    transition_matrix, vad_to_quadrant,
+)
+from models.music_emotion.harmony_emotion import (
+    AffectPoint, CHORD_AFFECT, chord_affect, progression_valence,
+    progression_arousal, harmonic_tension, mode_brightness,
+    emotional_trajectory as harmonic_emotional_trajectory,
+    emotional_range, emotional_centroid as harmonic_emotional_centroid,
+    emotional_variance, valence_arousal_quadrant, major_minor_ratio,
 )

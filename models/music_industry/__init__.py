@@ -83,10 +83,55 @@ __all__ = [
     "ListenerSegment", "ListenerProfile", "AudienceMetrics",
     "classify_listener", "segment_audience", "compute_audience_metrics",
     "churn_risk", "lifetime_value_estimate", "genre_overlap_matrix",
+    "StreamingPlatform", "StreamingRevenue", "ArtistTier", "SPLIT_RATIOS",
+    "estimate_streaming_revenue", "cross_platform_revenue",
+    "streaming_breakeven", "monthly_listener_value",
+    "catalog_dcf_value", "platform_comparison",
+    "RoyaltyType", "LicenceType", "rc_StreamingRate", "RoyaltySplit",
+    "RevenueBreakdown", "rc_streaming_revenue", "mechanical_royalty_us",
+    "rc_performance_royalty", "rc_sync_fee_estimate",
+    "revenue_waterfall", "break_even_streams",
+    "blanket_licence_allocation", "compounding_catalogue_value",
 ]
 
+from .streaming_economics import (
+    Platform as StreamingPlatform,
+    StreamingRevenue,
+    ArtistTier,
+    SPLIT_RATIOS,
+    estimate_revenue as estimate_streaming_revenue,
+    cross_platform_revenue,
+    breakeven_streams as streaming_breakeven,
+    monthly_listener_value,
+    catalog_value as catalog_dcf_value,
+    platform_comparison,
+)
 from .audience_analytics import (
     ListenerSegment, ListenerProfile, AudienceMetrics,
     classify_listener, segment_audience, compute_audience_metrics,
     churn_risk, lifetime_value_estimate, genre_overlap_matrix,
+)
+from .audience_segmentation import (
+    EngagementLevel, ListenerProfile as SegListenerProfile, Segment,
+    SegmentationResult, engagement_score, classify_engagement,
+    kmeans_segment, segment_audience as segment_audience_kmeans,
+    elbow_analysis, segment_overlap,
+    churn_risk as seg_churn_risk, lifetime_value_estimate as seg_ltv,
+    segment_summary,
+)
+from .contract_modeling import (
+    DealType, RoyaltyRate, RecordDeal, PublishingDeal, ThreeSixtyDeal,
+    RecoupmentState, simulate_recoupment, cross_collateralize,
+    deal_npv, deal_irr, compare_deals,
+    MechanicalRoyalty, PerformanceRoyalty, sync_license_value,
+)
+from .royalty_calculation import (
+    RoyaltyType, LicenceType,
+    StreamingRate as rc_StreamingRate, RoyaltySplit, RevenueBreakdown,
+    streaming_revenue as rc_streaming_revenue,
+    mechanical_royalty_us,
+    performance_royalty as rc_performance_royalty,
+    sync_fee_estimate as rc_sync_fee_estimate,
+    revenue_waterfall, break_even_streams,
+    blanket_licence_allocation, compounding_catalogue_value,
 )
