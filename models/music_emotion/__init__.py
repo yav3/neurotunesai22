@@ -23,6 +23,20 @@ from models.music_emotion.emotion_arc import (
     EmotionArc,
     EmotionArcAnalyzer,
 )
+from models.music_emotion.arousal_dynamics import (
+    ArousalPoint,
+    ArousalCurve,
+    ArousalSegment,
+    loudness_to_arousal,
+    tempo_to_arousal,
+    spectral_centroid_to_arousal,
+    onset_density_to_arousal,
+    harmonic_tension_to_arousal,
+    compute_arousal_curve,
+    segment_arousal,
+    arousal_contrast,
+    smooth_arousal,
+)
 
 __all__ = [
     "EmotionIntensity",
@@ -38,4 +52,16 @@ __all__ = [
     "MusicToGEMS",
     "EmotionArc",
     "EmotionArcAnalyzer",
+    "ArousalPoint",
+    "ArousalCurve",
+    "ArousalSegment",
+    "loudness_to_arousal",
+    "tempo_to_arousal",
+    "spectral_centroid_to_arousal",
+    "onset_density_to_arousal",
+    "harmonic_tension_to_arousal",
+    "compute_arousal_curve",
+    "segment_arousal",
+    "arousal_contrast",
+    "smooth_arousal",
 ]

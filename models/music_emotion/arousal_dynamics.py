@@ -136,7 +136,8 @@ def segment_arousal(curve: ArousalCurve, n_segments: int = 4) -> list[ArousalSeg
         mean_a = float(np.mean(seg_arousal))
         if len(seg_arousal) > 1:
             slope = float(np.polyfit(np.arange(len(seg_arousal)), seg_arousal, 1)[0])
-            trend = "rising" if slope > 0.01 else ("falling" if slope < -0.01 else "stable")
+            total_change = abs(slope) * len(seg_arousal)
+            trend = "rising" if total_change > 0.05 and slope > 0 else ("falling" if total_change > 0.05 and slope < 0 else "stable")
         else:
             trend = "stable"
         segments.append(ArousalSegment(

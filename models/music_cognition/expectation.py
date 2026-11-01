@@ -81,3 +81,90 @@ def _information_content(prob: float) -> float:
     if prob <= 0:
         return float("inf")
     return float(-np.log2(prob))
+
+
+# ---------------------------------------------------------------------------
+# Narmour implication-realization model (1990)
+# ---------------------------------------------------------------------------
+
+class NarmourExpectancy:
+    """Narmour IR model: proximity, direction, registral return, closure."""
+
+    @staticmethod
+    def proximity(realized_interval: int) -> float:
+        return max(0.0, 1.0 - abs(realized_interval) / 12.0)
+
+    @staticmethod
+    def direction(implicative: int, realized: int) -> float:
+        same_dir = (implicative > 0 and realized > 0) or (implicative < 0 and realized < 0)
+        if abs(implicative) <= 5:
+            return 1.0 if same_dir else 0.0
+        return 0.0 if same_dir else 1.0
+
+    @staticmethod
+    def registral_return(implicative: int, realized: int) -> float:
+        same_dir = (implicative > 0 and realized > 0) or (implicative < 0 and realized < 0)
+        if abs(implicative) > 5 and not same_dir:
+            return max(0.0, 1.0 - abs(abs(implicative) - abs(realized)) / 6.0)
+        return 0.0
+
+    @staticmethod
+    def closure(realized: int, implicative: int) -> float:
+        same_dir = (implicative > 0 and realized > 0) or (implicative < 0 and realized < 0)
+        return 1.0 if abs(realized) <= 2 and not same_dir else 0.0
+
+    def combined(self, implicative: int, realized: int,
+                 w: tuple[float, ...] = (0.35, 0.30, 0.20, 0.15)) -> float:
+        return (w[0] * self.proximity(realized)
+                + w[1] * self.direction(implicative, realized)
+                + w[2] * self.registral_return(implicative, realized)
+                + w[3] * self.closure(realized, implicative))
+
+
+def narmour_curve(melody: list[int]) -> np.ndarray:
+    if len(melody) < 3:
+        return np.array([])
+    intervals = [melody[i + 1] - melody[i] for i in range(len(melody) - 1)]
+    model = NarmourExpectancy()
+    return np.array([model.combined(intervals[i], intervals[i + 1])
+                     for i in range(len(intervals) - 1)])
+
+
+# ---------------------------------------------------------------------------
+# Statistical learning (exposure-based familiarity)
+# ---------------------------------------------------------------------------
+
+class StatisticalLearner:
+    """Exposure-based distributional learning of melodic patterns."""
+
+    def __init__(self, window: int = 3) -> None:
+        self.window = window
+        self._counts: dict[tuple[int, ...], int] = defaultdict(int)
+        self._total = 0
+
+    def expose(self, sequence: list[int]) -> None:
+        for i in range(len(sequence) - self.window + 1):
+            self._counts[tuple(sequence[i : i + self.window])] += 1
+            self._total += 1
+
+    def familiarity(self, pattern: tuple[int, ...]) -> float:
+        if self._total == 0:
+            return 0.0
+        return self._counts.get(pattern, 0) / self._total
+
+    def novelty(self, sequence: list[int]) -> float:
+        if len(sequence) < self.window or self._total == 0:
+            return 1.0
+        scores = []
+        for i in range(len(sequence) - self.window + 1):
+            scores.append(1.0 - self.familiarity(tuple(sequence[i : i + self.window])))
+        return float(np.mean(scores))
+
+
+def surprise_curve(sequence: list[int], model: MarkovExpectation) -> np.ndarray:
+    """Per-note information content over a melody given a trained model."""
+    ic = np.zeros(len(sequence))
+    for i in range(model.order, len(sequence)):
+        ctx = sequence[i - model.order : i]
+        ic[i] = model.information_content(ctx, sequence[i])
+    return ic

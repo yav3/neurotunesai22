@@ -24,6 +24,18 @@ from models.music_transforms.filterbank import (
     windowed_sinc_lowpass, apply_filter,
 )
 
+from models.music_transforms.cepstral import (
+    compute_mfcc, compute_mfcc_full, MFCCResult,
+    lifter, delta_features, delta_delta_features,
+    lpc_coefficients, lpc_to_cepstrum,
+    mel_filterbank_matrix, dct_ii,
+)
+from models.music_transforms.phase_vocoder import (
+    phase_vocoder_stretch, pitch_shift, identity_phase_locking,
+    detect_transients, time_stretch_with_transient_preservation,
+    formant_preserving_pitch_shift, TimeStretchResult,
+)
+
 __all__ = [
     "stft", "istft", "magnitude_spectrogram", "power_spectrogram", "phase_spectrogram",
     "hz_to_mel", "mel_to_hz", "mel_filterbank", "mel_spectrogram",
@@ -39,4 +51,11 @@ __all__ = [
     "gammatone_filterbank", "gammatone_impulse_response",
     "octave_band_edges", "third_octave_band_edges",
     "windowed_sinc_lowpass", "apply_filter",
+    "phase_vocoder_stretch", "pitch_shift", "identity_phase_locking",
+    "detect_transients", "time_stretch_with_transient_preservation",
+    "formant_preserving_pitch_shift", "TimeStretchResult",
+    "compute_mfcc", "compute_mfcc_full", "MFCCResult",
+    "lifter", "delta_features", "delta_delta_features",
+    "lpc_coefficients", "lpc_to_cepstrum",
+    "mel_filterbank_matrix", "dct_ii",
 ]

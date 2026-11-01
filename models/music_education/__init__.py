@@ -18,6 +18,18 @@ from models.music_education.exercise_generator import (
 from models.music_education.progress_tracker import (
     LearningProfile, SkillAttempt,
 )
+from models.music_education.curriculum import (
+    TopicStatus, Topic, LearnerState, LearningPath, CurriculumGraph,
+    spaced_review_schedule, forgetting_curve, optimal_review_time,
+)
+from models.music_education.adaptive_difficulty import (
+    SkillDomain, SkillEstimate, ExerciseItem,
+    irt_probability, irt_information,
+    update_ability_elo, select_next_item, select_max_information,
+    ZPDRange, compute_zpd, filter_zpd_items,
+    LearnerProfile, DifficultySchedule, AdaptiveSession,
+    generate_difficulty_curve,
+)
 
 __all__ = [
     "IntervalTrainer", "ChordTrainer", "RhythmDictation",
@@ -26,4 +38,12 @@ __all__ = [
     "RubricCriterion", "PerformanceRubric", "SkillAssessment",
     "DifficultyLevel", "ExerciseType", "Exercise", "ExerciseGenerator", "grade_answer",
     "LearningProfile", "SkillAttempt",
+    "SkillDomain", "SkillEstimate", "ExerciseItem",
+    "irt_probability", "irt_information",
+    "update_ability_elo", "select_next_item", "select_max_information",
+    "ZPDRange", "compute_zpd", "filter_zpd_items",
+    "LearnerProfile", "DifficultySchedule", "AdaptiveSession",
+    "generate_difficulty_curve",
+    "TopicStatus", "Topic", "LearnerState", "LearningPath", "CurriculumGraph",
+    "spaced_review_schedule", "forgetting_curve", "optimal_review_time",
 ]
