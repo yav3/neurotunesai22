@@ -161,3 +161,20 @@ from models.music_harmony.counterpoint import (
     voice_crossings, analyze_counterpoint, detect_suspensions,
     voice_independence, step_skip_ratio,
 )
+from models.music_harmony.deep_harmony import (
+    plomp_levelt_curve, dyad_roughness, spectrum_roughness,
+    chord_roughness_harmonic, sensory_consonance_curve,
+    MAJOR_BASIC_SPACE, MINOR_BASIC_SPACE,
+    tps_chord_distance, tps_sequential_tension, tps_hierarchical_tension,
+    TPSAnalysis,
+    melodic_attraction, harmonic_attraction,
+    ProlongationType, ReductionNode, classify_prolongation,
+    detect_ursatz, schenkerian_reduce,
+    CadenceStrength, CadenceAnalysis, analyze_cadence,
+    chromatic_mediant_type, omnibus_progression, equal_division,
+    enharmonic_pivot_options,
+    chord_transition_matrix, information_content,
+    harmonic_entropy_rate, harmonic_surprise_curve,
+    classify_augmented_sixth,
+    DeepHarmonicAnalysis, analyze_harmony_deep,
+)

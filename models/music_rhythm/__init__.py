@@ -142,3 +142,15 @@ from models.music_rhythm.onset_detection import (
     ioi_regularity, tempo_from_onsets as onset_tempo,
     onset_density as od_onset_density, onset_clustering, onset_synchrony,
 )
+from models.music_rhythm.deep_rhythm import (
+    bjorklund, euclidean_necklace, euclidean_rhythm_family,
+    onset_acf, rhythm_spectrum, rhythm_periodicity_peaks,
+    BeatAgent, multi_agent_beat_track,
+    hamming_distance, swap_distance, chronotonic_distance, directed_swap_distance,
+    GrooveProfile, quantify_groove, groove_distance,
+    AKSAK_METERS, aksak_grid, detect_additive_meter,
+    entrainment_oscillator, phase_coupling_strength,
+    compute_npvi, rhythmic_typology_classify, local_npvi,
+    lempel_ziv_complexity, rhythm_entropy,
+    DeepRhythmAnalysis, analyze_rhythm_deep,
+)

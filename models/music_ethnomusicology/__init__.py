@@ -121,6 +121,13 @@ __all__ = [
     "GamelanAnalysis", "analyze_gamelan_tuning",
     "RagaAnalysis", "extract_raga_features",
     "AJNAS_CATALOG", "JinsSegment", "identify_jins",
+    "ta_IntonationSystem", "PitchMeasurement", "IntonationProfile",
+    "TuningGrid", "EQUAL_12_GRID", "JUST_RATIOS", "PYTHAGOREAN_RATIOS",
+    "ratio_to_cents_val", "hz_to_cents_val", "ta_cents_to_hz",
+    "build_just_grid", "build_pythagorean_grid", "build_equal_grid",
+    "snap_to_grid", "measure_intonation", "identify_tuning_system",
+    "ta_pitch_histogram", "intonation_drift", "adaptive_reference",
+    "tuning_stability", "comma_detection",
 ]
 
 from models.music_ethnomusicology.oral_tradition import (
@@ -174,4 +181,15 @@ from models.music_ethnomusicology.mode_classification import (
     pitch_class_profile, interval_histogram, interval_class_vector,
     mode_correlation, mode_distance, classify_mode as classify_scale_mode,
     detect_modulation as detect_mode_modulation, microtonality_score,
+)
+from models.music_ethnomusicology.tuning_analysis import (
+    IntonationSystem as ta_IntonationSystem,
+    PitchMeasurement, IntonationProfile,
+    TuningGrid, EQUAL_12_GRID, JUST_RATIOS, PYTHAGOREAN_RATIOS,
+    ratio_to_cents_val, hz_to_cents_val,
+    cents_to_hz as ta_cents_to_hz,
+    build_just_grid, build_pythagorean_grid, build_equal_grid,
+    snap_to_grid, measure_intonation, identify_tuning_system,
+    pitch_histogram as ta_pitch_histogram,
+    intonation_drift, adaptive_reference, tuning_stability, comma_detection,
 )

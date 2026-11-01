@@ -67,6 +67,11 @@ __all__ = [
     "pseudo_relevance_feedback", "query_expansion_by_feedback",
     "ListeningEvent", "implicit_relevance_score", "implicit_feedback_session",
     "diversity_reranking",
+    "QueryTerm", "RetrievalDocument", "RetrievalConfig",
+    "tf", "idf", "tf_idf", "bm25_term_score", "bm25_score",
+    "rocchio_expansion", "pseudo_relevance_expansion",
+    "term_proximity", "term_cooccurrence_score", "mutual_info_expansion",
+    "diversity_rerank", "retrieval_average_precision", "dcg", "ndcg",
 ]
 
 from .query_expansion import (
@@ -101,4 +106,11 @@ from .audio_fingerprint import (
     SpectralPeak, Landmark, FingerprintMatch, FingerprintDB,
     find_spectral_peaks, form_landmarks, hash_landmark,
     fingerprint_audio, query_fingerprints, time_coherence_score,
+)
+from .bm25_retrieval import (
+    QueryTerm, RetrievalDocument, RetrievalConfig,
+    tf, idf, tf_idf, bm25_term_score, bm25_score,
+    rocchio_expansion, pseudo_relevance_expansion,
+    term_proximity, term_cooccurrence_score, mutual_info_expansion,
+    diversity_rerank, retrieval_average_precision, dcg, ndcg,
 )

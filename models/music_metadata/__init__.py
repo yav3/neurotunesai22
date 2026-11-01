@@ -60,6 +60,11 @@ __all__ = [
     "field_similarity", "record_similarity", "find_duplicates",
     "resolve_field", "reconcile", "pairwise_similarity_matrix",
     "cluster_duplicates", "merge_sources",
+    "Severity", "MetadataStandard", "ValidationIssue",
+    "SchemaField", "MetadataSchema", "ValidationResult",
+    "sv_validate_isrc", "sv_validate_iswc", "validate_field",
+    "validate_metadata", "cross_field_consistency",
+    "sv_completeness_score", "sv_detect_duplicates",
 ]
 
 from .linked_data import (
@@ -128,4 +133,14 @@ from .metadata_enrichment import (
     infer_genre, infer_mood, infer_tempo_descriptor,
     infer_key_tag, infer_instrumentation,
     cross_reference_tags, tag_coverage, enrichment_digest, enrich,
+)
+from .schema_validation import (
+    Severity, MetadataStandard, ValidationIssue,
+    SchemaField, MetadataSchema, ValidationResult,
+    validate_isrc as sv_validate_isrc,
+    validate_iswc as sv_validate_iswc,
+    validate_field, validate_metadata,
+    cross_field_consistency,
+    completeness_score as sv_completeness_score,
+    detect_duplicates as sv_detect_duplicates,
 )

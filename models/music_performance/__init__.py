@@ -54,6 +54,12 @@ __all__ = [
     "ioi_to_tempo", "tempo_curve_from_onsets", "phrase_rubato",
     "cadential_ritardando", "timing_profile", "micro_timing_grid",
     "swing_ratio", "expressive_timing_score",
+    "TempoFeature", "TempoPoint", "TempoArc", "td_AgogicEvent",
+    "ioi_from_onsets", "onset_to_local_tempo", "smooth_tempo_curve",
+    "onset_deviations_ms", "find_rubato_regions", "find_agogic_accents",
+    "find_ritardando", "find_accelerando", "detect_phrase_arcs",
+    "tempo_cv", "tempo_stability_score", "expressiveness_index",
+    "performance_consistency", "final_rit_strength",
 ]
 
 from .ornamentation import (
@@ -106,4 +112,13 @@ from .sight_reading import (
     accidental_density, temporal_irregularity,
     estimate_difficulty as sr_estimate_difficulty,
     generate_exercise, progressive_sequence, difficulty_feature_vector,
+)
+from .tempo_dynamics import (
+    TempoFeature, TempoPoint, TempoArc,
+    AgogicEvent as td_AgogicEvent,
+    ioi_from_onsets, onset_to_local_tempo, smooth_tempo_curve,
+    onset_deviations_ms, find_rubato_regions, find_agogic_accents,
+    find_ritardando, find_accelerando, detect_phrase_arcs,
+    tempo_cv, tempo_stability_score, expressiveness_index,
+    performance_consistency, final_rit_strength,
 )

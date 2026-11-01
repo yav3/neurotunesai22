@@ -82,6 +82,12 @@ __all__ = [
     "pc_linkwitz_riley_split", "multiband_compress",
     "transient_sustain_split", "loudness_aware_makeup",
     "gain_reduction_meter",
+    "MixElement", "StereoImage", "sm_MixAnalysis",
+    "equal_power_pan", "linear_pan", "pan_to_stereo",
+    "sm_stereo_width", "mid_side_encode", "mid_side_decode",
+    "sm_stereo_correlation", "balance_meter", "depth_via_predelay",
+    "frequency_masking_score", "sm_mix_headroom", "spatial_density",
+    "haas_delay", "loudness_balance", "panorama_score",
 ]
 
 from models.music_production.sidechain import (
@@ -153,4 +159,15 @@ from models.music_production.mix_analysis import (
     loudness_range as mix_loudness_range,
     mix_stereo_width, mix_stereo_balance, mix_correlation,
     masking_detector, mix_score,
+)
+from models.music_production.spatial_mixing import (
+    MixElement, StereoImage, MixAnalysis as sm_MixAnalysis,
+    equal_power_pan, linear_pan, pan_to_stereo,
+    stereo_width as sm_stereo_width,
+    mid_side_encode, mid_side_decode,
+    stereo_correlation as sm_stereo_correlation,
+    balance_meter, depth_via_predelay,
+    frequency_masking_score,
+    mix_headroom as sm_mix_headroom,
+    spatial_density, haas_delay, loudness_balance, panorama_score,
 )

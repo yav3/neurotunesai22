@@ -51,6 +51,28 @@ from models.music_emotion.dimensional_models import (
     DimensionalEmotionModel, MusicMoodClassifier,
     PLUTCHIK_EMOTIONS, MOOD_LABELS,
 )
+from models.music_emotion.dimensional_model import (
+    VADPoint as DeepVADPoint, CircumplexPoint, ThayerPoint,
+    EmotionLabel, TrajectoryFrame, RidgeModel,
+    circumplex_angle, circumplex_angular_distance, circumplex_chord_distance,
+    project_to_circumplex, circumplex_density, procrustes_align,
+    va_to_thayer, thayer_to_va, thayer_quadrant,
+    vad_distance, vad_cosine_similarity, vad_centroid, vad_dispersion,
+    vad_covariance, vad_mahalanobis, nearest_emotion, vad_to_plutchik,
+    plutchik_dyad, plutchik_intensity_label,
+    gems_to_va, gems_to_vad, va_to_gems_approx,
+    fit_ridge_vad, predict_vad_ridge, predict_vad_posterior,
+    invert_vad_to_features,
+    emotion_velocity, emotion_acceleration, trajectory_arc_length,
+    trajectory_curvature, trajectory_torsion, frenet_serret_frame,
+    emotional_surprise as deep_emotional_surprise,
+    emotional_momentum as deep_emotional_momentum,
+    tempo_valence_arousal, mode_valence, spectral_brightness_arousal,
+    loudness_dominance, harmonic_complexity_valence, articulation_arousal,
+    register_valence, feature_dict_to_vad,
+    slerp_va, lerp_vad, blend_emotions,
+    segment_by_emotion, emotional_contrast as deep_emotional_contrast,
+)
 
 __all__ = [
     "EmotionIntensity",

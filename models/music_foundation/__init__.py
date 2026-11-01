@@ -44,11 +44,19 @@ from .frontier_model import (
     masked_prediction_loss as frontier_masked_prediction_loss,
     cosine_warmup_schedule, TrainingState, batch_spectrograms,
 )
+from .deep_trainer import (
+    DeepTrainerConfig, DeepAudioDataset, DeepFrontierTrainer,
+)
 from .evaluation import (
     RetrievalMetrics, ClassificationMetrics, EmbeddingMetrics, EvalReport,
     ModelEvaluator, evaluate_retrieval, evaluate_classification, evaluate_embeddings,
 )
 from .checkpoint import save_checkpoint, load_checkpoint, save_npz, load_npz
+from .frontier_pipeline import (
+    FrontierPipelineConfig, FrontierDataset, SpectrogramAugmenter,
+    FrontierEvaluator, FrontierEvalResult, LinearProbe,
+    FrontierTrainingPipeline, quick_pretrain, pretrain_from_signals,
+)
 from .frontier_trainer import (
     FrontierTrainerConfig, FrontierTrainer, AudioDataset, cosine_schedule,
 )
@@ -93,4 +101,11 @@ from .attention import (
     random_fourier_features, performer_attention,
     attention_head_diversity, attention_sparsity, effective_attention_span,
     init_attention_weights,
+)
+from .feature_integration import (
+    FeatureIntegrationConfig, FeatureProjection, GatedFusion, AttentionFusion,
+    MultiStreamFeatureIntegrator, AudioFeatureExtractor, build_default_integrator,
+    compute_mfcc, compute_chroma, compute_spectral_contrast, compute_onset_strength,
+    compute_spectral_centroid, compute_spectral_bandwidth, compute_spectral_rolloff,
+    compute_zero_crossing_rate,
 )

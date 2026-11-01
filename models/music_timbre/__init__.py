@@ -73,6 +73,12 @@ __all__ = [
     "ir_extract_features", "ir_feature_vector", "ir_cosine_similarity",
     "classify_nearest", "classify_mahalanobis",
     "temporal_class_profile", "ir_feature_importance",
+    "DistanceMetric", "TimbreDescriptor", "SimilarityResult",
+    "euclidean_distance", "cosine_distance", "mahalanobis_distance",
+    "earth_mover_distance", "compute_distance", "descriptor_distance",
+    "build_distance_matrix", "knn_search", "timbre_embedding", "fit_projection",
+    "perceptual_timbre_distance", "temporal_timbre_distance",
+    "ts_cluster_timbres", "ts_timbre_centroid",
 ]
 
 from models.music_timbre.timbre_morphing import (
@@ -118,4 +124,13 @@ from models.music_timbre.instrument_recognition import (
     cosine_similarity as ir_cosine_similarity,
     classify_nearest, classify_mahalanobis,
     temporal_class_profile, feature_importance as ir_feature_importance,
+)
+from models.music_timbre.timbral_similarity import (
+    DistanceMetric, TimbreDescriptor, SimilarityResult,
+    euclidean_distance, cosine_distance, mahalanobis_distance,
+    earth_mover_distance, compute_distance, descriptor_distance,
+    build_distance_matrix, knn_search, timbre_embedding, fit_projection,
+    perceptual_timbre_distance, temporal_timbre_distance,
+    cluster_timbres as ts_cluster_timbres,
+    timbre_centroid as ts_timbre_centroid,
 )
