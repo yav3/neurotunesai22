@@ -1,7 +1,8 @@
 """Music composition: counterpoint, form, orchestration, voice leading, Markov."""
 from models.music_composition.counterpoint import (
-    FirstSpecies, SecondSpecies,
+    FirstSpecies, SecondSpecies, ThirdSpecies, FourthSpecies,
     check_parallel_motion, is_consonant, contrary_motion_score,
+    classify_motion, motion_profile, generate_first_species,
     CONSONANT_INTERVALS, PERFECT_CONSONANCES,
 )
 from models.music_composition.form import (
@@ -36,6 +37,8 @@ __all__ = [
     "FirstSpecies", "SecondSpecies",
     "check_parallel_motion", "is_consonant", "contrary_motion_score",
     "CONSONANT_INTERVALS", "PERFECT_CONSONANCES",
+    "ThirdSpecies", "FourthSpecies",
+    "classify_motion", "motion_profile", "generate_first_species",
     "SongForm", "FormGenerator", "VariationEngine",
     "transpose", "invert", "retrograde",
     "InstrumentRange", "INSTRUMENTS", "Orchestrator",

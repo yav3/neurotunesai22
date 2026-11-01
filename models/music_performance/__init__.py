@@ -38,4 +38,13 @@ __all__ = [
     "PitchTracker", "IntonationAnalyzer", "TemperamentComparator", "MicrotoneDetector",
     "SynchronyAnalyzer", "BlendAnalyzer", "BalanceAnalyzer", "TuningAnalyzer",
     "PracticeSession", "ProgressTracker", "DifficultyEstimator", "PracticeScheduler",
+    "OrnamentType", "Ornament", "MicroEvent",
+    "realize_trill", "realize_mordent", "realize_turn",
+    "realize_ornament", "apply_ornaments", "OrnamentDensity", "compute_density",
 ]
+
+from .ornamentation import (
+    OrnamentType, Ornament, MicroEvent,
+    realize_trill, realize_mordent, realize_turn,
+    realize_ornament, apply_ornaments, OrnamentDensity, compute_density,
+)

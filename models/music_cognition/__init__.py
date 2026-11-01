@@ -7,6 +7,8 @@ from models.music_cognition.consonance import (
 from models.music_cognition.expectation import (
     MarkovExpectation, MelodicExpectation,
     information_content, melodic_surprise,
+    NarmourExpectancy, narmour_curve,
+    StatisticalLearner, surprise_curve,
 )
 from models.music_cognition.groove import (
     GrooveAnalyzer, MicrotimingProfile,
@@ -26,12 +28,18 @@ from models.music_cognition.rhythm_perception import (
     compute_syncopation, compute_groove_complexity,
     beat_induction, phase_coherence, PerceptualGrouping,
 )
+from models.music_cognition.auditory_attention import (
+    SalienceMap, spectral_salience, onset_salience, compute_salience_map,
+    AuditoryStream, stream_segregation, attention_decay, surprise_score,
+)
 
 __all__ = [
     "RoughnessModel", "IntervalConsonance",
     "roughness", "interval_consonance", "chord_consonance", "INTERVAL_CONSONANCE",
     "MarkovExpectation", "MelodicExpectation",
     "information_content", "melodic_surprise",
+    "NarmourExpectancy", "narmour_curve",
+    "StatisticalLearner", "surprise_curve",
     "GrooveAnalyzer", "MicrotimingProfile",
     "syncopation_index", "swing_ratio",
     "TensionCurve", "SurpriseTracker",
@@ -41,4 +49,6 @@ __all__ = [
     "AccentType", "PerceptualAccent", "MetricalGrid",
     "compute_syncopation", "compute_groove_complexity",
     "beat_induction", "phase_coherence", "PerceptualGrouping",
+    "SalienceMap", "spectral_salience", "onset_salience", "compute_salience_map",
+    "AuditoryStream", "stream_segregation", "attention_decay", "surprise_score",
 ]

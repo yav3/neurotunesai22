@@ -38,6 +38,11 @@ from .session_protocol import (
     arousal_regulation_protocol,
     emotional_processing_protocol,
 )
+from .music_selection import (
+    TherapeuticIntent, TrackProfile, TherapeuticPlaylist,
+    intent_fitness, rank_tracks, build_therapeutic_playlist,
+    iso_principle_sequence, session_energy_profile,
+)
 
 __all__ = [
     "IsoTrajectory",
@@ -68,4 +73,14 @@ __all__ = [
     "build_protocol",
     "arousal_regulation_protocol",
     "emotional_processing_protocol",
+    "GIMPhase", "ProgramPiece", "GIMProgram", "BONNY_PROGRAMS",
+    "ImageryScorecard", "program_arc", "match_client_readiness", "SessionPlan",
+    "TherapeuticIntent", "TrackProfile", "TherapeuticPlaylist",
+    "intent_fitness", "rank_tracks", "build_therapeutic_playlist",
+    "iso_principle_sequence", "session_energy_profile",
 ]
+
+from .guided_imagery import (
+    GIMPhase, ProgramPiece, GIMProgram, BONNY_PROGRAMS,
+    ImageryScorecard, program_arc, match_client_readiness, SessionPlan,
+)

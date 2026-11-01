@@ -35,4 +35,15 @@ __all__ = [
     "RhythmPattern", "pattern_similarity", "euclidean_rhythm",
     "necklace_equivalence", "rhythm_complexity",
     "pattern_from_ioi", "pattern_to_ioi",
+    "pulse_autocorrelation", "estimate_tempo", "MeterHypothesis",
+    "test_meter_hypotheses", "BeatTrack", "track_beats",
+    "metrical_weight", "syncopation_score", "GrooveAnalysis",
+    "analyze_groove", "detect_polyrhythm",
 ]
+
+from models.music_rhythm.meter_analysis import (
+    pulse_autocorrelation, estimate_tempo, MeterHypothesis,
+    test_meter_hypotheses, BeatTrack, track_beats,
+    metrical_weight, syncopation_score, GrooveAnalysis,
+    analyze_groove, detect_polyrhythm,
+)

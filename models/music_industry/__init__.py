@@ -14,6 +14,11 @@ from .catalog import (
     CatalogEntry, catalog_summary, duplicate_detection,
     catalog_valuation_heuristic,
 )
+from .rights_management import (
+    RightType, LicenseType, OwnershipShare, License, RightsBundle,
+    validate_splits, detect_conflicts, RoyaltyWaterfall,
+    compute_waterfall, license_value_estimate, territory_overlap,
+)
 
 __all__ = [
     "ISRC", "parse_isrc", "format_isrc", "validate_isrc", "generate_isrc",
@@ -24,4 +29,7 @@ __all__ = [
     "channel_revenue_split", "breakeven_streams",
     "CatalogEntry", "catalog_summary", "duplicate_detection",
     "catalog_valuation_heuristic",
+    "RightType", "LicenseType", "OwnershipShare", "License", "RightsBundle",
+    "validate_splits", "detect_conflicts", "RoyaltyWaterfall",
+    "compute_waterfall", "license_value_estimate", "territory_overlap",
 ]
