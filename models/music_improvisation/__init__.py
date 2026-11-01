@@ -20,6 +20,12 @@ from .jazz_voicings import (
     voice_leading_cost,
 )
 
+from .phrase_generation import (
+    PhraseContour, classify_contour, generate_tension_arc,
+    rhythmic_variation, pitch_displacement, phrase_density,
+    intervallic_variety, build_phrase,
+)
+
 from .jazz_improv import (
     CHORD_SCALE_MAP, AVAILABLE_TENSIONS, GUIDE_TONES,
     ChordContext, available_pitches, guide_tone_line,
@@ -43,4 +49,18 @@ __all__ = [
     "invert_motive", "retrograde",
     "CallResponse", "generate_response",
     "tension_profile", "phrase_contour",
+    "PhraseContour", "classify_contour", "generate_tension_arc",
+    "rhythmic_variation", "pitch_displacement", "phrase_density",
+    "intervallic_variety", "build_phrase",
+    "Mode", "MODE_INTERVALS", "mode_pitch_classes", "common_tones",
+    "mode_distance", "InterchangeOption", "find_interchange_options",
+    "borrowed_chord_tones", "pivot_note", "interchange_tension",
+    "InterchangeSequence", "build_interchange_sequence",
 ]
+
+from .modal_interchange_improv import (
+    Mode, MODE_INTERVALS, mode_pitch_classes, common_tones,
+    mode_distance, InterchangeOption, find_interchange_options,
+    borrowed_chord_tones, pivot_note, interchange_tension,
+    InterchangeSequence, build_interchange_sequence,
+)

@@ -78,9 +78,27 @@ __all__ = [
     "TherapeuticIntent", "TrackProfile", "TherapeuticPlaylist",
     "intent_fitness", "rank_tracks", "build_therapeutic_playlist",
     "iso_principle_sequence", "session_energy_profile",
+    "MoodCategory", "MoodState", "MoodTransition", "MOOD_VA_COORDINATES",
+    "mood_distance", "classify_mood", "mood_trajectory", "plan_mood_transition",
+    "mood_music_features", "mood_consistency",
+    "NMTTechnique", "ClinicalDomain", "NMT_DOMAIN_MAP",
+    "NMTProtocol", "RAS_PROTOCOL",
+    "ras_tempo_progression", "pse_movement_mapping",
+    "mit_syllable_intoning", "timp_instrument_assignment",
 ]
 
 from .guided_imagery import (
     GIMPhase, ProgramPiece, GIMProgram, BONNY_PROGRAMS,
     ImageryScorecard, program_arc, match_client_readiness, SessionPlan,
+)
+from .mood_ontology import (
+    MoodCategory, MoodState, MoodTransition, MOOD_VA_COORDINATES,
+    mood_distance, classify_mood, mood_trajectory, plan_mood_transition,
+    mood_music_features, mood_consistency,
+)
+from .neurologic_music_therapy import (
+    NMTTechnique, ClinicalDomain, NMT_DOMAIN_MAP,
+    NMTProtocol, RAS_PROTOCOL,
+    ras_tempo_progression, pse_movement_mapping,
+    mit_syllable_intoning, timp_instrument_assignment,
 )

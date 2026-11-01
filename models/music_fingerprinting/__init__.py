@@ -30,4 +30,11 @@ __all__ = [
     "CodecType", "CodecArtifact", "CodecRobustnessTest",
     "simulate_codec", "codec_distortion", "analyze_codec_artifacts",
     "quantize", "pre_echo_simulation", "CODEC_PARAMS",
+    "AudioHash", "perceptual_hash", "hash_similarity",
+    "content_id", "HashIndex", "bark_bands", "spectral_flatness",
 ]
+
+from models.music_fingerprinting.audio_hash import (
+    AudioHash, perceptual_hash, hash_similarity,
+    content_id, HashIndex, bark_bands, spectral_flatness,
+)

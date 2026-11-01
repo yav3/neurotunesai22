@@ -43,4 +43,11 @@ __all__ = [
     "reference_pitch_for_year", "tuning_deviation_cents", "ornamentation_density",
     "ComposerProfile", "CANONICAL_COMPOSERS",
     "composers_by_period", "contemporaries", "innovation_chain", "stylistic_similarity",
+    "PeriodCharacteristics", "PERIOD_DATABASE",
+    "classify_period", "period_distance", "evolution_timeline",
 ]
+
+from .period_style import (
+    PeriodCharacteristics, PERIOD_DATABASE,
+    classify_period, period_distance, evolution_timeline,
+)

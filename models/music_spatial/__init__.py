@@ -17,6 +17,11 @@ from .room_model import (
     image_source_model, early_decay_time, clarity_index,
     direct_to_reverberant_ratio,
 )
+from .binaural import (
+    BinauralSource, BinauralScene, HEAD_RADIUS_M,
+    itd_from_azimuth, ild_from_azimuth, crossfeed,
+    render_binaural_mono, render_scene, head_shadow_filter,
+)
 
 __all__ = [
     "HRTFParams", "interaural_time_difference", "interaural_level_difference",
@@ -28,4 +33,16 @@ __all__ = [
     "RoomGeometry", "ImageSource", "rt60_sabine", "rt60_eyring",
     "image_source_model", "early_decay_time", "clarity_index",
     "direct_to_reverberant_ratio",
+    "BinauralSource", "BinauralScene", "HEAD_RADIUS_M",
+    "itd_from_azimuth", "ild_from_azimuth", "crossfeed",
+    "render_binaural_mono", "render_scene", "head_shadow_filter",
+    "SourcePosition", "BinauralOutput",
+    "itd_samples", "ild_factor", "render_binaural",
+    "mix_binaural", "perceived_width",
 ]
+
+from .binaural_render import (
+    SourcePosition, BinauralOutput,
+    itd_samples, ild_factor, render_binaural,
+    mix_binaural, perceived_width,
+)

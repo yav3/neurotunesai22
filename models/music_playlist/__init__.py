@@ -45,4 +45,19 @@ __all__ = [
     "camelot_compatible", "camelot_distance", "tempo_compatibility",
     "transition_score", "greedy_sequence", "tempo_ramp_sequence",
     "energy_arc_sequence",
+    "MoodArc", "MoodPoint", "ARC_TEMPLATES",
+    "plan_mood_journey", "match_track_to_target", "sequence_for_arc",
+    "TransitionFeature",
+    "key_compatibility", "energy_flow",
+    "compute_transition_score", "optimal_crossfade_point",
 ]
+
+from models.music_playlist.mood_journey import (
+    MoodArc, MoodPoint, ARC_TEMPLATES,
+    plan_mood_journey, match_track_to_target, sequence_for_arc,
+)
+from models.music_playlist.transition_analysis import (
+    TransitionFeature,
+    key_compatibility, energy_flow,
+    compute_transition_score, optimal_crossfade_point,
+)

@@ -16,6 +16,15 @@ from models.music_arrangement.reharmonization import (
     tritone_substitution, backdoor_progression,
     modal_interchange, chromatic_mediant, reharmonize_melody_note,
 )
+from models.music_arrangement.voice_leading import (
+    VoiceLeadingRule, check_parallel_motion, voice_crossing_check,
+    smooth_voice_leading, voice_leading_cost_matrix,
+    optimal_voicing, total_voice_motion,
+)
+from models.music_arrangement.arranging_styles import (
+    ArrangingStyle, StyleTemplate, STYLE_TEMPLATES,
+    assign_voices, double_at_octave, unison_passage, tutti_score,
+)
 
 
 class TestOrchestration:
@@ -132,6 +141,126 @@ class TestReharmonization:
         assert all(r != 0 or q != "maj7" for r, q in options)
 
 
+class TestVoiceLeading:
+    def test_parallel_fifths_detected(self):
+        v1 = [60, 67, 74]
+        v2 = [53, 60, 67]
+        violations = check_parallel_motion(v1, v2)
+        assert len(violations) == 2
+        assert all(rule == VoiceLeadingRule.PARALLEL_FIFTHS for _, rule in violations)
+
+    def test_parallel_octaves_detected(self):
+        v1 = [60, 62, 64]
+        v2 = [48, 50, 52]
+        violations = check_parallel_motion(v1, v2)
+        assert any(rule == VoiceLeadingRule.PARALLEL_OCTAVES for _, rule in violations)
+
+    def test_no_violations_contrary(self):
+        v1 = [60, 62, 64]
+        v2 = [67, 65, 63]
+        violations = check_parallel_motion(v1, v2)
+        assert len(violations) == 0
+
+    def test_voice_crossing(self):
+        s = [60, 60, 60]
+        a = [64, 64, 64]
+        t = [55, 55, 55]
+        b = [48, 48, 48]
+        crossings = voice_crossing_check(s, a, t, b)
+        assert len(crossings) == 3
+        assert all(upper == "soprano" and lower == "alto" for _, upper, lower in crossings)
+
+    def test_no_voice_crossing(self):
+        s = [72, 72]
+        a = [67, 67]
+        t = [60, 60]
+        b = [48, 48]
+        assert voice_crossing_check(s, a, t, b) == []
+
+    def test_smooth_voice_leading(self):
+        from_chord = [60, 64, 67]
+        to_pcs = [5, 9, 0]
+        result = smooth_voice_leading(from_chord, to_pcs)
+        assert len(result) == 3
+        total_motion = sum(abs(a - b) for a, b in zip(from_chord, result))
+        assert total_motion < 12
+
+    def test_smooth_voice_leading_empty(self):
+        assert smooth_voice_leading([], [0, 4, 7]) == [0, 4, 7]
+
+    def test_cost_matrix(self):
+        m = voice_leading_cost_matrix([60, 64], [65, 67])
+        assert len(m) == 2
+        assert len(m[0]) == 2
+        assert m[0][0] == 5
+        assert m[0][1] == 7
+
+    def test_optimal_voicing(self):
+        voicing = optimal_voicing([0, 4, 7], [60, 64, 67])
+        assert len(voicing) == 3
+        assert all(36 <= p <= 84 for p in voicing)
+        for p, pc in zip(voicing, [0, 4, 7]):
+            assert p % 12 == pc
+
+    def test_total_motion_static(self):
+        assert total_voice_motion([[60, 64, 67], [60, 64, 67]]) == 0.0
+
+    def test_total_motion_step(self):
+        motion = total_voice_motion([[60, 64, 67], [62, 65, 69]])
+        assert motion == pytest.approx(2 + 1 + 2)
+
+
+class TestArrangingStyles:
+    def test_all_styles_have_templates(self):
+        for style in ArrangingStyle:
+            assert style in STYLE_TEMPLATES
+
+    def test_big_band_voice_count(self):
+        assert STYLE_TEMPLATES[ArrangingStyle.BIG_BAND].voice_count == 16
+
+    def test_string_quartet_instruments(self):
+        t = STYLE_TEMPLATES[ArrangingStyle.STRING_QUARTET]
+        assert t.instruments == ["violin1", "violin2", "viola", "cello"]
+
+    def test_assign_voices_melody_on_lead(self):
+        melody = [60, 62, 64]
+        chords = [0, 4, 7]
+        result = assign_voices(melody, chords, ArrangingStyle.JAZZ_COMBO)
+        assert result["lead"] == [60, 62, 64]
+        assert len(result) > 1
+
+    def test_assign_voices_no_harmony(self):
+        result = assign_voices([60], [], ArrangingStyle.ROCK_BAND)
+        assert result["vocal"] == [60]
+        assert len(result) == 1
+
+    def test_double_at_octave(self):
+        assert double_at_octave([60, 64]) == [60, 64, 72, 76]
+
+    def test_double_at_fifth(self):
+        assert double_at_octave([60], interval=7) == [60, 67]
+
+    def test_unison_passage(self):
+        result = unison_passage([60, 62], ["violin1", "violin2", "viola"])
+        assert len(result) == 3
+        assert result["viola"] == [60, 62]
+
+    def test_tutti_score_shape(self):
+        melody = [60, 62]
+        harmony = [[64, 67], [65, 69]]
+        result = tutti_score(melody, harmony, ArrangingStyle.STRING_QUARTET)
+        assert "violin1" in result
+        assert result["violin1"] == [[60], [62]]
+        assert len(result) == 4
+
+    def test_tutti_score_harmony_distribution(self):
+        melody = [72]
+        harmony = [[0, 4, 7]]
+        result = tutti_score(melody, harmony, ArrangingStyle.CHORAL_SATB)
+        assert result["soprano"] == [[72]]
+        assert len(result["alto"]) == 1
+
+
 class TestPackageExports:
     def test_all_exports(self):
         import models.music_arrangement as ma
@@ -139,3 +268,5 @@ class TestPackageExports:
         assert hasattr(ma, "ScoreFormat")
         assert hasattr(ma, "TextureType")
         assert hasattr(ma, "tritone_substitution")
+        assert hasattr(ma, "VoiceLeadingRule")
+        assert hasattr(ma, "ArrangingStyle")
