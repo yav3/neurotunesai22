@@ -1,0 +1,496 @@
+{
+  "_metadata": {
+    "synthetic": true,
+    "version": "1.0.0",
+    "description": "Multi-omics signature templates for synthetic case generation. Expression patterns from published transcriptomic studies; metabolite ranges from HMDB; protein panels from published biomarker studies. All patient-level data generated from these templates is entirely synthetic.",
+    "sources": ["GEO/ArrayExpress", "GTEx", "HMDB", "Human Protein Atlas", "published biomarker studies"],
+    "warning": "SYNTHETIC DATA SCHEMA - reference ranges are from published literature; individual case profiles are synthetic"
+  },
+  "healthy_control": {
+    "transcriptomic": {
+      "reference": "GTEx Consortium 2020 Science, baseline brain expression",
+      "note": "Reference state; disease signatures are expressed as fold-change relative to these values"
+    },
+    "proteomic_extended": {
+      "csf_neurogranin_pg_ml": {"mean": 200, "std": 60, "reference": "Portelius et al. 2015"},
+      "csf_snap25_pg_ml": {"mean": 22, "std": 8},
+      "csf_ykl40_ng_ml": {"mean": 150, "std": 50, "reference": "Craig-Schapiro et al. 2010"},
+      "csf_vilip1_pg_ml": {"mean": 120, "std": 40},
+      "plasma_ptau217_pg_ml": {"mean": 0.8, "std": 0.3, "reference": "Palmqvist et al. 2020"},
+      "plasma_ptau181_pg_ml": {"mean": 0.9, "std": 0.4},
+      "plasma_ab42_40_ratio": {"mean": 0.09, "std": 0.012}
+    },
+    "metabolomic": {
+      "plasma_sphingomyelins_umol_l": {"mean": 250, "std": 50},
+      "plasma_phosphatidylcholines_umol_l": {"mean": 1600, "std": 300},
+      "plasma_acylcarnitines_umol_l": {"mean": 18, "std": 5},
+      "plasma_homocysteine_umol_l": {"mean": 10, "std": 3},
+      "plasma_tryptophan_umol_l": {"mean": 55, "std": 12},
+      "plasma_kynurenine_umol_l": {"mean": 1.8, "std": 0.5},
+      "kynurenine_tryptophan_ratio": {"mean": 0.033, "std": 0.008},
+      "plasma_cortisol_nmol_l": {"mean": 350, "std": 100},
+      "serum_urate_umol_l": {"mean": 320, "std": 80},
+      "csf_lactate_mmol_l": {"mean": 1.5, "std": 0.3},
+      "csf_pyruvate_umol_l": {"mean": 80, "std": 20},
+      "csf_lactate_pyruvate_ratio": {"mean": 18, "std": 3}
+    },
+    "epigenomic": {
+      "global_dna_methylation_pct": {"mean": 4.6, "std": 0.2},
+      "horvath_epigenetic_age_acceleration_yrs": {"mean": 0.0, "std": 1.5}
+    }
+  },
+  "signatures": {
+    "alzheimers_disease": {
+      "transcriptomic": {
+        "reference": "Mathys et al. 2019 Nature (snRNA-seq), Wan et al. 2020 Nat Neurosci",
+        "key_deg": [
+          {"gene": "APOE", "log2fc": 1.8, "padj": 1e-20, "direction": "up", "cell_type": "astrocyte"},
+          {"gene": "CLU", "log2fc": 1.5, "padj": 1e-15, "direction": "up"},
+          {"gene": "TREM2", "log2fc": 2.1, "padj": 1e-18, "direction": "up", "cell_type": "microglia"},
+          {"gene": "SYP", "log2fc": -1.2, "padj": 1e-10, "direction": "down", "note": "synaptophysin, synaptic loss"},
+          {"gene": "SNAP25", "log2fc": -0.9, "padj": 1e-8, "direction": "down"},
+          {"gene": "SLC17A7", "log2fc": -1.5, "padj": 1e-12, "direction": "down", "note": "VGLUT1, excitatory neuron marker"},
+          {"gene": "GFAP", "log2fc": 2.3, "padj": 1e-25, "direction": "up", "note": "reactive astrogliosis"},
+          {"gene": "C3", "log2fc": 1.4, "padj": 1e-10, "direction": "up", "note": "complement activation"},
+          {"gene": "BACE1", "log2fc": 0.6, "padj": 0.01, "direction": "up"},
+          {"gene": "MAPT", "log2fc": 0.8, "padj": 1e-5, "direction": "up"},
+          {"gene": "C1QB", "log2fc": 1.9, "padj": 1e-16, "direction": "up", "cell_type": "microglia"},
+          {"gene": "NRGN", "log2fc": -1.1, "padj": 1e-9, "direction": "down", "note": "neurogranin, postsynaptic marker"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_neurogranin_pg_ml": {"mean": 450, "std": 150, "reference": "Portelius et al. 2015"},
+        "csf_snap25_pg_ml": {"mean": 35, "std": 12, "reference": "Brinkmalm et al. 2014"},
+        "csf_ykl40_ng_ml": {"mean": 350, "std": 100, "reference": "Craig-Schapiro et al. 2010"},
+        "csf_vilip1_pg_ml": {"mean": 250, "std": 80, "reference": "Tarawneh et al. 2011"},
+        "plasma_ptau217_pg_ml": {"mean": 3.5, "std": 1.2, "reference": "Palmqvist et al. 2020"},
+        "plasma_ptau181_pg_ml": {"mean": 2.8, "std": 1.0, "reference": "Karikari et al. 2020"},
+        "plasma_ab42_40_ratio": {"mean": 0.06, "std": 0.015, "reference": "Schindler et al. 2019"},
+        "csf_14_3_3_positive_pct": 0.05
+      },
+      "metabolomic": {
+        "reference": "Varma et al. 2018 PLoS Medicine, Toledo et al. 2017 Alz Dementia",
+        "plasma_sphingomyelins_umol_l": {"mean": 180, "std": 40, "direction": "decreased"},
+        "plasma_phosphatidylcholines_umol_l": {"mean": 1200, "std": 300, "direction": "decreased"},
+        "plasma_acylcarnitines_umol_l": {"mean": 25, "std": 8, "direction": "increased"},
+        "csf_isoprostane_8_12_pg_ml": {"mean": 45, "std": 15, "note": "oxidative stress marker"},
+        "plasma_homocysteine_umol_l": {"mean": 15, "std": 5, "direction": "increased"},
+        "plasma_tryptophan_umol_l": {"mean": 35, "std": 10, "direction": "decreased"},
+        "plasma_kynurenine_umol_l": {"mean": 2.5, "std": 0.8, "direction": "increased"},
+        "kynurenine_tryptophan_ratio": {"mean": 0.065, "std": 0.015, "direction": "increased"}
+      },
+      "epigenomic": {
+        "global_dna_methylation_pct": {"mean": 4.2, "std": 0.3, "direction": "decreased vs HC"},
+        "horvath_epigenetic_age_acceleration_yrs": {"mean": 3.5, "std": 2.0, "reference": "Levine et al. 2015"},
+        "key_dmr": [
+          {"gene": "ANK1", "region": "promoter", "direction": "hypermethylated", "reference": "De Jager et al. 2014 Nat Neurosci"},
+          {"gene": "HOXA3", "region": "promoter", "direction": "hypermethylated", "reference": "Lunnon et al. 2014"},
+          {"gene": "BIN1", "region": "enhancer", "direction": "hypomethylated"},
+          {"gene": "RHBDF2", "region": "promoter", "direction": "hypermethylated", "reference": "De Jager et al. 2014"}
+        ]
+      }
+    },
+    "parkinsons_disease": {
+      "transcriptomic": {
+        "reference": "Agarwal et al. 2020 Nat Neurosci (snRNA-seq substantia nigra), Bryois et al. 2022",
+        "key_deg": [
+          {"gene": "TH", "log2fc": -2.5, "padj": 1e-30, "direction": "down", "cell_type": "dopaminergic_neuron", "note": "tyrosine hydroxylase, hallmark DA loss"},
+          {"gene": "DDC", "log2fc": -1.8, "padj": 1e-20, "direction": "down", "note": "DOPA decarboxylase"},
+          {"gene": "SLC6A3", "log2fc": -2.0, "padj": 1e-22, "direction": "down", "note": "dopamine transporter DAT"},
+          {"gene": "SNCA", "log2fc": 1.2, "padj": 1e-12, "direction": "up", "note": "alpha-synuclein, aggregation substrate"},
+          {"gene": "LRRK2", "log2fc": 0.7, "padj": 1e-5, "direction": "up"},
+          {"gene": "GBA1", "log2fc": -0.8, "padj": 1e-6, "direction": "down", "note": "glucocerebrosidase reduced"},
+          {"gene": "GFAP", "log2fc": 1.5, "padj": 1e-12, "direction": "up", "note": "astrogliosis"},
+          {"gene": "CD68", "log2fc": 1.3, "padj": 1e-10, "direction": "up", "cell_type": "microglia"},
+          {"gene": "NURR1", "log2fc": -1.4, "padj": 1e-8, "direction": "down", "note": "NR4A2, DA neuron survival factor"},
+          {"gene": "PINK1", "log2fc": -0.5, "padj": 0.005, "direction": "down"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_alpha_synuclein_pg_ml": {"mean": 800, "std": 300, "reference": "Mollenhauer et al. 2011", "direction": "decreased_vs_hc"},
+        "csf_dj1_ng_ml": {"mean": 3.5, "std": 1.2},
+        "serum_urate_umol_l": {"mean": 250, "std": 70, "reference": "Schwarzschild et al. 2008", "direction": "decreased"},
+        "plasma_nfl_pg_ml": {"mean": 22, "std": 10, "reference": "Hansson et al. 2017", "direction": "elevated_vs_hc"}
+      },
+      "metabolomic": {
+        "reference": "Havelund et al. 2017 Metabolomics, LeWitt et al. 2013",
+        "csf_hva_nmol_l": {"mean": 120, "std": 50, "direction": "decreased", "note": "homovanillic acid, DA metabolite"},
+        "csf_5hiaa_nmol_l": {"mean": 80, "std": 30, "direction": "decreased", "note": "5-HIAA, serotonin metabolite"},
+        "serum_urate_umol_l": {"mean": 250, "std": 70, "direction": "decreased", "note": "inverse association with PD risk"},
+        "plasma_ceramides_umol_l": {"mean": 6.5, "std": 2.0, "direction": "increased"},
+        "plasma_kynurenine_umol_l": {"mean": 2.2, "std": 0.7, "direction": "increased"},
+        "serum_caffeine_umol_l": {"mean": 2.0, "std": 1.5, "note": "lower caffeine associated with PD risk"}
+      },
+      "epigenomic": {
+        "global_dna_methylation_pct": {"mean": 4.3, "std": 0.3},
+        "horvath_epigenetic_age_acceleration_yrs": {"mean": 2.0, "std": 1.8},
+        "key_dmr": [
+          {"gene": "SNCA", "region": "intron_1", "direction": "hypomethylated", "reference": "Jowaed et al. 2010"},
+          {"gene": "PARK16/RAB7L1", "region": "promoter", "direction": "hypomethylated"},
+          {"gene": "CYP2E1", "region": "promoter", "direction": "hypermethylated"}
+        ]
+      }
+    },
+    "amyotrophic_lateral_sclerosis": {
+      "transcriptomic": {
+        "reference": "Prudencio et al. 2015 Nat Neurosci, Humphrey et al. 2023",
+        "key_deg": [
+          {"gene": "TARDBP", "log2fc": -0.8, "padj": 1e-6, "direction": "down", "note": "TDP-43 nuclear depletion"},
+          {"gene": "FUS", "log2fc": 0.4, "padj": 0.01, "direction": "up", "note": "cytoplasmic accumulation"},
+          {"gene": "SOD1", "log2fc": 0.6, "padj": 1e-4, "direction": "up", "note": "in SOD1-ALS"},
+          {"gene": "CHIT1", "log2fc": 3.5, "padj": 1e-20, "direction": "up", "note": "chitotriosidase, microglial activation"},
+          {"gene": "CHI3L1", "log2fc": 2.8, "padj": 1e-18, "direction": "up", "note": "YKL-40"},
+          {"gene": "GFAP", "log2fc": 2.0, "padj": 1e-15, "direction": "up"},
+          {"gene": "SLC1A2", "log2fc": -1.5, "padj": 1e-10, "direction": "down", "note": "EAAT2/GLT-1 glutamate transporter loss"},
+          {"gene": "STMN2", "log2fc": -2.0, "padj": 1e-15, "direction": "down", "note": "stathmin-2, TDP-43 target, axon regrowth"},
+          {"gene": "UNC13A", "log2fc": -1.2, "padj": 1e-8, "direction": "down", "note": "cryptic exon from TDP-43 loss"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_nfl_pg_ml": {"mean": 3500, "std": 2000, "reference": "Verde et al. 2019", "direction": "massively_elevated"},
+        "blood_nfl_pg_ml": {"mean": 90, "std": 40, "direction": "massively_elevated"},
+        "csf_pnfh_pg_ml": {"mean": 2800, "std": 1500, "reference": "Gaiani et al. 2017"},
+        "csf_chitinase_3_like_1_ng_ml": {"mean": 500, "std": 200, "reference": "Thompson et al. 2018"},
+        "csf_chitotriosidase_ng_ml": {"mean": 25, "std": 12}
+      },
+      "metabolomic": {
+        "reference": "Blasco et al. 2018 Sci Rep, Gray et al. 2015",
+        "csf_glutamate_umol_l": {"mean": 8.0, "std": 3.0, "direction": "increased", "note": "excitotoxicity marker"},
+        "serum_creatinine_umol_l": {"mean": 55, "std": 15, "direction": "decreased", "note": "muscle wasting"},
+        "serum_creatine_kinase_u_l": {"mean": 350, "std": 200, "direction": "increased", "note": "muscle breakdown"},
+        "plasma_acylcarnitines_umol_l": {"mean": 30, "std": 10, "direction": "increased"},
+        "serum_albumin_g_l": {"mean": 38, "std": 5, "direction": "decreased", "note": "catabolic state"},
+        "csf_lactate_mmol_l": {"mean": 2.0, "std": 0.5, "direction": "mildly_increased"}
+      },
+      "epigenomic": {
+        "horvath_epigenetic_age_acceleration_yrs": {"mean": 1.5, "std": 2.0},
+        "key_dmr": [
+          {"gene": "C9orf72", "region": "promoter", "direction": "hypermethylated", "note": "in C9orf72 expansion carriers", "reference": "Xi et al. 2013"}
+        ]
+      }
+    },
+    "major_depressive_disorder": {
+      "transcriptomic": {
+        "reference": "Labonte et al. 2017 Nat Med (postmortem PFC), Gandal et al. 2018 Science",
+        "key_deg": [
+          {"gene": "SLC6A4", "log2fc": -0.7, "padj": 1e-5, "direction": "down", "note": "serotonin transporter SERT"},
+          {"gene": "BDNF", "log2fc": -0.9, "padj": 1e-7, "direction": "down", "note": "brain-derived neurotrophic factor"},
+          {"gene": "FKBP5", "log2fc": 1.2, "padj": 1e-8, "direction": "up", "note": "glucocorticoid receptor co-chaperone"},
+          {"gene": "NR3C1", "log2fc": -0.5, "padj": 0.005, "direction": "down", "note": "glucocorticoid receptor"},
+          {"gene": "SST", "log2fc": -1.8, "padj": 1e-12, "direction": "down", "note": "somatostatin, GABAergic interneuron marker"},
+          {"gene": "GAD1", "log2fc": -0.8, "padj": 1e-5, "direction": "down", "note": "GABA synthesis"},
+          {"gene": "IL6", "log2fc": 0.9, "padj": 1e-4, "direction": "up", "note": "neuroinflammation"},
+          {"gene": "TNF", "log2fc": 0.7, "padj": 0.005, "direction": "up"},
+          {"gene": "IDO1", "log2fc": 1.1, "padj": 1e-6, "direction": "up", "note": "indoleamine 2,3-dioxygenase, kynurenine pathway"}
+        ]
+      },
+      "proteomic_extended": {
+        "serum_bdnf_ng_ml": {"mean": 18, "std": 6, "reference": "Molendijk et al. 2014 meta-analysis", "direction": "decreased"},
+        "serum_crp_mg_l": {"mean": 3.5, "std": 2.0, "reference": "Howren et al. 2009", "direction": "elevated"},
+        "serum_il6_pg_ml": {"mean": 3.0, "std": 1.5, "direction": "elevated"},
+        "serum_tnf_alpha_pg_ml": {"mean": 2.5, "std": 1.0, "direction": "elevated"}
+      },
+      "metabolomic": {
+        "reference": "Savitz et al. 2015 Brain Behav Immun, Ogyu et al. 2018 meta-analysis",
+        "plasma_tryptophan_umol_l": {"mean": 38, "std": 10, "direction": "decreased"},
+        "plasma_kynurenine_umol_l": {"mean": 2.8, "std": 0.9, "direction": "increased"},
+        "kynurenine_tryptophan_ratio": {"mean": 0.074, "std": 0.018, "direction": "increased", "note": "reflects IDO activation"},
+        "plasma_quinolinic_acid_nmol_l": {"mean": 450, "std": 150, "direction": "increased", "note": "neurotoxic NMDAR agonist"},
+        "plasma_cortisol_nmol_l": {"mean": 480, "std": 120, "direction": "increased", "note": "HPA axis hyperactivation"},
+        "salivary_cortisol_awakening_response_nmol_l": {"mean": 22, "std": 8, "direction": "blunted_or_elevated"},
+        "plasma_homocysteine_umol_l": {"mean": 13, "std": 4, "direction": "mildly_increased"}
+      },
+      "epigenomic": {
+        "horvath_epigenetic_age_acceleration_yrs": {"mean": 1.2, "std": 1.8},
+        "key_dmr": [
+          {"gene": "SLC6A4", "region": "promoter_CpG_island", "direction": "hypermethylated", "reference": "Kang et al. 2013"},
+          {"gene": "BDNF", "region": "promoter_IV", "direction": "hypermethylated", "reference": "Fuchikami et al. 2011"},
+          {"gene": "NR3C1", "region": "exon_1F", "direction": "hypermethylated", "reference": "McGowan et al. 2009"}
+        ]
+      }
+    },
+    "epilepsy": {
+      "transcriptomic": {
+        "reference": "Blauwblomme et al. 2019, Dingledine et al. 2014 Epilepsia",
+        "key_deg": [
+          {"gene": "SCN1A", "log2fc": -1.0, "padj": 1e-8, "direction": "down", "note": "Nav1.1, interneuron excitability"},
+          {"gene": "GABRA1", "log2fc": -0.8, "padj": 1e-5, "direction": "down", "note": "GABA-A receptor alpha-1"},
+          {"gene": "GABRG2", "log2fc": -0.6, "padj": 0.001, "direction": "down"},
+          {"gene": "GRIA1", "log2fc": 0.7, "padj": 1e-4, "direction": "up", "note": "AMPA receptor GluA1"},
+          {"gene": "NTRK2", "log2fc": 0.9, "padj": 1e-5, "direction": "up", "note": "TrkB, BDNF receptor"},
+          {"gene": "BDNF", "log2fc": 1.2, "padj": 1e-6, "direction": "up", "note": "activity-dependent upregulation"},
+          {"gene": "SLC1A2", "log2fc": -1.0, "padj": 1e-7, "direction": "down", "note": "EAAT2 glutamate transporter"},
+          {"gene": "MTOR", "log2fc": 0.5, "padj": 0.01, "direction": "up", "note": "in mTORopathy epilepsies"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_nfl_pg_ml": {"mean": 900, "std": 400, "reference": "Shahim et al. 2014", "note": "mildly elevated postictal"},
+        "serum_prolactin_miu_l": {"mean": 45, "std": 20, "note": "postictal elevation (>2x baseline = epileptic seizure)"},
+        "serum_s100b_ug_l": {"mean": 0.12, "std": 0.05, "direction": "mildly_elevated_postictal"}
+      },
+      "metabolomic": {
+        "reference": "Rho and Bhatt 2014, McDonald et al. 2018",
+        "csf_gaba_umol_l": {"mean": 0.10, "std": 0.04, "direction": "decreased", "note": "reduced inhibitory tone"},
+        "csf_glutamate_umol_l": {"mean": 6.0, "std": 2.5, "direction": "increased"},
+        "csf_gaba_glutamate_ratio": {"mean": 0.017, "std": 0.008, "direction": "decreased", "note": "key excitatory/inhibitory imbalance"},
+        "plasma_valproic_acid_ug_ml": {"mean": 75, "std": 25, "note": "therapeutic range 50-100, if on VPA"},
+        "serum_ammonia_umol_l": {"mean": 60, "std": 25, "note": "elevated if on valproate"}
+      },
+      "epigenomic": {
+        "key_dmr": [
+          {"gene": "BDNF", "region": "promoter_IV", "direction": "hypomethylated", "note": "activity-dependent demethylation"},
+          {"gene": "RELN", "region": "promoter", "direction": "hypermethylated", "reference": "Kobow et al. 2009"}
+        ]
+      }
+    },
+    "multiple_sclerosis": {
+      "transcriptomic": {
+        "reference": "Schirmer et al. 2019 Nature (snRNA-seq cortex), Jäkel et al. 2019",
+        "key_deg": [
+          {"gene": "MS4A1", "log2fc": 2.0, "padj": 1e-15, "direction": "up", "note": "CD20, B-cell marker"},
+          {"gene": "CXCL13", "log2fc": 2.5, "padj": 1e-18, "direction": "up", "note": "B-cell chemoattractant, CSF biomarker"},
+          {"gene": "CCL2", "log2fc": 1.8, "padj": 1e-12, "direction": "up", "note": "monocyte chemoattractant"},
+          {"gene": "MBP", "log2fc": -1.5, "padj": 1e-12, "direction": "down", "note": "myelin basic protein loss in lesions"},
+          {"gene": "MOG", "log2fc": -1.2, "padj": 1e-8, "direction": "down", "note": "myelin oligodendrocyte glycoprotein"},
+          {"gene": "OLIG2", "log2fc": -1.0, "padj": 1e-7, "direction": "down", "note": "oligodendrocyte precursor marker"},
+          {"gene": "CD8A", "log2fc": 1.5, "padj": 1e-10, "direction": "up", "cell_type": "CD8_T_cell"},
+          {"gene": "IFNG", "log2fc": 1.2, "padj": 1e-6, "direction": "up"},
+          {"gene": "IL17A", "log2fc": 1.8, "padj": 1e-8, "direction": "up", "note": "Th17 response"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_ocb_positive_pct": 0.95,
+        "csf_igg_index": {"mean": 0.85, "std": 0.25, "reference": "Reiber et al. 1998", "note": "elevated >0.7"},
+        "csf_cxcl13_pg_ml": {"mean": 35, "std": 20, "reference": "Khademi et al. 2011"},
+        "csf_nfl_pg_ml": {"mean": 1200, "std": 600, "reference": "Disanto et al. 2017", "direction": "elevated"},
+        "blood_nfl_pg_ml": {"mean": 18, "std": 8}
+      },
+      "metabolomic": {
+        "reference": "Lim et al. 2017 Multiple Sclerosis J",
+        "csf_n_acetylaspartate_mmol_l": {"mean": 5.5, "std": 1.5, "direction": "decreased", "note": "neuronal integrity marker by MRS"},
+        "plasma_vitamin_d_nmol_l": {"mean": 45, "std": 20, "direction": "decreased", "reference": "Munger et al. 2006"},
+        "serum_urate_umol_l": {"mean": 270, "std": 70, "direction": "decreased"},
+        "csf_lactate_mmol_l": {"mean": 1.8, "std": 0.4, "direction": "mildly_elevated_in_active"}
+      },
+      "epigenomic": {
+        "horvath_epigenetic_age_acceleration_yrs": {"mean": 2.5, "std": 2.0, "reference": "Kular et al. 2018"},
+        "key_dmr": [
+          {"gene": "HLA-DRB1", "region": "promoter", "direction": "hypomethylated", "reference": "Graves et al. 2014"},
+          {"gene": "VMP1/MIR21", "region": "promoter", "direction": "hypomethylated"}
+        ]
+      }
+    },
+    "cadasil": {
+      "transcriptomic": {
+        "reference": "Joutel et al. 2010 J Clin Invest, Cognat et al. 2014",
+        "key_deg": [
+          {"gene": "NOTCH3", "log2fc": 0.3, "padj": 0.05, "direction": "up", "note": "accumulated ECD, not overexpressed"},
+          {"gene": "PDGFRB", "log2fc": -1.2, "padj": 1e-6, "direction": "down", "note": "pericyte loss"},
+          {"gene": "ACTA2", "log2fc": -0.8, "padj": 1e-4, "direction": "down", "note": "smooth muscle cell loss"},
+          {"gene": "VIM", "log2fc": 1.5, "padj": 1e-8, "direction": "up", "note": "vimentin, reactive astrocytes"},
+          {"gene": "MMP2", "log2fc": 1.0, "padj": 1e-5, "direction": "up", "note": "matrix metalloproteinase"},
+          {"gene": "TIMP3", "log2fc": 1.3, "padj": 1e-6, "direction": "up", "note": "accumulates with NOTCH3 ECD"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_notch3_ecd_pg_ml": {"mean": 800, "std": 300, "note": "not routinely measured but elevated in research"},
+        "plasma_endothelin1_pg_ml": {"mean": 3.5, "std": 1.2, "direction": "elevated"},
+        "csf_nfl_pg_ml": {"mean": 1000, "std": 400}
+      },
+      "histopathology_markers": {
+        "gom_deposits": true,
+        "gom_description": "Granular osmiophilic material in vascular smooth muscle cell basement membrane; pathognomonic for CADASIL",
+        "white_matter_lesion_load": "Extensive anterior temporal pole and external capsule involvement on MRI (characteristic pattern)"
+      }
+    },
+    "wilsons_disease": {
+      "transcriptomic": {
+        "reference": "Medici et al. 2014 Hepatology, Hamilton et al. 2016",
+        "key_deg": [
+          {"gene": "ATP7B", "log2fc": -1.5, "padj": 1e-10, "direction": "down", "note": "loss of function in liver"},
+          {"gene": "MT1A", "log2fc": 3.0, "padj": 1e-25, "direction": "up", "note": "metallothionein, copper stress response"},
+          {"gene": "MT2A", "log2fc": 2.8, "padj": 1e-22, "direction": "up"},
+          {"gene": "SOD1", "log2fc": 1.2, "padj": 1e-8, "direction": "up", "note": "Cu/Zn superoxide dismutase, copper loading"},
+          {"gene": "CP", "log2fc": -2.0, "padj": 1e-15, "direction": "down", "note": "ceruloplasmin"}
+        ]
+      },
+      "proteomic_extended": {
+        "serum_ceruloplasmin_mg_dl": {"mean": 10, "std": 5, "normal_range": "20-40", "reference": "Roberts and Schilsky 2008 Hepatology"},
+        "serum_free_copper_ug_dl": {"mean": 35, "std": 15, "normal_range": "0-15"},
+        "urine_copper_24h_ug": {"mean": 250, "std": 100, "normal_range": "<40"},
+        "hepatic_copper_ug_g_dry_weight": {"mean": 800, "std": 400, "normal_range": "<50", "diagnostic_threshold": ">250"}
+      },
+      "metabolomic": {
+        "serum_copper_total_ug_dl": {"mean": 60, "std": 20, "direction": "decreased_total_but_free_elevated"},
+        "urine_copper_post_penicillamine_ug": {"mean": 1500, "std": 600, "note": "challenge test: >1600 suggestive"},
+        "serum_uric_acid_mg_dl": {"mean": 2.5, "std": 1.0, "direction": "decreased", "note": "renal tubular dysfunction"}
+      },
+      "clinical_signs": {
+        "kayser_fleischer_rings": true,
+        "kf_description": "Copper deposition in Descemet membrane of cornea; present in >95% of neurological Wilson; slit-lamp exam required"
+      }
+    },
+    "niemann_pick_c": {
+      "transcriptomic": {
+        "reference": "Cougnoux et al. 2020, Liao et al. 2019",
+        "key_deg": [
+          {"gene": "NPC1", "log2fc": -1.5, "padj": 1e-10, "direction": "down", "note": "loss of function"},
+          {"gene": "HMGCR", "log2fc": 1.5, "padj": 1e-8, "direction": "up", "note": "cholesterol synthesis upregulated"},
+          {"gene": "LDLR", "log2fc": 1.2, "padj": 1e-6, "direction": "up", "note": "SREBP pathway activation"},
+          {"gene": "LAMP1", "log2fc": 1.8, "padj": 1e-10, "direction": "up", "note": "lysosomal expansion"},
+          {"gene": "CTSD", "log2fc": 1.0, "padj": 1e-5, "direction": "up", "note": "cathepsin D, lysosomal stress"},
+          {"gene": "APOE", "log2fc": 0.8, "padj": 0.001, "direction": "up"}
+        ]
+      },
+      "proteomic_extended": {
+        "plasma_oxysterol_cholestane_triol_ng_ml": {"mean": 85, "std": 30, "normal_range": "<50", "reference": "Porter et al. 2010", "note": "elevated, screening biomarker"},
+        "plasma_lysosphingomyelin_509_ng_ml": {"mean": 25, "std": 10, "normal_range": "<7", "reference": "Giese et al. 2015"},
+        "csf_chitotriosidase_nmol_ml_h": {"mean": 45, "std": 20}
+      },
+      "histopathology_markers": {
+        "filipin_staining": "Positive: unesterified cholesterol accumulation in perinuclear lysosomes on skin fibroblasts",
+        "sea_blue_histiocytes": "Present in bone marrow aspirate",
+        "neurofibrillary_tangles": "NFTs composed of hyperphosphorylated tau; similar to AD but different distribution"
+      }
+    },
+    "autoimmune_encephalitis": {
+      "anti_nmdar": {
+        "transcriptomic": {
+          "reference": "Tuzun et al. 2009, Dalmau et al. 2019 Lancet Neurol",
+          "key_deg": [
+            {"gene": "GRIN1", "log2fc": -0.8, "padj": 1e-5, "direction": "down_surface", "note": "NMDAR internalization, not transcriptional"},
+            {"gene": "IFNG", "log2fc": 1.5, "padj": 1e-8, "direction": "up"},
+            {"gene": "IL6", "log2fc": 1.8, "padj": 1e-10, "direction": "up"},
+            {"gene": "CXCL10", "log2fc": 2.0, "padj": 1e-12, "direction": "up"},
+            {"gene": "CCL5", "log2fc": 1.5, "padj": 1e-8, "direction": "up"},
+            {"gene": "FOXP3", "log2fc": -0.6, "padj": 0.01, "direction": "down", "note": "reduced Tregs"}
+          ]
+        },
+        "antibody_titers": {
+          "csf_anti_nmdar_titer": {"median": "1:32", "range": "1:1 to 1:1024", "note": "CSF more sensitive than serum"},
+          "serum_anti_nmdar_titer": {"median": "1:320", "range": "1:10 to 1:10240"}
+        },
+        "csf_profile": {
+          "csf_wbc_per_ul": {"mean": 30, "std": 25, "note": "lymphocytic pleocytosis"},
+          "csf_protein_mg_dl": {"mean": 45, "std": 20, "note": "normal to mildly elevated"},
+          "csf_ocb_positive_pct": 0.60
+        }
+      },
+      "anti_lgi1": {
+        "antibody_titers": {
+          "serum_anti_lgi1_titer": {"median": "1:320", "range": "1:10 to 1:3200"},
+          "csf_anti_lgi1_titer": {"median": "1:2", "range": "1:1 to 1:32", "note": "serum more sensitive than CSF"}
+        },
+        "csf_profile": {
+          "csf_wbc_per_ul": {"mean": 8, "std": 10, "note": "often normal"},
+          "serum_sodium_mmol_l": {"mean": 128, "std": 5, "note": "hyponatremia in ~60%, pathognomonic clue"}
+        }
+      }
+    },
+    "prion_disease": {
+      "transcriptomic": {
+        "reference": "Bhatt et al. 2021, Sorce et al. 2020",
+        "key_deg": [
+          {"gene": "GFAP", "log2fc": 3.0, "padj": 1e-30, "direction": "up", "note": "massive astrogliosis"},
+          {"gene": "PRNP", "log2fc": 0.3, "padj": 0.1, "direction": "unchanged_or_slightly_up"},
+          {"gene": "C1QA", "log2fc": 2.5, "padj": 1e-20, "direction": "up", "note": "complement activation"},
+          {"gene": "TREM2", "log2fc": 2.0, "padj": 1e-15, "direction": "up"},
+          {"gene": "SYP", "log2fc": -2.0, "padj": 1e-18, "direction": "down", "note": "rapid synaptic loss"}
+        ]
+      },
+      "proteomic_extended": {
+        "csf_14_3_3_positive": true,
+        "csf_14_3_3_sensitivity": 0.92,
+        "csf_14_3_3_specificity": 0.80,
+        "csf_rt_quic_positive": true,
+        "csf_rt_quic_sensitivity": 0.97,
+        "csf_rt_quic_specificity": 0.99,
+        "csf_rt_quic_reference": "McGuire et al. 2012 Ann Neurol",
+        "csf_total_tau_pg_ml": {"mean": 5000, "std": 3000, "note": "massively elevated, often >1250 pg/mL"},
+        "csf_nfl_pg_ml": {"mean": 4000, "std": 2000},
+        "csf_s100b_ug_l": {"mean": 0.8, "std": 0.4, "direction": "elevated"},
+        "csf_neuron_specific_enolase_ng_ml": {"mean": 35, "std": 15, "note": "elevated, neuronal destruction"}
+      },
+      "imaging_biomarkers": {
+        "mri_dwi_cortical_ribboning": true,
+        "mri_dwi_caudate_putamen_signal": true,
+        "eeg_periodic_sharp_wave_complexes": {"sensitivity": 0.65, "specificity": 0.90}
+      }
+    },
+    "frontotemporal_dementia": {
+      "grn_related": {
+        "transcriptomic": {
+          "reference": "Gass et al. 2006, Rademakers et al. 2012",
+          "key_deg": [
+            {"gene": "GRN", "log2fc": -1.5, "padj": 1e-15, "direction": "down", "note": "haploinsufficiency"},
+            {"gene": "TMEM106B", "log2fc": 0.8, "padj": 1e-4, "direction": "up", "note": "lysosomal, genetic modifier"},
+            {"gene": "CTSD", "log2fc": 1.2, "padj": 1e-6, "direction": "up", "note": "lysosomal dysfunction"}
+          ]
+        },
+        "proteomic_extended": {
+          "plasma_progranulin_ng_ml": {"mean": 35, "std": 12, "normal_range": ">70", "reference": "Finch et al. 2009", "note": "below 70 ng/mL diagnostic for GRN mutation"},
+          "csf_nfl_pg_ml": {"mean": 2000, "std": 800},
+          "blood_nfl_pg_ml": {"mean": 40, "std": 15}
+        },
+        "pathology": "TDP-43 type A inclusions; ubiquitin-positive neuronal cytoplasmic inclusions"
+      },
+      "mapt_related": {
+        "transcriptomic": {
+          "key_deg": [
+            {"gene": "MAPT", "log2fc": 1.0, "padj": 1e-8, "direction": "up", "note": "4R tau isoform predominance"},
+            {"gene": "GFAP", "log2fc": 1.5, "padj": 1e-10, "direction": "up"}
+          ]
+        },
+        "proteomic_extended": {
+          "csf_total_tau_pg_ml": {"mean": 600, "std": 250, "direction": "elevated"},
+          "csf_nfl_pg_ml": {"mean": 1800, "std": 700},
+          "plasma_progranulin_ng_ml": {"mean": 120, "std": 30, "note": "NORMAL, unlike GRN-FTD"}
+        },
+        "pathology": "4R-tau neurofibrillary tangles without amyloid plaques; Pick bodies in some variants"
+      },
+      "c9orf72_related": {
+        "transcriptomic": {
+          "key_deg": [
+            {"gene": "C9orf72", "log2fc": -0.7, "padj": 1e-5, "direction": "down", "note": "haploinsufficiency"},
+            {"gene": "TARDBP", "log2fc": -0.3, "padj": 0.05, "direction": "down_nuclear_depletion"}
+          ]
+        },
+        "proteomic_extended": {
+          "csf_poly_gp_dipeptide_pg_ml": {"mean": 200, "std": 100, "note": "C9orf72-specific DPR biomarker"},
+          "csf_nfl_pg_ml": {"mean": 2500, "std": 1000},
+          "plasma_progranulin_ng_ml": {"mean": 110, "std": 25, "note": "normal"}
+        },
+        "pathology": "TDP-43 type B + p62-positive dipeptide repeat inclusions in cerebellum and hippocampus"
+      }
+    },
+    "mitochondrial_disease": {
+      "transcriptomic": {
+        "reference": "Suomalainen and Battersby 2018 Nat Rev Mol Cell Biol",
+        "key_deg": [
+          {"gene": "MT-ND1", "log2fc": -1.5, "padj": 1e-10, "direction": "down", "note": "Complex I subunit"},
+          {"gene": "MT-CO1", "log2fc": -1.0, "padj": 1e-7, "direction": "down", "note": "Complex IV subunit"},
+          {"gene": "PPARGC1A", "log2fc": 1.5, "padj": 1e-8, "direction": "up", "note": "PGC-1alpha, compensatory biogenesis"},
+          {"gene": "TFAM", "log2fc": 1.0, "padj": 1e-5, "direction": "up", "note": "mitochondrial transcription factor A"},
+          {"gene": "FGF21", "log2fc": 3.0, "padj": 1e-20, "direction": "up", "note": "mitokine, serum biomarker"},
+          {"gene": "GDF15", "log2fc": 2.5, "padj": 1e-18, "direction": "up", "note": "growth differentiation factor 15"}
+        ]
+      },
+      "proteomic_extended": {
+        "serum_fgf21_pg_ml": {"mean": 800, "std": 400, "normal_range": "<200", "reference": "Suomalainen et al. 2011 Cell Metab"},
+        "serum_gdf15_pg_ml": {"mean": 2500, "std": 1000, "normal_range": "<750", "reference": "Yatsuga et al. 2015"},
+        "csf_protein_mg_dl": {"mean": 80, "std": 30, "direction": "elevated"}
+      },
+      "metabolomic": {
+        "reference": "Rahman and Rahman 2018 Nat Rev Neurol",
+        "csf_lactate_mmol_l": {"mean": 3.5, "std": 1.0, "normal_range": "<2.2", "note": "hallmark of mitochondrial disease"},
+        "csf_pyruvate_umol_l": {"mean": 120, "std": 40, "normal_range": "<100"},
+        "csf_lactate_pyruvate_ratio": {"mean": 30, "std": 8, "normal_range": "<20", "note": "elevated = impaired OXPHOS"},
+        "plasma_lactate_mmol_l": {"mean": 3.0, "std": 1.2, "normal_range": "<2.0"},
+        "plasma_alanine_umol_l": {"mean": 550, "std": 150, "normal_range": "<400", "note": "transamination from pyruvate"},
+        "urine_organic_acids_elevated": ["3-methylglutaconic_acid", "ethylmalonic_acid", "dicarboxylic_acids"],
+        "serum_creatine_kinase_u_l": {"mean": 300, "std": 150, "direction": "elevated"},
+        "mrs_brain_lactate_peak": true
+      }
+    }
+  }
+}

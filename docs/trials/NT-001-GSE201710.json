@@ -1,0 +1,20 @@
+{
+  "trial_id": "NT-001-GSE201710",
+  "spec_hash": "3ab248d414a0ceb9c3860507d33e4db20cb175082fe0708a856b73a097021d88",
+  "dataset": {
+    "accession": "GSE201710",
+    "species": "human",
+    "n_samples": 16,
+    "n_genes": 56,
+    "regime": "prior-contrast",
+    "sha256": "684653051a416fe1f22912181311b2a562a583d4a7fae0f04439a18b6d86ab64"
+  },
+  "results": {
+    "final_train_loss": 1.5536727905273438,
+    "final_val_loss": 3.2779734134674072,
+    "test_loss": 2.0081000328063965
+  },
+  "criteria_met": false,
+  "verdict": "not_met",
+  "elapsed_seconds": 0.6
+}

@@ -1,0 +1,154 @@
+{
+  "_about": "NT-001 curated series catalog. Built from Merlin's committed expression data.",
+  "date": "2026-10-31",
+  "total_committed_human": 8,
+  "in_regime_for_training": 1,
+  "min_data_driven_samples": 30,
+  "species_firewall": "human only; species from registry declaration, not gene symbol casing",
+  "regime_rule": "data-driven >= 30 samples with both control and treated conditions",
+  "series": [
+    {
+      "accession": "GSE119262",
+      "n_samples": 44,
+      "n_genes": 17183,
+      "n_control": 23,
+      "n_treated": 21,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "data-driven",
+      "in_regime_for_training": true,
+      "content_hash": "c8ee578b9a26dcf92a0704830e3b0a0a9052c1b90a59f74b52f1388931b23e08",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse119262_autophagy_full.csv",
+      "program": "autophagy",
+      "studies": [
+        "RB-021"
+      ]
+    },
+    {
+      "accession": "GSE115678",
+      "n_samples": 28,
+      "n_genes": 33,
+      "n_control": 0,
+      "n_treated": 0,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-mean",
+      "in_regime_for_training": false,
+      "content_hash": "340c1be543ac95ad4a25c07db1b624d7c0b438c2b7bbe8f1971b9d3fb50cd83d",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse115678_erythropoiesis_globin_subset.csv",
+      "program": "erythropoiesis_globin",
+      "studies": [
+        "RB-020"
+      ]
+    },
+    {
+      "accession": "GSE107965",
+      "n_samples": 18,
+      "n_genes": 29,
+      "n_control": 6,
+      "n_treated": 12,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-contrast",
+      "in_regime_for_training": false,
+      "content_hash": "807db67d63325c2efdd852c6dfef213118da86dd97f834f433ead7241b60d3a6",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse107965_autophagy_subset.csv",
+      "program": "autophagy",
+      "studies": [
+        "RB-011",
+        "RB-020"
+      ]
+    },
+    {
+      "accession": "GSE201710",
+      "n_samples": 16,
+      "n_genes": 56,
+      "n_control": 8,
+      "n_treated": 8,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-contrast",
+      "in_regime_for_training": false,
+      "content_hash": "684653051a416fe1f22912181311b2a562a583d4a7fae0f04439a18b6d86ab64",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse201710_imr90_osk_subset.csv",
+      "program": "imr90_osk",
+      "studies": [
+        "RB-010",
+        "RB-020"
+      ]
+    },
+    {
+      "accession": "GSE271385",
+      "n_samples": 9,
+      "n_genes": 41,
+      "n_control": 0,
+      "n_treated": 0,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-mean",
+      "in_regime_for_training": false,
+      "content_hash": "700276e2b2e6051fae2ed798c4bc5c15c5a65dde514b49e8b1ba6f3c75281c5b",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse271385_microglia_apoe4_subset.csv",
+      "program": "microglia_apoe4",
+      "studies": [
+        "RB-017",
+        "RB-020"
+      ]
+    },
+    {
+      "accession": "GSE297233",
+      "n_samples": 8,
+      "n_genes": 28,
+      "n_control": 0,
+      "n_treated": 4,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-mean",
+      "in_regime_for_training": false,
+      "content_hash": "38914c9aa6831e30abb3d6be1ca475cfbfc14346c15be4e9bd4f4774de942fef",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse297233_mesenchymal_drift_subset.csv",
+      "program": "mesenchymal_drift",
+      "studies": [
+        "RB-018",
+        "RB-020"
+      ]
+    },
+    {
+      "accession": "GSE164949",
+      "n_samples": 6,
+      "n_genes": 31,
+      "n_control": 0,
+      "n_treated": 0,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-mean",
+      "in_regime_for_training": false,
+      "content_hash": "8aaa3d5692ddce5ffcc2ce9bcc8495756104ed77be839fcebac8a10d98f3e847",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse164949_tcell_exhaustion_subset.csv",
+      "program": "tcell_exhaustion",
+      "studies": [
+        "RB-012",
+        "RB-020"
+      ]
+    },
+    {
+      "accession": "GSE206071",
+      "n_samples": 4,
+      "n_genes": 25,
+      "n_control": 0,
+      "n_treated": 0,
+      "species": "human",
+      "species_confirmation": "NCBI GEO DataSets esummary",
+      "regime": "prior-mean",
+      "in_regime_for_training": false,
+      "content_hash": "121bf0c9bb5e6aa639ae67db964f6221a10242606750bd8d2e340fe20c1cd78e",
+      "path": "/home/user/merlinaineuralplus2/backend/data/expression/human/gse206071_znf512b_subset.csv",
+      "program": "znf512b",
+      "studies": [
+        "RB-013",
+        "RB-020"
+      ]
+    }
+  ],
+  "catalog_hash": "b37b17d5359c372026708cdc9dacdc629ef40ae5eafa85369541845d43fa16e6"
+}

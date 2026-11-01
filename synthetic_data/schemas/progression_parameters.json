@@ -1,0 +1,355 @@
+{
+  "_metadata": {
+    "synthetic": true,
+    "version": "1.0.0",
+    "description": "Disease progression parameters for longitudinal synthetic data generation. Models: linear_decline (Y(t) = Y(0) + beta*t + eps), episodic (relapse/remission cycles), stable_with_events (baseline with stochastic episodes). Annual rates are population means; individual rates sampled as rate_i ~ N(rate, std).",
+    "citation_note": "Progression rates approximated from published natural history studies and clinical trial placebo arms. AD: Mendiondo 2000, Doody 2001; PD: Holden 2018; MDD: Solomon 2000; ALS: Chiò 2009; MS: Scalfari 2010; EP: Kwan 2000; HD: Tabrizi 2009."
+  },
+  "progression_models": {
+    "healthy_control": {
+      "code": "HC",
+      "model": "linear_decline",
+      "description": "Normal aging with minimal cognitive and biomarker changes",
+      "biomarker_trajectories": {
+        "mmse_score": {"annual_rate": -0.1, "std": 0.05, "unit": "points/year", "reference": "Mendiondo 2000"},
+        "moca_score": {"annual_rate": -0.1, "std": 0.05, "unit": "points/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 0.5, "std": 0.3, "unit": "pg_ml/year", "reference": "Khalil 2020"},
+        "csf_amyloid_beta42_pg_ml": {"annual_rate": -5.0, "std": 3.0, "unit": "pg_ml/year"},
+        "csf_total_tau_pg_ml": {"annual_rate": 2.0, "std": 1.0, "unit": "pg_ml/year"},
+        "eeg_theta_alpha_ratio": {"annual_rate": 0.005, "std": 0.003, "unit": "ratio/year"},
+        "eeg_spectral_entropy": {"annual_rate": -0.002, "std": 0.001, "unit": "per_year"},
+        "fmri_bold_dmn": {"annual_rate": -0.005, "std": 0.003, "unit": "z_score/year"},
+        "fmri_connectivity_dmn_pfcx": {"annual_rate": -0.003, "std": 0.002, "unit": "per_year"}
+      },
+      "visit_schedule": {
+        "interval_months": 12,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.03
+      }
+    },
+    "alzheimers_disease": {
+      "code": "AD",
+      "model": "linear_decline",
+      "description": "Progressive cognitive and biomarker decline characteristic of AD; rate varies by stage",
+      "biomarker_trajectories": {
+        "mmse_score": {"annual_rate": -2.5, "std": 1.0, "unit": "points/year", "reference": "Mendiondo 2000"},
+        "moca_score": {"annual_rate": -2.8, "std": 1.2, "unit": "points/year"},
+        "csf_amyloid_beta42_pg_ml": {"annual_rate": -50.0, "std": 20.0, "unit": "pg_ml/year", "reference": "Jack 2018"},
+        "csf_total_tau_pg_ml": {"annual_rate": 30.0, "std": 15.0, "unit": "pg_ml/year"},
+        "csf_p_tau181_pg_ml": {"annual_rate": 4.0, "std": 2.0, "unit": "pg_ml/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 3.0, "std": 1.5, "unit": "pg_ml/year"},
+        "blood_gfap_pg_ml": {"annual_rate": 8.0, "std": 4.0, "unit": "pg_ml/year"},
+        "eeg_theta_alpha_ratio": {"annual_rate": 0.08, "std": 0.03, "unit": "ratio/year", "reference": "Babiloni 2020"},
+        "eeg_spectral_entropy": {"annual_rate": -0.02, "std": 0.008, "unit": "per_year"},
+        "eeg_alpha_peak_freq_hz": {"annual_rate": -0.15, "std": 0.06, "unit": "hz/year"},
+        "fmri_bold_dmn": {"annual_rate": -0.05, "std": 0.02, "unit": "z_score/year"},
+        "fmri_connectivity_dmn_pfcx": {"annual_rate": -0.03, "std": 0.01, "unit": "per_year"},
+        "hamilton_depression_score": {"annual_rate": 0.5, "std": 0.3, "unit": "points/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 6,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.08
+      }
+    },
+    "mild_cognitive_impairment": {
+      "code": "MCI",
+      "model": "linear_decline",
+      "description": "Intermediate rate between HC and AD; ~10-15% annual conversion to AD",
+      "biomarker_trajectories": {
+        "mmse_score": {"annual_rate": -1.0, "std": 0.6, "unit": "points/year", "reference": "Doody 2001"},
+        "moca_score": {"annual_rate": -1.2, "std": 0.7, "unit": "points/year"},
+        "csf_amyloid_beta42_pg_ml": {"annual_rate": -25.0, "std": 15.0, "unit": "pg_ml/year"},
+        "csf_total_tau_pg_ml": {"annual_rate": 12.0, "std": 8.0, "unit": "pg_ml/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 1.5, "std": 0.8, "unit": "pg_ml/year"},
+        "eeg_theta_alpha_ratio": {"annual_rate": 0.04, "std": 0.02, "unit": "ratio/year"},
+        "eeg_spectral_entropy": {"annual_rate": -0.01, "std": 0.005, "unit": "per_year"},
+        "fmri_bold_dmn": {"annual_rate": -0.025, "std": 0.012, "unit": "z_score/year"},
+        "fmri_connectivity_dmn_pfcx": {"annual_rate": -0.015, "std": 0.008, "unit": "per_year"}
+      },
+      "conversion_to_ad": {
+        "annual_probability": 0.12,
+        "conversion_note": "Upon conversion, progression rates switch to AD parameters"
+      },
+      "visit_schedule": {
+        "interval_months": 6,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.06
+      }
+    },
+    "parkinsons_disease": {
+      "code": "PD",
+      "model": "linear_decline",
+      "description": "Progressive motor deterioration with dopaminergic degeneration",
+      "biomarker_trajectories": {
+        "updrs_motor_score": {"annual_rate": 4.0, "std": 2.0, "unit": "points/year", "reference": "Holden 2018"},
+        "mmse_score": {"annual_rate": -0.3, "std": 0.2, "unit": "points/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 2.0, "std": 1.0, "unit": "pg_ml/year"},
+        "fmri_bold_basal_ganglia": {"annual_rate": -0.04, "std": 0.02, "unit": "z_score/year"},
+        "fmri_connectivity_motor_bg": {"annual_rate": -0.025, "std": 0.012, "unit": "per_year"},
+        "eeg_beta_13_30hz": {"annual_rate": -0.5, "std": 0.3, "unit": "uv2/year"},
+        "eeg_theta_alpha_ratio": {"annual_rate": 0.02, "std": 0.01, "unit": "ratio/year"},
+        "hamilton_depression_score": {"annual_rate": 0.8, "std": 0.5, "unit": "points/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 6,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.06
+      }
+    },
+    "major_depressive_disorder": {
+      "code": "MDD",
+      "model": "episodic",
+      "description": "Relapsing-remitting course with depressive episodes of variable duration",
+      "episode_parameters": {
+        "relapse_probability_per_year": 0.50,
+        "mean_episode_duration_months": 6,
+        "std_episode_duration_months": 3,
+        "min_episode_duration_months": 2,
+        "remission_hamilton_target": {"mean": 6.0, "std": 2.0},
+        "episode_hamilton_target": {"mean": 22.0, "std": 4.0},
+        "reference": "Solomon 2000"
+      },
+      "biomarker_trajectories": {
+        "hamilton_depression_score": {"annual_rate": 0.0, "std": 0.0, "unit": "modeled_as_episodic"},
+        "blood_crp_mg_l": {"episode_increase": 1.5, "std": 0.8, "unit": "mg_l_during_episode"},
+        "blood_il6_pg_ml": {"episode_increase": 1.0, "std": 0.5, "unit": "pg_ml_during_episode"},
+        "blood_bdnf_ng_ml": {"episode_decrease": -4.0, "std": 2.0, "unit": "ng_ml_during_episode"},
+        "fmri_bold_prefrontal_cortex": {"episode_change": -0.15, "std": 0.08, "unit": "z_score_during_episode"},
+        "fmri_bold_amygdala": {"episode_change": 0.20, "std": 0.10, "unit": "z_score_during_episode"},
+        "eeg_alpha_8_13hz": {"episode_change": -2.0, "std": 1.0, "unit": "uv2_during_episode"},
+        "blood_nfl_pg_ml": {"annual_rate": 0.5, "std": 0.3, "unit": "pg_ml/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 3,
+        "total_years": 4,
+        "dropout_rate_per_year": 0.10
+      }
+    },
+    "amyotrophic_lateral_sclerosis": {
+      "code": "ALS",
+      "model": "linear_decline",
+      "description": "Aggressive motor neuron degeneration with rapid biomarker progression",
+      "biomarker_trajectories": {
+        "blood_nfl_pg_ml": {"annual_rate": 15.0, "std": 8.0, "unit": "pg_ml/year", "reference": "Chiò 2009"},
+        "blood_gfap_pg_ml": {"annual_rate": 12.0, "std": 6.0, "unit": "pg_ml/year"},
+        "csf_nfl_pg_ml": {"annual_rate": 200.0, "std": 100.0, "unit": "pg_ml/year"},
+        "mmse_score": {"annual_rate": -0.5, "std": 0.3, "unit": "points/year"},
+        "fmri_bold_motor_cortex": {"annual_rate": -0.08, "std": 0.04, "unit": "z_score/year"},
+        "fmri_connectivity_motor_bg": {"annual_rate": -0.04, "std": 0.02, "unit": "per_year"},
+        "eeg_beta_13_30hz": {"annual_rate": -1.0, "std": 0.5, "unit": "uv2/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 3,
+        "total_years": 3,
+        "dropout_rate_per_year": 0.20,
+        "dropout_note": "High dropout reflects disease mortality (median survival ~3y from diagnosis)"
+      }
+    },
+    "epilepsy": {
+      "code": "EP",
+      "model": "stable_with_events",
+      "description": "Chronic condition with baseline stability punctuated by seizure events",
+      "baseline_trajectories": {
+        "eeg_delta_1_4hz": {"annual_rate": 0.0, "std": 0.2, "unit": "uv2/year"},
+        "eeg_theta_4_8hz": {"annual_rate": 0.0, "std": 0.15, "unit": "uv2/year"},
+        "eeg_spectral_entropy": {"annual_rate": 0.0, "std": 0.005, "unit": "per_year"},
+        "mmse_score": {"annual_rate": -0.2, "std": 0.15, "unit": "points/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 0.5, "std": 0.3, "unit": "pg_ml/year"}
+      },
+      "event_parameters": {
+        "seizure_frequency_per_year": {"mean": 12, "std": 8, "min": 1},
+        "ictal_eeg_delta_spike": {"mean": 10.0, "std": 4.0, "unit": "uv2_transient"},
+        "postictal_duration_hours": {"mean": 24, "std": 12},
+        "reference": "Kwan 2000"
+      },
+      "visit_schedule": {
+        "interval_months": 6,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.05
+      }
+    },
+    "multiple_sclerosis": {
+      "code": "MS",
+      "model": "episodic",
+      "description": "Relapsing-remitting MS with inflammatory episodes causing step-wise neurological deterioration",
+      "episode_parameters": {
+        "relapse_rate_per_year": 0.40,
+        "std_relapse_rate": 0.15,
+        "mean_relapse_duration_months": 2,
+        "std_relapse_duration_months": 1,
+        "partial_recovery_fraction": 0.70,
+        "reference": "Scalfari 2010"
+      },
+      "biomarker_trajectories": {
+        "blood_nfl_pg_ml": {"relapse_increase": 15.0, "std": 8.0, "baseline_annual_rate": 2.0, "unit": "pg_ml"},
+        "blood_gfap_pg_ml": {"relapse_increase": 10.0, "std": 5.0, "baseline_annual_rate": 1.5, "unit": "pg_ml"},
+        "blood_crp_mg_l": {"relapse_increase": 2.0, "std": 1.0, "unit": "mg_l_during_relapse"},
+        "blood_il6_pg_ml": {"relapse_increase": 1.5, "std": 0.8, "unit": "pg_ml_during_relapse"},
+        "fmri_bold_dmn": {"relapse_change": -0.10, "std": 0.05, "recovery": 0.07, "unit": "z_score"},
+        "fmri_connectivity_thal_cortical": {"relapse_change": -0.05, "std": 0.03, "recovery": 0.035, "unit": "per_relapse"},
+        "mmse_score": {"annual_rate": -0.2, "std": 0.15, "unit": "points/year"},
+        "eeg_spectral_entropy": {"relapse_change": -0.03, "std": 0.015, "unit": "per_relapse"}
+      },
+      "visit_schedule": {
+        "interval_months": 6,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.06
+      }
+    },
+    "huntingtons_disease": {
+      "code": "HD",
+      "model": "linear_decline",
+      "description": "Progressive neurodegenerative decline with motor, cognitive and psychiatric features",
+      "biomarker_trajectories": {
+        "mmse_score": {"annual_rate": -1.5, "std": 0.8, "unit": "points/year", "reference": "Tabrizi 2009"},
+        "moca_score": {"annual_rate": -1.8, "std": 1.0, "unit": "points/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 5.0, "std": 3.0, "unit": "pg_ml/year"},
+        "fmri_bold_basal_ganglia": {"annual_rate": -0.06, "std": 0.03, "unit": "z_score/year"},
+        "fmri_connectivity_motor_bg": {"annual_rate": -0.035, "std": 0.015, "unit": "per_year"},
+        "eeg_theta_alpha_ratio": {"annual_rate": 0.04, "std": 0.02, "unit": "ratio/year"},
+        "hamilton_depression_score": {"annual_rate": 1.0, "std": 0.6, "unit": "points/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 6,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.10
+      }
+    },
+    "traumatic_brain_injury": {
+      "code": "TBI",
+      "model": "recovery_plateau",
+      "description": "Initial acute injury followed by partial recovery that plateaus; chronic effects may persist",
+      "biomarker_trajectories": {
+        "mmse_score": {"recovery_rate_year1": 3.0, "std": 1.5, "plateau_offset": -2.0, "unit": "points_recovered_year1"},
+        "blood_nfl_pg_ml": {"acute_peak": 80.0, "decay_half_life_months": 4, "chronic_elevation": 5.0, "unit": "pg_ml"},
+        "blood_gfap_pg_ml": {"acute_peak": 60.0, "decay_half_life_months": 3, "chronic_elevation": 8.0, "unit": "pg_ml"},
+        "blood_s100b_ug_l": {"acute_peak": 0.5, "decay_half_life_months": 1, "chronic_elevation": 0.03, "unit": "ug_l"},
+        "fmri_bold_dmn": {"recovery_rate_year1": 0.08, "std": 0.04, "plateau_offset": -0.10, "unit": "z_score"},
+        "fmri_connectivity_dmn_pfcx": {"recovery_rate_year1": 0.04, "std": 0.02, "plateau_offset": -0.05, "unit": "per_year"},
+        "eeg_delta_1_4hz": {"acute_increase": 8.0, "recovery_rate_per_year": -3.0, "unit": "uv2"},
+        "eeg_spectral_entropy": {"acute_decrease": -0.12, "recovery_rate_per_year": 0.04, "unit": "per_year"}
+      },
+      "visit_schedule": {
+        "interval_months": 3,
+        "total_years": 3,
+        "dropout_rate_per_year": 0.12
+      }
+    },
+    "ischemic_stroke": {
+      "code": "IS",
+      "model": "recovery_plateau",
+      "description": "Acute cerebrovascular event with rapid initial recovery and long-term residual deficits",
+      "biomarker_trajectories": {
+        "mmse_score": {"recovery_rate_year1": 4.0, "std": 2.0, "plateau_offset": -3.0, "unit": "points_recovered_year1"},
+        "blood_nfl_pg_ml": {"acute_peak": 60.0, "decay_half_life_months": 3, "chronic_elevation": 4.0, "unit": "pg_ml"},
+        "blood_gfap_pg_ml": {"acute_peak": 45.0, "decay_half_life_months": 2, "chronic_elevation": 6.0, "unit": "pg_ml"},
+        "blood_crp_mg_l": {"acute_peak": 12.0, "decay_half_life_months": 1, "chronic_elevation": 1.0, "unit": "mg_l"},
+        "blood_il6_pg_ml": {"acute_peak": 8.0, "decay_half_life_months": 1, "chronic_elevation": 0.5, "unit": "pg_ml"},
+        "fmri_bold_dmn": {"recovery_rate_year1": 0.10, "std": 0.05, "plateau_offset": -0.12, "unit": "z_score"},
+        "eeg_delta_1_4hz": {"acute_increase": 10.0, "recovery_rate_per_year": -4.0, "unit": "uv2"},
+        "eeg_spectral_entropy": {"acute_decrease": -0.15, "recovery_rate_per_year": 0.05, "unit": "per_year"}
+      },
+      "visit_schedule": {
+        "interval_months": 3,
+        "total_years": 3,
+        "dropout_rate_per_year": 0.10
+      }
+    },
+    "schizophrenia": {
+      "code": "SZ",
+      "model": "episodic",
+      "description": "Chronic psychotic disorder with acute exacerbations and gradual cognitive decline",
+      "episode_parameters": {
+        "exacerbation_probability_per_year": 0.35,
+        "mean_exacerbation_duration_months": 3,
+        "std_exacerbation_duration_months": 2,
+        "partial_recovery_fraction": 0.60
+      },
+      "biomarker_trajectories": {
+        "mmse_score": {"annual_rate": -0.4, "std": 0.3, "unit": "points/year"},
+        "blood_crp_mg_l": {"exacerbation_increase": 1.0, "std": 0.5, "unit": "mg_l"},
+        "blood_il6_pg_ml": {"exacerbation_increase": 0.8, "std": 0.4, "unit": "pg_ml"},
+        "blood_bdnf_ng_ml": {"annual_rate": -0.5, "std": 0.3, "unit": "ng_ml/year"},
+        "fmri_bold_prefrontal_cortex": {"annual_rate": -0.03, "std": 0.015, "unit": "z_score/year"},
+        "fmri_connectivity_dmn_pfcx": {"annual_rate": -0.02, "std": 0.01, "unit": "per_year"},
+        "eeg_gamma_30_100hz": {"annual_rate": -0.3, "std": 0.15, "unit": "uv2/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 0.8, "std": 0.5, "unit": "pg_ml/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 3,
+        "total_years": 4,
+        "dropout_rate_per_year": 0.15
+      }
+    },
+    "bipolar_disorder": {
+      "code": "BD",
+      "model": "episodic",
+      "description": "Cyclical mood disorder with manic/depressive episodes",
+      "episode_parameters": {
+        "depressive_episode_probability_per_year": 0.40,
+        "manic_episode_probability_per_year": 0.25,
+        "mean_episode_duration_months": 4,
+        "std_episode_duration_months": 2,
+        "remission_hamilton_target": {"mean": 5.0, "std": 2.0}
+      },
+      "biomarker_trajectories": {
+        "hamilton_depression_score": {"depressive_episode_target": 20.0, "manic_episode_target": 2.0, "euthymic_target": 5.0, "unit": "points"},
+        "blood_crp_mg_l": {"episode_increase": 1.2, "std": 0.6, "unit": "mg_l"},
+        "blood_bdnf_ng_ml": {"depressive_decrease": -3.0, "manic_increase": 2.0, "std": 1.5, "unit": "ng_ml"},
+        "fmri_bold_amygdala": {"manic_increase": 0.25, "depressive_change": -0.10, "std": 0.10, "unit": "z_score"},
+        "eeg_alpha_8_13hz": {"depressive_change": -1.5, "manic_change": 1.5, "std": 0.8, "unit": "uv2"},
+        "blood_nfl_pg_ml": {"annual_rate": 0.5, "std": 0.3, "unit": "pg_ml/year"},
+        "mmse_score": {"annual_rate": -0.2, "std": 0.15, "unit": "points/year"}
+      },
+      "visit_schedule": {
+        "interval_months": 3,
+        "total_years": 4,
+        "dropout_rate_per_year": 0.12
+      }
+    },
+    "autism_spectrum_disorder": {
+      "code": "ASD",
+      "model": "stable_with_development",
+      "description": "Neurodevelopmental condition; biomarkers largely stable in adults with slow age-related changes",
+      "biomarker_trajectories": {
+        "mmse_score": {"annual_rate": -0.1, "std": 0.08, "unit": "points/year"},
+        "blood_nfl_pg_ml": {"annual_rate": 0.3, "std": 0.2, "unit": "pg_ml/year"},
+        "blood_bdnf_ng_ml": {"annual_rate": -0.2, "std": 0.1, "unit": "ng_ml/year"},
+        "fmri_connectivity_dmn_pfcx": {"annual_rate": 0.005, "std": 0.003, "unit": "per_year"},
+        "eeg_gamma_30_100hz": {"annual_rate": 0.1, "std": 0.05, "unit": "uv2/year"},
+        "eeg_spectral_entropy": {"annual_rate": -0.003, "std": 0.002, "unit": "per_year"}
+      },
+      "visit_schedule": {
+        "interval_months": 12,
+        "total_years": 5,
+        "dropout_rate_per_year": 0.08
+      }
+    }
+  },
+  "global_parameters": {
+    "within_subject_correlation": {
+      "description": "Repeated measures from the same patient are correlated. AR(1) autocorrelation applied to residuals.",
+      "ar1_rho": 0.6,
+      "ar1_rho_std": 0.1
+    },
+    "age_acceleration": {
+      "description": "Progression rates increase with age for neurodegenerative diseases",
+      "age_threshold": 75,
+      "acceleration_factor": 1.25,
+      "applies_to": ["alzheimers_disease", "parkinsons_disease", "mild_cognitive_impairment", "huntingtons_disease"]
+    },
+    "sex_effects": {
+      "description": "Sex-based modifiers on progression rates (multiplicative)",
+      "female_modifier": {
+        "alzheimers_disease": 1.10,
+        "major_depressive_disorder": 1.15,
+        "multiple_sclerosis": 0.90
+      },
+      "male_modifier": {
+        "parkinsons_disease": 1.05,
+        "amyotrophic_lateral_sclerosis": 1.10
+      }
+    }
+  }
+}

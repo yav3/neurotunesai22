@@ -1,0 +1,7 @@
+# Quarantined synthetic data files (large, generated)
+# Regenerate via generators/generate_*.py
+quarantine/*.parquet
+quarantine/*.json
+
+# Keep the quarantine directory itself
+!quarantine/.gitkeep

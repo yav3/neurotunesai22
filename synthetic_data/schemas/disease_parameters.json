@@ -1,0 +1,878 @@
+{
+  "_metadata": {
+    "synthetic": true,
+    "version": "1.0.0",
+    "description": "Statistical parameters for synthetic neuro/bio data generation across human disease states. Values approximate published literature ranges — NOT fitted to any specific cohort.",
+    "citation_note": "Parameter ranges informed by aggregate published norms (e.g., Olsson et al. 2016 for NfL, Jack et al. 2018 for AD biomarkers, Babiloni et al. 2020 for EEG). These are approximations for synthetic data generation, not validated clinical thresholds."
+  },
+  "disease_states": {
+    "healthy_control": {
+      "code": "HC",
+      "prevalence_weight": 0.20,
+      "demographics": {
+        "age": {"mean": 55, "std": 15, "min": 18, "max": 90},
+        "sex_female_prob": 0.52,
+        "bmi": {"mean": 26.5, "std": 4.5, "min": 16, "max": 50}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 15.0, "std": 5.0},
+        "theta_4_8hz": {"mean": 8.0, "std": 3.0},
+        "alpha_8_13hz": {"mean": 20.0, "std": 6.0},
+        "beta_13_30hz": {"mean": 12.0, "std": 4.0},
+        "gamma_30_100hz": {"mean": 5.0, "std": 2.0}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.4, "std": 0.12},
+        "spectral_entropy": {"mean": 0.75, "std": 0.08},
+        "alpha_peak_freq_hz": {"mean": 10.2, "std": 0.8}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": 0.0, "std": 0.5},
+        "prefrontal_cortex": {"mean": 0.0, "std": 0.4},
+        "hippocampus": {"mean": 0.0, "std": 0.45},
+        "amygdala": {"mean": 0.0, "std": 0.4},
+        "motor_cortex": {"mean": 0.0, "std": 0.35},
+        "cerebellum": {"mean": 0.0, "std": 0.35},
+        "thalamus": {"mean": 0.0, "std": 0.4},
+        "basal_ganglia": {"mean": 0.0, "std": 0.35}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.45, "std": 0.12},
+        "hipp_amyg": {"mean": 0.50, "std": 0.10},
+        "motor_bg": {"mean": 0.40, "std": 0.10},
+        "thal_cortical": {"mean": 0.42, "std": 0.11}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 12.0, "std": 6.0, "min": 1, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 80.0, "std": 30.0, "min": 5},
+        "bdnf_ng_ml": {"mean": 25.0, "std": 8.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.05, "std": 0.02, "min": 0.01},
+        "crp_mg_l": {"mean": 1.5, "std": 1.2, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 1.5, "std": 1.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 1.2, "std": 0.8, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1100, "std": 200, "min": 200},
+        "total_tau_pg_ml": {"mean": 220, "std": 80, "min": 50},
+        "p_tau181_pg_ml": {"mean": 22, "std": 8, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 600, "std": 250, "min": 100}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.0, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 29.0, "std": 1.0, "min": 24, "max": 30},
+        "moca": {"mean": 27.5, "std": 1.5, "min": 22, "max": 30},
+        "hamilton_depression": {"mean": 3.0, "std": 2.5, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 2.0, "std": 2.0, "min": 0, "max": 132}
+      }
+    },
+    "alzheimers_disease": {
+      "code": "AD",
+      "prevalence_weight": 0.10,
+      "demographics": {
+        "age": {"mean": 73, "std": 8, "min": 50, "max": 95},
+        "sex_female_prob": 0.62,
+        "bmi": {"mean": 24.5, "std": 4.0, "min": 16, "max": 45}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 22.0, "std": 7.0},
+        "theta_4_8hz": {"mean": 14.0, "std": 5.0},
+        "alpha_8_13hz": {"mean": 12.0, "std": 5.0},
+        "beta_13_30hz": {"mean": 8.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 3.0, "std": 1.5}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 1.2, "std": 0.4},
+        "spectral_entropy": {"mean": 0.60, "std": 0.10},
+        "alpha_peak_freq_hz": {"mean": 8.5, "std": 1.2}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.8, "std": 0.6},
+        "prefrontal_cortex": {"mean": -0.5, "std": 0.5},
+        "hippocampus": {"mean": -1.2, "std": 0.6},
+        "amygdala": {"mean": -0.3, "std": 0.5},
+        "motor_cortex": {"mean": -0.1, "std": 0.4},
+        "cerebellum": {"mean": -0.1, "std": 0.35},
+        "thalamus": {"mean": -0.3, "std": 0.4},
+        "basal_ganglia": {"mean": -0.2, "std": 0.4}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.25, "std": 0.15},
+        "hipp_amyg": {"mean": 0.30, "std": 0.12},
+        "motor_bg": {"mean": 0.38, "std": 0.10},
+        "thal_cortical": {"mean": 0.35, "std": 0.12}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 35.0, "std": 18.0, "min": 5, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 200.0, "std": 80.0, "min": 20},
+        "bdnf_ng_ml": {"mean": 15.0, "std": 6.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.10, "std": 0.04, "min": 0.01},
+        "crp_mg_l": {"mean": 3.5, "std": 2.5, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 3.0, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.5, "std": 1.5, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 550, "std": 180, "min": 100},
+        "total_tau_pg_ml": {"mean": 600, "std": 200, "min": 100},
+        "p_tau181_pg_ml": {"mean": 80, "std": 30, "min": 15},
+        "nfl_csf_pg_ml": {"mean": 1500, "std": 600, "min": 200}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.65,
+        "polygenic_risk_score": {"mean": 1.5, "std": 0.8}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 18.0, "std": 5.0, "min": 0, "max": 30},
+        "moca": {"mean": 15.0, "std": 5.0, "min": 0, "max": 30},
+        "hamilton_depression": {"mean": 8.0, "std": 4.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 5.0, "std": 4.0, "min": 0, "max": 132}
+      }
+    },
+    "parkinsons_disease": {
+      "code": "PD",
+      "prevalence_weight": 0.09,
+      "demographics": {
+        "age": {"mean": 67, "std": 10, "min": 40, "max": 90},
+        "sex_female_prob": 0.40,
+        "bmi": {"mean": 25.0, "std": 4.0, "min": 16, "max": 45}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 18.0, "std": 6.0},
+        "theta_4_8hz": {"mean": 12.0, "std": 4.0},
+        "alpha_8_13hz": {"mean": 14.0, "std": 5.0},
+        "beta_13_30hz": {"mean": 7.0, "std": 3.0},
+        "gamma_30_100hz": {"mean": 3.5, "std": 1.5}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.85, "std": 0.25},
+        "spectral_entropy": {"mean": 0.65, "std": 0.09},
+        "alpha_peak_freq_hz": {"mean": 9.0, "std": 1.0}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.3, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.4, "std": 0.5},
+        "hippocampus": {"mean": -0.3, "std": 0.5},
+        "amygdala": {"mean": -0.2, "std": 0.4},
+        "motor_cortex": {"mean": -0.6, "std": 0.5},
+        "cerebellum": {"mean": -0.4, "std": 0.4},
+        "thalamus": {"mean": -0.3, "std": 0.45},
+        "basal_ganglia": {"mean": -0.9, "std": 0.5}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.38, "std": 0.12},
+        "hipp_amyg": {"mean": 0.42, "std": 0.11},
+        "motor_bg": {"mean": 0.22, "std": 0.12},
+        "thal_cortical": {"mean": 0.30, "std": 0.12}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 25.0, "std": 14.0, "min": 3, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 120.0, "std": 50.0, "min": 10},
+        "bdnf_ng_ml": {"mean": 18.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.07, "std": 0.03, "min": 0.01},
+        "crp_mg_l": {"mean": 2.5, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.2, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.0, "std": 1.2, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 900, "std": 250, "min": 200},
+        "total_tau_pg_ml": {"mean": 280, "std": 100, "min": 60},
+        "p_tau181_pg_ml": {"mean": 28, "std": 12, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 1000, "std": 400, "min": 150}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.28,
+        "polygenic_risk_score": {"mean": 0.8, "std": 0.9}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 26.0, "std": 3.0, "min": 10, "max": 30},
+        "moca": {"mean": 23.0, "std": 4.0, "min": 8, "max": 30},
+        "hamilton_depression": {"mean": 10.0, "std": 5.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 32.0, "std": 14.0, "min": 5, "max": 132}
+      }
+    },
+    "major_depressive_disorder": {
+      "code": "MDD",
+      "prevalence_weight": 0.10,
+      "demographics": {
+        "age": {"mean": 42, "std": 14, "min": 18, "max": 80},
+        "sex_female_prob": 0.63,
+        "bmi": {"mean": 28.0, "std": 5.5, "min": 16, "max": 55}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 16.0, "std": 5.5},
+        "theta_4_8hz": {"mean": 10.0, "std": 3.5},
+        "alpha_8_13hz": {"mean": 14.0, "std": 5.5},
+        "beta_13_30hz": {"mean": 10.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 4.0, "std": 1.8}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.72, "std": 0.22},
+        "spectral_entropy": {"mean": 0.68, "std": 0.09},
+        "alpha_peak_freq_hz": {"mean": 9.8, "std": 0.9}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": 0.5, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.6, "std": 0.5},
+        "hippocampus": {"mean": -0.3, "std": 0.5},
+        "amygdala": {"mean": 0.7, "std": 0.5},
+        "motor_cortex": {"mean": -0.1, "std": 0.35},
+        "cerebellum": {"mean": 0.0, "std": 0.35},
+        "thalamus": {"mean": 0.1, "std": 0.4},
+        "basal_ganglia": {"mean": -0.1, "std": 0.35}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.55, "std": 0.14},
+        "hipp_amyg": {"mean": 0.55, "std": 0.12},
+        "motor_bg": {"mean": 0.38, "std": 0.10},
+        "thal_cortical": {"mean": 0.40, "std": 0.11}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 14.0, "std": 7.0, "min": 1, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 85.0, "std": 35.0, "min": 5},
+        "bdnf_ng_ml": {"mean": 16.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.06, "std": 0.03, "min": 0.01},
+        "crp_mg_l": {"mean": 3.0, "std": 2.5, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.8, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.0, "std": 1.2, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1050, "std": 220, "min": 200},
+        "total_tau_pg_ml": {"mean": 240, "std": 90, "min": 50},
+        "p_tau181_pg_ml": {"mean": 24, "std": 9, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 650, "std": 270, "min": 100}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.3, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 28.0, "std": 2.0, "min": 20, "max": 30},
+        "moca": {"mean": 26.0, "std": 2.5, "min": 18, "max": 30},
+        "hamilton_depression": {"mean": 22.0, "std": 6.0, "min": 8, "max": 52},
+        "updrs_motor": {"mean": 3.0, "std": 2.5, "min": 0, "max": 132}
+      }
+    },
+    "epilepsy": {
+      "code": "EP",
+      "prevalence_weight": 0.08,
+      "demographics": {
+        "age": {"mean": 38, "std": 18, "min": 5, "max": 80},
+        "sex_female_prob": 0.48,
+        "bmi": {"mean": 27.0, "std": 5.0, "min": 16, "max": 50}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 20.0, "std": 8.0},
+        "theta_4_8hz": {"mean": 13.0, "std": 5.0},
+        "alpha_8_13hz": {"mean": 13.0, "std": 6.0},
+        "beta_13_30hz": {"mean": 14.0, "std": 5.0},
+        "gamma_30_100hz": {"mean": 8.0, "std": 4.0}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 1.0, "std": 0.35},
+        "spectral_entropy": {"mean": 0.58, "std": 0.12},
+        "alpha_peak_freq_hz": {"mean": 9.2, "std": 1.2}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.2, "std": 0.6},
+        "prefrontal_cortex": {"mean": -0.2, "std": 0.5},
+        "hippocampus": {"mean": 0.4, "std": 0.6},
+        "amygdala": {"mean": 0.3, "std": 0.5},
+        "motor_cortex": {"mean": 0.1, "std": 0.4},
+        "cerebellum": {"mean": 0.0, "std": 0.4},
+        "thalamus": {"mean": 0.5, "std": 0.5},
+        "basal_ganglia": {"mean": 0.1, "std": 0.4}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.35, "std": 0.14},
+        "hipp_amyg": {"mean": 0.55, "std": 0.13},
+        "motor_bg": {"mean": 0.40, "std": 0.11},
+        "thal_cortical": {"mean": 0.50, "std": 0.13}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 18.0, "std": 10.0, "min": 2, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 100.0, "std": 45.0, "min": 8},
+        "bdnf_ng_ml": {"mean": 20.0, "std": 8.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.08, "std": 0.04, "min": 0.01},
+        "crp_mg_l": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 1.8, "std": 1.0, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1050, "std": 220, "min": 200},
+        "total_tau_pg_ml": {"mean": 250, "std": 90, "min": 50},
+        "p_tau181_pg_ml": {"mean": 25, "std": 10, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 800, "std": 350, "min": 120}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.2, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 27.5, "std": 2.5, "min": 18, "max": 30},
+        "moca": {"mean": 25.5, "std": 3.0, "min": 15, "max": 30},
+        "hamilton_depression": {"mean": 7.0, "std": 5.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 3.0, "std": 2.5, "min": 0, "max": 132}
+      }
+    },
+    "multiple_sclerosis": {
+      "code": "MS",
+      "prevalence_weight": 0.07,
+      "demographics": {
+        "age": {"mean": 42, "std": 12, "min": 18, "max": 70},
+        "sex_female_prob": 0.72,
+        "bmi": {"mean": 26.0, "std": 4.5, "min": 16, "max": 48}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 17.0, "std": 6.0},
+        "theta_4_8hz": {"mean": 10.0, "std": 4.0},
+        "alpha_8_13hz": {"mean": 15.0, "std": 5.5},
+        "beta_13_30hz": {"mean": 9.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 4.0, "std": 2.0}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.67, "std": 0.20},
+        "spectral_entropy": {"mean": 0.68, "std": 0.09},
+        "alpha_peak_freq_hz": {"mean": 9.5, "std": 1.0}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.2, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.3, "std": 0.5},
+        "hippocampus": {"mean": -0.3, "std": 0.5},
+        "amygdala": {"mean": -0.1, "std": 0.4},
+        "motor_cortex": {"mean": -0.3, "std": 0.4},
+        "cerebellum": {"mean": -0.2, "std": 0.4},
+        "thalamus": {"mean": -0.5, "std": 0.5},
+        "basal_ganglia": {"mean": -0.2, "std": 0.4}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.35, "std": 0.13},
+        "hipp_amyg": {"mean": 0.40, "std": 0.12},
+        "motor_bg": {"mean": 0.32, "std": 0.11},
+        "thal_cortical": {"mean": 0.30, "std": 0.13}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 30.0, "std": 20.0, "min": 3, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 150.0, "std": 60.0, "min": 10},
+        "bdnf_ng_ml": {"mean": 20.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.09, "std": 0.04, "min": 0.01},
+        "crp_mg_l": {"mean": 3.0, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 3.5, "std": 2.5, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.8, "std": 1.5, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1000, "std": 230, "min": 200},
+        "total_tau_pg_ml": {"mean": 260, "std": 95, "min": 50},
+        "p_tau181_pg_ml": {"mean": 24, "std": 10, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 1400, "std": 600, "min": 150}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.5, "std": 0.9}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 27.0, "std": 2.5, "min": 18, "max": 30},
+        "moca": {"mean": 25.0, "std": 3.0, "min": 15, "max": 30},
+        "hamilton_depression": {"mean": 10.0, "std": 6.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 5.0, "std": 4.0, "min": 0, "max": 132}
+      }
+    },
+    "amyotrophic_lateral_sclerosis": {
+      "code": "ALS",
+      "prevalence_weight": 0.05,
+      "demographics": {
+        "age": {"mean": 60, "std": 11, "min": 30, "max": 85},
+        "sex_female_prob": 0.40,
+        "bmi": {"mean": 24.0, "std": 4.0, "min": 15, "max": 42}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 18.0, "std": 6.0},
+        "theta_4_8hz": {"mean": 10.0, "std": 4.0},
+        "alpha_8_13hz": {"mean": 14.0, "std": 5.0},
+        "beta_13_30hz": {"mean": 8.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 4.0, "std": 2.0}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.72, "std": 0.22},
+        "spectral_entropy": {"mean": 0.66, "std": 0.09},
+        "alpha_peak_freq_hz": {"mean": 9.4, "std": 1.0}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.2, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.4, "std": 0.5},
+        "hippocampus": {"mean": -0.1, "std": 0.45},
+        "amygdala": {"mean": -0.1, "std": 0.4},
+        "motor_cortex": {"mean": -0.8, "std": 0.6},
+        "cerebellum": {"mean": -0.3, "std": 0.4},
+        "thalamus": {"mean": -0.3, "std": 0.4},
+        "basal_ganglia": {"mean": -0.3, "std": 0.4}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.38, "std": 0.13},
+        "hipp_amyg": {"mean": 0.44, "std": 0.11},
+        "motor_bg": {"mean": 0.25, "std": 0.12},
+        "thal_cortical": {"mean": 0.32, "std": 0.12}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 80.0, "std": 50.0, "min": 10, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 180.0, "std": 70.0, "min": 15},
+        "bdnf_ng_ml": {"mean": 14.0, "std": 6.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.08, "std": 0.04, "min": 0.01},
+        "crp_mg_l": {"mean": 2.5, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.5, "std": 1.8, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.2, "std": 1.3, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1000, "std": 240, "min": 200},
+        "total_tau_pg_ml": {"mean": 300, "std": 110, "min": 60},
+        "p_tau181_pg_ml": {"mean": 26, "std": 10, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 3500, "std": 1500, "min": 400}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.6, "std": 0.9}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 27.0, "std": 2.5, "min": 18, "max": 30},
+        "moca": {"mean": 25.0, "std": 3.0, "min": 15, "max": 30},
+        "hamilton_depression": {"mean": 12.0, "std": 6.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 8.0, "std": 5.0, "min": 0, "max": 132}
+      }
+    },
+    "huntingtons_disease": {
+      "code": "HD",
+      "prevalence_weight": 0.04,
+      "demographics": {
+        "age": {"mean": 48, "std": 12, "min": 25, "max": 75},
+        "sex_female_prob": 0.50,
+        "bmi": {"mean": 23.0, "std": 3.5, "min": 15, "max": 40}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 19.0, "std": 6.5},
+        "theta_4_8hz": {"mean": 12.0, "std": 4.5},
+        "alpha_8_13hz": {"mean": 13.0, "std": 5.0},
+        "beta_13_30hz": {"mean": 7.0, "std": 3.0},
+        "gamma_30_100hz": {"mean": 3.0, "std": 1.5}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.92, "std": 0.30},
+        "spectral_entropy": {"mean": 0.62, "std": 0.10},
+        "alpha_peak_freq_hz": {"mean": 8.8, "std": 1.1}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.4, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.5, "std": 0.5},
+        "hippocampus": {"mean": -0.3, "std": 0.5},
+        "amygdala": {"mean": -0.2, "std": 0.4},
+        "motor_cortex": {"mean": -0.5, "std": 0.5},
+        "cerebellum": {"mean": -0.3, "std": 0.4},
+        "thalamus": {"mean": -0.4, "std": 0.45},
+        "basal_ganglia": {"mean": -1.2, "std": 0.6}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.30, "std": 0.14},
+        "hipp_amyg": {"mean": 0.38, "std": 0.12},
+        "motor_bg": {"mean": 0.20, "std": 0.12},
+        "thal_cortical": {"mean": 0.28, "std": 0.13}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 25.0, "std": 15.0, "min": 3, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 130.0, "std": 55.0, "min": 10},
+        "bdnf_ng_ml": {"mean": 14.0, "std": 6.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.07, "std": 0.03, "min": 0.01},
+        "crp_mg_l": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 1.8, "std": 1.0, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 950, "std": 230, "min": 200},
+        "total_tau_pg_ml": {"mean": 320, "std": 120, "min": 60},
+        "p_tau181_pg_ml": {"mean": 28, "std": 12, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 1800, "std": 800, "min": 200}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.4, "std": 0.9}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 24.0, "std": 4.0, "min": 8, "max": 30},
+        "moca": {"mean": 21.0, "std": 5.0, "min": 5, "max": 30},
+        "hamilton_depression": {"mean": 14.0, "std": 7.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 20.0, "std": 12.0, "min": 2, "max": 132}
+      }
+    },
+    "traumatic_brain_injury": {
+      "code": "TBI",
+      "prevalence_weight": 0.07,
+      "demographics": {
+        "age": {"mean": 38, "std": 16, "min": 18, "max": 80},
+        "sex_female_prob": 0.35,
+        "bmi": {"mean": 27.0, "std": 5.0, "min": 16, "max": 50}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 22.0, "std": 8.0},
+        "theta_4_8hz": {"mean": 13.0, "std": 5.0},
+        "alpha_8_13hz": {"mean": 12.0, "std": 5.0},
+        "beta_13_30hz": {"mean": 9.0, "std": 4.0},
+        "gamma_30_100hz": {"mean": 4.0, "std": 2.0}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 1.1, "std": 0.35},
+        "spectral_entropy": {"mean": 0.60, "std": 0.11},
+        "alpha_peak_freq_hz": {"mean": 8.8, "std": 1.3}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.5, "std": 0.6},
+        "prefrontal_cortex": {"mean": -0.6, "std": 0.6},
+        "hippocampus": {"mean": -0.4, "std": 0.5},
+        "amygdala": {"mean": 0.2, "std": 0.5},
+        "motor_cortex": {"mean": -0.2, "std": 0.4},
+        "cerebellum": {"mean": -0.2, "std": 0.4},
+        "thalamus": {"mean": -0.4, "std": 0.5},
+        "basal_ganglia": {"mean": -0.2, "std": 0.4}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.28, "std": 0.15},
+        "hipp_amyg": {"mean": 0.35, "std": 0.14},
+        "motor_bg": {"mean": 0.35, "std": 0.12},
+        "thal_cortical": {"mean": 0.30, "std": 0.14}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 45.0, "std": 30.0, "min": 5, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 250.0, "std": 120.0, "min": 15},
+        "bdnf_ng_ml": {"mean": 18.0, "std": 8.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.20, "std": 0.12, "min": 0.02},
+        "crp_mg_l": {"mean": 4.0, "std": 3.0, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 4.0, "std": 3.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 3.0, "std": 2.0, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 900, "std": 280, "min": 150},
+        "total_tau_pg_ml": {"mean": 450, "std": 200, "min": 80},
+        "p_tau181_pg_ml": {"mean": 35, "std": 15, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 2500, "std": 1200, "min": 200}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.0, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 25.0, "std": 4.0, "min": 10, "max": 30},
+        "moca": {"mean": 23.0, "std": 4.5, "min": 8, "max": 30},
+        "hamilton_depression": {"mean": 12.0, "std": 6.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 4.0, "std": 3.0, "min": 0, "max": 132}
+      }
+    },
+    "ischemic_stroke": {
+      "code": "IS",
+      "prevalence_weight": 0.07,
+      "demographics": {
+        "age": {"mean": 68, "std": 12, "min": 35, "max": 95},
+        "sex_female_prob": 0.45,
+        "bmi": {"mean": 28.5, "std": 5.0, "min": 17, "max": 50}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 24.0, "std": 8.0},
+        "theta_4_8hz": {"mean": 14.0, "std": 5.0},
+        "alpha_8_13hz": {"mean": 11.0, "std": 5.0},
+        "beta_13_30hz": {"mean": 8.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 3.5, "std": 1.8}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 1.3, "std": 0.45},
+        "spectral_entropy": {"mean": 0.55, "std": 0.12},
+        "alpha_peak_freq_hz": {"mean": 8.2, "std": 1.4}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.6, "std": 0.6},
+        "prefrontal_cortex": {"mean": -0.5, "std": 0.5},
+        "hippocampus": {"mean": -0.4, "std": 0.5},
+        "amygdala": {"mean": -0.1, "std": 0.4},
+        "motor_cortex": {"mean": -0.7, "std": 0.6},
+        "cerebellum": {"mean": -0.3, "std": 0.4},
+        "thalamus": {"mean": -0.5, "std": 0.5},
+        "basal_ganglia": {"mean": -0.4, "std": 0.5}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.25, "std": 0.15},
+        "hipp_amyg": {"mean": 0.32, "std": 0.14},
+        "motor_bg": {"mean": 0.25, "std": 0.13},
+        "thal_cortical": {"mean": 0.28, "std": 0.14}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 55.0, "std": 35.0, "min": 5, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 300.0, "std": 150.0, "min": 20},
+        "bdnf_ng_ml": {"mean": 16.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.25, "std": 0.15, "min": 0.02},
+        "crp_mg_l": {"mean": 5.0, "std": 4.0, "min": 0.2, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 5.0, "std": 4.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 3.5, "std": 2.0, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 850, "std": 280, "min": 150},
+        "total_tau_pg_ml": {"mean": 500, "std": 220, "min": 80},
+        "p_tau181_pg_ml": {"mean": 30, "std": 14, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 2800, "std": 1300, "min": 250}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.30,
+        "polygenic_risk_score": {"mean": 0.3, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 23.0, "std": 5.0, "min": 5, "max": 30},
+        "moca": {"mean": 20.0, "std": 5.5, "min": 3, "max": 30},
+        "hamilton_depression": {"mean": 10.0, "std": 6.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 8.0, "std": 6.0, "min": 0, "max": 132}
+      }
+    },
+    "schizophrenia": {
+      "code": "SZ",
+      "prevalence_weight": 0.07,
+      "demographics": {
+        "age": {"mean": 38, "std": 12, "min": 18, "max": 70},
+        "sex_female_prob": 0.45,
+        "bmi": {"mean": 29.0, "std": 5.5, "min": 17, "max": 55}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 17.0, "std": 6.0},
+        "theta_4_8hz": {"mean": 10.0, "std": 4.0},
+        "alpha_8_13hz": {"mean": 14.0, "std": 5.5},
+        "beta_13_30hz": {"mean": 8.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 3.0, "std": 1.5}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.72, "std": 0.22},
+        "spectral_entropy": {"mean": 0.65, "std": 0.10},
+        "alpha_peak_freq_hz": {"mean": 9.5, "std": 1.0}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": 0.4, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.7, "std": 0.6},
+        "hippocampus": {"mean": -0.4, "std": 0.5},
+        "amygdala": {"mean": 0.3, "std": 0.5},
+        "motor_cortex": {"mean": -0.1, "std": 0.4},
+        "cerebellum": {"mean": -0.2, "std": 0.4},
+        "thalamus": {"mean": 0.3, "std": 0.5},
+        "basal_ganglia": {"mean": -0.1, "std": 0.4}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.55, "std": 0.15},
+        "hipp_amyg": {"mean": 0.42, "std": 0.13},
+        "motor_bg": {"mean": 0.38, "std": 0.11},
+        "thal_cortical": {"mean": 0.50, "std": 0.14}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 14.0, "std": 8.0, "min": 1, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 90.0, "std": 40.0, "min": 5},
+        "bdnf_ng_ml": {"mean": 15.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.08, "std": 0.04, "min": 0.01},
+        "crp_mg_l": {"mean": 3.5, "std": 3.0, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 3.0, "std": 2.5, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.5, "std": 1.5, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1050, "std": 230, "min": 200},
+        "total_tau_pg_ml": {"mean": 230, "std": 85, "min": 50},
+        "p_tau181_pg_ml": {"mean": 23, "std": 9, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 680, "std": 280, "min": 100}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.7, "std": 0.9}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 26.0, "std": 3.5, "min": 12, "max": 30},
+        "moca": {"mean": 23.0, "std": 4.0, "min": 10, "max": 30},
+        "hamilton_depression": {"mean": 10.0, "std": 6.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 4.0, "std": 3.0, "min": 0, "max": 132}
+      }
+    },
+    "bipolar_disorder": {
+      "code": "BD",
+      "prevalence_weight": 0.07,
+      "demographics": {
+        "age": {"mean": 40, "std": 13, "min": 18, "max": 75},
+        "sex_female_prob": 0.55,
+        "bmi": {"mean": 28.5, "std": 5.5, "min": 16, "max": 55}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 16.0, "std": 5.5},
+        "theta_4_8hz": {"mean": 9.5, "std": 3.5},
+        "alpha_8_13hz": {"mean": 16.0, "std": 6.0},
+        "beta_13_30hz": {"mean": 13.0, "std": 4.5},
+        "gamma_30_100hz": {"mean": 5.5, "std": 2.5}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.60, "std": 0.20},
+        "spectral_entropy": {"mean": 0.70, "std": 0.09},
+        "alpha_peak_freq_hz": {"mean": 10.0, "std": 1.0}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": 0.3, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.4, "std": 0.5},
+        "hippocampus": {"mean": -0.1, "std": 0.45},
+        "amygdala": {"mean": 0.6, "std": 0.5},
+        "motor_cortex": {"mean": 0.0, "std": 0.35},
+        "cerebellum": {"mean": 0.0, "std": 0.35},
+        "thalamus": {"mean": 0.2, "std": 0.4},
+        "basal_ganglia": {"mean": 0.0, "std": 0.35}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.48, "std": 0.14},
+        "hipp_amyg": {"mean": 0.52, "std": 0.12},
+        "motor_bg": {"mean": 0.40, "std": 0.11},
+        "thal_cortical": {"mean": 0.42, "std": 0.12}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 13.0, "std": 7.0, "min": 1, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 85.0, "std": 35.0, "min": 5},
+        "bdnf_ng_ml": {"mean": 17.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.06, "std": 0.03, "min": 0.01},
+        "crp_mg_l": {"mean": 2.5, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.5, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.0, "std": 1.2, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1080, "std": 210, "min": 200},
+        "total_tau_pg_ml": {"mean": 235, "std": 85, "min": 50},
+        "p_tau181_pg_ml": {"mean": 23, "std": 9, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 640, "std": 260, "min": 100}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.5, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 27.5, "std": 2.0, "min": 20, "max": 30},
+        "moca": {"mean": 25.5, "std": 2.5, "min": 18, "max": 30},
+        "hamilton_depression": {"mean": 15.0, "std": 8.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 3.0, "std": 2.5, "min": 0, "max": 132}
+      }
+    },
+    "autism_spectrum_disorder": {
+      "code": "ASD",
+      "prevalence_weight": 0.05,
+      "demographics": {
+        "age": {"mean": 25, "std": 12, "min": 5, "max": 65},
+        "sex_female_prob": 0.25,
+        "bmi": {"mean": 26.0, "std": 5.5, "min": 15, "max": 50}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 16.0, "std": 6.0},
+        "theta_4_8hz": {"mean": 10.0, "std": 4.0},
+        "alpha_8_13hz": {"mean": 13.0, "std": 5.5},
+        "beta_13_30hz": {"mean": 11.0, "std": 4.0},
+        "gamma_30_100hz": {"mean": 7.0, "std": 3.0}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.77, "std": 0.25},
+        "spectral_entropy": {"mean": 0.70, "std": 0.10},
+        "alpha_peak_freq_hz": {"mean": 9.5, "std": 1.2}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.3, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.2, "std": 0.5},
+        "hippocampus": {"mean": 0.1, "std": 0.45},
+        "amygdala": {"mean": 0.4, "std": 0.5},
+        "motor_cortex": {"mean": 0.1, "std": 0.4},
+        "cerebellum": {"mean": 0.2, "std": 0.4},
+        "thalamus": {"mean": 0.2, "std": 0.4},
+        "basal_ganglia": {"mean": 0.0, "std": 0.35}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.30, "std": 0.15},
+        "hipp_amyg": {"mean": 0.35, "std": 0.14},
+        "motor_bg": {"mean": 0.38, "std": 0.12},
+        "thal_cortical": {"mean": 0.38, "std": 0.13}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 10.0, "std": 5.0, "min": 1, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 75.0, "std": 30.0, "min": 5},
+        "bdnf_ng_ml": {"mean": 22.0, "std": 8.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.07, "std": 0.03, "min": 0.01},
+        "crp_mg_l": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.5, "std": 2.0, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 2.0, "std": 1.2, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 1100, "std": 200, "min": 200},
+        "total_tau_pg_ml": {"mean": 200, "std": 75, "min": 50},
+        "p_tau181_pg_ml": {"mean": 20, "std": 8, "min": 5},
+        "nfl_csf_pg_ml": {"mean": 550, "std": 220, "min": 100}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.25,
+        "polygenic_risk_score": {"mean": 0.6, "std": 1.0}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 28.0, "std": 2.0, "min": 20, "max": 30},
+        "moca": {"mean": 26.0, "std": 3.0, "min": 15, "max": 30},
+        "hamilton_depression": {"mean": 8.0, "std": 5.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 3.0, "std": 2.5, "min": 0, "max": 132}
+      }
+    },
+    "mild_cognitive_impairment": {
+      "code": "MCI",
+      "prevalence_weight": 0.04,
+      "demographics": {
+        "age": {"mean": 70, "std": 8, "min": 55, "max": 92},
+        "sex_female_prob": 0.55,
+        "bmi": {"mean": 26.0, "std": 4.0, "min": 16, "max": 45}
+      },
+      "eeg_power_spectral": {
+        "delta_1_4hz": {"mean": 18.0, "std": 6.0},
+        "theta_4_8hz": {"mean": 11.0, "std": 4.0},
+        "alpha_8_13hz": {"mean": 16.0, "std": 5.5},
+        "beta_13_30hz": {"mean": 10.0, "std": 3.5},
+        "gamma_30_100hz": {"mean": 4.0, "std": 1.8}
+      },
+      "eeg_derived": {
+        "theta_alpha_ratio": {"mean": 0.69, "std": 0.20},
+        "spectral_entropy": {"mean": 0.68, "std": 0.09},
+        "alpha_peak_freq_hz": {"mean": 9.5, "std": 1.0}
+      },
+      "fmri_bold": {
+        "default_mode_network": {"mean": -0.3, "std": 0.5},
+        "prefrontal_cortex": {"mean": -0.2, "std": 0.45},
+        "hippocampus": {"mean": -0.5, "std": 0.5},
+        "amygdala": {"mean": -0.1, "std": 0.4},
+        "motor_cortex": {"mean": 0.0, "std": 0.35},
+        "cerebellum": {"mean": 0.0, "std": 0.35},
+        "thalamus": {"mean": -0.1, "std": 0.4},
+        "basal_ganglia": {"mean": -0.1, "std": 0.35}
+      },
+      "fmri_connectivity": {
+        "dmn_pfcx": {"mean": 0.35, "std": 0.13},
+        "hipp_amyg": {"mean": 0.38, "std": 0.12},
+        "motor_bg": {"mean": 0.38, "std": 0.10},
+        "thal_cortical": {"mean": 0.38, "std": 0.12}
+      },
+      "blood_biomarkers": {
+        "nfl_pg_ml": {"mean": 20.0, "std": 10.0, "min": 2, "distribution": "lognormal"},
+        "gfap_pg_ml": {"mean": 130.0, "std": 50.0, "min": 8},
+        "bdnf_ng_ml": {"mean": 20.0, "std": 7.0, "min": 1},
+        "s100b_ug_l": {"mean": 0.07, "std": 0.03, "min": 0.01},
+        "crp_mg_l": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "il6_pg_ml": {"mean": 2.0, "std": 1.5, "min": 0.1, "distribution": "lognormal"},
+        "tnf_alpha_pg_ml": {"mean": 1.5, "std": 1.0, "min": 0.1}
+      },
+      "csf_biomarkers": {
+        "amyloid_beta42_pg_ml": {"mean": 800, "std": 250, "min": 150},
+        "total_tau_pg_ml": {"mean": 380, "std": 140, "min": 70},
+        "p_tau181_pg_ml": {"mean": 45, "std": 18, "min": 8},
+        "nfl_csf_pg_ml": {"mean": 900, "std": 380, "min": 120}
+      },
+      "genomic": {
+        "apoe_e4_carrier_prob": 0.45,
+        "polygenic_risk_score": {"mean": 0.9, "std": 0.85}
+      },
+      "clinical_scores": {
+        "mmse": {"mean": 25.0, "std": 2.5, "min": 18, "max": 30},
+        "moca": {"mean": 22.0, "std": 3.0, "min": 14, "max": 30},
+        "hamilton_depression": {"mean": 6.0, "std": 4.0, "min": 0, "max": 52},
+        "updrs_motor": {"mean": 4.0, "std": 3.0, "min": 0, "max": 132}
+      }
+    }
+  }
+}

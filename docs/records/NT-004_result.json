@@ -1,0 +1,174 @@
+{
+  "experiment_id": "NT-004",
+  "date": "2026-10-31",
+  "revision": "variance-selected (max 2000 features)",
+  "cross_platform_note": "Cross-platform gene-ID namespaces incompatible: gene symbols (GSE119262), Illumina probes (GSE26927), GenBank IDs (GSE15222), Affymetrix probes (GSE5281/GSE30174). Only same-platform pairs share IDs.",
+  "parameters": {
+    "seed": 2026,
+    "species": "human",
+    "regime": "data-driven (all series >=30 samples)",
+    "max_features": 2000,
+    "n_features_used": 2000,
+    "series_used": [
+      "GSE5281",
+      "GSE30174"
+    ],
+    "series_programs": {
+      "GSE5281": "neurodegeneration",
+      "GSE30174": "drug_response"
+    },
+    "n_series": 2,
+    "total_pairs": 121,
+    "pair_counts": {
+      "GSE5281": 81,
+      "GSE30174": 40
+    },
+    "p_n_ratio": 16.53,
+    "latent_dim": 16,
+    "feature_selection": "top variance across pooled samples"
+  },
+  "arm_a_single_series": {
+    "model": "LinearVAE",
+    "latent_dim": 16,
+    "n_params": 98032,
+    "epochs": 300,
+    "val": {
+      "mse": 0.772106,
+      "pearson_r": 0.894213
+    },
+    "test": {
+      "mse": 0.758778,
+      "pearson_r": 0.878975
+    },
+    "series": "GSE5281",
+    "n_pairs": 81,
+    "criteria": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "detail": "model=0.772106 vs mean=0.831406"
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "detail": "model=0.772106 vs shift=0.831406"
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "detail": "model_r=0.8942 vs 0.3"
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "detail": "model_r=0.8942 vs mean_r=0.8854"
+      }
+    ],
+    "verdict": "met",
+    "baselines": {
+      "mean_baseline": {
+        "val": {
+          "mse": 0.831406,
+          "pearson_r": 0.885436
+        },
+        "test": {
+          "mse": 0.963244,
+          "pearson_r": 0.855767
+        }
+      },
+      "linear_shift": {
+        "val": {
+          "mse": 0.831406,
+          "pearson_r": 0.885436
+        },
+        "test": {
+          "mse": 0.963244,
+          "pearson_r": 0.855767
+        }
+      },
+      "permutation": {
+        "val": {
+          "mse": 1.561766,
+          "pearson_r": 0.801426
+        },
+        "test": {
+          "mse": 1.795602,
+          "pearson_r": 0.745728
+        }
+      }
+    }
+  },
+  "arm_b_multi_series_pooled": {
+    "model": "LinearVAE",
+    "latent_dim": 16,
+    "n_params": 98032,
+    "epochs": 300,
+    "val": {
+      "mse": 0.647627,
+      "pearson_r": 0.946746
+    },
+    "test": {
+      "mse": 0.776416,
+      "pearson_r": 0.91478
+    },
+    "n_series": 2,
+    "n_pairs": 121,
+    "criteria": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "detail": "model=0.647627 vs mean=5.047125"
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "detail": "model=0.647627 vs shift=0.784075"
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "detail": "model_r=0.9467 vs 0.3"
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "detail": "model_r=0.9467 vs mean_r=0.4465"
+      }
+    ],
+    "verdict": "met",
+    "baselines": {
+      "mean_baseline": {
+        "val": {
+          "mse": 5.047125,
+          "pearson_r": 0.446518
+        },
+        "test": {
+          "mse": 3.646018,
+          "pearson_r": 0.554422
+        }
+      },
+      "linear_shift": {
+        "val": {
+          "mse": 0.784075,
+          "pearson_r": 0.935279
+        },
+        "test": {
+          "mse": 1.07209,
+          "pearson_r": 0.886671
+        }
+      },
+      "permutation": {
+        "val": {
+          "mse": 10.086282,
+          "pearson_r": 0.223441
+        },
+        "test": {
+          "mse": 11.818651,
+          "pearson_r": 0.01031
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 10.0,
+  "record_hash": "045fc3f8c07e45e55cb35e0a732e5a3c841ca5c23f0c44283b98f9aeeffd26a9"
+}

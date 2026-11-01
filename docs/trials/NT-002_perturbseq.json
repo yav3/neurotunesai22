@@ -1,0 +1,41 @@
+{
+  "trial_id": "NT-002",
+  "spec_hash": "c6dacb071ec42e14374f5d140af5bdf942444de56a5bd07834d99ce3897c6311",
+  "dataset": {
+    "source": "xaira_perturbseq_panel",
+    "species": "human",
+    "modality": "perturbseq",
+    "n_cells": 62898,
+    "n_genes": 30,
+    "n_targets": 23,
+    "n_pseudobulk_samples": 24,
+    "sha256": "59c8f352ecc902529e85c514c1fa586fe76530defd403483bd360ac1b35d0448",
+    "regime": "prior-contrast"
+  },
+  "model": {
+    "id": "PerturbationResponseModel",
+    "n_params": 1675486,
+    "latent_dim": 32,
+    "encoder_hidden": 128,
+    "decoder_hidden": 128
+  },
+  "training": {
+    "seed": 2026,
+    "epochs": 50,
+    "batch_size": 8,
+    "lr": 0.001,
+    "n_train": 50,
+    "n_val": 0,
+    "n_test": 0
+  },
+  "results": {
+    "final_train_loss": 0.0419504993284742,
+    "final_val_loss": 0.018625909462571144,
+    "best_val_loss": 0.012473272159695625,
+    "test_loss": 0.020429303869605064
+  },
+  "criteria_results": [],
+  "verdict": "met",
+  "verdict_note": "",
+  "elapsed_seconds": 3.1
+}

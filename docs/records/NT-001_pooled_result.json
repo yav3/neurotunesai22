@@ -1,0 +1,75 @@
+{
+  "experiment_id": "NT-001-pooled",
+  "date": "2026-10-31",
+  "parameters": {
+    "seed": 2026,
+    "latent_dim": 32,
+    "epochs": 100,
+    "batch_size": 8,
+    "lr": 0.0005,
+    "n_genes": 38,
+    "n_pairs": 29,
+    "n_series": 2,
+    "accessions": [
+      "GSE119262",
+      "GSE201710"
+    ],
+    "species": "human",
+    "regime": "pooled-multi-series"
+  },
+  "arms": {
+    "model": {
+      "mse": 0.11606313288211823,
+      "pearson_r": 0.31578946113586426
+    },
+    "mean_baseline": {
+      "mse": 0.5270674228668213,
+      "pearson_r": 0.0
+    },
+    "linear_shift": {
+      "mse": 0.07670845836400986,
+      "pearson_r": 0.42105263471603394
+    },
+    "permutation": {
+      "mse": 3.558980941772461,
+      "pearson_r": 0.9473684430122375
+    }
+  },
+  "criteria": [
+    {
+      "criterion": "C1: Model MSE < mean-baseline MSE",
+      "met": true,
+      "detail": "model.mse=0.116063 < 0.527067"
+    },
+    {
+      "criterion": "C2: Model MSE < linear-shift MSE",
+      "met": false,
+      "detail": "model.mse=0.116063 < 0.0767085"
+    },
+    {
+      "criterion": "C3: Pearson r > 0.5",
+      "met": false,
+      "detail": "model.pearson_r=0.315789 > 0.5"
+    },
+    {
+      "criterion": "C4: Model r > mean-baseline r",
+      "met": true,
+      "detail": "model.pearson_r=0.315789 > 0"
+    }
+  ],
+  "verdict": "not_met",
+  "elapsed_seconds": 8.78,
+  "training_history": [
+    {
+      "epoch": 0,
+      "train_loss": 24.798879623413086,
+      "val_loss": 12.839736938476562
+    },
+    {
+      "epoch": 99,
+      "train_loss": 0.15629399319489798,
+      "val_loss": 0.14480654895305634
+    }
+  ],
+  "record_hash": "3cbbb644a6bba3194d868b3de95e3ee356bc5ee8cd8b8ab58f41264f6f3c5697"
+}
