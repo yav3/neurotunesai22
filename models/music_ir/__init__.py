@@ -72,6 +72,13 @@ __all__ = [
     "rocchio_expansion", "pseudo_relevance_expansion",
     "term_proximity", "term_cooccurrence_score", "mutual_info_expansion",
     "diversity_rerank", "retrieval_average_precision", "dcg", "ndcg",
+    "RankingFeatures", "RankingModel", "RankingResult",
+    "score_document", "rank_documents",
+    "pairwise_loss", "pairwise_gradient", "listwise_softmax_loss", "listwise_gradient",
+    "ndcg_gain", "ltr_dcg_at_k", "ltr_ndcg_at_k",
+    "lambda_weight", "lambdarank_gradients", "train_step", "init_model",
+    "feature_importance", "ltr_mean_reciprocal_rank",
+    "ltr_precision_at_k", "ltr_recall_at_k", "ltr_average_precision",
 ]
 
 from .query_expansion import (
@@ -113,4 +120,14 @@ from .bm25_retrieval import (
     rocchio_expansion, pseudo_relevance_expansion,
     term_proximity, term_cooccurrence_score, mutual_info_expansion,
     diversity_rerank, retrieval_average_precision, dcg, ndcg,
+)
+from .learning_to_rank import (
+    RankingFeatures, RankingModel, RankingResult,
+    score_document, rank_documents,
+    pairwise_loss, pairwise_gradient, listwise_softmax_loss, listwise_gradient,
+    ndcg_gain, dcg_at_k as ltr_dcg_at_k, ndcg_at_k as ltr_ndcg_at_k,
+    lambda_weight, lambdarank_gradients, train_step, init_model,
+    feature_importance, mean_reciprocal_rank as ltr_mean_reciprocal_rank,
+    precision_at_k as ltr_precision_at_k, recall_at_k as ltr_recall_at_k,
+    average_precision as ltr_average_precision,
 )

@@ -73,6 +73,12 @@ __all__ = [
     "SpectrogramTile", "spectrogram_tiles",
     "ColorMapping", "feature_to_color",
     "CameraKeyframe", "camera_path",
+    "ClefType", "StemDirection", "LayoutNote", "StaffSpec", "BeamGroup",
+    "BoundingBox", "PageBreak",
+    "midi_to_staff_y", "auto_stem_direction", "note_spacing", "measure_width",
+    "system_line_break", "page_breaks", "beam_groups_from_beats",
+    "note_bounding_box", "detect_collisions", "resolve_collisions",
+    "staff_system_height", "ledger_line_count", "optimal_clef",
 ]
 
 from .waveform_display import (
@@ -156,4 +162,12 @@ from .animation_data import (
     SpectrogramTile, spectrogram_tiles,
     ColorMapping, feature_to_color,
     CameraKeyframe, camera_path,
+)
+from .score_layout import (
+    ClefType, StemDirection, LayoutNote, StaffSpec, BeamGroup,
+    BoundingBox, PageBreak,
+    midi_to_staff_y, auto_stem_direction, note_spacing, measure_width,
+    system_line_break, page_breaks, beam_groups_from_beats,
+    note_bounding_box, detect_collisions, resolve_collisions,
+    staff_system_height, ledger_line_count, optimal_clef,
 )

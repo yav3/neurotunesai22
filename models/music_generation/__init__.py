@@ -152,3 +152,18 @@ from models.music_generation.neural_synthesis import (
     get_window, stft as ns_stft, istft as ns_istft,
     griffin_lim, overlap_add, mel_spectrogram_to_audio,
 )
+from models.music_generation.deep_generation import (
+    TransformerGenConfig, TransformerWeights, init_transformer_weights,
+    transformer_forward, temperature_sample as deep_temperature_sample,
+    nucleus_sample as deep_nucleus_sample, generate_sequence as deep_generate_sequence,
+    VAEConfig, vae_encode, reparameterize, vae_decode, kl_divergence, latent_interpolate,
+    CADENCE_TYPES, CHORD_TENSION, tension_arc as gen_tension_arc,
+    generate_tonal_plan, insert_cadences, modulate,
+    GrooveProfile, swing_groove, humanize, push_pull,
+    euclidean_rhythm as deep_euclidean_rhythm, rotate_pattern, polymetric_combine,
+    optimal_rotation, necklace_class,
+    augmentation, diminution, retrograde, inversion, retrograde_inversion,
+    transposition as motif_transposition, fragmentation, sequencing,
+    rhythmic_displacement, develop_motif,
+    GenerationResult, GenerationPipeline,
+)

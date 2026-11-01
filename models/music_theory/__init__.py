@@ -129,6 +129,15 @@ __all__ = [
     "tt_nebenverwandt", "tt_slide", "tt_hexpole", "TT_OPERATIONS",
     "tt_apply_path", "tt_tonnetz_coords", "tt_tonnetz_distance",
     "plr_distance", "tt_hexatonic_system", "octatonic_pool", "weitzmann_region", "GIS",
+    "TemperamentType", "TemperamentSpec", "TunIntervalQuality",
+    "JUST_RATIOS_MAJOR", "JUST_RATIOS_MINOR",
+    "SYNTONIC_COMMA_CENTS", "PYTHAGOREAN_COMMA_CENTS", "DIESIS_CENTS",
+    "ratio_to_cents", "cents_to_ratio_approx", "beat_frequency",
+    "equal_temperament_cents", "pythagorean_cents", "quarter_comma_meantone_cents",
+    "werckmeister_iii_cents", "kirnberger_iii_cents", "young_temperament_cents",
+    "vallotti_cents", "build_temperament", "deviation_from_equal",
+    "wolf_interval_cents", "key_color_profile", "compare_temperaments",
+    "tun_interval_quality", "temperament_spectrum",
 ]
 
 from .counterpoint import (
@@ -206,4 +215,31 @@ from .transformational_theory import (
     tonnetz_coords as tt_tonnetz_coords, tonnetz_distance as tt_tonnetz_distance,
     plr_distance, hexatonic_system as tt_hexatonic_system,
     octatonic_pool, weitzmann_region, GIS,
+)
+from .tuning_temperament import (
+    TemperamentType, TemperamentSpec,
+    IntervalQuality as TunIntervalQuality,
+    JUST_RATIOS_MAJOR, JUST_RATIOS_MINOR,
+    SYNTONIC_COMMA_CENTS, PYTHAGOREAN_COMMA_CENTS, DIESIS_CENTS,
+    ratio_to_cents, cents_to_ratio_approx, beat_frequency,
+    equal_temperament_cents, pythagorean_cents, quarter_comma_meantone_cents,
+    werckmeister_iii_cents, kirnberger_iii_cents, young_temperament_cents,
+    vallotti_cents, build_temperament, deviation_from_equal,
+    wolf_interval_cents, key_color_profile, compare_temperaments,
+    interval_quality as tun_interval_quality, temperament_spectrum,
+)
+from .deep_theory import (
+    parallel as dt_parallel, relative as dt_relative,
+    leading_tone as dt_leading_tone, neo_riemannian_distance,
+    to_pc_set, interval_class_vector, transpose_set, invert_set,
+    normal_order, prime_form, z_related,
+    maximal_evenness, is_well_formed, myhill_property,
+    voice_leading_distance, smooth_voice_leading,
+    gis_interval, gis_transpose, gis_inversion, interval_function,
+    TRIAD_TYPES, ROMAN, roman_numeral,
+    FUNCTION_MAP, harmonic_function, functional_distance,
+    generated_scale, propriety,
+    equal_temperament as dt_equal_temperament,
+    pythagorean_tuning, meantone_tuning, cent_deviation, beating_rate,
+    DeepTheoryAnalysis, analyze_theory_deep,
 )

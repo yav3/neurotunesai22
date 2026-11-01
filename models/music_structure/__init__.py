@@ -76,6 +76,13 @@ __all__ = [
     "classify_form", "sonata_form_likelihood", "verse_chorus_likelihood",
     "golden_ratio_position", "climax_proximity_to_golden_ratio",
     "arch_form_score", "palindrome_score", "energy_trajectory", "analyze_form",
+    "Pattern", "PatternStats",
+    "build_suffix_array", "lcp_array", "find_repeated_substrings",
+    "maximum_repeating_pattern", "pd_coverage_ratio",
+    "compression_distance", "normalized_compression_distance",
+    "tandem_repeat_finder", "string_match_positions",
+    "pd_interval_sequence", "pd_contour_sequence",
+    "pd_pattern_stats", "pd_discover_patterns",
 ]
 
 from models.music_structure.novelty_curve import (
@@ -131,4 +138,31 @@ from models.music_structure.form_analysis import (
     golden_ratio_position, climax_proximity_to_golden_ratio,
     arch_form_score, palindrome_score,
     energy_trajectory, analyze_form,
+)
+from models.music_structure.pattern_discovery import (
+    Pattern, PatternStats,
+    build_suffix_array, lcp_array, find_repeated_substrings,
+    maximum_repeating_pattern, coverage_ratio as pd_coverage_ratio,
+    compression_distance, normalized_compression_distance,
+    tandem_repeat_finder, string_match_positions,
+    interval_sequence as pd_interval_sequence,
+    contour_sequence as pd_contour_sequence,
+    pattern_stats as pd_pattern_stats,
+    discover_patterns as pd_discover_patterns,
+)
+from models.music_structure.deep_structure import (
+    gpr_proximity, gpr_change, mpr_regularity, gttm_grouping_score,
+    ssm_from_features, checkerboard_kernel as deep_checkerboard_kernel,
+    ssm_novelty, hierarchical_segment,
+    FORM_TEMPLATES, section_similarity, label_sections as deep_label_sections,
+    classify_form as deep_classify_form,
+    lempel_ziv_complexity as deep_lz_complexity, information_rate,
+    compression_ratio as deep_compression_ratio,
+    ProlongNode, tension_at_boundary, build_prolongation_tree,
+    tree_depth, tree_branching,
+    transition_energy_change, transition_smoothness, transition_quality,
+    smith_waterman as deep_smith_waterman, repetition_matrix, repetition_fraction,
+    section_transition_probs, boundary_surprise, entropy_rate_sections,
+    ROLE_PROFILES, classify_section_role, assign_roles,
+    DeepStructureAnalysis, analyze_structure_deep,
 )

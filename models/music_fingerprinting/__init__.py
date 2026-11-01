@@ -54,6 +54,11 @@ __all__ = [
     "ph_match_hashes", "find_offset",
     "tempo_invariant_hash", "ph_hash_similarity",
     "locality_sensitive_hash", "hash_database_search", "sub_fingerprint_sequence",
+    "IndexEntry", "SearchResult", "LSHConfig", "MinHashConfig",
+    "fpi_InvertedIndex", "fpi_LSHIndex",
+    "lsh_hash", "minhash_signature", "minhash_similarity",
+    "jaccard_similarity", "fpi_hamming_distance", "multi_probe_lsh",
+    "top_k_by_offset_histogram", "content_hash", "bit_sample_hash",
     "HashConfig", "FingerprintMatch", "HashDatabase",
     "sh_mel_frequencies", "sh_bark_scale_bands",
     "sh_compute_band_energies", "sh_energy_difference_hash",
@@ -135,4 +140,11 @@ from models.music_fingerprinting.perceptual_hash import (
     hash_similarity as ph_hash_similarity,
     locality_sensitive_hash, hash_database_search,
     sub_fingerprint_sequence,
+)
+from models.music_fingerprinting.fingerprint_index import (
+    IndexEntry, SearchResult, LSHConfig, MinHashConfig,
+    InvertedIndex as fpi_InvertedIndex, LSHIndex as fpi_LSHIndex,
+    lsh_hash, minhash_signature, minhash_similarity,
+    jaccard_similarity, hamming_distance as fpi_hamming_distance,
+    multi_probe_lsh, top_k_by_offset_histogram, content_hash, bit_sample_hash,
 )

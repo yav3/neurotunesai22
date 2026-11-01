@@ -87,6 +87,12 @@ __all__ = [
     "feedback_quality_score", "review_bias_detection",
     "bayesian_score_estimate", "rank_submissions",
     "calibration_factor", "detect_outlier_reviews",
+    "SyncStrategy", "ClockState", "JitterStats", "QuantizeConfig", "JamParticipant",
+    "ntp_offset", "ptp_offset", "audio_beacon_offset",
+    "optimal_buffer_depth", "jitter_buffer_delay", "jitter_statistics",
+    "packet_loss_interpolation", "latency_aware_quantize", "beat_align_to_master",
+    "round_trip_estimate", "session_latency_budget", "mix_remote_streams",
+    "dj_consensus_tempo", "network_score",
 ]
 
 from .live_coding import (
@@ -136,4 +142,12 @@ from .latency_compensation import (
     compensate_drift, packet_loss_concealment, sync_score,
     optimal_monitoring_latency, jitter_buffer_push, jitter_buffer_pull,
     jitter_buffer_level,
+)
+from .distributed_jam import (
+    SyncStrategy, ClockState, JitterStats, QuantizeConfig, JamParticipant,
+    ntp_offset, ptp_offset, audio_beacon_offset,
+    optimal_buffer_depth, jitter_buffer_delay, jitter_statistics,
+    packet_loss_interpolation, latency_aware_quantize, beat_align_to_master,
+    round_trip_estimate, session_latency_budget, mix_remote_streams,
+    consensus_tempo as dj_consensus_tempo, network_score,
 )

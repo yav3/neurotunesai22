@@ -198,3 +198,20 @@ from models.music_emotion.mixed_emotions import (
     interpolate_blends, emotion_trajectory as mixed_emotion_trajectory,
     vad_from_features, nearest_blend,
 )
+from models.music_emotion.deep_emotion import (
+    valence_arousal, vad_from_features as deep_vad_from_features,
+    thayer_quadrant as deep_thayer_quadrant,
+    circumplex_angle as deep_circumplex_angle,
+    PLUTCHIK_WHEEL, plutchik_intensity, plutchik_dyad as deep_plutchik_dyad,
+    emotion_from_va,
+    GEMS_FACTORS, GEMS_FEATURE_WEIGHTS, gems_profile, gems_dominant,
+    BRECVEMA, BRECVEMA_WEIGHTS, brecvema_activation,
+    tempo_arousal, mode_valence as deep_mode_valence,
+    loudness_arousal, pitch_height_valence, articulation_energy,
+    emotion_arc as deep_emotion_arc, emotion_contrast,
+    tension_release_curve, bittersweet_index, nostalgia_index,
+    mixed_emotion_vector,
+    predicted_heart_rate, predicted_skin_conductance, predicted_respiration_rate,
+    UNIVERSAL_RECOGNITION, cultural_modulation, cross_cultural_recognition,
+    DeepEmotionAnalysis, analyze_emotion_deep,
+)

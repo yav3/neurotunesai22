@@ -9,7 +9,12 @@ from .pretraining import (
     MultiTaskPretraining, CodebookDiversityLoss, TemporalOrderPrediction,
 )
 from .decoder import (
-    DecoderConfig, MusicDecoder, ReconstructionHead, GenerationHead,
+    DecoderConfig, SamplingConfig, KVCache, MusicDecoder,
+    ReconstructionHead, GenerationHead,
+    MaskedMultiHeadAttention, CrossAttention, TransformerDecoderLayer,
+    top_k_filter, top_p_filter, min_p_filter, typical_p_filter,
+    apply_repetition_penalty, sample_logits, BeamHypothesis, beam_search,
+    classifier_free_guidance,
 )
 from .tokenizer import (
     MusicCodebook, MusicTokenizer,
@@ -38,13 +43,19 @@ from .positional import (
 from .trainer import TrainerConfig, MusicTrainer, EarlyStopping, TrainingHistory
 from .inference import (
     InferenceConfig, InferenceResult, GenreHead, MoodHead, VADHead,
-    MusicInferencePipeline,
+    InstrumentHead, TempoHead, PlattCalibrator,
+    MusicInferencePipeline, EnsemblePipeline, EmbeddingIndex,
+    embedding_analogy, embedding_interpolate, estimate_uncertainty,
 )
 from .training import (
     TrainingConfig, TrainingMetrics, Trainer, cosine_lr, clip_gradients,
 )
 from .spectrogram import (
     SpectrogramEncoderConfig, SpectrogramEncoder, SpectrogramDecoder,
+    compute_stft, istft, griffin_lim, pcen,
+    compute_cqt, erb_scale, gammatone_filterbank, compute_gammatone_spectrogram,
+    multi_resolution_stft_loss, instantaneous_frequency, group_delay,
+    spec_augment,
 )
 from .conditioning import (
     ConditioningConfig, ConditioningModule, FiLMLayer,
@@ -67,11 +78,37 @@ from .frontier_model import (
 from .deep_trainer import (
     DeepTrainerConfig, DeepAudioDataset, DeepFrontierTrainer,
 )
+from .multistream_trainer import (
+    MultiStreamTrainerConfig, MultiStreamDataset, MultiStreamFeatureCache,
+    MultiStreamPretrainer, quick_multistream_train,
+)
+from .audio_codec import (
+    CodecConfig, AudioEncoder as CodecEncoder, AudioDecoder as CodecDecoder,
+    ResidualVectorQuantizer, NeuralAudioCodec, CodecTrainer,
+    spectral_convergence_loss, log_magnitude_loss, multi_scale_spectral_loss,
+    quick_codec_test,
+)
+from .generation import (
+    GenerationConfig, TokenSampler, AutoregressiveGenerator,
+    CFGGenerator, BeamSearchGenerator, MusicContinuation,
+    ConstrainedGenerator, generate_music_tokens,
+)
+from .source_separation import (
+    SeparationConfig, SourceSeparator, MaskEstimator, WienerFilter,
+    UNetSeparator, HarmonicPercussiveSeparation, RepetitionSeparation,
+    evaluate_bss,
+)
 from .evaluation import (
     RetrievalMetrics, ClassificationMetrics, EmbeddingMetrics, EvalReport,
     ModelEvaluator, evaluate_retrieval, evaluate_classification, evaluate_embeddings,
 )
-from .checkpoint import save_checkpoint, load_checkpoint, save_npz, load_npz
+from .checkpoint import (
+    save_checkpoint, load_checkpoint, save_npz, load_npz,
+    save_binary, load_binary, diff_params, apply_diff,
+    save_diff_checkpoint, average_checkpoints, exponential_average,
+    interpolate_params, param_stats, total_parameters, param_norm,
+    params_equal, CheckpointManager,
+)
 from .frontier_pipeline import (
     FrontierPipelineConfig, FrontierDataset, SpectrogramAugmenter,
     FrontierEvaluator, FrontierEvalResult, LinearProbe,

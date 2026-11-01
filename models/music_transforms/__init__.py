@@ -156,3 +156,13 @@ from models.music_transforms.spectral_morphing import (
     harmonic_matching, frequency_warping, spectral_blend,
     morph_sequence,
 )
+from models.music_transforms.deep_transforms import (
+    scattering_first_order, scattering_second_order, scattering_coefficients,
+    modulation_spectrogram, am_envelope, fm_instantaneous_freq,
+    nmf_multiplicative_update, nmf_reconstruct, nmf_reconstruction_error,
+    synchrosqueezed_cwt, sift, emd, hilbert_spectrum,
+    mel_filterbank as deep_mel_filterbank, mfcc as deep_mfcc, mfcc_delta as deep_mfcc_delta,
+    cqt_kernel as deep_cqt_kernel, cqt as deep_cqt,
+    cochleagram as deep_cochleagram, hpcp, cens,
+    DeepTransformAnalysis, analyze_transforms_deep,
+)
