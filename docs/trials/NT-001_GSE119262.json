@@ -1,0 +1,45 @@
+{
+  "trial_id": "NT-001",
+  "spec_hash": "19729935fb3bc9fedb1539d9f9642957d52c1a84306319146859c8c5290cada4",
+  "dataset": {
+    "accession": "GSE119262",
+    "species": "human",
+    "n_samples": 44,
+    "n_genes": 17183,
+    "n_control": 23,
+    "n_treated": 21,
+    "sha256": "c8ee578b9a26dcf92a0704830e3b0a0a9052c1b90a59f74b52f1388931b23e08",
+    "regime": "data-driven"
+  },
+  "model": {
+    "id": "PerturbationResponseModel",
+    "n_params": 10636383,
+    "latent_dim": 64,
+    "encoder_hidden": 256,
+    "decoder_hidden": 256
+  },
+  "training": {
+    "seed": 2026,
+    "epochs": 50,
+    "batch_size": 16,
+    "lr": 0.001,
+    "n_train": 15,
+    "n_val": 4,
+    "n_test": 2
+  },
+  "results": {
+    "final_train_loss": 0.5210548043251038,
+    "final_val_loss": 0.46957141160964966,
+    "best_val_loss": 0.46957141160964966,
+    "test_loss": 0.4508265554904938
+  },
+  "criteria_results": [
+    {
+      "criterion": "TrainingCriterion(metric='val_loss', op='<', threshold=2.0, versus=None, p_metric=None, alpha=0.05, description='')",
+      "met": true,
+      "detail": "model.val_loss=0.469571 < 2"
+    }
+  ],
+  "verdict": "met",
+  "elapsed_seconds": 3.2
+}

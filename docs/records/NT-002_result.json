@@ -1,0 +1,124 @@
+{
+  "experiment_id": "NT-002",
+  "date": "2026-10-31",
+  "parameters": {
+    "seed": 2026,
+    "max_genes": 50,
+    "n_genes_original": 17183,
+    "n_genes_subsetted": 50,
+    "n_samples": 44,
+    "n_pairs": 21,
+    "p_over_n": 2.38,
+    "accession": "GSE119262",
+    "species": "human",
+    "regime": "data-driven",
+    "dataset_sha256": "c8ee578b9a26dcf92a0704830e3b0a0a9052c1b90a59f74b52f1388931b23e08"
+  },
+  "baselines": {
+    "mean_baseline": {
+      "val": {
+        "mse": 4.08459,
+        "pearson_r": 0.418725
+      },
+      "test": {
+        "mse": 3.101676,
+        "pearson_r": 0.45821
+      }
+    },
+    "linear_shift": {
+      "val": {
+        "mse": 4.08459,
+        "pearson_r": 0.418725
+      },
+      "test": {
+        "mse": 3.101676,
+        "pearson_r": 0.45821
+      }
+    },
+    "permutation": {
+      "val": {
+        "mse": 5.788723,
+        "pearson_r": 0.310679
+      },
+      "test": {
+        "mse": 5.86769,
+        "pearson_r": 0.236253
+      }
+    }
+  },
+  "arm_a_ridge": {
+    "model": "RidgeCV",
+    "alpha_selected": 0.1,
+    "n_params": 2550,
+    "val": {
+      "mse": 4.084590435028076,
+      "pearson_r": 0.41872536539441874
+    },
+    "test": {
+      "mse": 3.1016757488250732,
+      "pearson_r": 0.4582100674913494
+    },
+    "criteria": [
+      {
+        "criterion": "C1: Model MSE < mean-baseline MSE",
+        "met": false,
+        "detail": "model=4.084590 vs mean=4.084590"
+      },
+      {
+        "criterion": "C2: Model MSE < linear-shift MSE",
+        "met": false,
+        "detail": "model=4.084590 vs shift=4.084590"
+      },
+      {
+        "criterion": "C3: Pearson r > 0.3",
+        "met": true,
+        "detail": "model_r=0.4187 vs 0.3"
+      },
+      {
+        "criterion": "C4: Model r > mean-baseline r",
+        "met": true,
+        "detail": "model_r=0.4187 vs mean_r=0.4187"
+      }
+    ],
+    "verdict": "not_met"
+  },
+  "arm_b_linear_vae": {
+    "model": "LinearVAE",
+    "latent_dim": 8,
+    "n_params": 1266,
+    "epochs": 200,
+    "val": {
+      "mse": 3.7740652561187744,
+      "pearson_r": 0.4709004645656248
+    },
+    "test": {
+      "mse": 2.913600206375122,
+      "pearson_r": 0.4979234059120562
+    },
+    "criteria": [
+      {
+        "criterion": "C1: Model MSE < mean-baseline MSE",
+        "met": true,
+        "detail": "model=3.774065 vs mean=4.084590"
+      },
+      {
+        "criterion": "C2: Model MSE < linear-shift MSE",
+        "met": true,
+        "detail": "model=3.774065 vs shift=4.084590"
+      },
+      {
+        "criterion": "C3: Pearson r > 0.3",
+        "met": true,
+        "detail": "model_r=0.4709 vs 0.3"
+      },
+      {
+        "criterion": "C4: Model r > mean-baseline r",
+        "met": true,
+        "detail": "model_r=0.4709 vs mean_r=0.4187"
+      }
+    ],
+    "verdict": "met"
+  },
+  "elapsed_seconds": 3.8,
+  "record_hash": "a943aeda5aa9d70518be9c60893fadcb61054474d9c01306e8a2ba7164ce652f"
+}

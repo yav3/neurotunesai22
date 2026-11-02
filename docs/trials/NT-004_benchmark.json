@@ -1,0 +1,58 @@
+{
+  "trial_id": "NT-004",
+  "spec_hash": "d27be739dc04843817e616f6382e06b04f7e1be44c30ca5a064ad7444cc82292",
+  "dataset": {
+    "source": "DREAM5_network1",
+    "species": "in_silico",
+    "modality": "benchmark",
+    "n_genes": 40,
+    "n_tfs": 15,
+    "n_samples": 805,
+    "n_true_edges": 5,
+    "n_false_edges": 471,
+    "sha256": "a0a807db1b98e82534183228f6cb5ab7d99459449d740637b4233b86d80eda1c"
+  },
+  "model": {
+    "id": "PerturbationResponseModel",
+    "n_params": 1816808,
+    "latent_dim": 32,
+    "encoder_hidden": 256,
+    "decoder_hidden": 256
+  },
+  "training": {
+    "seed": 2026,
+    "epochs": 80,
+    "batch_size": 32,
+    "lr": 0.0005,
+    "final_train_loss": 0.012591648122502698,
+    "final_val_loss": 0.011639551259577274,
+    "best_val_loss": 0.011250433201591173
+  },
+  "results": {
+    "model_auroc": 0.6743099787685775,
+    "model_auprc": 0.03832702106176461,
+    "model_precision_at_k": {
+      "10": 0.0,
+      "20": 0.05,
+      "50": 0.04,
+      "100": 0.02
+    },
+    "correlation_auroc": 0.7821656050955414,
+    "correlation_auprc": 0.30528255528255527,
+    "random_auroc": 0.44798301486199577
+  },
+  "criteria_results": [
+    {
+      "criterion": "TrainingCriterion(metric='auroc', op='>', threshold=0.55, versus=None, p_metric=None, alpha=0.05, description='AUROC > 0.55 (random baseline \u2248 0.50)')",
+      "met": true,
+      "detail": "model.auroc=0.67431 > 0.55"
+    },
+    {
+      "criterion": "TrainingCriterion(metric='auroc', op='>', threshold=None, versus='correlation', p_metric=None, alpha=0.05, description='Model AUROC beats correlation baseline')",
+      "met": false,
+      "detail": "model.auroc=0.67431 > 0.782166"
+    }
+  ],
+  "verdict": "not_met",
+  "elapsed_seconds": 8.6
+}

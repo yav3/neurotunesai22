@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-31",
+  "converter_version": "NT-004-data-layer",
+  "species": "human",
+  "datasets": [
+    {
+      "accession": "GSE15222",
+      "program": "neurodegeneration",
+      "n_genes": 24354,
+      "n_samples": 363,
+      "organism": "human",
+      "platform": "GPL2700",
+      "title": "Genetic control of human brain transcript expression in Alzheimer\u2019s disease.",
+      "output_file": "gse15222_neurodegeneration_full.csv",
+      "content_hash": "6baa7f57f71b333cb0c613cae5507f95b1980b53ced6916fe658ddcb17bbe709"
+    },
+    {
+      "accession": "GSE26927",
+      "program": "neurodegeneration",
+      "n_genes": 20589,
+      "n_samples": 118,
+      "organism": "human",
+      "platform": "GPL6255",
+      "title": "Common neuroinflammatory pathways in neurodegenerative diseases.",
+      "output_file": "gse26927_neurodegeneration_full.csv",
+      "content_hash": "1bcd64041954b0bc7c4584314b962acbf8d2a7c523db45d7268ceb9eef15c384"
+    },
+    {
+      "accession": "GSE30174",
+      "program": "drug_response",
+      "n_genes": 54675,
+      "n_samples": 80,
+      "organism": "human",
+      "platform": "GPL570",
+      "title": "Molecular-genetic correlates of fatigue in cancer patients receiving localized external beam radiation therapy",
+      "output_file": "gse30174_drug_response_full.csv",
+      "content_hash": "77d8d4bd6253a8bf4d45867dc8bd70c7f74488e8e86cd8f075e994f8ae320187"
+    },
+    {
+      "accession": "GSE5281",
+      "program": "neurodegeneration",
+      "n_genes": 54675,
+      "n_samples": 161,
+      "organism": "human",
+      "platform": "GPL570",
+      "title": "Alzheimer's disease and the normal aged brain (steph-affy-human-433773)",
+      "output_file": "gse5281_neurodegeneration_full.csv",
+      "content_hash": "9462a902d81182bd7138a239552d88a16d539c0cf78e12502e8265646c144f84"
+    }
+  ],
+  "total_datasets": 4,
+  "total_samples": 722,
+  "manifest_hash": "bfeee9a53a30a5a3c7bf9a6f54423c7edac8a2659e3b5aa28abf4401c1fb715e"
+}

@@ -1,0 +1,157 @@
+{
+  "experiment_id": "NT-003",
+  "date": "2026-10-31",
+  "parameters": {
+    "seed": 2026,
+    "n_genes_common": 9,
+    "pooling_note": "True multi-series pooling on 9 common genes. Single-series: 21 pairs. Pooled: 33 pairs.",
+    "species": "human",
+    "regime": "mixed (data-driven + prior-contrast)",
+    "series_used": [
+      "GSE119262",
+      "GSE107965",
+      "GSE201710"
+    ]
+  },
+  "arm_a_single_series": {
+    "model": "LinearVAE",
+    "latent_dim": 8,
+    "n_params": 241,
+    "epochs": 200,
+    "val": {
+      "mse": 0.10790804773569107,
+      "pearson_r": 0.9537311662251048
+    },
+    "test": {
+      "mse": 0.09251047670841217,
+      "pearson_r": 0.9552134973223678
+    },
+    "criteria": [
+      {
+        "criterion": "C1: Model MSE < mean-baseline MSE",
+        "met": false,
+        "detail": "model=0.107908 vs mean=0.044433"
+      },
+      {
+        "criterion": "C2: Model MSE < linear-shift MSE",
+        "met": false,
+        "detail": "model=0.107908 vs shift=0.044433"
+      },
+      {
+        "criterion": "C3: Pearson r > 0.3",
+        "met": true,
+        "detail": "model_r=0.9537 vs 0.3"
+      },
+      {
+        "criterion": "C4: Model r > mean-baseline r",
+        "met": false,
+        "detail": "model_r=0.9537 vs mean_r=0.9794"
+      }
+    ],
+    "verdict": "not_met",
+    "baselines": {
+      "mean_baseline": {
+        "val": {
+          "mse": 0.044433,
+          "pearson_r": 0.97937
+        },
+        "test": {
+          "mse": 0.063159,
+          "pearson_r": 0.975209
+        }
+      },
+      "linear_shift": {
+        "val": {
+          "mse": 0.044433,
+          "pearson_r": 0.97937
+        },
+        "test": {
+          "mse": 0.063159,
+          "pearson_r": 0.975209
+        }
+      },
+      "permutation": {
+        "val": {
+          "mse": 0.068128,
+          "pearson_r": 0.969508
+        },
+        "test": {
+          "mse": 0.111789,
+          "pearson_r": 0.949327
+        }
+      }
+    }
+  },
+  "arm_b_pooled_or_expanded": {
+    "model": "LinearVAE",
+    "latent_dim": 8,
+    "n_params": 241,
+    "epochs": 200,
+    "val": {
+      "mse": 0.22743502259254456,
+      "pearson_r": 0.9025685520003083
+    },
+    "test": {
+      "mse": 0.24343635141849518,
+      "pearson_r": 0.8983668918804579
+    },
+    "criteria": [
+      {
+        "criterion": "C1: Model MSE < mean-baseline MSE",
+        "met": true,
+        "detail": "model=0.227435 vs mean=0.328830"
+      },
+      {
+        "criterion": "C2: Model MSE < linear-shift MSE",
+        "met": true,
+        "detail": "model=0.227435 vs shift=0.328830"
+      },
+      {
+        "criterion": "C3: Pearson r > 0.3",
+        "met": true,
+        "detail": "model_r=0.9026 vs 0.3"
+      },
+      {
+        "criterion": "C4: Model r > mean-baseline r",
+        "met": true,
+        "detail": "model_r=0.9026 vs mean_r=0.8568"
+      }
+    ],
+    "verdict": "met",
+    "baselines": {
+      "mean_baseline": {
+        "val": {
+          "mse": 0.32883,
+          "pearson_r": 0.85683
+        },
+        "test": {
+          "mse": 0.326327,
+          "pearson_r": 0.869234
+        }
+      },
+      "linear_shift": {
+        "val": {
+          "mse": 0.32883,
+          "pearson_r": 0.85683
+        },
+        "test": {
+          "mse": 0.326327,
+          "pearson_r": 0.869234
+        }
+      },
+      "permutation": {
+        "val": {
+          "mse": 0.112131,
+          "pearson_r": 0.953898
+        },
+        "test": {
+          "mse": 0.443183,
+          "pearson_r": 0.836007
+        }
+      }
+    }
+  },
+  "data_scaling_finding": "Current committed data has only 1 in-regime series (GSE119262, 44 samples). The other 7 series are subsets with 4-28 samples and 25-56 genes \u2014 too small for data-driven regime and too few genes for meaningful cross-series pooling. Next step: download full expression matrices for the 745 candidate series identified in the GEO series catalog (NT-001_curated_series.json).",
+  "elapsed_seconds": 1.5,
+  "record_hash": "e333e2c4a040c9a56934dc263021c7583c9e4a6c1fab9996950b7b35e53b578c"
+}

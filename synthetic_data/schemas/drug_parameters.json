@@ -1,0 +1,499 @@
+{
+  "_metadata": {
+    "synthetic": true,
+    "version": "1.0.0",
+    "description": "Pharmacokinetic and pharmacodynamic parameters for synthetic longitudinal drug modeling. PK: 1-compartment models (oral with first-order absorption, IV bolus). PD: Emax sigmoid model E = Emax * C^gamma / (EC50^gamma + C^gamma). All values approximate published population PK/PD estimates — NOT fitted to any specific trial.",
+    "citation_note": "Parameters informed by published PopPK/PD models and FDA labels. Donepezil: Tiseo 1998, Rogers 1998; Memantine: Periclou 2006; Lecanemab: van Dyck 2023, Swanson 2021; Levodopa: Contin 2010; Pramipexole: Wright 1997; Fluoxetine: Altamura 1994; Venlafaxine: Troy 1997; Riluzole: Groeneveld 2003; Edaravone: Yoshino 2006; Levetiracetam: Patsalos 2004; Ocrelizumab: Hauser 2017.",
+    "pk_model_note": "Oral steady-state trough: Css_trough = (F * Dose * ka) / (Vd * (ka - ke)) * (e^(-ke*tau)/(1-e^(-ke*tau)) - e^(-ka*tau)/(1-e^(-ka*tau))). IV bolus: Css_trough = (Dose/Vd) * e^(-ke*tau) / (1 - e^(-ke*tau)). tau = dosing interval in hours.",
+    "iiv_note": "Interindividual variability (IIV) expressed as coefficient of variation (CV). Applied as multiplicative lognormal: theta_i = theta_pop * exp(eta_i), eta_i ~ N(0, omega^2), CV ≈ omega for small omega."
+  },
+  "drugs": {
+    "donepezil": {
+      "generic_name": "donepezil",
+      "brand_name": "Aricept",
+      "drug_class": "acetylcholinesterase_inhibitor",
+      "mechanism": "Reversible inhibition of acetylcholinesterase, increasing synaptic ACh in cortex and hippocampus",
+      "disease_state": "alzheimers_disease",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 10,
+        "frequency": "QD",
+        "doses_per_day": 1
+      },
+      "pk_parameters": {
+        "ka_per_hr": 0.5,
+        "ke_per_hr": 0.0099,
+        "half_life_hr": 70,
+        "vd_l_per_kg": 12.0,
+        "bioavailability": 1.0,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 3.5
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": 2.5,
+        "emax_unit": "mmse_points_increase",
+        "ec50_ng_ml": 15.0,
+        "hill_coefficient": 1.5
+      },
+      "target_biomarker": "mmse_score",
+      "pd_direction": "increase",
+      "interindividual_variability": {
+        "omega_ka": 0.30,
+        "omega_ke": 0.25,
+        "omega_vd": 0.20
+      },
+      "treatment_probability": 0.60,
+      "literature_references": [
+        "Tiseo PJ et al. Br J Clin Pharmacol 1998;46(Suppl 1):1-6",
+        "Rogers SL et al. Clin Pharmacol Ther 1998;63(1):46-56"
+      ]
+    },
+    "memantine": {
+      "generic_name": "memantine",
+      "brand_name": "Namenda",
+      "drug_class": "nmda_receptor_antagonist",
+      "mechanism": "Non-competitive NMDA receptor antagonist, reduces glutamate-mediated excitotoxicity",
+      "disease_state": "alzheimers_disease",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 20,
+        "frequency": "QD",
+        "doses_per_day": 1
+      },
+      "pk_parameters": {
+        "ka_per_hr": 0.3,
+        "ke_per_hr": 0.0087,
+        "half_life_hr": 80,
+        "vd_l_per_kg": 9.0,
+        "bioavailability": 1.0,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 6.0
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": 1.5,
+        "emax_unit": "mmse_points_increase",
+        "ec50_ng_ml": 100.0,
+        "hill_coefficient": 1.0
+      },
+      "target_biomarker": "mmse_score",
+      "pd_direction": "increase",
+      "interindividual_variability": {
+        "omega_ka": 0.35,
+        "omega_ke": 0.25,
+        "omega_vd": 0.30
+      },
+      "treatment_probability": 0.40,
+      "literature_references": [
+        "Periclou AP et al. J Clin Pharmacol 2006;46(12):1434-1448",
+        "Reisberg B et al. N Engl J Med 2003;348:1333-1341"
+      ]
+    },
+    "lecanemab": {
+      "generic_name": "lecanemab",
+      "brand_name": "Leqembi",
+      "drug_class": "anti_amyloid_monoclonal_antibody",
+      "mechanism": "Humanized IgG1 mAb targeting soluble amyloid-beta protofibrils, promoting clearance via Fc-mediated phagocytosis",
+      "disease_state": "alzheimers_disease",
+      "route": "iv",
+      "dosing": {
+        "amount_mg_per_kg": 10,
+        "frequency": "biweekly",
+        "interval_days": 14
+      },
+      "pk_parameters": {
+        "ke_per_hr": 0.003,
+        "half_life_hr": 231,
+        "vd_l_per_kg": 0.07,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 2.0
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": 150.0,
+        "emax_unit": "csf_abeta42_pg_ml_increase",
+        "ec50_ng_ml": 50000.0,
+        "hill_coefficient": 1.2
+      },
+      "target_biomarker": "csf_amyloid_beta42_pg_ml",
+      "pd_direction": "increase",
+      "interindividual_variability": {
+        "omega_ke": 0.30,
+        "omega_vd": 0.20
+      },
+      "treatment_probability": 0.20,
+      "literature_references": [
+        "van Dyck CH et al. N Engl J Med 2023;388:9-21",
+        "Swanson CJ et al. Alzheimers Res Ther 2021;13:80"
+      ]
+    },
+    "levodopa_carbidopa": {
+      "generic_name": "levodopa/carbidopa",
+      "brand_name": "Sinemet",
+      "drug_class": "dopamine_precursor",
+      "mechanism": "Levodopa crosses BBB and is decarboxylated to dopamine; carbidopa inhibits peripheral AADC to increase CNS bioavailability",
+      "disease_state": "parkinsons_disease",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 150,
+        "frequency": "TID",
+        "doses_per_day": 3
+      },
+      "pk_parameters": {
+        "ka_per_hr": 1.5,
+        "ke_per_hr": 0.69,
+        "half_life_hr": 1.0,
+        "vd_l_per_kg": 0.9,
+        "bioavailability": 0.30,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 0.75
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": -15.0,
+        "emax_unit": "updrs_motor_points_decrease",
+        "ec50_ng_ml": 1500.0,
+        "hill_coefficient": 2.0
+      },
+      "target_biomarker": "updrs_motor_score",
+      "pd_direction": "decrease",
+      "interindividual_variability": {
+        "omega_ka": 0.40,
+        "omega_ke": 0.30,
+        "omega_vd": 0.25
+      },
+      "treatment_probability": 0.75,
+      "literature_references": [
+        "Contin M, Martinelli P. Clin Pharmacokinet 2010;49(11):691-701",
+        "Nutt JG. Mov Disord 2008;23(Suppl 3):S580-S584"
+      ]
+    },
+    "pramipexole": {
+      "generic_name": "pramipexole",
+      "brand_name": "Mirapex",
+      "drug_class": "dopamine_agonist",
+      "mechanism": "Non-ergot D2/D3 dopamine receptor agonist with preferential D3 affinity in mesolimbic system",
+      "disease_state": "parkinsons_disease",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 1.0,
+        "frequency": "TID",
+        "doses_per_day": 3
+      },
+      "pk_parameters": {
+        "ka_per_hr": 0.8,
+        "ke_per_hr": 0.077,
+        "half_life_hr": 9.0,
+        "vd_l_per_kg": 7.0,
+        "bioavailability": 0.90,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 2.0
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": -7.0,
+        "emax_unit": "updrs_motor_points_decrease",
+        "ec50_ng_ml": 0.3,
+        "hill_coefficient": 1.5
+      },
+      "target_biomarker": "updrs_motor_score",
+      "pd_direction": "decrease",
+      "interindividual_variability": {
+        "omega_ka": 0.25,
+        "omega_ke": 0.20,
+        "omega_vd": 0.30
+      },
+      "treatment_probability": 0.45,
+      "literature_references": [
+        "Wright CE et al. Clin Pharmacol Ther 1997;62(5):580-590",
+        "Parkinson Study Group. JAMA 2000;284(15):1931-1938"
+      ]
+    },
+    "fluoxetine": {
+      "generic_name": "fluoxetine",
+      "brand_name": "Prozac",
+      "drug_class": "selective_serotonin_reuptake_inhibitor",
+      "mechanism": "Potent and selective inhibition of presynaptic serotonin (5-HT) reuptake transporter (SERT)",
+      "disease_state": "major_depressive_disorder",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 40,
+        "frequency": "QD",
+        "doses_per_day": 1
+      },
+      "pk_parameters": {
+        "ka_per_hr": 0.3,
+        "ke_per_hr": 0.014,
+        "half_life_hr": 50,
+        "vd_l_per_kg": 35.0,
+        "bioavailability": 0.72,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 6.0,
+        "active_metabolite": {
+          "name": "norfluoxetine",
+          "ke_per_hr": 0.0032,
+          "half_life_hr": 216,
+          "relative_potency": 0.8
+        }
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": -8.0,
+        "emax_unit": "hamilton_depression_points_decrease",
+        "ec50_ng_ml": 200.0,
+        "hill_coefficient": 1.5,
+        "onset_delay_weeks": 2,
+        "onset_note": "Clinical effect lags PK steady-state by 2-4 weeks due to 5-HT1A autoreceptor desensitization"
+      },
+      "target_biomarker": "hamilton_depression_score",
+      "pd_direction": "decrease",
+      "interindividual_variability": {
+        "omega_ka": 0.30,
+        "omega_ke": 0.40,
+        "omega_vd": 0.35
+      },
+      "treatment_probability": 0.55,
+      "literature_references": [
+        "Altamura AC et al. Clin Pharmacokinet 1994;26(3):201-214",
+        "Gibbons RD et al. Arch Gen Psychiatry 2012;69(6):572-579"
+      ]
+    },
+    "venlafaxine": {
+      "generic_name": "venlafaxine",
+      "brand_name": "Effexor XR",
+      "drug_class": "serotonin_norepinephrine_reuptake_inhibitor",
+      "mechanism": "Dual inhibition of serotonin and norepinephrine reuptake transporters (SERT and NET); weak DAT inhibition at high doses",
+      "disease_state": "major_depressive_disorder",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 150,
+        "frequency": "QD",
+        "doses_per_day": 1
+      },
+      "pk_parameters": {
+        "ka_per_hr": 0.7,
+        "ke_per_hr": 0.14,
+        "half_life_hr": 5.0,
+        "vd_l_per_kg": 7.5,
+        "bioavailability": 0.45,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 5.5,
+        "active_metabolite": {
+          "name": "O-desmethylvenlafaxine",
+          "ke_per_hr": 0.063,
+          "half_life_hr": 11.0,
+          "relative_potency": 1.0
+        }
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": -10.0,
+        "emax_unit": "hamilton_depression_points_decrease",
+        "ec50_ng_ml": 100.0,
+        "hill_coefficient": 1.5,
+        "onset_delay_weeks": 2
+      },
+      "target_biomarker": "hamilton_depression_score",
+      "pd_direction": "decrease",
+      "interindividual_variability": {
+        "omega_ka": 0.30,
+        "omega_ke": 0.35,
+        "omega_vd": 0.30
+      },
+      "treatment_probability": 0.40,
+      "literature_references": [
+        "Troy SM et al. J Clin Pharmacol 1997;37(10):954-961",
+        "Thase ME et al. J Clin Psychiatry 2001;62(Suppl 6):26-31"
+      ]
+    },
+    "riluzole": {
+      "generic_name": "riluzole",
+      "brand_name": "Rilutek",
+      "drug_class": "glutamate_modulator",
+      "mechanism": "Inhibits presynaptic glutamate release via sodium channel blockade; also modulates GABA-A receptors and glutamate transporter activity",
+      "disease_state": "amyotrophic_lateral_sclerosis",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 50,
+        "frequency": "BID",
+        "doses_per_day": 2
+      },
+      "pk_parameters": {
+        "ka_per_hr": 1.0,
+        "ke_per_hr": 0.058,
+        "half_life_hr": 12.0,
+        "vd_l_per_kg": 3.4,
+        "bioavailability": 0.60,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 1.5
+      },
+      "pd_parameters": {
+        "model": "disease_modification",
+        "effect_type": "progression_rate_reduction",
+        "emax_fractional_reduction": 0.35,
+        "emax_unit": "fraction_reduction_in_annual_decline_rate",
+        "ec50_ng_ml": 200.0,
+        "hill_coefficient": 1.0
+      },
+      "target_biomarker": "blood_nfl_pg_ml",
+      "pd_direction": "decrease_rate",
+      "interindividual_variability": {
+        "omega_ka": 0.35,
+        "omega_ke": 0.30,
+        "omega_vd": 0.25
+      },
+      "treatment_probability": 0.80,
+      "literature_references": [
+        "Groeneveld GJ et al. Br J Clin Pharmacol 2003;55(5):486-492",
+        "Bensimon G et al. N Engl J Med 1994;330:585-591"
+      ]
+    },
+    "edaravone": {
+      "generic_name": "edaravone",
+      "brand_name": "Radicava",
+      "drug_class": "free_radical_scavenger",
+      "mechanism": "Scavenges hydroxyl radicals and peroxynitrite, reducing oxidative stress-mediated motor neuron injury",
+      "disease_state": "amyotrophic_lateral_sclerosis",
+      "route": "iv",
+      "dosing": {
+        "amount_mg": 60,
+        "frequency": "daily_in_cycles",
+        "cycle_note": "14 days on / 14 days off",
+        "interval_days": 1
+      },
+      "pk_parameters": {
+        "ke_per_hr": 0.28,
+        "half_life_hr": 2.5,
+        "vd_l_per_kg": 0.15,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 1.0
+      },
+      "pd_parameters": {
+        "model": "disease_modification",
+        "effect_type": "progression_rate_reduction",
+        "emax_fractional_reduction": 0.25,
+        "emax_unit": "fraction_reduction_in_annual_decline_rate",
+        "ec50_ng_ml": 500.0,
+        "hill_coefficient": 1.0
+      },
+      "target_biomarker": "blood_nfl_pg_ml",
+      "pd_direction": "decrease_rate",
+      "interindividual_variability": {
+        "omega_ke": 0.30,
+        "omega_vd": 0.25
+      },
+      "treatment_probability": 0.35,
+      "literature_references": [
+        "Yoshino H, Kimura A. J Clin Pharmacol 2006;46(9):1053-1060",
+        "Writing Group on behalf of Edaravone ALS 19 Study Group. Lancet Neurol 2017;16:505-512"
+      ]
+    },
+    "levetiracetam": {
+      "generic_name": "levetiracetam",
+      "brand_name": "Keppra",
+      "drug_class": "sv2a_ligand",
+      "mechanism": "Binds synaptic vesicle protein SV2A, modulating neurotransmitter release; reduces hypersynchronous neuronal firing",
+      "disease_state": "epilepsy",
+      "route": "oral",
+      "dosing": {
+        "amount_mg": 1000,
+        "frequency": "BID",
+        "doses_per_day": 2
+      },
+      "pk_parameters": {
+        "ka_per_hr": 1.2,
+        "ke_per_hr": 0.099,
+        "half_life_hr": 7.0,
+        "vd_l_per_kg": 0.6,
+        "bioavailability": 1.0,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 1.0
+      },
+      "pd_parameters": {
+        "model": "emax",
+        "emax": -0.50,
+        "emax_unit": "fractional_seizure_frequency_reduction",
+        "ec50_ng_ml": 20000.0,
+        "hill_coefficient": 1.5,
+        "secondary_effects": {
+          "eeg_delta_reduction": -0.15,
+          "eeg_delta_reduction_unit": "fractional_power_reduction",
+          "eeg_spectral_entropy_increase": 0.05
+        }
+      },
+      "target_biomarker": "eeg_delta_1_4hz_uv2",
+      "pd_direction": "decrease",
+      "interindividual_variability": {
+        "omega_ka": 0.20,
+        "omega_ke": 0.25,
+        "omega_vd": 0.20
+      },
+      "treatment_probability": 0.65,
+      "literature_references": [
+        "Patsalos PN. Clin Pharmacokinet 2004;43(11):707-724",
+        "Shorvon SD et al. Epilepsia 2000;41(10):1276-1283"
+      ]
+    },
+    "ocrelizumab": {
+      "generic_name": "ocrelizumab",
+      "brand_name": "Ocrevus",
+      "drug_class": "anti_cd20_monoclonal_antibody",
+      "mechanism": "Humanized anti-CD20 IgG1 mAb that depletes CD20+ B lymphocytes via ADCC, CDC, and apoptosis, reducing CNS inflammation and demyelination",
+      "disease_state": "multiple_sclerosis",
+      "route": "iv",
+      "dosing": {
+        "amount_mg": 600,
+        "frequency": "q6months",
+        "interval_days": 182
+      },
+      "pk_parameters": {
+        "ke_per_hr": 0.001,
+        "half_life_hr": 693,
+        "vd_l_per_kg": 0.07,
+        "typical_body_weight_kg": 70,
+        "tmax_hr": 2.0
+      },
+      "pd_parameters": {
+        "model": "disease_modification",
+        "effect_type": "relapse_rate_reduction",
+        "emax_fractional_reduction": 0.46,
+        "emax_unit": "fraction_reduction_in_annualized_relapse_rate",
+        "ec50_ng_ml": 10000.0,
+        "hill_coefficient": 1.0,
+        "secondary_effects": {
+          "blood_nfl_reduction_fraction": 0.30,
+          "fmri_connectivity_preservation_fraction": 0.20
+        }
+      },
+      "target_biomarker": "blood_nfl_pg_ml",
+      "pd_direction": "decrease_rate",
+      "interindividual_variability": {
+        "omega_ke": 0.25,
+        "omega_vd": 0.20
+      },
+      "treatment_probability": 0.50,
+      "literature_references": [
+        "Hauser SL et al. N Engl J Med 2017;376:221-234",
+        "Kappos L et al. Lancet 2011;378:1779-1787"
+      ]
+    }
+  },
+  "disease_drug_mapping": {
+    "alzheimers_disease": ["donepezil", "memantine", "lecanemab"],
+    "parkinsons_disease": ["levodopa_carbidopa", "pramipexole"],
+    "major_depressive_disorder": ["fluoxetine", "venlafaxine"],
+    "amyotrophic_lateral_sclerosis": ["riluzole", "edaravone"],
+    "epilepsy": ["levetiracetam"],
+    "multiple_sclerosis": ["ocrelizumab"],
+    "healthy_control": [],
+    "mild_cognitive_impairment": ["donepezil"],
+    "huntingtons_disease": [],
+    "traumatic_brain_injury": [],
+    "ischemic_stroke": [],
+    "schizophrenia": [],
+    "bipolar_disorder": [],
+    "autism_spectrum_disorder": []
+  },
+  "untreated_probability_note": "For disease states with assigned drugs, a fraction of patients remain untreated (1 - treatment_probability). For states with no approved disease-modifying therapy (HD, TBI, IS, SZ, BD, ASD), all patients are untreated and follow natural disease progression."
+}
