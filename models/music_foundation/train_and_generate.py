@@ -57,6 +57,7 @@ class TrainGenConfig:
     codebook_dim: int = 32
     n_codebooks: int = 4
     max_seq_len: int = 256
+    attention_window: int = 0  # 0 = full O(T²) attention; >0 = local O(T·w)
 
     # Training
     n_steps: int = 80
@@ -520,9 +521,7 @@ def _spsa_step(
     block_idx = step_idx % len(blocks)
     block_params = blocks[block_idx]
 
-    # Build the perturbation: zero everywhere except the active block
-    block_flat = np.concatenate([p.ravel() for _, _, p in block_params])
-    block_size = block_flat.size
+    block_size = sum(p.size for _, _, p in block_params)
 
     # Find offset of this block in the full param vector
     offset = 0
@@ -530,39 +529,44 @@ def _spsa_step(
         for _, _, p in blocks[bi]:
             offset += p.size
 
-    grad_accum = np.zeros_like(flat_full)
+    grad_accum = np.zeros(block_size)
     mask_seed = rng.randint(0, 2**31)
 
     n_batch = len(batch)
+    inv_2eps = 1.0 / (2 * eps)
+    block_view = flat_full[offset:offset + block_size]
+
+    def _batch_loss() -> float:
+        """Average loss across batch with current params."""
+        total = 0.0
+        for bi in range(n_batch):
+            out = model.pretrain_forward(batch[bi], mask_seed=mask_seed)
+            l = float(out['total_loss'])
+            total += l if np.isfinite(l) else 10.0
+        return total / n_batch
+
     for _ in range(n_perturbations):
         block_delta = rng.choice([-1.0, 1.0], size=block_size)
+        eps_delta = eps * block_delta
 
-        # Average loss over batch for lower-variance gradient estimates
-        flat_plus = flat_full.copy()
-        flat_plus[offset:offset + block_size] += eps * block_delta
-        _unflatten_and_set(all_params, flat_plus)
-        loss_plus = 0.0
-        for bi in range(n_batch):
-            out_p = model.pretrain_forward(batch[bi], mask_seed=mask_seed)
-            lp = float(out_p['total_loss'])
-            loss_plus += lp if np.isfinite(lp) else 10.0
-        loss_plus /= n_batch
+        # +eps perturbation (in-place on the block slice)
+        block_view += eps_delta
+        _unflatten_and_set(all_params, flat_full)
+        loss_plus = _batch_loss()
 
-        flat_minus = flat_full.copy()
-        flat_minus[offset:offset + block_size] -= eps * block_delta
-        _unflatten_and_set(all_params, flat_minus)
-        loss_minus = 0.0
-        for bi in range(n_batch):
-            out_m = model.pretrain_forward(batch[bi], mask_seed=mask_seed)
-            lm = float(out_m['total_loss'])
-            loss_minus += lm if np.isfinite(lm) else 10.0
-        loss_minus /= n_batch
+        # -eps perturbation (swing from +eps to -eps)
+        block_view -= 2.0 * eps_delta
+        _unflatten_and_set(all_params, flat_full)
+        loss_minus = _batch_loss()
 
-        # Gradient estimate only for the active block
-        block_grad = (loss_plus - loss_minus) / (2 * eps) * block_delta
-        grad_accum[offset:offset + block_size] += block_grad
+        # Restore original params
+        block_view += eps_delta
 
-    grad = grad_accum / n_perturbations
+        grad_accum += (loss_plus - loss_minus) * inv_2eps * block_delta
+
+    # Full gradient vector with block-coordinate structure
+    grad = np.zeros_like(flat_full)
+    grad[offset:offset + block_size] = grad_accum / n_perturbations
 
     # Normalize the active block's gradient
     block_grad_norm = np.linalg.norm(grad[offset:offset + block_size]) + 1e-10
@@ -637,6 +641,7 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
         codebook_size=cfg.codebook_size,
         codebook_dim=cfg.codebook_dim,
         max_seq_len=cfg.max_seq_len,
+        attention_window=cfg.attention_window,
     )
     model = MusicFrontierModel(frontier_cfg, seed=cfg.seed)
 

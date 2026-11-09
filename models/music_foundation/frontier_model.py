@@ -49,6 +49,7 @@ class FrontierConfig:
     d_ff: int = 3072
     dropout: float = 0.1
     max_seq_len: int = 1024
+    attention_window: int = 0  # 0 = full attention; >0 = sliding-window O(T·w)
 
     # quantization
     n_codebooks: int = 1
@@ -175,13 +176,17 @@ class TransformerLayer:
         self.beta2 = np.zeros(d_model)
 
     def forward(
-        self, x: np.ndarray, mask: Optional[np.ndarray] = None
+        self, x: np.ndarray, mask: Optional[np.ndarray] = None,
+        window_size: int = 0,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Forward pass.
 
         Args:
             x: (T, d_model)
             mask: (T, T) boolean, True = attend
+            window_size: if > 0, use sliding-window local attention where
+                each query attends only to keys within [-w, +w] positions.
+                Reduces O(T²) to O(T·w). 0 = full attention.
 
         Returns:
             (output, attention_weights)
@@ -199,6 +204,13 @@ class TransformerLayer:
         V = (x_norm @ self.W_v).reshape(T, h, dk).transpose(1, 0, 2)
 
         scores = Q @ K.swapaxes(-2, -1) / np.sqrt(dk)
+
+        # Sliding-window mask: O(T·w) effective attention
+        if window_size > 0:
+            row_idx = np.arange(T)[:, None]
+            col_idx = np.arange(T)[None, :]
+            win_mask = np.abs(row_idx - col_idx) <= window_size
+            scores = np.where(win_mask[np.newaxis], scores, -1e9)
 
         if mask is not None:
             scores = np.where(mask[np.newaxis], scores, -1e9)
@@ -249,6 +261,7 @@ class TransformerEncoder:
         features: np.ndarray,
         mask: Optional[np.ndarray] = None,
         return_all_layers: bool = False,
+        window_size: int = 0,
     ) -> Dict[str, np.ndarray]:
         """Encode a feature sequence through the transformer stack.
 
@@ -256,6 +269,7 @@ class TransformerEncoder:
             features: (T, C) from conv extractor
             mask: (T, T) attention mask
             return_all_layers: if True, collect hidden states from each layer
+            window_size: if > 0, use sliding-window local attention (O(T·w))
 
         Returns:
             dict with 'hidden_states', 'attention_weights', optionally 'all_layers'
@@ -268,7 +282,7 @@ class TransformerEncoder:
         all_weights = []
 
         for layer in self.layers:
-            x, w = layer.forward(x, mask)
+            x, w = layer.forward(x, mask, window_size=window_size)
             if return_all_layers:
                 all_layers.append(x.copy())
             all_weights.append(w)
@@ -545,7 +559,10 @@ class MusicFrontierModel:
             dict with 'hidden_states', 'features', 'attention_weights'
         """
         features = self.extract_features(spectrogram)
-        result = self.transformer.forward(features, mask, return_all_layers)
+        result = self.transformer.forward(
+            features, mask, return_all_layers,
+            window_size=self.config.attention_window,
+        )
         result['features'] = features
         return result
 
@@ -587,7 +604,9 @@ class MusicFrontierModel:
         masked_features[span_mask] = 0.0
 
         # encode masked sequence
-        enc_result = self.transformer.forward(masked_features)
+        enc_result = self.transformer.forward(
+            masked_features, window_size=self.config.attention_window,
+        )
         hidden = enc_result['hidden_states']
 
         # contrastive loss on masked positions
