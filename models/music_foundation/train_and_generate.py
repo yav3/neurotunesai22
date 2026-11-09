@@ -108,6 +108,10 @@ class TrainGenReport:
     phrase_self_similarity: float
     phrase_form: str
 
+    # Uncertainty
+    generation_perplexity: float
+    confidence_stats: Dict[str, float]
+
     # Overall
     total_time_s: float
     n_params: int
@@ -837,6 +841,7 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
 
             # Sample independently per codebook with phrase structure
             per_cb_tokens = []
+            per_cb_logprobs = []
             for g in range(cfg.n_codebooks):
                 seed_d2 = np.sum(
                     (seed_proj[:, g, None, :] - model.quantizer.codebooks[g][None]) ** 2,
@@ -844,13 +849,15 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
                 )
                 seed_tok_seq = np.argmin(seed_d2, axis=1)
                 cb_rng = np.random.RandomState(gen_seed + g * 53)
-                cb_tokens = _generate_phrase_tokens(
+                cb_tokens, cb_lp = _generate_phrase_tokens(
                     ngram_model, g, seed_tok_seq, cfg.continuation_length,
                     temperature=temp, rng=cb_rng,
                     form=cfg.phrase_form,
                     variation_noise=cfg.phrase_variation,
+                    return_confidence=True,
                 )
                 per_cb_tokens.append(cb_tokens)
+                per_cb_logprobs.append(cb_lp)
 
             # Build full embeddings from multi-codebook tokens
             tokens = per_cb_tokens[0]  # primary tokens for length/reporting
@@ -883,6 +890,11 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
             rms = float(np.sqrt(np.mean(waveform ** 2)))
             spectral_centroid = _spectral_centroid(waveform, cfg.sr, cfg.n_fft, cfg.hop_length)
 
+            # Aggregate log-probs across codebooks for this generation
+            all_gen_lp = np.concatenate(per_cb_logprobs) if per_cb_logprobs else np.array([])
+            gen_perplexity = _generation_perplexity(all_gen_lp)
+            gen_confidence = _token_confidence_curve(all_gen_lp)
+
             generations.append({
                 'style': style,
                 'temperature': temp,
@@ -894,6 +906,9 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
                 'finite': bool(np.all(np.isfinite(waveform))),
                 'per_cb_tokens': per_cb_tokens,
                 'primary_tokens': tokens,
+                'perplexity': round(gen_perplexity, 4),
+                'confidence': gen_confidence,
+                'log_probs': all_gen_lp,
             })
 
     gen_time = time.monotonic() - t_gen_start
@@ -919,6 +934,21 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
                     toks, model.quantizer.codebooks, 0, phrase_len,
                 ))
     phrase_self_sim = float(np.mean(sim_scores)) if sim_scores else 0.0
+
+    # ---- 7b. Generation uncertainty ---- #
+    gen_perplexities = [g['perplexity'] for g in generations if 'perplexity' in g]
+    mean_perplexity = float(np.mean(gen_perplexities)) if gen_perplexities else float('inf')
+    # Aggregate confidence across all generations
+    all_conf_means = [g['confidence']['mean'] for g in generations if 'confidence' in g]
+    all_conf_stds = [g['confidence']['std'] for g in generations if 'confidence' in g]
+    all_conf_mins = [g['confidence']['min'] for g in generations if 'confidence' in g]
+    all_stable_fracs = [g['confidence']['stable_frac'] for g in generations if 'confidence' in g]
+    agg_confidence = {
+        'mean': round(float(np.mean(all_conf_means)), 4) if all_conf_means else 0.0,
+        'std': round(float(np.mean(all_conf_stds)), 4) if all_conf_stds else 0.0,
+        'min': round(float(np.min(all_conf_mins)), 4) if all_conf_mins else 0.0,
+        'stable_frac': round(float(np.mean(all_stable_fracs)), 4) if all_stable_fracs else 0.0,
+    }
 
     # ---- 7. Diversity metrics ---- #
     # Style diversity: average pairwise spectral centroid distance between styles
@@ -1007,13 +1037,16 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
         f"Trigram LM: {n_cb} codebooks, interp λ=(0.1,0.3,0.6), entropy={bigram_entropy:.3f} nats/tok",
         f"Phrase structure: form={cfg.phrase_form}, self-similarity={phrase_self_sim:.3f}, "
         f"variation={cfg.phrase_variation:.0%}",
+        f"Uncertainty: perplexity={mean_perplexity:.2f}, "
+        f"confidence={agg_confidence['mean']:.3f}±{agg_confidence['std']:.3f}, "
+        f"stable={agg_confidence['stable_frac']:.1%}",
         f"Round-trip: SC={sc:.4f}, corr={corr:.4f}",
         f"Time: {total_time:.1f}s (train={train_time:.1f}s, gen={gen_time:.1f}s)",
         f"Result: {'ALL CHECKS PASSED' if all_passed else 'SOME CHECKS FAILED'}",
     ]
 
     # Strip waveforms and token arrays from report dict to keep it serializable
-    _skip_keys = {'waveform', 'per_cb_tokens', 'primary_tokens'}
+    _skip_keys = {'waveform', 'per_cb_tokens', 'primary_tokens', 'log_probs'}
     gen_report = [{k: v for k, v in g.items() if k not in _skip_keys} for g in generations]
 
     # ---- 9. Export WAVs and checkpoint ---- #
@@ -1066,6 +1099,8 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
         round_trip_correlation=round(corr, 4),
         phrase_self_similarity=round(phrase_self_sim, 4),
         phrase_form=cfg.phrase_form,
+        generation_perplexity=round(mean_perplexity, 4),
+        confidence_stats=agg_confidence,
         total_time_s=round(total_time, 2),
         n_params=n_params,
         all_checks_passed=all_passed,
@@ -1428,6 +1463,85 @@ def _generate_ngram_tokens(
     return np.array(context[n_ctx:], dtype=np.int64)
 
 
+def _generate_ngram_tokens_with_confidence(
+    ngram_model: Dict[str, Any],
+    codebook_idx: int,
+    seed_tokens: np.ndarray,
+    length: int,
+    temperature: float = 1.0,
+    rng: np.random.RandomState | None = None,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Like _generate_ngram_tokens but also returns per-token log-probabilities.
+
+    Returns (tokens, log_probs) where log_probs[i] = log P(token_i | context).
+    Perplexity = exp(-mean(log_probs)); lower = more confident generation.
+    """
+    if rng is None:
+        rng = np.random.RandomState(0)
+
+    g = codebook_idx
+    uni = ngram_model['unigram'][g]
+    bi = ngram_model['bigram'][g]
+    tri = ngram_model['trigram'][g]
+    lam_u, lam_b, lam_t = ngram_model['lambdas']
+    V = uni.shape[0]
+
+    context = list(seed_tokens[-min(4, len(seed_tokens)):])
+    n_ctx = len(context)
+    log_probs = []
+
+    for _ in range(length):
+        p = lam_u * uni
+        if len(context) >= 1:
+            prev1 = int(context[-1]) % V
+            p = p + lam_b * bi[prev1]
+        else:
+            p = p + lam_b * uni
+        if len(context) >= 2:
+            prev2 = int(context[-2]) % V
+            prev1 = int(context[-1]) % V
+            p = p + lam_t * tri[prev2, prev1]
+        else:
+            p = p + lam_t * (bi[int(context[-1]) % V] if len(context) >= 1 else uni)
+
+        logits = np.log(p + 1e-12)
+        scaled = logits / max(temperature, 1e-6)
+        scaled -= scaled.max()
+        probs = np.exp(scaled)
+        probs /= probs.sum()
+        chosen = int(rng.choice(V, p=probs))
+        log_probs.append(float(np.log(probs[chosen] + 1e-12)))
+        context.append(chosen)
+
+    tokens = np.array(context[n_ctx:], dtype=np.int64)
+    return tokens, np.array(log_probs, dtype=np.float64)
+
+
+def _generation_perplexity(log_probs: np.ndarray) -> float:
+    """Perplexity = exp(-mean(log P(token|context))). Lower = more confident."""
+    if len(log_probs) == 0:
+        return float('inf')
+    return float(np.exp(-np.mean(log_probs)))
+
+
+def _token_confidence_curve(log_probs: np.ndarray) -> Dict[str, float]:
+    """Summary statistics of per-token confidence for a generation.
+
+    Returns mean, std, min confidence (= max surprise), and the fraction
+    of tokens above 50th-percentile confidence (stability measure).
+    """
+    if len(log_probs) == 0:
+        return {'mean': 0.0, 'std': 0.0, 'min': 0.0, 'stable_frac': 0.0}
+    conf = np.exp(log_probs)  # P(token|context) ∈ (0, 1]
+    median = float(np.median(conf))
+    return {
+        'mean': float(np.mean(conf)),
+        'std': float(np.std(conf)),
+        'min': float(np.min(conf)),
+        'stable_frac': float(np.mean(conf >= median)),
+    }
+
+
 # Musical form templates: each is a list of section labels.
 # Same label = repeat (exact or varied), different = new material.
 _FORM_TEMPLATES = {
@@ -1448,7 +1562,8 @@ def _generate_phrase_tokens(
     rng: np.random.RandomState | None = None,
     form: str = 'AABA',
     variation_noise: float = 0.15,
-) -> np.ndarray:
+    return_confidence: bool = False,
+) -> 'np.ndarray | Tuple[np.ndarray, np.ndarray]':
     """Generate tokens with musical phrase structure and repetition.
 
     Divides `total_length` into phrases following a musical form template
@@ -1458,7 +1573,8 @@ def _generate_phrase_tokens(
     rate `variation_noise`), simulating how real music repeats themes with
     small embellishments.
 
-    Returns a flat token array of length `total_length`.
+    If return_confidence=True, returns (tokens, log_probs).
+    Otherwise returns just tokens.
     """
     if rng is None:
         rng = np.random.RandomState(0)
@@ -1470,50 +1586,72 @@ def _generate_phrase_tokens(
 
     V = ngram_model['unigram'][codebook_idx].shape[0]
     section_material: Dict[str, np.ndarray] = {}
+    section_logprobs: Dict[str, np.ndarray] = {}
     all_tokens: List[np.ndarray] = []
+    all_logprobs: List[np.ndarray] = []
 
-    # Use end of seed as initial context
     context_tokens = seed_tokens
 
     for sec_i, label in enumerate(template):
-        # Last section absorbs remainder tokens
         sec_len = phrase_len + (remainder if sec_i == n_sections - 1 else 0)
 
         if label not in section_material:
-            # First occurrence: generate new material
-            phrase = _generate_ngram_tokens(
-                ngram_model, codebook_idx, context_tokens,
-                sec_len, temperature=temperature, rng=rng,
-            )
+            if return_confidence:
+                phrase, lp = _generate_ngram_tokens_with_confidence(
+                    ngram_model, codebook_idx, context_tokens,
+                    sec_len, temperature=temperature, rng=rng,
+                )
+                section_logprobs[label] = lp
+            else:
+                phrase = _generate_ngram_tokens(
+                    ngram_model, codebook_idx, context_tokens,
+                    sec_len, temperature=temperature, rng=rng,
+                )
+                lp = np.zeros(sec_len)
             section_material[label] = phrase
         else:
-            # Repetition: copy with stochastic variation
             original = section_material[label]
             phrase = original.copy()
+            lp = section_logprobs.get(label, np.zeros(len(original))).copy()
             if sec_len != len(original):
-                # Truncate or extend to fit
                 if sec_len <= len(original):
                     phrase = original[:sec_len].copy()
+                    lp = lp[:sec_len].copy()
                 else:
-                    extra = _generate_ngram_tokens(
-                        ngram_model, codebook_idx,
-                        original, sec_len - len(original),
-                        temperature=temperature, rng=rng,
-                    )
+                    if return_confidence:
+                        extra, extra_lp = _generate_ngram_tokens_with_confidence(
+                            ngram_model, codebook_idx,
+                            original, sec_len - len(original),
+                            temperature=temperature, rng=rng,
+                        )
+                        lp = np.concatenate([lp, extra_lp])
+                    else:
+                        extra = _generate_ngram_tokens(
+                            ngram_model, codebook_idx,
+                            original, sec_len - len(original),
+                            temperature=temperature, rng=rng,
+                        )
+                        lp = np.concatenate([lp, np.zeros(len(extra))])
                     phrase = np.concatenate([original, extra])
-            # Apply token-level variation: replace ~variation_noise fraction
+            # Stochastic variation on repeated sections
             mask = rng.random(len(phrase)) < variation_noise
             if mask.any():
+                uni = ngram_model['unigram'][codebook_idx]
                 for j in np.where(mask)[0]:
-                    # Sample replacement from unigram (mild variation)
-                    uni = ngram_model['unigram'][codebook_idx]
                     phrase[j] = rng.choice(V, p=uni)
+                    # Varied tokens get unigram-level confidence
+                    if return_confidence:
+                        lp[j] = float(np.log(uni[phrase[j]] + 1e-12))
 
         all_tokens.append(phrase)
-        # Update context for next section
+        all_logprobs.append(lp)
         context_tokens = phrase
 
-    return np.concatenate(all_tokens)[:total_length]
+    tokens = np.concatenate(all_tokens)[:total_length]
+    if return_confidence:
+        logprobs = np.concatenate(all_logprobs)[:total_length]
+        return tokens, logprobs
+    return tokens
 
 
 def _phrase_self_similarity(
