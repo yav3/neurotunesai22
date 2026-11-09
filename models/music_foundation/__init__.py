@@ -214,3 +214,39 @@ from .deployment import (
 from .sdk import (
     NeuroTunesModel, pipeline_embed, pipeline_analyze, pipeline_similarity_matrix,
 )
+from .data_ingest import (
+    IngestConfig, AudioFile, CorpusBuilder,
+    decode_audio, scan_local_audio, clips_to_batch,
+    compute_corpus_stats,
+)
+from .agents import (
+    AgentResult, MusicAnalysisAgent, QualityAssessmentAgent,
+    SimilaritySearchAgent, AnnotationAgent, PipelineAgent,
+    AgentRegistry, run_all_agents,
+)
+from .sandbox import (
+    TestCase, SandboxMetrics, SandboxReport, TestingSandbox,
+    generate_html_report,
+)
+from .testing_sandbox import (
+    SandboxObserver, ModelTestSuite, run_sandbox,
+)
+from .webhook_auth import (
+    generate_signing_key, sign_payload, verify_signature,
+    NonceTracker, APIKeyStore, APIKeyRecord,
+    WebhookConfig, create_webhook_middleware,
+)
+from .interactive_demo import generate_dashboard_html
+from .demo_server import create_app
+from .demo_client import run_local_demo, run_remote_demo, DemoReport
+from .generation_demo import (
+    DemoConfig as GenerationDemoConfig,
+    GenerationResult, DemoReport as GenerationDemoReport,
+    generate_seed_audio, run_generation, run_batch_generation,
+    round_trip_fidelity, run_full_demo as run_generation_demo,
+    save_wav, compute_mel, mel_to_magnitude,
+)
+from .train_and_generate import (
+    TrainGenConfig, TrainGenReport, train_and_generate,
+    CHECKPOINT_VERSION,
+)

@@ -17,10 +17,12 @@ Usage:
 """
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import time
 import numpy as np
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import Any, Dict, List, Optional, Tuple
 
 from .frontier_model import (
@@ -1065,30 +1067,13 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
 
     if cfg.save_checkpoint and out_dir:
         ckpt_path = os.path.join(out_dir, "model_checkpoint.npz")
-        ckpt_data = {
-            'config_d_model': cfg.d_model,
-            'config_n_layers': cfg.n_layers,
-            'config_n_codebooks': cfg.n_codebooks,
-            'config_codebook_size': cfg.codebook_size,
-            'config_codebook_dim': cfg.codebook_dim,
-            'config_n_mels': cfg.n_mels,
-            'decoder_W': decoder_W,
-            'decoder_b': decoder_b,
-            'rbf_centers': rbf_params['centers'],
-            'rbf_weights': rbf_params['weights'],
-            'rbf_sigma2': np.array([rbf_params['sigma2']]),
-            'ngram_unigram': unigram_probs_all,
-            'ngram_bigram': bigram_probs_all,
-            'ngram_trigram': trigram_probs_all,
-            'ngram_lambdas': np.array(ngram_model['lambdas']),
-        }
-        all_p = _collect_params(model)
-        for idx_p, (comp_p, name_p, arr_p) in enumerate(all_p):
-            ckpt_data[f'param_{idx_p}_{name_p}'] = arr_p
-        for g_idx in range(cfg.n_codebooks):
-            ckpt_data[f'codebook_{g_idx}'] = model.quantizer.codebooks[g_idx]
-        np.savez_compressed(ckpt_path, **ckpt_data)
-        summary_lines.append(f"Checkpoint saved to {ckpt_path}")
+        ckpt_hash = _save_checkpoint(
+            ckpt_path, cfg, model,
+            decoder_W, decoder_b, rbf_params,
+            ngram_model, unigram_probs_all, bigram_probs_all, trigram_probs_all,
+            train_losses, codebook_utils, n_params,
+        )
+        summary_lines.append(f"Checkpoint saved to {ckpt_path} (sha256:{ckpt_hash[:12]})")
 
     return TrainGenReport(
         train_losses=train_losses,
@@ -1111,6 +1096,134 @@ def train_and_generate(config: Optional[TrainGenConfig] = None) -> TrainGenRepor
         all_checks_passed=all_passed,
         summary="\n".join(summary_lines),
     ), generations
+
+
+CHECKPOINT_VERSION = 2
+
+
+def _checkpoint_hash(arrays: Dict[str, np.ndarray]) -> str:
+    """SHA-256 over sorted array contents — deterministic integrity tag."""
+    h = hashlib.sha256()
+    for key in sorted(arrays):
+        h.update(key.encode())
+        h.update(arrays[key].tobytes())
+    return h.hexdigest()
+
+
+def _config_to_dict(cfg: TrainGenConfig) -> Dict[str, Any]:
+    """Serialize every config field to JSON-safe types."""
+    d = asdict(cfg)
+    for k, v in d.items():
+        if isinstance(v, np.integer):
+            d[k] = int(v)
+        elif isinstance(v, np.floating):
+            d[k] = float(v)
+    return d
+
+
+def _save_checkpoint(
+    path: str,
+    cfg: TrainGenConfig,
+    model: 'MusicFrontierModel',
+    decoder_W: np.ndarray,
+    decoder_b: np.ndarray,
+    rbf_params: Dict[str, Any],
+    ngram_model: Dict[str, Any],
+    unigram_probs_all: np.ndarray,
+    bigram_probs_all: np.ndarray,
+    trigram_probs_all: np.ndarray,
+    train_losses: List[float],
+    codebook_utils: List[float],
+    n_params: int,
+) -> str:
+    """Save a model checkpoint with full config, provenance, and integrity hash.
+
+    Returns the SHA-256 content hash written into the checkpoint.
+    """
+    arrays: Dict[str, np.ndarray] = {}
+
+    # Decoder
+    arrays['decoder_W'] = decoder_W
+    arrays['decoder_b'] = decoder_b
+    arrays['rbf_centers'] = rbf_params['centers']
+    arrays['rbf_weights'] = rbf_params['weights']
+    arrays['rbf_sigma2'] = np.array([rbf_params['sigma2']])
+
+    # N-gram language model
+    arrays['ngram_unigram'] = unigram_probs_all
+    arrays['ngram_bigram'] = bigram_probs_all
+    arrays['ngram_trigram'] = trigram_probs_all
+    arrays['ngram_lambdas'] = np.array(ngram_model['lambdas'])
+
+    # Frontier model params
+    all_p = _collect_params(model)
+    for idx_p, (_, name_p, arr_p) in enumerate(all_p):
+        arrays[f'param_{idx_p}_{name_p}'] = arr_p
+
+    # Codebooks
+    for g_idx in range(cfg.n_codebooks):
+        arrays[f'codebook_{g_idx}'] = model.quantizer.codebooks[g_idx]
+
+    # Integrity hash over all weight arrays
+    content_hash = _checkpoint_hash(arrays)
+
+    # Metadata (stored as JSON-encoded string array)
+    meta = {
+        'version': CHECKPOINT_VERSION,
+        'sha256': content_hash,
+        'config': _config_to_dict(cfg),
+        'provenance': {
+            'n_params': n_params,
+            'final_loss': float(train_losses[-1]) if train_losses else None,
+            'initial_loss': float(train_losses[0]) if train_losses else None,
+            'n_train_steps': len(train_losses),
+            'final_codebook_util': float(codebook_utils[-1]) if codebook_utils else None,
+            'train_losses_summary': {
+                'min': float(np.min(train_losses)) if train_losses else None,
+                'max': float(np.max(train_losses)) if train_losses else None,
+                'mean': float(np.mean(train_losses)) if train_losses else None,
+            },
+        },
+        'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+    }
+    arrays['__meta__'] = np.frombuffer(
+        json.dumps(meta).encode('utf-8'), dtype=np.uint8,
+    )
+
+    np.savez_compressed(path, **arrays)
+    return content_hash
+
+
+def _load_checkpoint(
+    path: str,
+) -> Tuple[Dict[str, np.ndarray], Dict[str, Any]]:
+    """Load a checkpoint and verify its integrity.
+
+    Returns (arrays, metadata).
+    Raises ValueError on hash mismatch or missing metadata.
+    """
+    data = dict(np.load(path, allow_pickle=False))
+
+    if '__meta__' not in data:
+        raise ValueError(f"Checkpoint {path} has no __meta__ (version <2)")
+
+    meta_bytes = data.pop('__meta__').tobytes()
+    meta = json.loads(meta_bytes.decode('utf-8'))
+
+    if meta.get('version', 0) < CHECKPOINT_VERSION:
+        raise ValueError(
+            f"Checkpoint version {meta.get('version')} < {CHECKPOINT_VERSION}"
+        )
+
+    stored_hash = meta.get('sha256', '')
+    computed_hash = _checkpoint_hash(data)
+    if computed_hash != stored_hash:
+        raise ValueError(
+            f"Integrity check failed: stored={stored_hash[:16]}… "
+            f"computed={computed_hash[:16]}…"
+        )
+
+    return data, meta
 
 
 def _tokens_to_audio(
