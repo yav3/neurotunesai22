@@ -174,7 +174,8 @@ class NeuroTunesModel:
         """Save model to disk. Returns SHA-256 digest."""
         params = _extract_all_params(self._orch.model, self._orch.integrator)
         n_heads = self._orch.config.model_config.n_heads
-        params["_meta"] = np.array([n_heads], dtype=np.int64)
+        sr = self._orch.config.sr
+        params["_meta"] = np.array([n_heads, sr], dtype=np.int64)
         digest = sha256_params(params)
         np.savez_compressed(path, **params)
         return digest
@@ -198,10 +199,12 @@ class NeuroTunesModel:
             if "_meta" in params:
                 meta = params["_meta"]
                 n_heads = int(meta[0])
+                sr = int(meta[1]) if len(meta) > 1 else 22050
             else:
                 n_heads = max(1, d_model // 16)
                 while d_model % n_heads != 0 and n_heads > 1:
                     n_heads -= 1
+                sr = 22050
             n_conv_layers = 0
             while f"conv.W{n_conv_layers}" in params:
                 n_conv_layers += 1
@@ -222,7 +225,7 @@ class NeuroTunesModel:
                 conv_channels=conv_channels, conv_kernels=conv_kernels,
                 conv_strides=conv_strides,
             )
-            config = OrchestratorConfig(model_config=model_cfg)
+            config = OrchestratorConfig(model_config=model_cfg, sr=sr)
 
         orch = PretrainOrchestrator(config)
         if orch.integrator._fusion is None and orch.integrator.streams:
@@ -246,6 +249,75 @@ class NeuroTunesModel:
         )
         model = cls(orch)
         return model, history
+
+    @staticmethod
+    def verify(checkpoint_path: str, seed: int = 42) -> Dict[str, Any]:
+        """Verify a train-and-generate checkpoint's integrity and correctness."""
+        from .train_and_generate import verify_checkpoint
+        return verify_checkpoint(checkpoint_path, seed=seed)
+
+    @staticmethod
+    def generate_from_checkpoint(
+        checkpoint_path: str,
+        styles: Optional[List[str]] = None,
+        temperatures: Optional[List[float]] = None,
+        continuation_length: int = 192,
+        phrase_form: str = 'AABA',
+        output_dir: Optional[str] = None,
+        seed: int = 42,
+    ) -> Dict[str, Any]:
+        """Generate music from a saved train-and-generate checkpoint.
+
+        Returns a dict with generation metadata. If output_dir is given,
+        WAV files are saved there.
+        """
+        from .train_and_generate import (
+            reconstruct_from_checkpoint, TrainGenConfig,
+            _generate_phrase_tokens, _tokens_to_audio_learned,
+            save_wav,
+        )
+        model, decoder_W, decoder_b, rbf_params, ngram_model, cfg = \
+            reconstruct_from_checkpoint(checkpoint_path)
+
+        styles = styles or cfg.gen_styles
+        temperatures = temperatures or cfg.gen_temperatures
+
+        rng = np.random.RandomState(seed)
+        results = []
+        for style in styles:
+            for temp in temperatures:
+                # Generate per-codebook tokens, merge via primary codebook
+                cb_tokens_all = []
+                for g in range(cfg.n_codebooks):
+                    cb_rng = np.random.RandomState(seed + g * 53)
+                    cb_tok = _generate_phrase_tokens(
+                        ngram_model, g, np.array([], dtype=int),
+                        continuation_length, temperature=temp, rng=cb_rng,
+                        form=phrase_form, variation_noise=cfg.phrase_variation,
+                    )
+                    cb_tokens_all.append(cb_tok)
+                # Use primary codebook (0) as the token stream for synthesis
+                tokens = cb_tokens_all[0]
+                audio = _tokens_to_audio_learned(
+                    tokens, model, decoder_W, decoder_b, rbf_params,
+                    cfg.n_mels, cfg.sr, cfg.n_fft, cfg.hop_length,
+                    style=style, phase_seed=rng.randint(10000),
+                )
+                entry = {
+                    'style': style, 'temperature': temp,
+                    'n_tokens': len(tokens),
+                    'duration_s': round(len(audio) / cfg.sr, 2),
+                }
+                if output_dir:
+                    import os
+                    os.makedirs(output_dir, exist_ok=True)
+                    fname = f"gen_{style}_T{temp:.1f}.wav"
+                    path = os.path.join(output_dir, fname)
+                    save_wav(audio, path, cfg.sr)
+                    entry['path'] = path
+                results.append(entry)
+
+        return {'generations': results, 'n_generated': len(results)}
 
     @property
     def config(self) -> OrchestratorConfig:
