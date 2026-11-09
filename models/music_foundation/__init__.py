@@ -248,5 +248,5 @@ from .generation_demo import (
 )
 from .train_and_generate import (
     TrainGenConfig, TrainGenReport, train_and_generate,
-    CHECKPOINT_VERSION,
+    CHECKPOINT_VERSION, reconstruct_from_checkpoint, verify_checkpoint,
 )
