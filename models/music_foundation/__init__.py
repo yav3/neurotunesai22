@@ -60,6 +60,9 @@ from .spectrogram import (
 from .conditioning import (
     ConditioningConfig, ConditioningModule, FiLMLayer,
     GenreEncoder, MoodEncoder, KeyEncoder, TempoEncoder, TagEncoder,
+    AdaINLayer, CrossAttentionConditioning, TemporalConditioning,
+    HierarchicalConditioning, ConditionDropout, GlobalStyleTokens,
+    condition_interpolate, condition_slerp, mix_conditions,
     GENRES, MOODS, KEYS, MODES,
 )
 from .diffusion import (
@@ -182,4 +185,68 @@ from .benchmark import (
     isotropy_score, effective_rank, representation_similarity_analysis,
     normalized_mutual_information, adjusted_rand_index, silhouette_score,
     loss_landscape_1d, gradient_signal_to_noise, convergence_analysis,
+)
+from .uncertainty import (
+    EigenstateEnsemble, FeatureSDE, euler_maruyama, sde_uncertainty,
+    build_learned_sde, ContradictionDetector, learn_selection_rule,
+    SelectionRuleFilter, counterfactual_embedding, causal_sensitivity,
+    counterfactual_explanation, UncertaintyWrapper, UncertaintyPrediction,
+    EnsemblePrediction, train_ensemble, ensemble_predict,
+    STANDARD_AUGMENTATIONS,
+)
+from .robustness import (
+    would_flip, test_permutation_invariance, test_rescaling_invariance,
+    test_pitch_shift_equivariance, expected_calibration_error, brier_score,
+    reliability_diagram, calibrate_conformal, conformal_predict,
+    conformal_coverage, temporal_split, drift_detector, evaluate_under_drift,
+    RobustnessReport, run_robustness_suite,
+)
+from .scaling import (
+    TripletMiner, DiversityBatchSampler, CurriculumSampler as ScalingCurriculumSampler,
+    StratifiedBatchSampler, prune_triplets, efficient_triplet_loss,
+    greedy_mis, benchmark_mis, benchmark_scaling,
+)
+from .deployment import (
+    EngineSpec, EngineVersion, EngineRegistry, ActionLayer,
+    CanaryConfig, CanaryDeployment, MethodCard, generate_method_cards,
+    ModelSnapshot, SnapshotStore, ModelArtifact, ModelRegistry,
+)
+from .sdk import (
+    NeuroTunesModel, pipeline_embed, pipeline_analyze, pipeline_similarity_matrix,
+)
+from .data_ingest import (
+    IngestConfig, AudioFile, CorpusBuilder,
+    decode_audio, scan_local_audio, clips_to_batch,
+    compute_corpus_stats,
+)
+from .agents import (
+    AgentResult, MusicAnalysisAgent, QualityAssessmentAgent,
+    SimilaritySearchAgent, AnnotationAgent, PipelineAgent,
+    AgentRegistry, run_all_agents,
+)
+from .sandbox import (
+    TestCase, SandboxMetrics, SandboxReport, TestingSandbox,
+    generate_html_report,
+)
+from .testing_sandbox import (
+    SandboxObserver, ModelTestSuite, run_sandbox,
+)
+from .webhook_auth import (
+    generate_signing_key, sign_payload, verify_signature,
+    NonceTracker, APIKeyStore, APIKeyRecord,
+    WebhookConfig, create_webhook_middleware,
+)
+from .interactive_demo import generate_dashboard_html
+from .demo_server import create_app
+from .demo_client import run_local_demo, run_remote_demo, DemoReport
+from .generation_demo import (
+    DemoConfig as GenerationDemoConfig,
+    GenerationResult, DemoReport as GenerationDemoReport,
+    generate_seed_audio, run_generation, run_batch_generation,
+    round_trip_fidelity, run_full_demo as run_generation_demo,
+    save_wav, compute_mel, mel_to_magnitude,
+)
+from .train_and_generate import (
+    TrainGenConfig, TrainGenReport, train_and_generate,
+    CHECKPOINT_VERSION, reconstruct_from_checkpoint, verify_checkpoint,
 )
